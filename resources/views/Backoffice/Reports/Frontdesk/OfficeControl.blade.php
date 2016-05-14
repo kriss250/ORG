@@ -23,7 +23,7 @@ foreach($data as $res) {
     {
         //first Row of the table
         $firstRow  = true;
-    }else if($data[$i-1]->gsize != $res->gsize || $res->gsize  < 2){
+    }else if( $data[$i-1]->idreservation != $res->idreservation ){
         //First Row of the group or row with span =1
         $firstRow = true;
     }else {
@@ -53,7 +53,7 @@ foreach($data as $res) {
     $rows .="<td>".number_format($res->bar)."</td>";
     $rows .="<td>".number_format($res->laundry)."</td>";
 
-  
+
     if($firstRow){
         $rows .=   "<td $span>".number_format($res->due_amount)."</td>" ;
         $rows .=   "<td $span>".number_format($res->balance_amount)."</td>" ;
