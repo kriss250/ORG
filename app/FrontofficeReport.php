@@ -93,7 +93,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
         join  reserved_rooms on reserved_rooms.reservation_id =reservations.idreservation
         join guest on guest.id_guest = reserved_rooms.guest_in
         join rooms on rooms.idrooms = reserved_rooms.room_id
-        join room_types on room_types.idroom_types = rooms.type_id
+        join room_types on room_types.idroom_types = rooms.type_id 
         left join companies on companies.idcompanies = reservations.company_id
         join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4)  order by idreservation desc")];
     }
