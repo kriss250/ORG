@@ -1,0 +1,149 @@
+﻿.report_summary {
+  border: 1px solid #ccc;
+  display: table;
+  padding: 15px;
+  margin-top: 15px;
+  color: #000;
+  background:#fff;
+}
+
+.DTTT_Print .report_summary {
+    display:table!important
+}
+
+.DTTT_Print .report_header {
+    display:block !important;
+    margin-top:25px
+}
+
+.report_header h4 > b {
+    font-size: 13px;
+color: #969696;
+font-weight: normal;
+}
+.report_summary > p {
+  border-bottom: 1px dashed;
+  display: table;
+  padding-right: 10px;
+  padding-bottom: 5px
+}
+
+.print_btn {
+    display: block;
+float: right;
+clear: both;
+margin-top: 7px;
+margin-bottom: 6px;
+}
+
+.report th {
+    border-top:1px solid #CDDADD
+}
+.dataTables_length {
+    float:left
+}
+.date_filter {
+    display:block;
+    clear:both;
+    padding:15px 5px;
+    border-top:1px solid #E4E3E3;
+    margin-top: 45px;
+clear: both;
+margin-bottom:10px;
+position:relative;
+max-width:300px
+}
+
+.date_filter > span {
+    position: absolute;
+    top: -8px;
+    background: #fff;
+    font-size: 11px;
+    color: #AAA;
+    padding: 0 6px;
+}
+
+.date_filter input[type="text"] {
+    border: 1px solid #66AFE9;
+    border-right-color: green;
+    padding: 0px 6px;
+    font-size: 13px;
+    height: 26px;
+}
+
+.date_filter .btn {
+    padding: 2px 6px;
+height: auto;
+margin-right: -7px;
+}
+
+.navbar-default {
+    background:transparent linear-gradient(to top, #EFEFEF, #F8F8F8) repeat scroll 0% 0%;
+    height:auto;
+    border-bottom:1px solid #ccc;
+    min-height:10px;
+}
+
+.navbar-nav li a {
+    border-right:1px solid #E0E0E0
+}
+
+.navbar-default li.active a  {
+    background:#008CC3 !important;
+    color:#fff !important;
+}
+
+.navbar-nav > li > a {
+    padding:8px 15px
+}
+
+.navbar-default .navbar-brand {
+    height:auto;
+    margin:auto;
+    padding:6px 25px
+}
+
+.room_sales_table {
+    background: #fff;
+    margin: auto;
+    border-collapse: collapse;
+    border-top: 1px solid #2b2b2b;
+    border-bottom: 1px solid #2b2b2b;
+}
+
+.room_sales_table tr:nth-child(2) td {
+    border-bottom:1px solid #BFBFBF !important;
+    background:#EDEDED;
+    font-weight:bold;
+    border-right:1px solid #BDBDBD
+}
+
+.room_sales_table tr:nth-child(1) td {
+    background:#e6e6e6 !important;
+    font-weight:bold;
+    border-right:1px solid #BDBDBD
+}
+
+.room_sales_table tr:hover {
+    background:#ededed !important
+}
+
+.room_sales_table td {
+    padding: 4px 20px;
+    text-align: right;
+    border-left: 1px solid #E7E7E7;
+}
+
+.room_sales_table tr.last_row td {
+    font-size: 13px;
+    text-align: right;
+}
+
+.room_sales_table tr.last_row td {
+    border-bottom: 1px dotted #E3E3E3;
+}
+
+.room_cell {
+    background:#f5f5f5;
+    font-weight:bold;
+}

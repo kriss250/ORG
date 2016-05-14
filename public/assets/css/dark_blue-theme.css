@@ -1,0 +1,49 @@
+/* Dark Violet */
+
+body {
+	background:#e6e6e6;
+}
+.prod_filter ul li .chosen-single {
+	background: #3B7477
+}
+
+.pos_title {
+	background: rgb(52, 73, 94);
+	border-bottom: none !important;
+	color:rgb(237, 237, 237);
+}
+
+.list-group-item {
+	background-color: #f3f3f3;
+border: 1px solid transparent;
+}
+
+.sidebar li {
+  border-bottom:1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+
+.prod_filter {
+	background: #698da1;
+}
+
+.pos_biller {
+	background: rgb(242, 242, 242) ;
+}
+
+.product_lists ul {
+	background: #ecf0f1
+}
+
+.pos_products {
+	background:rgb(233, 233, 233)
+}
+
+#purchase_table tr:nth-child(even){
+	background: rgb(237, 237, 237);
+}
+
+.prod_filter ul li a {
+	background: #185d6c;
+}
