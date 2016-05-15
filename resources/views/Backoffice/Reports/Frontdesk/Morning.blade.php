@@ -48,7 +48,7 @@ static $spanx  = 1;
         #endregion
 
         $rows .= "<td>".$res->room_number."</td>";
-        $rows .="<td>".$res->guest."</td>";
+        $rows .="<td>".$res->guest."</td> ";
 
         if($firstRow){
             $credit = $res->pay_by_credit =="1" ? $res->night_rate : "0";
