@@ -25,7 +25,7 @@ foreach($data as $res) {
     {
         //first Row of the table
         $firstRow  = true;
-    }else if($data[$i-1]->gsize != $res->gsize || $res->gsize  < 2){
+    }else if( $data[$i-1]->idreservation != $res->idreservation ){
         //First Row of the group or row with span =1
         $firstRow = true;
     }else {
@@ -63,7 +63,7 @@ foreach($data as $res) {
          $due +=$res->due_amount;
          $paid +=$res->balance_amount;
      }
-   
+
     $rows .=" </tr>";
     $spanx = $span;
     $i++;

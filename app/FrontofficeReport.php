@@ -16,7 +16,7 @@ class FrontofficeReport extends Model
 
     public function Sales($range)
     {
-       
+
         return ["data"=>self::$db->select("select idreservation,room_number,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,companies.name as Company,concat(adults,'/',children) as pax,
         checkin,checkout,payer,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize from reservations
         join  reserved_rooms on reserved_rooms.reservation_id =reservations.idreservation
@@ -50,40 +50,40 @@ class FrontofficeReport extends Model
 
     public function Departure($range,$expected=false)
     {
-        return ["data"=>self::$db->select("select idreservation,pay_by_credit,date(checked_in) as checked_in,date(checked_out) as checked_out,due_amount,rooms.room_number,concat_ws(' ',firstname,lastname) as guest,companies.name as company,date(checkin) as checkin,
+        return ["data"=>self::$db->select("select idreservation,pay_by_credit,date(checked_in) as checked_in, coalesce(date(checked_out),date(checkout)) as checked_out,due_amount,rooms.room_number,concat_ws(' ',firstname,lastname) as guest,companies.name as company,date(checkin) as checkin,
             date(checkout) as checkout,night_rate,balance_amount, sum(acco_charges.amount) as acco,
 (select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
             (select sum(room_charges.amount) as services from room_charges where room_id=idrooms and room_charges.reservation_id = idreservation) as services ,is_group, payer from reserved_rooms
             join accounts on accounts.reservation_id= reserved_rooms.reservation_id
             join rooms on rooms.idrooms = reserved_rooms.room_id
-            join reservations on reservations.idreservation = reserved_rooms.reservation_id
+            join reservations on reservations.idreservation = reserved_rooms.reservation_id ".(!$expected ? " and reservations.status=6 " : " ")."
             left join acco_charges on acco_charges.reservation_id = reserved_rooms.reservation_id and acco_charges.room_id = reserved_rooms.room_id
             join guest on guest.id_guest = guest_in
             left join companies on companies.idcompanies = reservations.company_id
-            where checked_in is not null and ".($expected ? "checked_out is null" : "checked_out is not null")." and (date(checkout) between ? and ?)
-             group by rooms.idrooms order by idreservation desc",$range )];
+            where checked_in is not null and ".($expected ? "checked_out is null " : "checked_out is not null")." and (date(checkout) between ? and ?)
+             group by rooms.idrooms,idreservation order by idreservation desc",$range )];
     }
 
     public function Morning($range)
     {
-        return ["data"=>self::$db->select("select room_number,concat_ws(' ',firstname,lastname) as guest,name as company,is_group,reservations.pay_by_credit,
+        return ["data"=>self::$db->select("select idreservation,room_number,concat_ws(' ',firstname,lastname) as guest,name as company,night_rate,is_group,reservations.pay_by_credit,
             (select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
             (select coalesce(sum(credit),0) from folio where reservation_id = idreservation and paymethod=1 and void =0) as cash,
             (select coalesce(sum(credit),0) from folio where reservation_id = idreservation and paymethod=2 and void =0) as cc,
             (select coalesce(sum(credit),0) from folio where reservation_id = idreservation and paymethod=3 and void =0) as chec
              from rooms
-            left join reserved_rooms on reserved_rooms.room_id = idrooms and checked_in is not null and checked_out is null
+            left join reserved_rooms on reserved_rooms.room_id = idrooms and checked_in is not null
             left join reservations on idreservation = reserved_rooms.reservation_id
             left join companies on companies.idcompanies = reservations.company_id
             left join guest on guest.id_guest = guest_in
-            where (date(reservations.date) between ? and ?)
+            where (date(checkout) between ? and ?)
             order by idreservation desc
-        " )];
+        " ,$range)];
     }
 
     public function OfficeControl($range)
     {
-        return ["data"=>self::$db->select("select idreservation,room_number,accounts.balance_amount,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
+        return ["data"=>self::$db->select("select idreservation,room_number,accounts.balance_amount,checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
 companies.name as Company,concat(adults,'/',children) as pax,
         checkin,checkout,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=3) as bar,
@@ -93,7 +93,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
         join  reserved_rooms on reserved_rooms.reservation_id =reservations.idreservation
         join guest on guest.id_guest = reserved_rooms.guest_in
         join rooms on rooms.idrooms = reserved_rooms.room_id
-        join room_types on room_types.idroom_types = rooms.type_id 
+        join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = reservations.company_id
         join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4)  order by idreservation desc")];
     }
@@ -101,7 +101,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
     public function PaymentControl($range)
     {
         return ["data"=>self::$db->select("select idreservation,payer,id_account,room_number,accounts.balance_amount,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,companies.name as Company,concat(adults,'/',children) as pax,
-        checkin,checkout,night_rate,due_amount,
+        checkin,coalesce(checked_out,checkout) as checkout,night_rate,due_amount,
         (select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
          (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=3) as bar,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=2) as resto,
@@ -112,7 +112,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = company
-        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) order by idreservation desc")];
+        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and date(checkout) between ? and ? order by idreservation desc",$range)];
     }
 
     public function Rooming($range)
@@ -152,7 +152,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
         ";
 
         return ["data"=>self::$db->select($sql,$range)];
-    
+
     }
 
     public function banquetOrders($range)
@@ -179,7 +179,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
             join guest on guest.id_guest = guest_in
             left join companies on idcompanies = company_id
             join users on users.idusers = folio.user_id
-            where void = 0 and date(folio.date) between ? and  ?
+            where void = 0 and date(folio.date) between ? and  ?  group by folio.id_folio
         ";
 
         return ["data"=>self::$db->select($sql,$range)];

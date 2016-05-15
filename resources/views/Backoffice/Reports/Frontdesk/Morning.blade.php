@@ -30,7 +30,7 @@ $i=0;
 static $spanx  = 1;
     foreach($data as $res)
     {
-       
+
         $rows .="<tr>";
         #region IS IT THE FIRT ROW
         $span = $res->gsize > 1 ? "rowspan='$res->gsize'" : "";
@@ -38,8 +38,8 @@ static $spanx  = 1;
         {
             //first Row of the table
             $firstRow  = true;
-        }else if($data[$i-1]->gsize != $res->gsize || $res->gsize  < 2){
-            //First Row of the group or row with span < 1
+        }else if( $data[$i-1]->idreservation != $res->idreservation ){
+            //First Row of the group or row with span =1
             $firstRow = true;
         }else {
             $firstRow = false;
@@ -51,11 +51,12 @@ static $spanx  = 1;
         $rows .="<td>".$res->guest."</td>";
 
         if($firstRow){
+            $credit = $res->pay_by_credit =="1" ? $res->night_rate : "0";
             $rows .= "<td $span>".$res->company ."</td>";
             $rows .= "<td $span>".$res->cash."</td>" ;
             $rows .=  "<td $span>".$res->cc."</td>" ;
             $rows .= "<td $span>".$res->chec."</td>" ;
-            $rows .= "<td $span>0</td>" ;
+            $rows .= "<td $span>{$credit}</td>" ;
             $rows .=  "<td $span>0</td>" ;
         }
 
