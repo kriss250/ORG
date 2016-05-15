@@ -16,7 +16,7 @@ $paid=0;
 $balance=0;
 $firstRow =false;
 foreach($data as $res) {
-
+    $span= "";
     #region IS IT THE FIRT ROW
     $span = $res->gsize > 1 ? "rowspan='$res->gsize'" : "";
     if($i==0)
@@ -39,10 +39,12 @@ foreach($data as $res) {
 
     if($firstRow){
         $rows .= "<td $span>{$res->Company}</td>" ;
-        $rows .= "<td $span>".\App\FX::Date($res->checkin)."</td>";
-        $rows .=  "<td $span>".\App\FX::Date($res->checkout)."</td>";
-        $rows .=   "<td $span>".number_format($res->night_rate)."</td>";
+
     }
+
+    $rows .= "<td>".\App\FX::Date($res->checked_in)."</td>";
+    $rows .=  "<td>".\App\FX::Date($res->checked_out)."</td>";
+    $rows .=   "<td>".number_format($res->night_rate)."</td>";
 
     $tariff += $res->night_rate;
     $laundry += $res->laundry;
