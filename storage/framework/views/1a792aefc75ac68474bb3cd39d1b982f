@@ -1,0 +1,87 @@
+<?php $__env->startSection("contents"); ?>
+<div class="page-contents">
+
+<div class="report-filter">
+<table style="width:100%">
+    <tr>
+        <td><h3>Cancelled bills Report</h3> </td>
+        <td>
+          <form style="float:right" action="" class="form-inline" method="get">
+                <label>Date</label> 
+                <input name="startdate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control"> - 
+                <input name="enddate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control">
+                <input type="submit" class="btn btn-success btn-sm" value="Go">
+                 <button type="button" data-dates="<?php echo e(isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?> - <?php echo e(isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?>" data-title="Reprinted Bills Report" class="btn btn-default report-print-btn">Print</button>
+           </form> 
+        </td>
+    </tr>
+
+     <tr>
+      <td>
+      <p class="text-danger"><b>Date : <?php echo e(isset($_GET['startdate']) && isset($_GET['enddate'])  ?  \App\FX::Date($_GET['startdate'])." - ".\App\FX::Date($_GET['enddate']) : \App\FX::Date(\ORG\Dates::$RESTODATE)); ?></b></p>
+      </td>
+    </tr>
+    
+</table>
+
+
+</div>
+
+<?php if(isset($data)): ?>
+<table class="table table-bordered table-stripped">
+<thead>
+<tr>
+	<th>Order ID</th>
+	<th>Customer</th>
+	<th>Bill Amount</th>
+	<th>Paid Amount</th>
+	<th>Last printed By</th>
+	<th>Printed Copies</th>
+	<th>Bill Date</th>
+</tr>
+	
+</thead>
+	<?php foreach($data as $bill): ?>
+		<tr>
+		<td><?php echo e($bill->idbills); ?></td>
+		<td><?php echo e($bill->customer); ?></td>
+		<td><?php echo e($bill->bill_total); ?></td>
+		<td><?php echo e($bill->paid); ?></td>
+		<td><?php echo e($bill->username); ?></td>
+		<td><?php echo e($bill->print_count); ?></td>
+		<td><?php echo e($bill->date); ?></td>
+		</tr>
+	<?php endforeach; ?>
+</table>
+<?php endif; ?>
+
+<div class="text-center print-footer">
+       <table style="margin-bottom:85px;width:100%;" class="table">
+           <tr>
+               <td>
+                   Cashier
+               </td>
+
+               <td>
+                   CONTROLLER
+               </td>
+
+               <td>
+                    ACCOUNTANT
+               </td>
+
+               <td>
+                   DAF
+               </td>
+
+               <td>
+                   G. MANAGER
+               </td>
+           </tr>
+       </table>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("Backoffice.Master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,96 @@
+<?php $__env->startSection("contents"); ?>
+
+<div class="page-contents">
+
+<div class="report-filter">
+<table style="width:100%">
+    <tr>
+        <td><h3>Breakfast Report </h3> </td>
+        <td>
+          <form style="float:right" action="" class="form-inline" method="get">
+                <label>Date</label> 
+                <input name="startdate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control"> - 
+                <input name="enddate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control">
+                        <?php if(isset($_GET['import'])): ?>
+                        <input type="hidden" name="import" value="" />
+                        <?php endif; ?>
+
+                        <input type="submit" class="btn btn-success btn-sm" value="Go">
+                 <button type="button" data-dates="<?php echo e(isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?> - <?php echo e(isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?>" data-title="Breakfast Report" class="btn btn-default report-print-btn">Print</button>
+           </form> 
+        </td>
+    </tr>
+
+     <tr>
+      <td>
+      <p class="text-danger"><b>Date : <?php echo e(isset($_GET['startdate']) && isset($_GET['enddate'])  ?  \App\FX::Date($_GET['startdate'])." - ".\App\FX::Date($_GET['enddate']) : \App\FX::Date(\ORG\Dates::$RESTODATE)); ?></b></p>
+      </td>
+    </tr>
+    
+</table>
+</div>
+
+<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <td>#</td>
+            <td>Guest</td>
+                <td>Country</td>
+                <td>Room</td>
+                <td>
+                    Room Type
+                </td>
+
+            <td>
+                Pax(a/c)
+            </td>
+        </tr>
+    </thead>
+    <?php $i=1; ?>
+    <?php foreach($data as $item): ?>
+
+    <tr>
+        <td><?php echo e($i); ?></td>
+        <td><?php echo e($item->guest); ?></td>
+        <td><?php echo e($item->country); ?></td>
+            <td><?php echo e($item->room_number); ?></td>
+            <td><?php echo e($item->type_name); ?></td>
+        <td><?php echo e($item->pax); ?></td>
+    </tr>
+    <?php $i++; ?>
+    <?php endforeach; ?>
+</table>
+
+<div class="text-center print-footer">
+       <table style="margin-bottom:85px;width:100%;" class="table">
+           <tr>
+               <td>
+                   Cashier
+               </td>
+
+               <td>
+                   CONTROLLER
+               </td>
+
+               <td>
+                    ACCOUNTANT
+               </td>
+
+               <td>
+                   DAF
+               </td>
+
+               <td>
+                   G. MANAGER
+               </td>
+           </tr>
+       </table>
+        <div class="clearfix"></div>
+    </div>
+
+</div>
+
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make(isset($_GET['import']) ? "ORGFrontdesk.Reports.Master" : "Backoffice.Master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

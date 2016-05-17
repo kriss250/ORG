@@ -1,0 +1,70 @@
+<?php $__env->startSection("contents"); ?>
+
+<?php if(strlen(session('success'))>0): ?>
+     <?php echo "<div class='alert alert-success'>".session('success')."</div>"; ?>
+
+ <?php endif; ?>
+
+     <?php echo e(session('errors')); ?>
+
+
+<?php echo Form::Open(['action' => 'SettingsController@store','class'=>'']); ?>
+
+<h2> <i class="fa fa-cogs"></i> Settings </h2>
+
+
+    <?php echo Form::label('product_label', 'Restaurant Name'); ?>
+
+    <?php echo Form::text('resto_name', \ORG\Settings::$RESTONAME,["class"=>"form-control"]); ?>
+
+
+    <?php echo Form::label('product_label', 'Logo'); ?>
+
+    <?php echo Form::text('logo', \ORG\Settings::$LOGO,["class"=>"form-control"]); ?>
+
+
+    <?php echo Form::label('product_label', 'Currency'); ?>
+
+    <?php echo Form::text('currency', \ORG\Settings::$CURRENCY,["class"=>"form-control"]); ?>
+
+
+    <?php echo Form::label('product_label', 'Tax(%)'); ?>
+
+    <?php echo Form::text('tax', \ORG\Settings::$TAXRATE,["class"=>"form-control"]); ?>
+
+
+<p>Contacts</p>
+    
+    <?php echo Form::label('product_label', 'Phone'); ?>
+
+    <?php echo Form::text('phones', \ORG\Settings::$PHONES,["class"=>"form-control"]); ?>
+
+
+    <?php echo Form::label('product_label', 'Email'); ?>
+
+    <?php echo Form::text('email', \ORG\Settings::$EMAIL,["class"=>"form-control"]); ?>
+
+
+
+    <?php echo Form::label('product_label', 'Website'); ?>
+
+    <?php echo Form::text('website', \ORG\Settings::$WEBSITE,["class"=>"form-control"]); ?>
+
+
+
+    <?php echo Form::label('product_label', 'Bill Footer Text'); ?>
+
+    <?php echo Form::text('bill_footer', \ORG\Bill::$FOOTER,["class"=>"form-control"]); ?>
+
+
+
+<br/>
+
+<?php echo Form::submit('Save',['class'=>'btn btn-success']); ?>
+
+
+<?php echo Form::Close(); ?>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("Pos.master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

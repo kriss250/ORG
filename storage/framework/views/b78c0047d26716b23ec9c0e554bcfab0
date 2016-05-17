@@ -1,0 +1,56 @@
+
+
+<?php $__env->startSection("contents"); ?>
+<div class="page-contents">
+
+<div class="report-filter">
+<table style="width:100%">
+    <tr>
+        <td><h3>Stock Sales </h3> </td>
+        <td>
+         <form style="float:right" action="" class="form-inline" method="get">
+                <label>Date</label> 
+                <input name="startdate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control"> - 
+                <input name="enddate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control">
+        
+                <input type="submit" class="btn btn-success btn-sm" value="Go">
+                 <button type="button" data-dates="<?php echo e(isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?>" data-title="Stock Sales Report" class="btn btn-default report-print-btn">Print</button>
+           </form>  
+        </td>
+    </tr>
+</table>
+
+</div>
+
+<?php if(isset($data) && count($data) > 0): ?>
+    <table class="table table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>Reference No.</th>
+                <th>Biller</th>
+                <th>Done By</th>
+                <th>Amount</th>
+                <th>Note</th>
+                <th>Date</th>
+                <th>Open</th>
+            </tr>
+        </thead>
+        <?php foreach($data as $item): ?>
+            <tr>
+                <td><?php echo e($item->reference_no); ?></td>
+                <td><?php echo e($item->biller_name); ?></td>
+                <td><?php echo e($item->user); ?></td>
+                <td><?php echo e(number_format($item->total)); ?></td>
+                 <td><?php echo html_entity_decode($item->note); ?></td>
+                <td><?php echo e($item->date); ?></td>
+                <td><a class="modal-btn" data-width="620" href="<?php echo e(action("BackofficeReportController@index","saleItems")); ?>?id=<?php echo e($item->id); ?>"><i class="fa fa-expand"></i></a></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+<?php endif; ?>
+
+
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("Backoffice.Master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

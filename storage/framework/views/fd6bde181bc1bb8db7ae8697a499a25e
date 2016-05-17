@@ -1,0 +1,94 @@
+
+
+<?php $__env->startSection("contents"); ?>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+        accounting.settings = {
+            currency: {
+                symbol: "RWF",   // default currency symbol is '$'
+                format: "%v %s", // controls output: %s = symbol, %v = value/number (can be object: see below)
+                decimal: ".",  // decimal point separator
+                thousand: ",",  // thousands separator
+                precision: 0   // decimal places
+            },
+            number: {
+                precision: 0,  // default precision on numbers is 0
+                thousand: ",",
+                decimal: "."
+            }
+        }
+    var dateRange= "";
+
+	var tableApi = $('#table').dataTable({
+		"sDom": 'T<"date_filter"><"clearfix">lfrtip',
+         "iDisplayLength": 25,
+		 "tableTools": {
+            "sSwfPath": "/assets/js/vendor/datatables/extensions/tableTools/swf/copy_csv_xls_pdf.swf",
+            "aButtons": [
+            	'pdf',
+            	'csv',
+            	'xls',
+            	'copy',
+                {
+                    "sExtends": "print",
+                    "bShowAll": false
+                }
+            ]
+        },
+        //"aoColumnDefs":[{ "bSortable": false, "aTargets": [ 2 ] }],
+		"processing": true,
+		"serverSide": true,
+		ajax: '<?php echo Request::url()."?json";  ?>&date_range=',
+		"colReorder": true
+		<?php echo isset($footer) ? ','.$footer : ''; ?>
+
+	}).api();
+
+
+     $("div.date_filter").html('<i class="fa fa-calendar"></i> <input type="date" placeholder="Date Range" id="table_daterange">');
+     $("#table_daterange").daterangepicker().on("change",function(){
+
+        dateRange = $(this).val();
+        parts = tableApi.ajax.url().split('date_range=');
+
+        if(parts.length > 1 ){
+           
+             tableApi.ajax.url(parts[0]+"date_range="+dateRange );
+        
+        }else {
+             tableApi.ajax.url(tableApi.ajax.url()+dateRange );
+        }
+
+        tableApi.ajax.reload();
+        //.fnDraw();
+     });
+
+})
+</script>
+
+<h2 class="report_title"><?php echo $title; ?></h2>
+<table id="table" class="report_table row-border stripe">
+	<thead>
+		<tr>
+            <?php foreach($cols as $col): ?>
+            <th><?php echo e($col['dsp']); ?> </th>
+            <?php endforeach; ?>
+		</tr>
+	</thead>
+
+    <tfoot>
+          <?php foreach($cols as $col): ?>
+            <th></th>
+            <?php endforeach; ?>
+    </tfoot>
+</table>
+
+<div class="report_footer">
+    <p>Printed by <?php echo e($_SESSION['username']); ?></p>
+    <p>Printed on <?php echo e(\ORG\Dates::$RESTODT); ?> </p>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make("ReportCenter.Master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

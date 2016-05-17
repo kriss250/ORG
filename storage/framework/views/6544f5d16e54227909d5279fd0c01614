@@ -1,0 +1,135 @@
+
+
+<?php $__env->startSection("contents"); ?>
+<style type="text/css">
+    .room_end td {
+        border-top-width: 3px  !important;
+    }
+
+
+    .group-reservation td {
+        border-top: 1px dashed #ccc !important;
+         position: relative;
+        border-bottom: 1px dashed #000 !important;
+        background:rgb(245, 245, 245)
+    }
+
+</style>
+
+<?php
+    $rows = "";
+    $ic = 0;
+    $span =1;
+
+    foreach($data as $res){
+            
+        $span += (isset($data[$ic+1]->idreservation) && ($data[$ic+1]->idreservation  ==  $data[$ic]->idreservation)) ? 1 : 0;
+        $c_span  = (isset($data[$ic-1]->idreservation) && ($data[$ic-1]->idreservation  ==  $data[$ic]->idreservation)) ? 'data-spn="c_span"' : "";
+        $rows .= '<tr '.$c_span.' '.($res->is_group > 0 ? "class=group-reservation" : "").'>
+                 <td>'.$res->room_number.'</td>
+                 <td>'.$res->type_name.'</td>
+                 <td>'.$res->guest .'</td>
+                 <td>'. $res->Company .'</td>
+                 <td>'. \App\FX::Date($res->checkin) .'</td>
+                 <td>'. \App\FX::Date($res->checkout) .'</td>
+                 <td>'. number_format($res->due_amount) .'</td>
+                '.
+                (($span <= 1) ? 
+                '<td  rowspan="'.$span.'">0</td>
+                <td rowspan="'.$span.'">0</td>
+                <td rowspan="'.$span.'">0</td>
+                <td rowspan="'.$span.'">'. number_format($res->due_amount) .'</td>
+                <td rowspan="'.$span.'"> '. number_format($res->balance_amount) .'</td>
+                <td rowspan="'.$span.'"> '. number_format($res->due_amount-$res->balance_amount) .'</td>
+            </tr>' : '');
+        $span =  (isset($data[$ic+1]->idreservation) && ($data[$ic+1]->idreservation  !=  $data[$ic]->idreservation)) ? 0 : $span;
+        $ic++;
+    }
+
+
+?>
+<div class="page-contents">
+
+<div class="report-filter">
+<table style="width:100%">
+    <tr>
+        <td><h3>Frontoffice Control </h3> </td>
+        <td>
+          <form style="float:right" action="" class="form-inline" method="get">
+                <label>Date</label> 
+                <input name="startdate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control"> - 
+                <input name="enddate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control">
+               
+                
+                <input type="submit" class="btn btn-success btn-sm" value="Go">
+                 <button type="button" data-dates="<?php echo e(isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?> - <?php echo e(isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?>" data-title="Frontoffice Control" class="btn btn-default report-print-btn">Print</button>
+           </form> 
+        </td>
+    </tr>
+
+     <tr>
+      <td>
+      <p class="text-danger"><b>Date : <?php echo e(isset($_GET['startdate']) && isset($_GET['enddate'])  ?  \App\FX::Date($_GET['startdate'])." - ".\App\FX::Date($_GET['enddate']) : \App\FX::Date(\ORG\Dates::$RESTODATE)); ?></b></p>
+      </td>
+    </tr>
+    
+</table>
+</div>
+
+    <table class="table table-bordered">
+        <thead>
+               <tr>
+                <th>Room</th>
+                 <th>Room Type</th>
+                 <th>Guest</th>
+                 <th>Company</th>
+                 <th>Checkin</th>
+                 <th>Checkout</th>
+                 <th>Acco.</th>
+                   <th>Resto</th>
+                   <th>Bar</th>
+                   <th>Service</th>
+                 <th>Total Due</th>
+                   <th>Paid</th>
+                   <th>Bal.</th>
+            </tr>
+        </thead>
+   
+        <?php echo $rows; ?>
+
+    </table>
+
+
+<div class="text-center print-footer">
+       <table style="margin-bottom:85px;width:100%;" class="table">
+           <tr>
+               <td>
+                   Cashier
+               </td>
+
+               <td>
+                   CONTROLLER
+               </td>
+
+               <td>
+                    ACCOUNTANT
+               </td>
+
+               <td>
+                   DAF
+               </td>
+
+               <td>
+                   G. MANAGER
+               </td>
+           </tr>
+       </table>
+        <div class="clearfix"></div>
+    </div>
+
+</div>
+
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make("Backoffice.Master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

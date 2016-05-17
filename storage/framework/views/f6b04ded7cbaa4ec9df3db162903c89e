@@ -1,0 +1,147 @@
+
+
+<?php $__env->startSection("contents"); ?>
+
+<?php if(session('status')): ?>
+    <div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <?php echo e(session('status')); ?>
+
+    </div>
+<?php endif; ?>
+
+
+<?php if(session('error')): ?>
+    <div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <?php echo e(session('error')); ?>
+
+    </div>
+<?php endif; ?>
+
+<?php 
+$days="";
+  $day_sales = "";
+  ?>
+<?php foreach($weeksales as $wk): ?> 
+  <?php 
+  
+        $day_sales .= $wk->total.",";
+        $days .= "'".$wk->day."',";
+   ?>
+<?php endforeach; ?>
+
+<div class="col-md-9" style="padding-left:0">
+
+    <?php $sum = 0;$credit=0;$room_posts=0; ?>
+
+    <?php foreach($bills as $bill): ?>
+    <?php $sum +=$bill->total; ?>
+   
+        <?php if($bill->status ==\ORG\Bill::CREDIT): ?>
+            <?php $credit +=$bill->total;  ?>
+        <?php endif; ?>
+   
+        <?php if($bill->status ==\ORG\Bill::ASSIGNED): ?>
+            <?php $room_posts +=$bill->total; ?>
+        <?php endif; ?>
+
+    <?php endforeach; ?>
+
+        <h2>Cash Books</h2> 
+
+        <?php
+        $_cashbooks =  DB::connection("mysql_backoffice")->select("SELECT * FROM cash_book order by cashbookid desc");
+        ?>
+
+        <p>Cashbooks Balance</p>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Cashbook</th>
+                <th>Balance</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <?php foreach($_cashbooks as $book): ?>
+            <tr>
+                <td>
+                    <?php echo e($book->cashbook_name); ?>
+
+                </td>
+                <td>
+                    <?php echo e(number_format($book->balance)); ?>
+
+                </td>
+                		 	<td><a class="btn btn-xs" href="<?php echo e(action("CashbookController@show",$book->cashbookid)); ?>" style="font-size:12px;">Open</a>
+
+            </tr>
+        <?php endforeach; ?>
+    </table>
+    <div class="clearfix"></div>
+    <br />
+
+
+
+</div>
+
+<div class="col-md-3">
+    <div class="widget" style="border:1px solid rgb(227, 207, 218)">
+    <div class="widget-text">
+        <table style="width:100%;line-height:1.1">
+            <tr>
+            <?php foreach($exchangerates as $rate): ?>
+                <td style="padding:5px">
+                <i style="font-size:22px" class="fa fa-<?php echo e(strtolower($rate->currency)); ?>"></i> 
+                </td>
+
+                <td style="padding:5px">
+                <span class="text-danger"><?php echo e(floor($rate->buying)); ?> (B)</span> <br>  <span class="text-success"><?php echo e(floor($rate->selling)); ?> (S)</span>
+                </td>
+            <?php endforeach; ?>
+            </tr>
+        </table>
+        <p style="font-size:11px;color:#ccc;margin-top:5px;margin-bottom:-5px" class="text-center"><?php echo e($exchangerates[0]->date); ?></p>
+       
+    </div>
+    </div>
+
+    <div class="widget" style="border: 1px solid rgb(163, 149, 173)">
+        <p class="widget-title" style="background:#7C5590">Cash Balance</p>
+            <table style="margin-bottom:0" class="table-responsive  table-striped table">
+            <?php foreach($cashbooks as $book): ?>
+                <tr>
+                    <td><?php echo e($book->cashbook_name); ?></td><td> <?php echo e(number_format($book->balance)); ?></td>
+                </tr>
+
+            <?php endforeach; ?>
+
+            </table>
+    </div>
+     <?php if(\Auth::user()->level >= 9): ?>
+    <div class="widget green">
+        <p class="widget-title">User Activities</p>
+        <div class="widget-text">
+            <ul class="activities-list">
+            <?php foreach($logs as $log): ?>
+               <?php  $tsp = strtotime($log->date); ?>
+
+                <li><p><?php echo e($log->username); ?> : <?php echo e($log->action); ?></p><i class="fa fa-clock-o"></i> <?php echo e(date("H:i",$tsp)); ?>
+
+                    <span><?php echo e(date("d",$tsp)); ?></span>
+                </li>
+            <?php endforeach; ?> 
+
+            </ul>
+        </div>
+    </div>
+    <?php endif; ?>
+
+</div>
+
+
+<div class="clearfix"></div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('Backoffice.Master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -83,6 +83,8 @@ class FrontofficeReport extends Model
 
     public function OfficeControl($range)
     {
+        $rangex = $range;
+        array_push($range,$range[0]);
         return ["data"=>self::$db->select("select idreservation,room_number,accounts.balance_amount,checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
 companies.name as Company,concat(adults,'/',children) as pax,
         checkin,checkout,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
@@ -95,7 +97,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = reservations.company_id
-        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and date(checkout) > ? or date(checkout) >?  order by idreservation desc",$range)];
+        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and date(checkout) > ? or date(checkout) > ? and date(checkout)<>?  order by idreservation desc",$range)];
     }
 
     public function PaymentControl($range)

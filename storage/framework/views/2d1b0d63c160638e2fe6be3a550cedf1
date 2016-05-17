@@ -1,0 +1,92 @@
+<?php $__env->startSection("contents"); ?>
+<div class="page-contents">
+
+    <div class="report-filter">
+        <table style="width:100%">
+            <tr>
+                <td>
+                    <h3>Stock Overview <?php echo e(isset($selectedWarehouse) ? "(".$selectedWarehouse->name.")" : ""); ?> </h3>
+                </td>
+                <td>
+                    <form style="float:right" action="" class="form-inline" method="get">
+                        <label>Date</label>
+                        <input name="startdate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control" />
+                        -
+                        <input name="enddate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control" />
+
+                        <label>Stock</label>
+                        <select class="form-control" style="margin-right:15px" name="warehouse">
+                            <option value="0">All</option>
+                            <?php foreach($warehouses as $warehouse): ?>
+                            <option <?php echo e(isset($selectedWarehouse) && $selectedWarehouse->id== $warehouse->id ? " selected ": ""); ?> value="<?php echo e($warehouse->id); ?>"><?php echo e($warehouse->name); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <input type="submit" class="btn btn-success btn-sm" value="Go" />
+                        <button type="button" data-dates="<?php echo e(isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?> - <?php echo e(isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?>" data-title="Stock Overview  <?php echo e(isset($selectedWarehouse) ? "(".$selectedWarehouse->name.")" : ""); ?>" class="btn btn-default report-print-btn">Print</button>
+                    </form>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p class="text-danger">
+                        <b>Date : <?php echo e(isset($_GET['startdate']) && isset($_GET['enddate'])  ?  \App\FX::Date($_GET['startdate'])." - ".\App\FX::Date($_GET['enddate']) : \App\FX::Date(\ORG\Dates::$RESTODATE)); ?></b>
+                    </p>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+<?php if(isset($data) && count($data) > 0): ?>
+    <table class="table table-bordered table-stripped table-condensed">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>Unit</th>
+                <th>Stock Quantity</th>
+                <th>Opening St.</th>
+                <th>Stock In</th>
+                <th>Stock out</th>
+                <th>Purch. Val.</th>
+                <th>Sales. Val.</th>
+                <th>Damaged</th>
+                <th>Final Stock</th>
+            </tr>
+        </thead>
+        <?php $i =1;$purchases=0;$sales = 0; ?>
+        <?php foreach($data as $item): ?>
+<?php $p = explode("#",$item->stockin); $s = explode("#",$item->stockout); ?>
+        <tr>
+            <td><?php echo e($i); ?></td>
+            <td><?php echo e($item->name); ?></td>
+            <td><?php echo e($item->unit); ?></td>
+            <td><?php echo e($item->quantity); ?></td>
+            <td><?php echo e($item->opening); ?></td>
+            <td><?php echo e($p[0]); ?></td>
+            <td><?php echo e($s[0]); ?></td>
+            <td><?php echo e(number_format($p[1])); ?></td>
+            <td><?php echo e(number_format($s[1])); ?></td>
+            <td><?php echo e($item->damaged); ?></td>
+            <td><?php echo e($item->opening-$item->damaged-$item->stockout+$item->stockin); ?></td>
+        </tr>
+        <?php $purchases += $p[1]; $sales +=$s[1]; $i++; ?>
+
+        <?php endforeach; ?>
+<tfoot>
+    <tr>
+        <th colspan="7">Total</th>
+        <th><?php echo e(number_format($purchases)); ?></th>
+        <th><?php echo e(number_format($sales)); ?></th>
+        <th colspan="2"></th>
+    </tr>
+    </tfoot>
+    </table>
+<?php endif; ?>
+
+
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("Backoffice.Master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

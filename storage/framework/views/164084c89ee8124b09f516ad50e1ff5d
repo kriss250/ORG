@@ -1,0 +1,21 @@
+<b>Announcements</b>
+<br><br>
+<table class="table table-bordered">
+<thead>
+	<tr>
+		<th>Sender</th>
+		<th>Title</th>
+		<th>Message</th>
+		<th>Date</th>
+	</tr>
+</thead>
+    <?php foreach($data as $announcement): ?>
+        <tr>
+            <td><?php echo e($announcement->username); ?></td>
+            <td><?php echo e($announcement->title); ?></td>
+            <td><?php echo e($announcement->body); ?></td>
+            <td><?php echo e(\App\FX::DT($announcement->date)); ?></td>
+        </tr>
+    <?php endforeach; ?>
+
+</table>

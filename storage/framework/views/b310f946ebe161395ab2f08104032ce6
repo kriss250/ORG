@@ -1,0 +1,48 @@
+<?php $__env->startSection("contents"); ?>
+<div class="page-contents">
+
+<div class="report-filter">
+<table style="width:100%">
+    <tr>
+        <td><h3>Damaged Products </h3> </td>
+        <td>
+         <form style="float:right" action="" class="form-inline" method="get">
+                <label>Date</label> 
+                <input name="startdate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control"> - 
+                <input name="enddate" type="text" value="<?php echo e(\ORG\Dates::$RESTODATE); ?>" class="date-picker form-control">
+  
+                <input type="submit" class="btn btn-success btn-sm" value="Go">
+                 <button type="button" data-dates="<?php echo e(isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT))); ?>" data-title="Damaged Products" class="btn btn-default report-print-btn">Print</button>
+           </form>  
+        </td>
+    </tr>
+</table>
+
+</div>
+
+<?php if(isset($data) && count($data) > 0): ?>
+    <table class="table table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Damaged Qty</th>
+                <th>Stock</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <?php foreach($data as $item): ?>
+            <tr>
+                <td><?php echo e($item->product_name); ?></td>
+                <td><?php echo e($item->quantity); ?></td>
+                <td><?php echo e($item->stock); ?></td>
+                <td><?php echo e($item->date); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+<?php endif; ?>
+
+
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("Backoffice.Master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

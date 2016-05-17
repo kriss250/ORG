@@ -1,0 +1,248 @@
+
+
+<?php $__env->startSection("contents"); ?>
+
+<?php if(session('status')): ?>
+    <div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <?php echo e(session('status')); ?>
+
+    </div>
+<?php endif; ?>
+
+
+<?php if(session('error')): ?>
+    <div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <?php echo e(session('error')); ?>
+
+    </div>
+<?php endif; ?>
+
+<?php 
+$days="";
+  $day_sales = "";
+  ?>
+<?php foreach($weeksales as $wk): ?> 
+  <?php 
+  
+        $day_sales .= $wk->total.",";
+        $days .= "'".$wk->day."',";
+   ?>
+<?php endforeach; ?>
+<script type="text/javascript">
+    $(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'areaspline'
+        },
+        title: {
+            text: 'Daily Bar and Restaurant sales'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 150,
+            y: 100,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+        xAxis: {
+            categories: [
+                <?php echo trim($days,','); ?>
+
+            ],
+            plotBands: [{ // visualize the weekend
+                from: 4.5,
+                to: 6.5,
+                color: 'rgba(68, 170, 213, .2)'
+            }]
+        },
+        yAxis: {
+            title: {
+                text: 'Rwf'
+            }
+        },
+        tooltip: {
+            shared: true,
+            valueSuffix: ' Rwf'
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            areaspline: {
+                fillOpacity: 0.5
+            }
+        },
+        series: [{
+            name: 'Last Week',
+            data: [2020000,1988500,2261600,3098400,1029000]
+        }, {
+            name: 'This week',
+            data: [<?php echo e(trim($day_sales,',')); ?>]
+        }]
+    });
+});
+</script>
+<div class="col-md-9" style="padding-left:0">
+
+    <?php $sum = 0;$credit=0;$room_posts=0; ?>
+
+    <?php foreach($bills as $bill): ?>
+    <?php $sum +=$bill->total; ?>
+   
+        <?php if($bill->status ==\ORG\Bill::CREDIT): ?>
+            <?php $credit +=$bill->total;  ?>
+        <?php endif; ?>
+   
+        <?php if($bill->status ==\ORG\Bill::ASSIGNED): ?>
+            <?php $room_posts +=$bill->total; ?>
+        <?php endif; ?>
+
+    <?php endforeach; ?>
+
+    <div class="color-box pink">
+        
+        <span class="icon"><i class="fa fa-cart-arrow-down"></i></span>
+        <div class="text">
+               <h4>POS Debts</h4>
+        <p><?php echo e(number_format($credit)); ?> Rwf</p><p>Daily Debts</p>
+        </div>
+     
+    </div>
+
+     <div class="color-box light-green">
+        
+        <span class="icon"><i class="fa fa-cart-arrow-down"></i></span>
+        <div class="text">
+               <h4>Room Posts</h4>
+      
+        <p>Sales <?php echo e(number_format($room_posts)); ?> </p>
+        <p>Bills posted to rooms</p>
+       
+        </div>
+     
+    </div>
+
+    <div class="color-box blue">
+        
+        <span class="icon"><i class="fa fa-cart-arrow-down"></i></span>
+        <div class="text">
+               <h4>POS Sales</h4>
+        <p><?php echo e(number_format($sum)); ?></p>
+         <p>Room posts ,Credits</p>
+        </div>
+     
+    </div>
+
+
+
+    <div class="clearfix"></div>
+    <br />
+
+<div class="home-chart" style="min-width: 310px; height: 350px; margin: 0 auto" id="container"></div>
+
+    <br />
+<p>RECENT PAYMENTS <em>POS</em></p>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID#</th>
+                <th>Amount</th>
+                <th>Mode</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+
+<?php if(isset($payments) && count($payments)>0): ?> 
+<?php foreach($payments as $payment): ?>
+<?php $tsp = strtotime($payment->date); ?>
+        <tr>
+            <td><?php echo e($payment->idpayments); ?></td>
+            
+
+             <?php if($payment->bank_card>0): ?>
+             <td><?php echo e($payment->bank_card); ?></td>
+            <td>Card</td>
+            <?php else: ?> 
+            <td><?php echo e($payment->cash); ?></td>
+            <td>Cash</td>
+            <?php endif; ?>
+
+            <td><?php echo e(date("d/m/Y",$tsp)); ?></td>
+            <td><?php echo e(date("H:i:s",$tsp)); ?></td>
+        </tr>
+
+<?php endforeach; ?>
+
+<?php else: ?> 
+<tr>
+    <td colspan="5">There are no payments yet</td>
+</tr>
+<?php endif; ?>
+    </table>
+
+</div>
+
+<div class="col-md-3">
+    <div class="widget" style="border:1px solid rgb(227, 207, 218)">
+    <div class="widget-text">
+        <table style="width:100%;line-height:1.1">
+            <tr>
+            <?php foreach($exchangerates as $rate): ?>
+                <td style="padding:5px">
+                <i style="font-size:22px" class="fa fa-<?php echo e(strtolower($rate->currency)); ?>"></i> 
+                </td>
+
+                <td style="padding:5px">
+                <span class="text-danger"><?php echo e(floor($rate->buying)); ?> (B)</span> <br>  <span class="text-success"><?php echo e(floor($rate->selling)); ?> (S)</span>
+                </td>
+            <?php endforeach; ?>
+            </tr>
+        </table>
+        <p style="font-size:11px;color:#ccc;margin-top:5px;margin-bottom:-5px" class="text-center"><?php echo e($exchangerates[0]->date); ?></p>
+       
+    </div>
+    </div>
+
+    <div class="widget" style="border: 1px solid rgb(163, 149, 173)">
+        <p class="widget-title" style="background:#7C5590">Cash Balance</p>
+            <table style="margin-bottom:0" class="table-responsive  table-striped table">
+            <?php foreach($cashbooks as $book): ?>
+                <tr>
+                    <td><?php echo e($book->cashbook_name); ?></td><td> <?php echo e(number_format($book->balance)); ?></td>
+                </tr>
+
+            <?php endforeach; ?>
+
+            </table>
+    </div>
+     <?php if(\Auth::user()->level >= 9): ?>
+    <div class="widget green">
+        <p class="widget-title">User Activities</p>
+        <div class="widget-text">
+            <ul class="activities-list">
+            <?php foreach($logs as $log): ?>
+               <?php  $tsp = strtotime($log->date); ?>
+
+                <li><p><?php echo e($log->username); ?> : <?php echo e($log->action); ?></p><i class="fa fa-clock-o"></i> <?php echo e(date("H:i",$tsp)); ?>
+
+                    <span><?php echo e(date("d",$tsp)); ?></span>
+                </li>
+            <?php endforeach; ?> 
+
+            </ul>
+        </div>
+    </div>
+    <?php endif; ?>
+
+</div>
+
+
+<div class="clearfix"></div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('Backoffice.Master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

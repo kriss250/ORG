@@ -1,0 +1,131 @@
+
+
+<?php $__env->startSection("contents"); ?>
+
+
+<?php
+
+    $product_name = isset($prod) ? $prod->product_name : ""  ;
+    $price= isset($prod) ? $prod->price : "";
+    $tax = isset($prod) ? $prod->tax : "";
+    $desc = isset($prod) ? $prod->description : "" ;
+    $action  = isset($prod) ? 'ProductsController@update' : 'ProductsController@store';
+    $sub_cat = (isset($prod) && isset($prod->sub_cat)) ? $prod->sub_cat  : '-1';
+    $the_title = isset($prod) ? "Update Product" :"New Product";
+?>
+
+<?php if(isset($prod)): ?>
+
+    <?php echo Form::Open(['action' => [$action,$_GET['id']],'method'=>'PUT','class'=>'single_form',"id"=>"ajaxsave"]); ?>
+
+    <?php echo Form::hidden('prev_price', $price,["class"=>"form-control"]); ?>
+
+<?php else: ?> 
+
+    <?php echo Form::Open(['action' => $action,'class'=>'single_form',"id"=>"ajaxsave"]); ?>
+
+
+<?php endif; ?>
+
+<h2> <i class="fa fa-cart-plus"></i> <?php echo e($the_title); ?> </h2>
+
+
+    <?php echo Form::label('product_label', 'Product Name'); ?>
+
+    <?php echo Form::text('product_name', $product_name,["class"=>"form-control"]); ?>
+
+
+    <?php echo Form::label('product_label', 'Price (With Tax)'); ?>
+
+    <?php echo Form::text('product_price', $price,["class"=>"form-control"]); ?>
+
+
+    <?php echo Form::label('product_label', 'Tax(%)'); ?>
+
+    <?php echo Form::text('product_tax', $tax,["class"=>"form-control"]); ?>
+
+
+    <?php echo Form::label('product_label', 'Category'); ?> <br/>
+
+<select class="thechosen" id="category" name="category">
+
+<option value="0">Choose Category</option>
+    <?php foreach($cats as $cat): ?>
+<option <?php echo e((isset($prod) && $prod->category_id ==$cat->id) ? ' selected="selected"' : ''); ?> value="<?php echo e($cat->id); ?>"> <?php echo e($cat->category_name); ?> </option>
+    <?php endforeach; ?>
+
+</select>
+ 
+
+
+<select class="thechosen"  disabled="disabled" id="sub_category" name="sub_category">
+</select>
+
+    
+    <?php echo Form::label('product_label', 'Description'); ?>
+
+    <?php echo Form::textarea('description', $desc,["class"=>"form-control"]); ?>
+
+
+
+<br/>
+
+<?php echo Form::submit('Save',['class'=>'btn btn-success']); ?>
+
+
+<?php echo Form::Close(); ?>
+
+
+
+
+
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+        $("#category").change(function(){
+            $("#sub_category").html("").attr("disabled","disabled");
+            var selected_sub_cat = <?php echo e($sub_cat); ?>;
+            
+            var id = parseInt($(this).val());
+
+            $.ajax({
+                url: "<?php echo e(action('ProductsSubCategoryController@ajaxGetSubCategories')); ?>?id="+id,
+                method:"get",
+                success:function(data){
+                    var sub_cats = JSON.parse(data);
+
+                    $.each(sub_cats,function(key,cat){
+                       option =  $("<option value='"+cat.id+"'>"+cat.sub_category_name+"</option>");
+                       if(cat.id==selected_sub_cat)
+                       {
+                        $(option).attr("selected","selected");
+                       }
+                       $("#sub_category").prepend(option);
+                    });
+
+                    $("#sub_category").removeAttr("disabled");
+                    $("#sub_category").trigger("chosen:updated");
+                }
+            })
+        })
+    })
+
+</script>
+
+
+<?php
+
+if(isset($prod)){
+
+?>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#category").trigger('change');
+       // $("#category").trigger("chosen:updated");
+    })
+</script>
+
+<?php } ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("Pos.master", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
