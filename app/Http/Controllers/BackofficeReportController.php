@@ -207,6 +207,7 @@ class BackofficeReportController extends Controller
             case "rooming":
                 $sales = $frontdesk->Rooming($range);
                 return \View::make("Backoffice.Reports.Frontdesk.Rooming",$sales);
+
             case "banquet":
                 $orders =$frontdesk->banquetOrders($range);
                 return \View::make("Backoffice.Reports.Frontdesk.Banquet",$orders);
