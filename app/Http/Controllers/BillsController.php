@@ -43,7 +43,7 @@ class BillsController extends Controller
         
         $params = [\ORG\Dates::$RESTODATE,\ORG\Dates::$RESTODATE];
         
-        $bills = \App\POSReport::Bills($params);
+        $bills = \App\POSReport::Bills($params,0,\Auth::user()->id);
 
         return \View::make("/Pos/BillList",["bills"=>$bills]);
     }

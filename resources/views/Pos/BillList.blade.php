@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="col-md-9">
-        <h2>POS Bills</h2>
+        <h2>POS Bills-</h2>
     </div>
 
     <div class="col-md-3">
