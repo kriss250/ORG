@@ -9,23 +9,16 @@ class POSReport extends Model
     public static function RoomPosts($date,$store=0,$cashier=0)
     {
 
-        $rooms = \DB::select("select room,group_concat(idbills) as billid,group_concat(bill_total) as totals from bills where status=3 and deleted =  0 and (date(date) between ? and ?) group by room",$date);
+        $rooms = \DB::select("select customer,room,group_concat(idbills) as billid,group_concat(bill_total) as totals from bills where status=3 and deleted =  0 and (date(date) between ? and ?) group by room",$date);
 
-        $GuestRoom = array();
         $items = array();
         foreach($rooms as $room)
         {
-        	$str = "RESTO/BAR ORG # ".explode(',', $room->billid)[0];
-         	$accounts = \DB::connection("mysql_book")->select("select Account from services where Descri=?",[$str]);
-            $account = isset($accounts[0]) ? $accounts[0] : null;
-            if(!is_null($account)){
-                $GuestRoom[$room->room] = \DB::connection("mysql_book")->select("SELECT Account,concat_ws(' ',Fname,Lname) as guest FROM trans where Rnum =? and Account=?  order by Account desc limit 1",[$room->room,$account->Account]);
-                $items[$room->room] = \DB::select("select bill_id,group_concat(product_name,':',unit_price,':',qty) as item from bill_items join products on products.id = product_id where bill_id in (".$room->billid.") group by bill_id ");
-            }
+            $items[$room->room] = \DB::select("select bill_id,group_concat(product_name,':',unit_price,':',qty) as item from bill_items join products on products.id = product_id where bill_id in (".$room->billid.") group by bill_id ");
         }
 
 
-        return ["rooms"=>$rooms,"guest"=>$GuestRoom,"items"=>$items];
+        return ["rooms"=>$rooms,"items"=>$items];
     }
 
     public static function RoomPostsSummary($date,$store=0)

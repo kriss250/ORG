@@ -122,7 +122,6 @@ $bills = isset($credits) ? $credits['bills'] : null;
 $bill_items = isset($credits) ? $credits['bill_items'] : null;
 
 $rooms =  isset($room_posts) ? $room_posts['rooms'] : null;
-$guest = isset($room_posts) ? $room_posts['guest'] : null;
 $items = isset($room_posts) ? $room_posts['items'] : null;
 ?>
 
@@ -249,9 +248,7 @@ $items = isset($room_posts) ? $room_posts['items'] : null;
 
     ?>
     <tr class="room_end">
-         @if(isset($guest))
-             <td rowspan="{{ $items_count+1}}">{{ $guest[$room->room][0]->guest }} <p style="font-size:12px;">({{$guest[$room->room][0]->Account}})</p> </td>
-        @endif
+        <td rowspan="{{ $items_count+1}}">{{ $room->customer }} <p style="font-size:12px;"></p> </td>
         <td rowspan="{{ $items_count+1}}">{{ $room->room}}</td>
         <td style="padding: 0"  colspan="4"> </td>
         <td rowspan="{{$items_count+1}}">{{ number_format($room_sub_total) }}</td>
