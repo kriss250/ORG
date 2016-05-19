@@ -25,13 +25,13 @@ class BillsController extends Controller
     private $splitPay = false;
     private $errors = array();
     private $billDate;
-    
+
     public function __contruct()
     {
-       
+
         $this->billDate = \ORG\Dates::$RESTODT;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -40,9 +40,9 @@ class BillsController extends Controller
     public function index()
     {
         $cashier = isset($_GET['cashier']) ? $_GET['cashier'] : 0;
-        
+
         $params = [\ORG\Dates::$RESTODATE,\ORG\Dates::$RESTODATE];
-        
+
         $bills = \App\POSReport::Bills($params,0,\Auth::user()->id);
 
         return \View::make("/Pos/BillList",["bills"=>$bills]);
@@ -50,7 +50,7 @@ class BillsController extends Controller
 
     /**
      * Summary of updateBill
-     * @param Illuminate\Http\Request $req 
+     * @param Illuminate\Http\Request $req
      * @return mixed
      */
     public function updateBill(Request $req)
@@ -61,7 +61,7 @@ class BillsController extends Controller
         $items_to_update = $items->toUpdate;
         $items_to_delete = $items->toDelete;
         $new_items  = $items->newItems;
-            
+
         try {
             if(strlen($customer)>0)
             {
@@ -69,9 +69,9 @@ class BillsController extends Controller
                         [$customer,\Auth::user()->id,\ORG\Dates::$RESTODT,$id]
                     );
             }
-                
+
             if((count($new_items)+count($items_to_delete)+count($items_to_update))==0){return $updated;}
-                
+
             //Update
             foreach ($items_to_update as $item) {
                 DB::update("update bill_items set unit_price=?,qty=? where bill_id=? and product_id=?",
@@ -86,7 +86,7 @@ class BillsController extends Controller
                 );
             }
 
-            //insert 
+            //insert
             foreach ($new_items as $item) {
                 DB::insert("insert into bill_items (bill_id,product_id,unit_price,qty) values(?,?,?,?)",
                     [$id,$item->id,$item->price,$item->qty]
@@ -111,7 +111,7 @@ class BillsController extends Controller
         }
 
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -120,23 +120,27 @@ class BillsController extends Controller
     public function store(Request $req)
     {
     }
-    
+
     public function Pay(Request $req)
     {
         $theBill = json_decode($this->suspend($req,true));
         $billID = $theBill->idBill;
     }
-    
+
     public function suspend(Request $req,$pay=false)
     {
         $this->billDate = \ORG\Dates::$RESTODT;
         $data = $req->all();
         $items =  json_decode($data['data']);
-        
+
         $this->bill_status = $pay ? \ORG\Bill::PAID : \ORG\Bill::SUSPENDED;
-        
+        if($data['waiter_id'] < 1)
+        {
+            return json_encode(["errors"=>["Unable to save this bill"]]);
+        }
+
         DB::beginTransaction();
-        
+
         $billid = DB::table('bills')->insertGetId([
                     "waiter_id"=> $data['waiter_id'],
                     "bill_total"=>$data['billTotal'],
@@ -151,9 +155,9 @@ class BillsController extends Controller
                     "pay_date"=> isset($data['paid_amount']) ? $this->billDate : null
 
                 ]);
-        
+
         $billItems = array();
-        
+
         foreach($items as $item){
 
             if($item ==null)
@@ -163,9 +167,9 @@ class BillsController extends Controller
 
             array_push($billItems,["bill_id"=>$billid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty]);
         }
-        
+
         $_ins = DB::table("bill_items")->insert($billItems);
-        
+
         if($_ins>0 && $billid>0)
         {
             DB::commit();
@@ -175,40 +179,40 @@ class BillsController extends Controller
                         "date"=> date("d/m/Y H:i:s",strtotime($this->billDate)),
                         "errors"=> array()
                      );
-            
+
             return json_encode($res);
-          
-        }else 
+
+        }else
         {
             DB::rollBack();
             return json_encode(["idBills"=>0,"errors"=>["Unable to save this bill , please contact your system administrator"]]);
         }
-        
+
     }
-    
+
     /**
      * Summary of Create Bill
      */
     public function createBill()
     {
-        
-        
+
+
     }
-    
+
     public function paySuspendedBill(Request $req)
     {
 
             $errors = [];
-            
+
             $data = $req->all();
             $mode = $req->input('mode',null);
             $this->bill_status =  $mode == null ? \ORG\Bill::SUSPENDED : \ORG\Bill::PAID;
 
             $amount = $data['amountPaid']-($data['amountPaid']-$data['amountDue']);
-            
+
             switch (strtolower($mode))
             {
-                case "debit" : 
+                case "debit" :
                     $this->bill_status = \ORG\Bill::PAID ;
                     break;
                 case "credit":
@@ -222,24 +226,24 @@ class BillsController extends Controller
                     $billinfo['change_returned'] = 0;
                     break;
             }
-            
-            
+
+
             if(isset($data['splitPayments']))
             {
                 $this->card = $data['splitPayments']['bankcard'];
-                $this->cash = $data['splitPayments']['cash']; 
+                $this->cash = $data['splitPayments']['cash'];
                 $this->splitPay = true;
-                
+
                 //Amount paid must be equal to the total amount of the bill
-                
+
                 if($data['amountPaid']!=$data['amountDue'])
                 {
                     array_push($errors,"Split payment total must be equal to the total amount of the bill");
                 }
-                             
+
             }else {
                 $this->splitPay = false;
-                
+
                 switch (strtolower($req->input('method'))) {
                     case 'cash':
                         $this->cash = $amount;
@@ -276,7 +280,7 @@ class BillsController extends Controller
 
             $paid_status = $this->bill_status;
             $change_returned = 0;
-            
+
             if(count($errors) > 0)
             {
                 return json_encode(["errors"=>$errors]);
@@ -284,20 +288,20 @@ class BillsController extends Controller
 
             if( ($this->splitPay || $paid_status == \ORG\Bill::PAID || (strtolower($req->input('method'))=="bank card") || (strtolower($req->input('method'))=="cash")) && $this->bill_status != \ORG\Bill::OFFTARIFF ){
                 //insert into payments
-                
+
                 DB::insert("insert into payments (check_amount,bank_card,cash,bon,bill_id,comment,user_id,date) values(?,?,?,?,?,?,?,?)",
                         [
                             $this->check,$this->card,$this->cash,$this->bon,$data['billID'],$req->input('comment'),Auth::user()->id,\ORG\Dates::$RESTODT
                         ]
                 );
-                
+
                 $change_returned = $data['amountPaid']-$data['amountDue'];
-                
+
                 if($paid_status == \ORG\Bill::CREDIT) { $change_returned = 0;}
-                
+
 
             }
-            
+
             $res = DB::update("update bills set last_updated_by=?,last_updated_at=?,status=$paid_status,amount_paid=?,change_returned=?,pay_date=? where idbills=?",[
                 \Auth::user()->id,\ORG\Dates::$RESTODT,
                 $data['amountPaid'],
@@ -316,15 +320,15 @@ class BillsController extends Controller
                 array_push($errors,"Unable to save payment");
                 return json_encode(["errors"=>$errors]);
             }
-        
+
 
     }
-    
-    
+
+
     public function restoreProductsFromStockByBill($id)
     {
-       
-        
+
+
     }
 
     /**
@@ -336,17 +340,17 @@ class BillsController extends Controller
     public function destroy($id,Request $req)
     {
         $id = $req->input("id");
-        
+
         if(\Auth::user()->level < 7)
         {
             return "0";
         }
 
-        //For suspended bills 
+        //For suspended bills
         if($req->input("retain",0) == 0){
-            try 
+            try
             {
-                
+
                 DB::transaction(function($id) use($id){
                    // DB::update("delete from bill_items where bill_id=?",[$id]);
                    // DB::delete("delete from bills where idbills=?",[$id]);
@@ -358,8 +362,8 @@ class BillsController extends Controller
                         ]);
                     DB::update("update payments set void=1 where bill_id=?",[$id]);
                 });
-                
-                
+
+
                 \ORG\POS::Log("Deleted Suspended Bill #".$id,"danger");
                 return "1";
 
@@ -370,9 +374,9 @@ class BillsController extends Controller
 
         // For paid bills
         }else{
-             
 
-          try 
+
+          try
             {
                 DB::transaction(function($id) use($id){
                     DB::update("update bills set deleted=?,deleted_by=? where idbills=?",
@@ -388,7 +392,7 @@ class BillsController extends Controller
                 {
                     $this->restoreProductsFromStockByBill($id);
                 }
-                
+
                 \ORG\POS::Log("Delete Paid Bill #".$id,"danger");
                 return "1";
 
@@ -397,7 +401,7 @@ class BillsController extends Controller
                 return "$ex";
             }
         }
-        
+
     }
 
     public function getCurrentSales()
@@ -419,7 +423,7 @@ class BillsController extends Controller
             }
 
             //Load suspended Bills without items
-            $sql = "SELECT idbills,bill_total,tax_total,customer,shared,concat_ws(' ',waiters.firstname,waiters.lastname) as waiter_name,waiter_id,bills.date  as date FROM bills 
+            $sql = "SELECT idbills,bill_total,tax_total,customer,shared,concat_ws(' ',waiters.firstname,waiters.lastname) as waiter_name,waiter_id,bills.date  as date FROM bills
                 join waiters on waiters.idwaiter = waiter_id
                 where deleted=0 and bills.status=? and (user_id = ? or shared=1)
                 order by waiter_id,idbills desc";
@@ -446,7 +450,7 @@ class BillsController extends Controller
             return "0";
         }
 
-        $sql = "SELECT idbills,format(bill_total,0) as bill_total,format(tax_total,0) as tax_total,amount_paid,change_returned,pay_date,date_format(bills.date,'%d/%m/%Y %T') as date,bills.status,waiter_name,username,product_name,qty,unit_price,(qty*unit_price) as product_total,EBM,customer,status FROM bills 
+        $sql = "SELECT idbills,format(bill_total,0) as bill_total,format(tax_total,0) as tax_total,amount_paid,change_returned,pay_date,date_format(bills.date,'%d/%m/%Y %T') as date,bills.status,waiter_name,username,product_name,qty,unit_price,(qty*unit_price) as product_total,EBM,customer,status FROM bills
                 join bill_items on bill_id = idbills
                 join products on products.id = product_id
                 join waiters on idwaiter = waiter_id
@@ -459,10 +463,10 @@ class BillsController extends Controller
             \DB::update("update bills set print_count=print_count+1,last_printed_by=? where idbills=?",[Auth::user()->id,$id]);
 
             if(isset($_GET['xml'])){
-                
+
                 $response = \View::make("Pos.BillPrintXml",["bill"=>$bill]);
                 return \Response::make($response)->header("Content-Type","text/plain");
-                
+
             }
             return \View::make("Pos.BillPrint",["bill"=>$bill]);
         }else {
@@ -483,7 +487,7 @@ class BillsController extends Controller
         $date = \ORG\Dates::$RESTODATE;
         $resto_code = 2;
         $bar_code=3;
-        
+
         $resto_motif = "Resto Bill ".$data['BillID'];
         $bar_motif = "Bar Bill ".$data['BillID'];
 
@@ -504,7 +508,7 @@ class BillsController extends Controller
                 join rooms on rooms.idrooms = room_id
                 join guest on guest.id_guest = guest_in
                 where checked_in is not null and checked_out is null and room_number =?",[$data['Room']]);
-            //bar = 1 
+            //bar = 1
             if($v){
                $res= $v[0]->reservation_id;
                $customer_name = $v[0]->guest;
@@ -523,7 +527,7 @@ class BillsController extends Controller
                                 \Auth::user()->username,
                                 1
                         ]);
-                   
+
                }
 
 
@@ -546,20 +550,20 @@ class BillsController extends Controller
             }else {
                 DB::rollBack();
                 return "0";
-            }            
+            }
         }catch( Exception $ex)
         {
             DB::rollBack();
             return  $ex;
         }
-        
+
         /*
         try {
 
             DB::transaction(function() use (&$data,&$status,&$date){
                 //Get room info
                 $room_info = DB::connection("mysql")->select("
-                    select idrooms,reservation_id from rooms 
+                    select idrooms,reservation_id from rooms
                     join reserved_rooms on room_id=idrooms
                     where room_number= ? and status=? order by reservation_id desc limit 1
                     ",[$data['Room'],$status['occupied']] )[0];
@@ -594,7 +598,7 @@ class BillsController extends Controller
 
             return "0";
         }
-        
+
         */
     }
 
@@ -726,7 +730,7 @@ class BillsController extends Controller
 
             $paid_status =\ORG\Bill::PAID;
 
-            
+
             if($amount_due>$data['amount_paid'])
             {
                 $paid_status = \ORG\Bill::CREDIT;
@@ -752,7 +756,7 @@ class BillsController extends Controller
             }
             return json_encode(array("pay"=>$res,"errors"=>$errors));
     }
-    
+
     public function assignedList(Request $req)
     {
         $join = "join bill_status on status_code = bills.status join users on users.id = bills.user_id join waiters on idwaiter=waiter_id ";
@@ -774,22 +778,22 @@ class BillsController extends Controller
                                 return "-";
                             }
                             return date(ORG\Dates::DSPDATEFORMAT,strtotime($d));
-                        }      
+                        }
                     ),
                  array( 'db' => 'bills.date','dt' => 9,
                     'formatter'=>function($d,$row){
                         return date(ORG\Dates::DSPDATEFORMAT,strtotime($d));
-                    }      
+                    }
                 )
             );
 
             return Datatables\SSP::simple( $_GET, "bills", "idbills", $columns,$join,"","bills.status=3 and deleted =0" );
-            
+
         }
 
         return \View::make("/Pos/assignedBills");
     }
-  
+
     public function deleteBillPayments()
     {
         $id = $_GET['id'];
@@ -821,7 +825,7 @@ class BillsController extends Controller
             }else {
                 return \DB::update("update bills set shared=0 where idbills=?",[$id]);
             }
-            
+
         }
     }
 }

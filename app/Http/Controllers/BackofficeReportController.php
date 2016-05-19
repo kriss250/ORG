@@ -43,6 +43,9 @@ class BackofficeReportController extends Controller
             case "cancelledBills" :
                 $info = POSReport::CancelledBills($range);
                 return \View::make("Backoffice.Reports.POS.CancelledBills",$info);
+            case "offtariffBills" :
+                $info = POSReport::Bills($range,0,0,[\ORG\Bill::OFFTARIFF]);
+                return \View::make("Backoffice.Reports.POS.BillList",["bills"=>$info]);
             case "reprintedBills":
                 $info = POSReport::ReprintedBills($range);
                 return \View::make("Backoffice.Reports.POS.ReprintedBills",$info);

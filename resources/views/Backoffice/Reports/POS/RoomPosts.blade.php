@@ -69,12 +69,14 @@
         foreach ($items[$room->room] as $item) { //loop through room bills
             $bill_sub_total = 0;
             $sub_items = explode(',', $item->item);
-            $items_count+=2;
+            $items_count +=2;
             $tr .= "<tr>
                         <th class='text-center' style='background:rgb(248, 248, 248)' colspan='4'>Order No. ".$item->bill_id."</th>
                     </tr>";
+ 
 
                 foreach ($sub_items as $sub_item) { //loop  through each room bill items
+                    try {
                     list($item_name,$qty,$price) = explode(':', $sub_item);
                     $sub_total = 0;
                     $sub_total = $qty * $price;
@@ -87,6 +89,7 @@
                             <td>$price</td> 
                             <td>$sub_total</td> 
                         </tr>";
+                    }catch(Exception $ex){}
                 }
 
 
@@ -94,16 +97,13 @@
              $tr .= "<tr> <td colspan='3'><b>T.P</b></td>
                             <th class='text-right'>".number_format($bill_sub_total)."</th>
                         </tr>";   
-
                        
-         }
+        }
 //$items_count++;
 
     ?>
     <tr class="room_end">
-         @if(isset($guest))
-             <td rowspan="{{ $items_count+1}}">{{ $guest[$room->room][0]->guest }} <p style="font-size:12px;">({{$guest[$room->room][0]->Account}})</p> </td>
-        @endif
+        <td rowspan="{{ $items_count+1}}">{{ $room->customer }} <p style="font-size:12px;"></p> </td>
         <td rowspan="{{ $items_count+1}}">{{ $room->room}}</td>
         <td style="padding: 0"  colspan="4"> </td>
         <td rowspan="{{$items_count+1}}">{{ number_format($room_sub_total) }}</td>

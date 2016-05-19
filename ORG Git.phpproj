@@ -725,6 +725,7 @@
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Sales.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\ServiceSales.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Transfers.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\POS\BillList.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\CancelledBills.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\CashierBills.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\CashierShift.blade.php" />

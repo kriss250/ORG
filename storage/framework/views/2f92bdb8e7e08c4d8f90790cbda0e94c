@@ -1,4 +1,0 @@
-<div class="print-footer">
-    Printed by <?php echo e(\Auth::user()->username); ?> , on <?php echo e(date('d/m/Y')); ?>
-
-</div>

@@ -70,7 +70,6 @@
         $totals["visa_usd"] += $item->visa_usd;
         $totals["check_amount"] += $item->check_amount;
         $totals["bank"] += $item->bank;
-
     ?>
     @endforeach
 <tr>
