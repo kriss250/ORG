@@ -28,6 +28,12 @@ class FrontofficeReport extends Model
 
     }
 
+    public function Deposit($range)
+    {
+        return ["data"=>self::$db->select("SELECT * FROM cash_deposit
+            join cashdeposit_dpt on iddpt = cash_deposit.dpt
+            where date(date) between ? and ?",$range)];
+    }
     public function ServiceSales($range)
     {
         return ["data"=>self::$db->select("SELECT type_name,room_number,concat_ws(' ',firstname,lastname) as guest,room_charges.date,motif,amount,user FROM room_charges

@@ -712,6 +712,7 @@
     <Compile Include="resources\views\Backoffice\Reports\Cashbooks.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Arrival.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Banquet.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Deposits.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Breakfast.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Departure.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\FoPayments.blade.php" />

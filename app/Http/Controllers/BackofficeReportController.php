@@ -19,7 +19,7 @@ class BackofficeReportController extends Controller
     {
         $start_date = isset($_GET['startdate']) ? $_GET['startdate'] : \ORG\Dates::$RESTODATE;
         $end_date = isset($_GET['enddate']) ? $_GET['enddate'] : \ORG\Dates::$RESTODATE;
-        
+
         $range = [$start_date,$end_date];
         $frontdesk = new \App\FrontofficeReport();
 
@@ -32,7 +32,7 @@ class BackofficeReportController extends Controller
 
             case "roomPosts":
                  $info = POSReport::RoomPosts($range);
-            
+
                 return \View::make("Backoffice.Reports.POS.RoomPosts",$info);
             case "debts":
             $info = POSReport::Credits($range);
@@ -51,7 +51,7 @@ class BackofficeReportController extends Controller
                 $sales = POSReport::Sales($range,$cashier_id);
                 $roomposts = POSReport::RoomPosts($range);
                 $credits = POSReport::Credits($range);
-                
+
                 return \View::make("Backoffice.Reports.POS.FullDay",["sales"=>$sales,"room_posts"=> $roomposts,"credits"=> $credits]);
             case "summaryDay":
                 $store_id = isset($_GET['store']) ? $_GET['store'] : 0;
@@ -131,16 +131,16 @@ class BackofficeReportController extends Controller
 
                 return \View::make("Backoffice.Reports.Stock.Overview",$info);
             case "cashBooks":
-                
+
                 $date1 = isset($range[0]) ? $range[0] : date("Y-m-d");
                 $date2 = isset($range[1]) ? $range[1] : date("Y-m-d");
                 $date = new \DateTime($date1);
                 $date->sub(new \DateInterval('P1D'));
                 $prev_date = $date->format('Y-m-d');
-                
+
                 $cashbook_id = isset($_GET['cashbook']) ? $_GET['cashbook'] : 3 ;
-                
-                
+
+
                 $cashbook_name = \DB::connection("mysql_backoffice")->select("SELECT cashbook_name FROM cash_book where cashbookid=?",[$cashbook_id]);
                 $cashbook_name = isset($cashbook_name[0]->cashbook_name) ?  $cashbook_name[0]->cashbook_name : "";
                 $where = "";
@@ -154,16 +154,16 @@ class BackofficeReportController extends Controller
                     array_push($params,$date1);
                     array_push($params,$date2);
                 }
-                
-                
+
+
                 $prev_amount = \DB::connection("mysql_backoffice")->select("SELECT new_balance FROM cashbook_transactions where deleted=0 and date(date)=? and cashbook_id=? order by transactionid desc limit 1",[$prev_date,$cashbook_id]);
-                
+
                 $transactions = \DB::connection("mysql_backoffice")->select("select transactionid,new_balance,type,amount,motif,username,cashbook_transactions.date from cashbook_transactions join org_pos.users on org_pos.users.id = user_id where cancelled=0 and cashbook_id=? and deleted=0 $where order by transactionid asc",$params);
-               
+
                 $initial = isset($prev_amount[0]->new_balance) ? $prev_amount[0]->new_balance : 0 ;
-                
+
                 return \View::make("Backoffice.Reports.Cashbooks",["book_name"=> $cashbook_name,"transactions"=>$transactions,"initial"=>$initial]);
-            
+
                 //Frontdesk Reports
 
             case "frontdeskDailySales":
@@ -210,8 +210,9 @@ class BackofficeReportController extends Controller
             case "banquet":
                 $orders =$frontdesk->banquetOrders($range);
                 return \View::make("Backoffice.Reports.Frontdesk.Banquet",$orders);
-            case "ddd":
-                break;
+            case "foDeposits":
+                $deposits = $frontdesk->Deposit($range);
+                return \View::make("Backoffice.Reports.Frontdesk.Deposits",$deposits);
             default:
                 abort(404);
                 break;
