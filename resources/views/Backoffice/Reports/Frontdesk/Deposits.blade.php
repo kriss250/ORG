@@ -45,21 +45,44 @@
             <th>BANK OP</th>
         </tr>
     </thead>
-    <?php $i=1; ?>
+    <?php $i=1;
+    $totals = ["rwf"=>0,"usd"=>0,"euro"=>0,"visa_rwf"=>0,"visa_usd"=>0,"check_amount"=>0,"bank"=>0];
+    ?>
+
     @foreach($data as $item)
 
     <tr>
         <td>{{$item->name}}</td>
-        <td>{{$item->rwf}}</td>
-        <td>{{$item->usd}}</td>
-        <td>{{$item->euro}}</td>
-        <td>{{$item->visa_rwf}}</td>
-        <td>{{$item->visa_usd}}</td>
-        <td>{{$item->check_amount}}</td>
-        <td>{{$item->bank}}</td>
+        <td>{{number_format($item->rwf)}}</td>
+        <td>{{number_format($item->usd)}}</td>
+        <td>{{number_format($item->euro)}}</td>
+        <td>{{number_format($item->visa_rwf)}}</td>
+        <td>{{number_format($item->visa_usd)}}</td>
+        <td>{{number_format($item->check_amount)}}</td>
+        <td>{{number_format($item->bank)}}</td>
     </tr>
-    <?php $i++; ?>
+    <?php
+        $i++;
+        $totals["rwf"] += $item->rwf;
+        $totals["usd"] += $item->usd;
+        $totals["euro"] += $item->euro;
+        $totals["visa_rwf"] += $item->visa_rwf;
+        $totals["visa_usd"] += $item->visa_usd;
+        $totals["check_amount"] += $item->check_amount;
+        $totals["bank"] += $item->bank;
+
+    ?>
     @endforeach
+<tr>
+    <th>TOTAL</th>
+    <th>{{ $totals["rwf"] }} </th>
+    <th>{{ $totals["usd"] }} </th>
+    <th>{{ $totals["euro"] }} </th>
+    <th>{{ $totals["visa_rwf"] }} </th>
+    <th>{{ $totals["visa_usd"] }} </th>
+    <th>{{ $totals["check_amount"] }} </th>
+    <th>{{ $totals["bank"] }} </th>
+</tr>
 </table>
 
 <div class="text-center print-footer">
