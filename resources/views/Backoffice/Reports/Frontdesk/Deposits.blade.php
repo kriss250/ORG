@@ -75,13 +75,13 @@
     @endforeach
 <tr>
     <th>TOTAL</th>
-    <th>{{ $totals["rwf"] }} </th>
-    <th>{{ $totals["usd"] }} </th>
-    <th>{{ $totals["euro"] }} </th>
-    <th>{{ $totals["visa_rwf"] }} </th>
-    <th>{{ $totals["visa_usd"] }} </th>
-    <th>{{ $totals["check_amount"] }} </th>
-    <th>{{ $totals["bank"] }} </th>
+    <th>{{ number_format($totals["rwf"]) }} </th>
+    <th>{{ number_format($totals["usd"]) }} </th>
+    <th>{{ number_format($totals["euro"]) }} </th>
+    <th>{{ number_format($totals["visa_rwf"]) }} </th>
+    <th>{{ number_format($totals["visa_usd"]) }} </th>
+    <th>{{ number_format($totals["check_amount"]) }} </th>
+    <th>{{ number_format($totals["bank"]) }} </th>
 </tr>
 </table>
 
