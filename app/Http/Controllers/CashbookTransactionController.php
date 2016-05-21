@@ -44,6 +44,8 @@ class CashbookTransactionController extends Controller
             $sign = $request->input("type")=="IN" ? "+" : "-";
             $date = $request->input("date",\ORG\Dates::$RESTODATE);
             $real_date = \ORG\Dates::$RESTODT;
+            $prev_balance = $request->input("prev_balance",0);
+
             $trans = \DB::connection("mysql_backoffice")->select("(select new_balance as amt from cashbook_transactions where cashbook_id=? and deleted=0 and date(date)=? order by transactionid,date desc limit 1)",[$request->input("cashbook"),$date]);
 
 
@@ -59,12 +61,21 @@ class CashbookTransactionController extends Controller
             $date_dt = $date ;
             $real_date_dt= explode(" ",$real_date)[0];
 
-            $in_past = strtotime($date_dt) < $real_date_dt;
+            $in_past = strtotime($date_dt) < strtotime($real_date_dt);
+
+           
 
             if($in_past)
             {
                 //update all transactions after this one
-                $up2 = \DB::connection("mysql_backoffice")->update("update cashbook_transactions set new_balance=new_balance$sign? where date(date) between ? and ? and cashbookid=?",[$request->input("amount"),$date,$real_date_dt,$request->input("cashbook")]);
+                $up2 = \DB::connection("mysql_backoffice")->update("update cashbook_transactions set new_balance=new_balance$sign? where date(date) between ? and ? and cashbook_id=?",[$request->input("amount"),$date,$real_date_dt,$request->input("cashbook")]);
+            }else {
+                //Normaly
+                if($sign=="+"){
+                    $amt = $prev_balance + $request->input("amount",0);
+                }else{
+                    $amt = $prev_balance - $request->input("amount",0);
+                }
             }
 
             \DB::connection("mysql_backoffice")->insert("insert into cashbook_transactions (type,amount,user_id,motif,cashbook_id,date,add_date,new_balance) values (?,?,?,?,?,?,?,?)",[ $request->input("type"), $request->input("amount"),\Auth::user()->id, $request->input("motif"),$request->input("cashbook"),$date." ".date("H:i:s"),$real_date,$amt]);

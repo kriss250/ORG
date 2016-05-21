@@ -38,9 +38,10 @@
 
         <div class="clearfix"></div>
         <form class="form-inline"  action="{{ action("CashbookTransactionController@store") }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="_token" value="{{csrf_token() }}">
        
         <label>Amount</label>
+            <input type="hidden" name="prev_balance" value="{{$cashbook->balance}}" />
         <input required="" type="text" class="form-control" name="amount">
              <label>Motif</label>
                  <input required="" type="text" class="form-control" style="width:30%" name="motif">
