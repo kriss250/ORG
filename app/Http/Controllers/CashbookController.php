@@ -90,11 +90,8 @@ class CashbookController extends Controller
         $date->sub(new \DateInterval('P1D'));
         $prev_date = $date->format('Y-m-d');
         
-        
-        
-        $prev_amount = \DB::connection("mysql_backoffice")->select("SELECT new_balance FROM cashbook_transactions where deleted=0 and date(date)=? and cashbook_id=? and recorded=0 order by transactionid desc limit 1",[$prev_date,$id]);
+        $prev_amount = \DB::connection("mysql_backoffice")->select("SELECT new_balance FROM cashbook_transactions where deleted=0 and date(date)<=? and cashbook_id=? and recorded=0 order by transactionid desc limit 1",[$prev_date,$id]);
 
- 
         $initial = isset($prev_amount[0]->new_balance) ? $prev_amount[0]->new_balance : 0 ;
         $transactions = \DB::connection("mysql_backoffice")->select("select transactionid,new_balance,type,amount,motif,username,cashbook_transactions.date from cashbook_transactions join org_pos.users on org_pos.users.id = user_id where cancelled=0 and cashbook_id=? and deleted=0 $where order by transactionid asc",$params);
 

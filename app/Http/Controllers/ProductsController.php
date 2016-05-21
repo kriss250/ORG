@@ -20,12 +20,12 @@ class ProductsController extends Controller
      */
     public function index()
     {
-       
+
         $join = "join categories on category_id = categories.id
                         left join sub_categories on sub_categories.id = subcategory_id
                         join product_price on price_id = product_price.id";
 
-           
+
         if(isset($_GET['json'])){
 
             $columns = array(
@@ -38,14 +38,14 @@ class ProductsController extends Controller
                 array( 'db' => 'products.date','dt' => 6,
                         'formatter'=>function($d,$row){
                             return date(ORG\Dates::DSPDATEFORMAT,strtotime($d));
-                        }      
+                        }
                     )
             );
 
             return Datatables\SSP::simple( $_GET, "products", "products.id", $columns,$join );
-            
-            
-        } 
+
+
+        }
 
         return \View::make("/Pos/ProductList");
     }
@@ -60,7 +60,7 @@ class ProductsController extends Controller
         $cats = DB::select("SELECT id,category_name FROM categories");
 
         if(isset($_GET['id'])){
-            $prod = DB::select("SELECT product_name,products.description,category_name,sub_category_name,price,tax,products.category_id,sub_categories.id as sub_cat FROM products 
+            $prod = DB::select("SELECT product_name,products.description,category_name,sub_category_name,price,tax,products.category_id,sub_categories.id as sub_cat FROM products
                 join categories on products.category_id = categories.id join product_price  on product_price.id = price_id
                 left join sub_categories on subcategory_id = sub_categories.id where products.id=?",[$_GET['id']])[0];
 
@@ -77,7 +77,7 @@ class ProductsController extends Controller
      */
     public function store(Request $req)
     {
-        
+
         $errors  = array();
         $message = "";
         $this->data = $req->all();
@@ -91,16 +91,16 @@ class ProductsController extends Controller
             array_push($errors, "Please Choose Category");
         }
 
-         if ($validator->fails()) {
+        if ($validator->fails()) {
             array_push($errors, $validator->errors());
-         }
+        }
 
-         if(count($errors)==0){
+        if(count($errors)==0){
             \DB::transaction(function(){
 
 
                 $product_id = DB::table('products')->insertGetId([
-                    'category_id' => $this->data["category"], 
+                    'category_id' => $this->data["category"],
                     "subcategory_id" => isset($this->data['sub_category']) ? $this->data['sub_category'] : 0 ,
                     "price_id"=>0,
                     "product_name"=> $this->data['product_name'],
@@ -116,7 +116,7 @@ class ProductsController extends Controller
                  $this->saved = DB::table("products")->where('id',$product_id)->update(["price_id"=>$price_id]);
 
             });
-         }
+        }
 
         if($this->saved){
             $message = "Product Saved";
@@ -125,7 +125,7 @@ class ProductsController extends Controller
         }
 
         $response = array(
-            'message' => $message, 
+            'message' => $message,
             'errors'=> $errors
         );
 
@@ -167,7 +167,7 @@ class ProductsController extends Controller
         $res->message = "";
 
         $data = $req->all();
-    
+
 
         try {
             DB::transaction(function() use($id,$data){
@@ -193,7 +193,8 @@ class ProductsController extends Controller
             });
 
             $res->message = "Product Updated";
-        }catch(Exception $ex){
+        }
+        catch(Exception $ex){
             array_push($res->errors, "Unable to update the product, Please try again later");
         }
 
@@ -221,13 +222,13 @@ class ProductsController extends Controller
             $id = $_GET['category'];
         }
         $favo = (isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " and favorite=1":"";
-        
-        $sql = "SELECT products.id,product_name,category_name,price,stock_id FROM products 
+
+        $sql = "SELECT products.id,product_name,category_name,price,stock_id FROM products
         join categories on categories.id = category_id
         join product_price on price_id = product_price.id ".((isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " where favorite=1":"")." order by product_name asc limit 70";
-        
+
         if(isset($_GET['store']) && $_GET['store']>0 ){
-            $sql2 = "SELECT products.id,product_name,category_name,price,stock_id FROM products 
+            $sql2 = "SELECT products.id,product_name,category_name,price,stock_id FROM products
             join categories on categories.id = category_id
             join store on idstore = store_id
             join product_price on price_id = product_price.id where idstore=? $favo order by product_name asc limit 70";
@@ -236,7 +237,7 @@ class ProductsController extends Controller
         }
 
         if($id>0){
-            $sql = "SELECT products.id,product_name,category_name,price,stock_id FROM products 
+            $sql = "SELECT products.id,product_name,category_name,price,stock_id FROM products
             join categories on categories.id = category_id
             join product_price on price_id = product_price.id where category_id=? $favo order by product_name asc limit 70";
 
@@ -251,7 +252,7 @@ class ProductsController extends Controller
     {
         $q =  "%".$_GET['q']."%";
 
-        return json_encode(DB::select("SELECT products.id,product_name,category_name,price,stock_id FROM products 
+        return json_encode(DB::select("SELECT products.id,product_name,category_name,price,stock_id FROM products
         join categories on categories.id = category_id
         join product_price on price_id = product_price.id where product_name LIKE ? and user_created=0  order by favorite desc  limit 30",[$q]));
     }
@@ -285,71 +286,90 @@ class ProductsController extends Controller
 
             DB::table("products")->where('id',$id)->update([
                 "price_id"=>$price
-            ]); 
+            ]);
 
             $prod_id = $id;
         });
 
         return "$prod_id";
-        
+
     }
-    
+
     public function markAsFavorite($prod,$state)
     {
         $updated  = DB::update("update products set favorite=? where id=?",[$state,$prod]);
         return json_encode(array($updated));
     }
-    
+
     public static function removeProductsFromStock()
     {
         $warehouse_id = 11;
-        $sql = "SELECT product_id,qty,stock_id,product_name,unit_price,sum(qty*unit_price) as total FROM bills
+        \DB::beginTransaction();
+
+        try {
+
+            $sql = "SELECT product_id,sum(qty) as qty,stock_id,product_name,unit_price,sum(qty*unit_price) as total FROM bills
          join bill_items on bill_items.bill_id=idbills
          join products on products.id = product_id
          where stock_id > 0 and date(bills.date)=? and status<>? and deleted=0 group by product_id";
-        
-        
-        $items = \DB::select($sql,[\ORG\Dates::$RESTODATE,\ORG\Bill::SUSPENDED]);
-        
-        $total = \DB::select("SELECT sum(qty*unit_price) as total FROM bills
+
+
+            $items = \DB::select($sql,[\ORG\Dates::$RESTODATE,\ORG\Bill::SUSPENDED]);
+
+            $total = \DB::select("SELECT sum(qty*unit_price) as total FROM bills
          join bill_items on bill_items.bill_id=idbills
          join products on products.id = product_id
          where stock_id > 0 and date(bills.date)=?  and status<>? and deleted=0",[\ORG\Dates::$RESTODATE,\ORG\Bill::SUSPENDED])[0]->total;
-        
-        $sale_id = \DB::connection("mysql_stock")->table("sales")->insertGetId([
-                "warehouse_id"=> $warehouse_id,
-                "biller_id"=>"1",
-                "reference_no"=>"POS",
-                "biller_name"=>"POS",
-                "customer_id"=>"0",
-                "customer_name"=>"POS",
-                "date"=>\ORG\Dates::$RESTODATE,
-                "note"=>"POS Sales",
-                "inv_total"=>$total,
-                "total"=>$total,
-                "user"=>"POS System",
-                "pos"=>"1"
-            ]);
-        
-        if(count($items) > 0)
-        {
-            foreach($items as $item)
+            
+            $sale_id = \DB::connection("mysql_stock")->table("sales")->insertGetId([
+                    "warehouse_id"=> $warehouse_id,
+                    "biller_id"=>"1",
+                    "reference_no"=>"POS",
+                    "biller_name"=>"POS",
+                    "customer_id"=>"0",
+                    "customer_name"=>"POS",
+                    "date"=>\ORG\Dates::$RESTODATE,
+                    "note"=>"POS Sales",
+                    "inv_total"=>$total,
+                    "total"=>$total,
+                    "user"=>"POS System",
+                    "pos"=>"1"
+                ]);
+
+            $sale_items = 0;
+            $prod_qty = 0;
+            $wa_qty = 0;
+
+            if(count($items) > 0)
             {
-                
-                \DB::connection("mysql_stock")->table("sale_items")->insert([
-                    "sale_id"=>$sale_id,
-                    "product_id"=>$item->stock_id,
-                    "product_code"=> $item->product_id,
-                    "product_name"=>$item->product_name,
-                    "quantity"=>$item->qty,
-                    "unit_price"=>$item->unit_price,
-                    "gross_total"=> $item->qty * $item->unit_price
-               ]);
-                
-                \DB::connection("mysql_stock")->update("update warehouses_products set quantity=quantity-? where warehouse_id=? and product_id=?",[$item->qty,$warehouse_id,$item->stock_id]);                
-                
+                foreach($items as $item)
+                {
+
+                    $sale_items = \DB::connection("mysql_stock")->table("sale_items")->insert([
+                        "sale_id"=>$sale_id,
+                        "product_id"=>$item->stock_id,
+                        "product_code"=> $item->product_id,
+                        "product_name"=>$item->product_name,
+                        "quantity"=>$item->qty,
+                        "unit_price"=>$item->unit_price,
+                        "gross_total"=> $item->qty * $item->unit_price
+                   ]);
+
+                    $prod_qty = \DB::connection("mysql_stock")->update("update products set quantity=quantity-? where products.id=?",[$item->qty,$warehouse_id,$item->stock_id]);
+                    $wa_qty = \DB::connection("mysql_stock")->update("update warehouses_products set quantity=quantity-? where warehouse_id=? and product_id=?",[$item->qty,$warehouse_id,$item->stock_id]);
+                }
+            }
+
+            if($sale_id>0 && $items > 0 && $sale_items > 0 && $prod_qty>0 && $wa_qty > 0)
+            {
+                \DB::commit();
             }
         }
-        
+        catch(\Exception $ex)
+        {
+            \DB::rollBack();
+        }
+
     }
 }
+

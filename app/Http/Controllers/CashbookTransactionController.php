@@ -46,7 +46,8 @@ class CashbookTransactionController extends Controller
             $real_date = \ORG\Dates::$RESTODT;
             $prev_balance = $request->input("prev_balance",0);
 
-            $trans = \DB::connection("mysql_backoffice")->select("select new_balance as amt from cashbook_transactions where cashbook_id=? and deleted=0 and date(date)=? order by transactionid desc limit 1",[$request->input("cashbook"),$date]);
+            $trans = \DB::connection("mysql_backoffice")->select("(select new_balance as amt from cashbook_transactions where cashbook_id=? and deleted=0 and date(date)<=? order by transactionid desc limit 1)",[$request->input("cashbook"),$date]);
+
 
             $amt = ($trans) ? $trans[0]->amt : 0;
 
