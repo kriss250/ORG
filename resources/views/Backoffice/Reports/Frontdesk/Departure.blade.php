@@ -74,7 +74,7 @@ foreach($data as $res) {
         $rows .= "<td $span>".number_format($res->balance_amount)."</td>";//paid
         if($res->pay_by_credit=="1"){
             $totals["credits"] += $res->due_amount;
-            $rows .=  "<td $span>".number_format($res->due_amount)."</td>";//credit
+            $rows .=  "<td $span>".number_format($res->due_amount-$res->balance_amount)."</td>";//credit
         }else {
             $rows .=  "<td $span>".number_format(0)."</td>";//credit
 

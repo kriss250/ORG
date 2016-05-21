@@ -41,23 +41,24 @@
 
 
 </div>
-
+   
 <table class="table table-bordered table-striped bills-table">
  
 <?php
-    $totals= array("bill"=>"","cash"=>"","check"=>"","card"=>"");
+    $totals= array("bill"=>0,"cash"=>0,"check"=>0,"card"=>0);
     $sub_rows ="";
     $tr= "";
    
     foreach($bills as $bill) {
      
        $zi = count($bill->items)+1; $sub_row= ""; 
-       $totals['bill'] += $bill->bill_total;
+       
        $totals['cash'] += $bill->cash;
        $totals['card'] +=$bill->card;
        $totals['check'] += $bill->check_amount;
 
         foreach($bill->items as $item){
+            $totals['bill'] += $item->unit_price*$item->qty;
             $sub_rows .='<tr>
                 <td>'.$item->product_name.'</td>
                 <td>'.$item->qty.'</td>
