@@ -60,7 +60,7 @@ class CashbookController extends Controller
     public function show($id)
     {
         
-
+      
         $cashbook = \DB::connection("mysql_backoffice")->select("select cashbookid,cashbook_name,balance from cash_book where   cashbookid=?",[$id])[0];
 
         $params = [$id];

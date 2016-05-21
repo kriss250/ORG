@@ -45,7 +45,7 @@
              <label>Motif</label>
                  <input required="" type="text" class="form-control" style="width:30%" name="motif">
          
-        <input style="width:100px" class="form-control date-picker" type="text" name="date" value="{{ \ORG\Dates::$RESTODATE }}" />
+        <input style="width:100px;font-size:12px" class="form-control date-picker" type="text" name="date" value="{{ \ORG\Dates::$RESTODATE }}" />
           
         <input type="hidden" name="cashbook" value=" {{ $cashbook->cashbookid }}" />
         

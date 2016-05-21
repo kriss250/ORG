@@ -245,7 +245,6 @@ $items = isset($room_posts) ? $room_posts['items'] : null;
                        
          }
 //$items_count++;
-
     ?>
     <tr class="room_end">
         <td rowspan="{{ $items_count+1}}">{{ $room->customer }} <p style="font-size:12px;"></p> </td>

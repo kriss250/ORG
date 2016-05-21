@@ -65,7 +65,7 @@
         <td>{{ $item->country }}</td>
             <td>{{ $item->room_number }}</td>
             <td>{{ $item->type_name }}</td>
-        <td>{{    $item->name}}</td>
+        <td>{{ strlen($item->name) > 0 ? $item->name : "WALKIN" }}</td>
             <td>{{ $item->checkin}}</td>
             <td>{{ $item->checkout}}</td>
             <td>{{ $item->night_rate}}</td>
@@ -79,7 +79,7 @@
        <table style="margin-bottom:85px;width:100%;" class="table">
            <tr>
                <td>
-                   Cashier
+                   RECEPTIONIST
                </td>
 
                <td>
@@ -87,7 +87,11 @@
                </td>
 
                <td>
-                    ACCOUNTANT
+                   C.S.M.M
+               </td>
+
+               <td>
+                   ACCOUNTANT
                </td>
 
                <td>

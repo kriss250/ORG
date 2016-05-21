@@ -48,7 +48,7 @@
  		  <th>IN</th>
  		  <th>OUT</th>
  		  <th>Balance</th>
- 		  <th>Action</th>
+ 		  <th>Actions</th>
  		</tr>
  	</thead>
 

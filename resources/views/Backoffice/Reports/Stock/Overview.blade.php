@@ -67,7 +67,7 @@
             <td>{{$item->quantity}}</td>
             <td>{{$item->opening}}</td>
             <td>{{$p[0]}}</td>
-            <td>{{  $s[0] }}</td>
+            <td>{{$s[0]+ (isset($item->trans) ? $item->trans : 0) }}</td>
             <td>{{ number_format($p[1]) }}</td>
             <td>{{ number_format($s[1]) }}</td>
             <td>{{$item->damaged}}</td>

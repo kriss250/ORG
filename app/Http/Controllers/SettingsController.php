@@ -42,7 +42,7 @@ class SettingsController extends Controller
         try {
             $tmp = \File::get('../app/Classes/POSSettings.tmpl');
 
-            $con = strtr($tmp,[               
+            $con = strtr($tmp,[
                 "{-RESTONAME-}"=>$data['resto_name'],
                 "{-LOGO-}"=>$data['logo'],
                 "{-CURRENCY-}"=>$data['currency'],
@@ -103,18 +103,26 @@ class SettingsController extends Controller
         //
     }
 
+
+    public function closeCashbooks()
+    {
+        $x = \DB::connection("mysql_backoffice")->update("update cash_book set closing_balance=balance where cashbookid>0");
+        return $x > 0;
+    }
+
     public function newDay()
     {
         $tsp1 =strtotime(date('y-m-d'));
         $tsp2 = strtotime(\ORG\Dates::$RESTODATE);
 
-        
+
         if($tsp1>$tsp2)
         {
 
 
         $balance = DB::select("SELECT sum(amount_paid-change_returned) as balance,sum(bill_total) as billTotal FROM bills where status='".\ORG\Bill::SUSPENDED."' and deleted=0 and date(date)='".\ORG\Dates::$RESTODATE."'");
         $ctime = strtotime(\ORG\Dates::$RESTODATE);
+
         if($balance[0]->billTotal == $balance[0]->balance){
             try {
 
@@ -124,16 +132,17 @@ class SettingsController extends Controller
 
                 //Update Store Quantity
                 ProductsController::removeProductsFromStock();
-                
+
                 if($insert > 0 )
                 {
+                    $this->closeCashbooks();
                     return redirect()->route("pos");
                 }else {
                     return "Error";
                 }
             }catch(Exception $ex){
                 return "Error Setting new Day";
-            } 
+            }
         }else {
             return redirect()->route("pos")->withErrors(["There are suspended bills, Please make sure all suspended bills are paid before making a new day"]);
         }
@@ -152,7 +161,7 @@ class SettingsController extends Controller
             array_push($c->errors, 'Password must be at least 6 char. Long');
         }
         if($req->input('password1')!= $req->input('password2')){
-            array_push($c->errors, 'Passwords do not matchs'); 
+            array_push($c->errors, 'Passwords do not matchs');
         }
 
         $old = \DB::select("select password from users where id=?",[Auth::user()->id])[0]->password;
@@ -161,7 +170,7 @@ class SettingsController extends Controller
 
             if(count($c->errors)==0){
                 $up = DB::update("update users set password=? where id=?",[ \Hash::make($req->input('password1')),Auth::user()->id] );
-                
+
                 if($up>0){
                     $c->message = "Password Successfuly changed";
                 }else {

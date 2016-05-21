@@ -52,7 +52,6 @@
  		  <th>IN</th>
  		  <th>OUT</th>
  		  <th>Balance</th>
-
  		</tr>
  	</thead>
 
@@ -62,7 +61,7 @@
  	<?php
  	$INs = 0;
 	$OUTs =0; 
-
+    $new_b = $initial;
  	?>
 	@foreach($transactions as $transaction)
 		<tr>
@@ -81,7 +80,12 @@
 			
 			<td>{{ number_format($IN) }} </td>
 			<td>{{ number_format($OUT) }}</td>
-			<td>{{ number_format($transaction->new_balance) }}</td>
+			<td>
+                <?php
+                        $new_b +=($IN-$OUT);
+                        echo number_format($new_b);
+                ?>
+            </td>
 			
 		</tr>
 	@endforeach

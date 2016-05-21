@@ -80,7 +80,7 @@
     <th>{{ number_format($totals["visa_rwf"]) }} </th>
     <th>{{ number_format($totals["visa_usd"]) }} </th>
     <th>{{ number_format($totals["check_amount"]) }} </th>
-    <th>{{ number_format($totals["bank"]) }} </th>
+    <th>{{number_format($totals["bank"]) }} </th>
 </tr>
 </table>
 
@@ -88,15 +88,19 @@
        <table style="margin-bottom:85px;width:100%;" class="table">
            <tr>
                <td>
-                   Receptionist
+                   RECEPTIONIST
                </td>
 
                <td>
-                   CASHIER
+                   CONTROLLER
                </td>
 
                <td>
-                    ACCOUNTANT
+                   C.S.M.M
+               </td>
+
+               <td>
+                   ACCOUNTANT
                </td>
 
                <td>

@@ -38,7 +38,7 @@ foreach($data as $res) {
     $rows .= "<td>{$res->guest }</td>";
 
     if($firstRow){
-        $rows .= "<td $span>{$res->Company}</td>" ;
+        $rows .= "<td $span>".(strlen($res->Company) > 0 ? $res->Company : "WALKIN")."</td>" ;
 
     }
 
@@ -81,7 +81,7 @@ $rows .="</tr>";
 <div class="report-filter">
 <table style="width:100%">
     <tr>
-        <td><h3>Frontoffice Control </h3> </td>
+        <td><h3>Front office Control </h3> </td>
         <td>
           <form style="float:right" action="" class="form-inline" method="get">
                 <label>Date</label> 
@@ -93,7 +93,7 @@ $rows .="</tr>";
                         @endif
 
                 <input type="submit" class="btn btn-success btn-sm" value="Go">
-                 <button type="button" data-dates="{{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }} - {{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }}" data-title="Frontoffice Control" class="btn btn-default report-print-btn">Print</button>
+                 <button type="button" data-dates="{{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }} - {{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }}" data-title="Front office Control" class="btn btn-default report-print-btn">Print</button>
            </form> 
         </td>
     </tr>
@@ -112,7 +112,7 @@ $rows .="</tr>";
                <tr>
                 <th>Room</th>
                  <th>Room Type</th>
-                 <th>Guest</th>
+                 <th>Guest Names</th>
                  <th>Company</th>
                  <th>Checkin</th>
                  <th>Checkout</th>
@@ -122,7 +122,7 @@ $rows .="</tr>";
                 <th>Laundry</th>
                  <th>Total Due</th>
                 <th>Paid</th>
-                <th>Bal.</th>
+                <th>Balance</th>
             </tr>
         </thead>
 
@@ -134,11 +134,15 @@ $rows .="</tr>";
        <table style="margin-bottom:85px;width:100%;" class="table">
            <tr>
                <td>
-                   Cashier
+                   RECEPTIONIST
                </td>
 
                <td>
                    CONTROLLER
+               </td>
+
+               <td>
+                   C.S.M.M
                </td>
 
                <td>

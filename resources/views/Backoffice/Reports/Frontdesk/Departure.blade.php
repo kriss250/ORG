@@ -46,7 +46,7 @@ foreach($data as $res) {
     $rows .= "<td>{$res->guest}</td>";
 
     if($firstRow){
-        $rows .="<td $span>{$res->company}</td>";
+        $rows .="<td $span>".(strlen($res->company) > 0 ? $res->company : "WALKIN")."</td>";
     }
 
     $rows .="<td>".$res->checked_in."</td>";
@@ -172,7 +172,7 @@ $rows .="
        <table style="margin-bottom:85px;width:100%;" class="table">
            <tr>
                <td>
-                   CASHIER
+                   RECEPTIONIST
                </td>
 
                <td>
@@ -180,7 +180,11 @@ $rows .="
                </td>
 
                <td>
-                    ACCOUNTANT
+                   C.S.M.M
+               </td>
+
+               <td>
+                   ACCOUNTANT
                </td>
 
                <td>

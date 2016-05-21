@@ -95,7 +95,7 @@ foreach($data as $res) {
                 <th>Contact</th>
             </tr>
         </thead>
-       {!! $rows !!}
+       {!!$rows !!}
  
         
     </table>
@@ -106,7 +106,7 @@ foreach($data as $res) {
        <table style="margin-bottom:85px;width:100%;" class="table">
            <tr>
                <td>
-                   CASHIER
+                   RECEPTIONIST
                </td>
 
                <td>
@@ -114,7 +114,11 @@ foreach($data as $res) {
                </td>
 
                <td>
-                    ACCOUNTANT
+                   C.S.M.M
+               </td>
+
+               <td>
+                   ACCOUNTANT
                </td>
 
                <td>

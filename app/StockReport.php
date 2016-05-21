@@ -10,7 +10,7 @@ class StockReport extends Model
     {
         $condition = "";
         $params = array();
-        
+
         if($id>0)
         {
             $condition = "where warehouses.id=?";
@@ -23,15 +23,15 @@ class StockReport extends Model
 
         return ["data"=>$data];
     }
-    
+
     public static function DamagedProducts($date)
     {
         $data = \DB::connection("mysql_stock")->select("SELECT products.name as product_name,damage_products.quantity,warehouses.name as stock,date FROM damage_products
-join products on products.id = damage_products.product_id
-join warehouses on warehouses.id = damage_products.warehouse_id where date(date) between ? and ?",$date);
+        join products on products.id = damage_products.product_id
+        join warehouses on warehouses.id = damage_products.warehouse_id where date(date) between ? and ?",$date);
         return ["data"=>$data];
     }
-    
+
     public static function Purchases($date,$stock=0)
     {
         if(!is_numeric($stock))
@@ -48,7 +48,7 @@ join warehouses on warehouses.id = damage_products.warehouse_id where date(date)
             $data = \DB::connection("mysql_stock")->select($sql,$date);
             return ["data"=>$data];
         }
-        
+
     }
 
     public static function PurchaseItems($id)
@@ -56,7 +56,7 @@ join warehouses on warehouses.id = damage_products.warehouse_id where date(date)
         $data = \DB::connection("mysql_stock")->select("SELECT reference_no,note,supplier_name,product_code,product_name,unit_price,quantity,gross_total FROM purchase_items join purchases on purchases.id=purchase_id where purchase_id=?",[$id]);
         return ["data"=>$data];
     }
-    
+
     public static function Sales($date,$stock=0)
     {
         if(!is_numeric($stock))
@@ -124,7 +124,7 @@ join warehouses on warehouses.id = damage_products.warehouse_id where date(date)
         (select concat(COALESCE(sum(sale_items.quantity),0),'#',COALESCE(sum(sale_items.gross_total),0))  from sales
         join sale_items on sale_items.sale_id = sales.id
         where product_id = products.id and sales.date between '$start_date' and '$end_date') as stockout,
-        
+
         (select COALESCE(sum(damage_products.quantity),0)  from damage_products
         where product_id = products.id and date between '$start_date' and '$end_date') as  damaged,
 
@@ -168,10 +168,12 @@ join warehouses on warehouses.id = damage_products.warehouse_id where date(date)
         join sale_items on sale_items.sale_id = sales.id
         where sales.warehouse_id=$stock and product_id = products.id and sales.date >= '$start_date') as stout,
 
-        @damagedp:=(select COALESCE(sum(damage_products.quantity),0)  from damage_products
+        @trans :=(SELECT  COALESCE(sum(quantity),0) FROM transfers join transfer_items on transfer_items.transfer_id=transfers.id  where date >='$start_date' and from_warehouse_id=$stock) as trans,
+
+        @damagedp:=(select COALESCE(sum(damage_products.quantity),0) from damage_products
                 where product_id = products.id and warehouse_id=$stock and date >= '$start_date') as damagedp,
 
-        ( warehouses_products.quantity+@damagedp-@stin+@stout) as opening
+        (warehouses_products.quantity+@damagedp-@stin+@stout+@trans) as opening
 
         from products
         join warehouses_products on warehouses_products.product_id = products.id join warehouses on warehouses.id = warehouses_products.warehouse_id where warehouses.id=$stock ".($id>0 ? " and products.id=".$id : "");
@@ -184,7 +186,7 @@ join warehouses on warehouses.id = damage_products.warehouse_id where date(date)
             $data = \DB::connection("mysql_stock")->select(\DB::raw($sql));
             return ["data"=>$data];
         }
-       
-        
+
+
     }
 }
