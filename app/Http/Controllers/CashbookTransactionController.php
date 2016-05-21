@@ -46,8 +46,7 @@ class CashbookTransactionController extends Controller
             $real_date = \ORG\Dates::$RESTODT;
             $prev_balance = $request->input("prev_balance",0);
 
-            $trans = \DB::connection("mysql_backoffice")->select("(select new_balance as amt from cashbook_transactions where cashbook_id=? and deleted=0 and date(date)=? order by transactionid,date desc limit 1)",[$request->input("cashbook"),$date]);
-
+            $trans = \DB::connection("mysql_backoffice")->select("select new_balance as amt from cashbook_transactions where cashbook_id=? and deleted=0 and date(date)=? order by transactionid desc limit 1",[$request->input("cashbook"),$date]);
 
             $amt = ($trans) ? $trans[0]->amt : 0;
 
@@ -67,8 +66,8 @@ class CashbookTransactionController extends Controller
 
             if($in_past)
             {
-                //update all transactions after this one
-                $up2 = \DB::connection("mysql_backoffice")->update("update cashbook_transactions set new_balance=new_balance$sign? where date(date) between ? and ? and cashbook_id=?",[$request->input("amount"),$date,$real_date_dt,$request->input("cashbook")]);
+                //update last one  after this new one
+                //$up2 = \DB::connection("mysql_backoffice")->update("update cashbook_transactions set new_balance=new_balance$sign? where date(date) between ? and ? and cashbook_id=?",[$request->input("amount"),$date,$real_date_dt,$request->input("cashbook")]);
             }else {
                 //Normaly
                 if($sign=="+"){
