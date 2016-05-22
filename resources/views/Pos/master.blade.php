@@ -85,7 +85,7 @@ $(document).ready(function(){
 
         $(".ht_close").click(function(e){
             e.preventDefault();
-           
+
             $(this).parents(".ualert").fadeOut(200,function(){
                 $(this).remove();
             })
@@ -99,7 +99,7 @@ $(document).ready(function(){
             }else {
                 $("head #theme").remove();
             }
-            
+
         })
         $("#change_pwd_btn").click(function(e){
             e.preventDefault();
@@ -111,19 +111,23 @@ var countSales  = function()
     $(document).ready(function(){
 
         $.ajax({
-            url : "{{ action('BillsController@getCurrentSales') }}",
+            url : "{{action('BillsController@getCurrentSales') }}",
             type: "get",
             success : function (data){
               try{
                 data = JSON.parse(data);
                 $(".sales_counter").children("b").html(data.cash);
                 $(".card_sales_counter").children("b").html(data.card);
+                var cash =accounting.unformat(data.cash);
+                var card = accounting.unformat(data.card);
+                var total = cash+card;
+                $(".total_sales_counter").children("b").html(accounting.formatMoney(total,"",0));
               }catch(e)
               {
 
               }
 
-                
+
             },
             error : function(){
 
@@ -131,7 +135,7 @@ var countSales  = function()
         })
 
     })
-   
+
 }
 
 countSales();
@@ -260,7 +264,7 @@ countSales();
                  <li><a href="{{ route('POSReports','RoomPost') }}">Room Posts</a></li>
                  <li><a href="{{ route('POSReports','Credits') }}">Credit</a></li>
                   <li><a href="{{ route("POSReports",'Cashier') }}">Cashier Report</a></li>
-                 <li><a href="{{ route('POSReports','CashierShift') }}">Shift Report</a></li>
+                 <li><a href="{{route('POSReports','CashierShift') }}">Shift Report</a></li>
                  
               </ul>
          </li>
@@ -269,15 +273,21 @@ countSales();
 
     <div class="notification_box" style="margin-bottom: 15px;">
     <p class="text-center">CASH COUNT <i class="fa fa-money"></i></p>
-      <span class="text-center sales_counter" style="color:#2095B4;font-size:22px;"><b>0</b> <i style='font-size:16px;font-style:normal'>RWF</i></span>
+      <span class="text-center sales_counter" style="color:#2095B4;font-size:18px;"><b>0</b> <i style='font-size:10px;font-style:normal'>RWF</i></span>
     </div>
 
 
    <div class="notification_box" style="margin-bottom: 15px;">
     <p class="text-center">CARDS COUNT <i class="fa fa-credit-card"></i></p>
-      <span class="text-center card_sales_counter" style="color:#2095B4;font-size:22px;"><b>0</b> <i style='font-size:16px;font-style:normal'>RWF</i></span>
+      <span class="text-center card_sales_counter" style="color:#2095B4;font-size:18px;"><b>0</b> <i style='font-size:10px;font-style:normal'>RWF</i></span>
     </div>
 
+    <div class="clearfix"></div>
+
+    <div class="notification_box" style="margin-bottom: 15px;width:100%">
+    <p class="text-center">CARDS & CASH </p>
+      <span class="text-center total_sales_counter" style="color:#2095B4;font-size:18px;"><b>0</b> <i style='font-size:10px;font-style:normal'>RWF</i></span>
+    </div>
 
     </div>
 

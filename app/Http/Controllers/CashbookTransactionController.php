@@ -63,7 +63,7 @@ class CashbookTransactionController extends Controller
 
             $in_past = strtotime($date_dt) < strtotime($real_date_dt);
 
-           
+
 
             if($in_past)
             {
@@ -106,13 +106,15 @@ class CashbookTransactionController extends Controller
             return;
         }
         $sign = $_GET['type']=="IN" ? "-":"+";
+        $sign_post_delete = $_GET['type']=="OUT" ? "-":"+";
+
         \DB::beginTransaction();
 
         $up1 = \DB::connection("mysql_backoffice")->update("update cashbook_transactions set deleted=1 where transactionid=?",[$id]);
 
         $up2 = \DB::connection("mysql_backoffice")->update("update cash_book set balance=balance$sign? where cashbookid=?",[$_GET['amount'],$_GET['cashbook']]);
-
-        if($up1>0 && $up2>0)
+        $up3 = DB::connection("mysql_backoffice")->update("update cashbook_transactions set new_balance=new_balance$sign_post_delete? where date >=(select date(date) from cashbook_transactions where transactionid=? and deleted=0) and transactionid>0",[$_GET['amount'],$id]);
+        if($up1>0 && $up2>0 && $up3>0)
         {
             \DB::commit();
             return 1;

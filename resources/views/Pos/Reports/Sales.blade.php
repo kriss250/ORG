@@ -81,8 +81,8 @@
         $_card_percent = (($bill->card * 100) / $bill->bill_total)/100;
         $_check_percent = (($bill->check_amount * 100) / $bill->bill_total)/100;
        
-
-        $tr .= "<tr>
+        if($zi>1){
+            $tr .= "<tr>
                  <td rowspan='$zi'>$bill->idbills ".($bill->last_updated_by>0 && $bill->last_updated_by != $bill->user_id ? "<b style='color:red;font-size:16px'>*</b>" : "" )."</td>
                   <td  rowspan='$zi'>$bill->customer </td>
                   <td  rowspan='$zi'>$bill->username</td>
@@ -96,6 +96,7 @@
                   <td rowspan='$zi'>".\App\FX::Time($bill->date)."</td> 
                   
             </tr>".$sub_rows;
+        }
             $totals['cash'] +=$_cash_percent*$billGT;
             $totals['card'] +=$_card_percent*$billGT;
             $totals['check']+=$_check_percent*$billGT;

@@ -15,7 +15,7 @@
 <div class="report-filter">
 <table style="width:100%">
     <tr>
-        <td><h3>Sales Report <span class="title_dsc"></span></h3> </td>
+        <td><h3>Sales Report<span class="title_dsc"></span></h3> </td>
         <td>
            <form style="float:right" action="" class="form-inline" method="get">
                 <label>Date</label> 

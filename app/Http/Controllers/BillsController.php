@@ -406,7 +406,7 @@ class BillsController extends Controller
 
     public function getCurrentSales()
     {
-        return json_encode(DB::select("SELECT format(sum(cash),0) as cash,format(sum(bank_card),0) as card FROM payments where user_id=? and void=0 and date(date) ='".\ORG\Dates::$RESTODATE."'",[Auth::user()->id])[0]);
+        return json_encode(DB::select("SELECT format( coalesce(sum(cash),0),0) as cash,format(coalesce(sum(bank_card),0),0) as card FROM payments where user_id=? and void=0 and date(date) ='".\ORG\Dates::$RESTODATE."'",[Auth::user()->id])[0]);
     }
 
     public function getSuspendedBills()
