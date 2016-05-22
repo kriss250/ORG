@@ -39,7 +39,7 @@ class BillsController extends Controller
      */
     public function index()
     {
-        $cashier =(\Auth::user()->level > 8) ?  \Auth::user()->id : 0;
+        $cashier =(\Auth::user()->level < 9) ?  \Auth::user()->id : 0;
 
         $params = [\ORG\Dates::$RESTODATE,\ORG\Dates::$RESTODATE];
 
