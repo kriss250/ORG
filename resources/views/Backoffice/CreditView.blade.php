@@ -35,11 +35,11 @@
         <td>
            <form style="float:right" action="" class="form-inline" method="get">
                 <label>Date</label> 
-                <input name="startdate" type="text" value="{{ \ORG\Dates::$RESTODT }}" class="date-picker form-control">
-                -<input name="enddate" type="text" value="{{ \ORG\Dates::$RESTODT }}" class="date-picker form-control">
+                <input name="startdate" type="text" value="{{ \ORG\Dates::$RESTODATE }}" class="date-picker form-control">
+                -<input name="enddate" type="text" value="{{ \ORG\Dates::$RESTODATE }}" class="date-picker form-control">
 
                 <input type="submit" class="btn btn-success btn-sm" value="Go">
-                 <button type="button" data-dates="{{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }} - {{ isset($_GET['enddate']) ? $_GET['enddate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }}" data-title="Credits" class="btn btn-default report-print-btn">Print</button>
+                 <button type="button" data-dates="{{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODATE)) }} - {{ isset($_GET['enddate']) ? $_GET['enddate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODATE)) }}" data-title="Credits" class="btn btn-default report-print-btn">Print</button>
            </form> 
         </td>
     </tr>
@@ -50,8 +50,8 @@
     </tr>
 </table>
 </div>
-
-    <table class="table table-bordered">
+    <h3>POS</h3>
+    <table class="table table-bordered table-condensed table-striped">
         <thead>
             <tr>
                 <th>Order ID</th>
@@ -100,12 +100,75 @@
                 {{ number_format($dues) }}
             </td>
             <td>
-                {{ number_format($paid) }}
+                {{number_format($paid) }}
             </td>
             <td colspan="3">
 
             </td>
         </tr>
+    </table>
+
+    <h3>Frontoffice</h3>
+
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Guest</th>
+                <th>Company</th>
+                <th>Amount</th>
+                <th>Paid</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <?php $i = 1; $amount=0;$fo_paid=0;$fo_dues=0; ?>
+        @foreach($fo_data as $fo)
+        <tr>
+            <td>{{$i}}</td>
+            <td>{{$fo->idreservation}}</td>
+            <td>{{$fo->guest}}</td>
+            <td>{{$fo->name}}</td>
+            <td>{{number_format($fo->due_amount)}}</td>
+            <td>{{number_format($fo->balance_amount)}}</td>
+            <td>{{number_format($fo->dues)}}</td>
+        </tr>
+        <?php $i++; $amount +=$fo->due_amount; $fo_paid += $fo->balance_amount; $fo_dues += $fo->dues; ?>
+
+        @endforeach
+
+        <tfoot>
+            <tr>
+                <th colspan="4">TOTAL</th>
+                <th>{{number_format($amount)}}</th>
+                <th>{{number_format($fo_paid)}}</th>
+                <th>{{number_format($fo_dues)}}</th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Total Credits</th>
+                <th>Total Paid</th>
+                <th>Total Dues</th>
+            </tr>
+            <tr style="font-size:16px">
+                <td>
+                    {{number_format($amount+$dues)}}
+                   
+                </td>
+
+                <td>
+                    {{number_format($paid+$fo_paid)}}
+                </td>
+
+                <td>
+                    {{number_format($dues+$fo_dues)}}
+                </td>
+            </tr>
+        </thead>
     </table>
 </div>
       

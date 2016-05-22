@@ -14,7 +14,7 @@ $bill_pay  = isset($sales) ? $sales['bill_pay'] : null;
 <div class="report-filter">
 <table style="width:100%">
     <tr>
-        <td><h3>Day Report (Full)</h3> </td>
+        <td><h3>Daily Report (Full)</h3> </td>
         <td>
            <form style="float:right" action="" class="form-inline" method="get">
                 <label>Date</label> 

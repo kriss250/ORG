@@ -50,7 +50,7 @@
 
     <p class="report-desc"><i class="fa fa-information"></i>Summarized report of sold and paid bills, as well as room post and credits</p>
 </div>
-
+<h5>PAID BILLS <i>({{ isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }})</i></h5>
 <table class="table table-bordered table-striped bills-table">
  
 <?php
@@ -121,8 +121,6 @@
 </thead>
     {!!$tr!!}
 
-
-    <tfoot>
         <tr>
             <th colspan="8">TOTAL</th>
             <th>{{ number_format($totals['bill']) }}</th>
@@ -131,12 +129,11 @@
             <th>{{ number_format($totals['check'],0) }}</th>
             <th colspan="2"></th>
         </tr>
-    </tfoot>
 </table>
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
-        <th class="text-center" colspan="5">ROOM POSTS</th>
+        <th class="text-center" colspan="5">ROOM POSTS <b>({{ isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }})</b></th>
     </tr>
         <tr>
             <th>Order No</th>
@@ -171,12 +168,11 @@
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
-        <th class="text-center" colspan="5">CREDITS</th>
+        <th class="text-center" colspan="5">CREDITS <b>({{ isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }})</b></th>
     </tr>
         <tr>
             <th>Order No</th>
             <th>Customer</th>
-            <th>Room</th>
             <th>Amount</th>
             <th>Paid</th>
         </tr>
@@ -186,7 +182,6 @@
     <tr>
             <td>{{ $_credit->idbills }}</td>
             <td>{{ $_credit->customer }}</td>
-            <td>{{ $_credit->room}}</td>
             <td>{{ number_format($_credit->bill_total) }}</td>
             <td>{{ number_format($_credit->paid)}}</td>
         </tr>
@@ -199,7 +194,7 @@
     <td>{{ number_format($total_credit) }}</td>
     <td>{{ $total_paid }} </td>
 </tr>
-
+</table>
 <table class="table table-stripped table-bordered">
 <thead>
     <tr>
@@ -220,12 +215,12 @@
         <td>{{ number_format($totals['cash']+$totals['card']) }}</td>
     </tr>
 </table>
-</table>
+
 <div class="text-center print-footer">
        <table style="margin-bottom:85px;width:100%;" class="table">
            <tr>
                <td>
-                   Cashier
+                   CASHIER
                </td>
 
                <td>
