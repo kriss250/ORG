@@ -39,11 +39,11 @@ class BillsController extends Controller
      */
     public function index()
     {
-        $cashier = isset($_GET['cashier']) ? $_GET['cashier'] : 0;
+        $cashier =(\Auth::user()->level > 8) ?  \Auth::user()->id : 0;
 
         $params = [\ORG\Dates::$RESTODATE,\ORG\Dates::$RESTODATE];
 
-        $bills = \App\POSReport::Bills($params,0,\Auth::user()->id);
+        $bills = \App\POSReport::Bills($params,0,$cashier);
 
         return \View::make("/Pos/BillList",["bills"=>$bills]);
     }
