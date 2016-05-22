@@ -117,6 +117,8 @@
                 <th>ID</th>
                 <th>Guest</th>
                 <th>Company</th>
+                <th>Payer</th>
+               
                 <th>Amount</th>
                 <th>Paid</th>
                 <th>Balance</th>
@@ -128,7 +130,9 @@
             <td>{{$i}}</td>
             <td>{{$fo->idreservation}}</td>
             <td>{{$fo->guest}}</td>
+            
             <td>{{$fo->name}}</td>
+            <td>{{$fo->payer}}</td>
             <td>{{number_format($fo->due_amount)}}</td>
             <td>{{number_format($fo->balance_amount)}}</td>
             <td>{{number_format($fo->dues)}}</td>
@@ -139,7 +143,7 @@
 
         <tfoot>
             <tr>
-                <th colspan="4">TOTAL</th>
+                <th colspan="5">TOTAL</th>
                 <th>{{number_format($amount)}}</th>
                 <th>{{number_format($fo_paid)}}</th>
                 <th>{{number_format($fo_dues)}}</th>
