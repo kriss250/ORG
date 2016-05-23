@@ -131,6 +131,7 @@ class CashbookTransactionController extends Controller
      * @param  int  $id
      * @return Response
      */
+
     public function destroy($id)
     {
         //

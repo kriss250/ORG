@@ -134,14 +134,28 @@ class BackofficeReportController extends Controller
 
                 return \View::make("Backoffice.Reports.Stock.Overview",$info);
             case "cashBooks":
-
+                $cashbook_id = isset($_GET['cashbook']) ? $_GET['cashbook'] : 3 ;
                 $date1 = isset($range[0]) ? $range[0] : date("Y-m-d");
                 $date2 = isset($range[1]) ? $range[1] : date("Y-m-d");
+
                 $date = new \DateTime($date1);
                 $date->sub(new \DateInterval('P1D'));
                 $prev_date = $date->format('Y-m-d');
 
-                $cashbook_id = isset($_GET['cashbook']) ? $_GET['cashbook'] : 3 ;
+                $in= 0;
+                $out = 0;
+
+                $in_out = \DB::connection("mysql_backoffice")->select("select type,coalesce(sum(amount),0) as amt from cashbook_transactions where deleted=0 and date(date)<=? and cashbook_id=? group by type",[ $prev_date,  $cashbook_id]);
+
+                foreach($in_out as $xc)
+                {
+                    $in = $xc->type == "IN" ? $xc->amt : $in;
+                    $out = $xc->type == "OUT" ? $xc->amt :  $out;
+                }
+
+                $initial = $in-$out;
+
+
 
 
                 $cashbook_name = \DB::connection("mysql_backoffice")->select("SELECT cashbook_name FROM cash_book where cashbookid=?",[$cashbook_id]);
