@@ -71,7 +71,7 @@
             <td>{{ number_format($p[1]) }}</td>
             <td>{{ number_format($s[1]) }}</td>
             <td>{{$item->damaged}}</td>
-            <td>{{$item->opening-$item->damaged-$item->stockout+$item->stockin-$item->trans}}</td>
+            <td>{{$item->opening-$item->damaged-$item->stockout+$item->stockin-(isset($item->trans) ? $item->trans  : 0)}}</td>
         </tr>
         <?php $purchases += $p[1]; $sales +=$s[1]; $i++; ?>
 
