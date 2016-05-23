@@ -92,16 +92,16 @@ class CashbookController extends Controller
 
         $in= 0;
         $out = 0;
-
-        $in_out = \DB::connection("mysql_backoffice")->select("select type,sum(amount) as am from cashbook_transactions where deleted=0 and date(date)='2016-05-22' and cashbook_id=? group by type",[ $prev_date, $id]);
+        
+        $in_out = \DB::connection("mysql_backoffice")->select("select type,coalesce(sum(amount),0) as amt from cashbook_transactions where deleted=0 and date(date)=? and cashbook_id=? group by type",[ $prev_date, $id]);
 
         foreach($in_out as $xc)
         {
-            $in = $xc->type == "IN" ? $xc->amt : 0;
-            $out = $xc->type == "OUT" ? $xc->amt : 0;
+            $in = $xc->type == "IN" ? $xc->amt : $in;
+            $out = $xc->type == "OUT" ? $xc->amt :  $out;
         }
 
-        $initial = $in - $out;
+        $initial = $in-$out;
 
         $transactions = \DB::connection("mysql_backoffice")->select("select transactionid,new_balance,type,amount,motif,username,cashbook_transactions.date from cashbook_transactions join org_pos.users on org_pos.users.id = user_id where cancelled=0 and cashbook_id=? and deleted=0 $where order by transactionid asc",$params);
 
