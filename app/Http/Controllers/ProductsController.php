@@ -355,7 +355,7 @@ class ProductsController extends Controller
                         "gross_total"=> $item->qty * $item->unit_price
                    ]);
 
-                    $prod_qty = \DB::connection("mysql_stock")->update("update products set quantity=quantity-? where products.id=?",[$item->qty,$warehouse_id,$item->stock_id]);
+                    $prod_qty = \DB::connection("mysql_stock")->update("update products set quantity=quantity-? where products.id=?",[$item->qty,$item->stock_id]);
                     $wa_qty = \DB::connection("mysql_stock")->update("update warehouses_products set quantity=quantity-? where warehouse_id=? and product_id=?",[$item->qty,$warehouse_id,$item->stock_id]);
                 }
             }

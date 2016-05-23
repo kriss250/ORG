@@ -47,7 +47,7 @@
                 <th>#</th>
                 <th>Product</th>
                 <th>Unit</th>
-                <th>Stock Quantity</th>
+                <!--<th>Stock Quantity</th>-->
                 <th>Opening St.</th>
                 <th>Stock In</th>
                 <th>Stock out</th>
@@ -64,14 +64,14 @@
             <td>{{$i}}</td>
             <td>{{$item->name}}</td>
             <td>{{$item->unit}}</td>
-            <td>{{$item->quantity}}</td>
+            <!--<td>{{$item->quantity}}</td>-->
             <td>{{$item->opening}}</td>
             <td>{{$p[0]}}</td>
             <td>{{$s[0]+ (isset($item->trans) ? $item->trans : 0) }}</td>
             <td>{{ number_format($p[1]) }}</td>
             <td>{{ number_format($s[1]) }}</td>
             <td>{{$item->damaged}}</td>
-            <td>{{$item->opening-$item->damaged-$item->stockout+$item->stockin}}</td>
+            <td>{{$item->opening-$item->damaged-$item->stockout+$item->stockin-$item->trans}}</td>
         </tr>
         <?php $purchases += $p[1]; $sales +=$s[1]; $i++; ?>
 
