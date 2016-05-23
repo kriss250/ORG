@@ -45,7 +45,7 @@ class FrontofficeReport extends Model
 
     public function Arrival($range,$expected=false)
     {
-        return ["data"=>self::$db->select("select concat_ws(' ',firstname,lastname) as guest,room_number,companies.name,type_name ,guest.country,date(checkin) as checkin,date(checkout) as checkout,night_rate,payer from reserved_rooms
+        return ["data"=>self::$db->select("select concat_ws(' ',firstname,lastname) as guest,room_number,companies.name,type_name ,guest.country,date(checkin) as checkin,coalesce(date(checked_out), date(checkout)) as checkout,night_rate,payer from reserved_rooms
             join reservations on idreservation = reserved_rooms.reservation_id
             join rooms on rooms.idrooms = reserved_rooms.room_id
             join room_types on room_types.idroom_types = rooms.type_id
@@ -128,13 +128,13 @@ companies.name as Company,concat(adults,'/',children) as pax,
     public function Rooming($range)
     {
         return ["data"=>self::$db->select("select idreservation,room_number,id_doc,country,guest.phone,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,companies.name as Company,concat(adults,'/',children) as pax,
-        checkin,checkout,payer,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize from reservations
+        checkin,coalesce(date(checked_out), date(checkout)) as checkout,payer,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize from reservations
         join  reserved_rooms on reserved_rooms.reservation_id =reservations.idreservation
         join guest on guest.id_guest = reserved_rooms.guest_in
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = reservations.company_id
-        join accounts on accounts.reservation_id = idreservation where reservations.status=5 and checked_out is null order by idreservation desc")];
+        join accounts on accounts.reservation_id = idreservation where reservations.status=5 order by idreservation desc")];
 
     }
 
