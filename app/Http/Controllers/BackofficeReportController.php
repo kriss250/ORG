@@ -173,11 +173,8 @@ class BackofficeReportController extends Controller
                 }
 
 
-                $prev_amount = \DB::connection("mysql_backoffice")->select("SELECT new_balance FROM cashbook_transactions where deleted=0 and date(date)=? and cashbook_id=? order by transactionid desc limit 1",[$prev_date,$cashbook_id]);
 
                 $transactions = \DB::connection("mysql_backoffice")->select("select transactionid,new_balance,type,amount,motif,username,cashbook_transactions.date from cashbook_transactions join org_pos.users on org_pos.users.id = user_id where cancelled=0 and cashbook_id=? and deleted=0 $where order by transactionid asc",$params);
-
-                $initial = isset($prev_amount[0]->new_balance) ? $prev_amount[0]->new_balance : 0 ;
 
                 return \View::make("Backoffice.Reports.Cashbooks",["book_name"=> $cashbook_name,"transactions"=>$transactions,"initial"=>$initial]);
 
