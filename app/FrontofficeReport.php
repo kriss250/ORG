@@ -24,7 +24,7 @@ class FrontofficeReport extends Model
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = reservations.company_id
-        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and checked_out is null and (date(reservations.date) between ? and ?) order by idreservation desc",$range)];
+        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and (date(reservations.date) between ? and ?) order by idreservation desc",$range)];
 
     }
 
