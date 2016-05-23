@@ -92,7 +92,7 @@ class CashbookController extends Controller
 
         $in= 0;
         $out = 0;
-        
+
         $in_out = \DB::connection("mysql_backoffice")->select("select type,coalesce(sum(amount),0) as amt from cashbook_transactions where deleted=0 and date(date)<=? and cashbook_id=? group by type",[ $prev_date, $id]);
 
         foreach($in_out as $xc)
@@ -142,4 +142,9 @@ class CashbookController extends Controller
         //
     }
 
+    public function setClosingBalance()
+    {
+        $sql = "insert into cashbook_closing_bal (cashbook_id,balance,date)(select cashbookid,balance,? from cash_book)";
+        \DB::connection("mysql_backoffice")->insert($sql,[\ORG\Dates::$RESTODATE]);
+    }
 }

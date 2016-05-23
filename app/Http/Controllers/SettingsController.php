@@ -135,7 +135,7 @@ class SettingsController extends Controller
 
                 if($insert > 0 )
                 {
-                    //$this->closeCashbooks();
+                    app('App\Http\Controllers\CashbookController')->setClosingBalance();
                     return redirect()->route("pos");
                 }else {
                     return "Error";

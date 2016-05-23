@@ -67,8 +67,8 @@ class CashbookTransactionController extends Controller
 
             if($in_past)
             {
-                //update last one  after this new one
-                //$up2 = \DB::connection("mysql_backoffice")->update("update cashbook_transactions set new_balance=new_balance$sign? where date(date) between ? and ? and cashbook_id=?",[$request->input("amount"),$date,$real_date_dt,$request->input("cashbook")]);
+                //update closing balance
+                $up2 = \DB::connection("mysql_backoffice")->update("update cashbook_closing_bal set balance=balance$sign? where date(date)=? and cashbook_id=?",[$request->input("amount"),$date,$request->input("cashbook")]);
             }else {
                 //Normaly
                 if($sign=="+"){
@@ -98,7 +98,7 @@ class CashbookTransactionController extends Controller
     }
 
 
-
+    //remember : update closing balance on prev dates
     public function show($id)
     {
         if(\Auth::user()->level < 8)
