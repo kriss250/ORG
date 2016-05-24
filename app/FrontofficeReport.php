@@ -82,7 +82,7 @@ class FrontofficeReport extends Model
             left join reservations on idreservation = reserved_rooms.reservation_id
             left join companies on companies.idcompanies = reservations.company_id
             left join guest on guest.id_guest = guest_in
-            where (date(checkout) between ? and ?)
+            where (date(checkout) between ? and ?) and checked_out is null
             order by idreservation desc
         " ,$range)];
     }
