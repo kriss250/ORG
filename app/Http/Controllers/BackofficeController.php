@@ -131,7 +131,7 @@ class BackofficeController extends Controller
                 'timeout' => 20,
             )
         ));
-         $data = file_get_contents("http://bnr.rw/index.php?id=204&no_cache=1");
+         $data = file_get_contents("http://bnr.rw/index.php?id=204&no_cache=1",false,$ctx);
 
 
         $start = strpos($data, "<table>");
