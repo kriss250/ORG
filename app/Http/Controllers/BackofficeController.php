@@ -126,6 +126,11 @@ class BackofficeController extends Controller
 
     public function retreiveExchangeRates(){
         $data = "";
+        $ctx = stream_context_create(array('http'=>
+            array(
+                'timeout' => 20,
+            )
+        ));
          $data = file_get_contents("http://bnr.rw/index.php?id=204&no_cache=1");
 
 
