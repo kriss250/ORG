@@ -134,7 +134,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = reservations.company_id
-        join accounts on accounts.reservation_id = idreservation where reservations.status=5 order by idreservation desc")];
+        join accounts on accounts.reservation_id = idreservation where checked_out is null and reservations.status=5 order by idreservation desc")];
 
     }
 
