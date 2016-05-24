@@ -190,6 +190,11 @@ class BillsController extends Controller
 
     }
 
+    public function getCustomerByBill($id)
+    {
+        return \DB::select("select customer,print_count from bills where idbills=?",[$id]);
+    }
+
     /**
      * Summary of Create Bill
      */
@@ -276,6 +281,22 @@ class BillsController extends Controller
 
             if($data['billID']==0){
                 array_push($errors, "Invalid Bill identification");
+            }
+
+            $customer = "";
+            $customerObj = $this->getCustomerByBill($data['billID']);
+
+            $customer = isset($customerObj[0]) ? $customerObj[0]->customer : "";
+            $print_count = isset($customerObj[0]) ? $customerObj[0]->print_count : 0;
+
+            if( ($this->bill_status== \ORG\Bill::OFFTARIFF || $this->bill_status== \ORG\Bill::CREDIT ) && strtolower(trim($customer)) == "walkin" )
+            {
+                array_push($errors, "The name of the customer is required for OFFTARIFF & CREDIT Bills");
+            }
+
+            if($this->bill_status== \ORG\Bill::OFFTARIFF && $print_count > 0 )
+            {
+                array_push($errors, "You cannot mark a bill as OFFTARIFF, when the bill has already been printed.");
             }
 
             $paid_status = $this->bill_status;
