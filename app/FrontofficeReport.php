@@ -128,7 +128,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
     public function Rooming($range)
     {
         return ["data"=>self::$db->select("select idreservation,room_number,id_doc,country,guest.phone,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,companies.name as Company,concat(adults,'/',children) as pax,
-        checkin,coalesce(date(checked_out), date(checkout)) as checkout,payer,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize from reservations
+        checkin,coalesce(date(checked_out), date(checkout)) as checkout,payer,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation and checked_out is null) as gsize from reservations
         join  reserved_rooms on reserved_rooms.reservation_id =reservations.idreservation
         join guest on guest.id_guest = reserved_rooms.guest_in
         join rooms on rooms.idrooms = reserved_rooms.room_id
