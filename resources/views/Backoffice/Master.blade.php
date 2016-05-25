@@ -68,12 +68,16 @@
             var title = $(this).attr("data-title");
             var dates = $(this).attr("data-dates");
             $.ajax({
-                url: "{{ url('/Backoffice/Reports/Header') }}?title="+title+"&date_range="+dates,
+                url: "{{url('/Backoffice/Reports/Header') }}?title="+title+"&date_range="+dates,
                 type: "get",
                 success:function(data)
                 {
                     $(headerDiv).html(data);
-                    $(".main-contents").prepend($(headerDiv));
+                    if($(".print-header").length < 1)
+                    {
+                        $(".main-contents").prepend($(headerDiv));
+                    }
+
                     window.print();
                    
                 }
@@ -274,11 +278,8 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                         @if(\Auth::user()->level > 9)
                         <li><a class="dropdown-btn" href=""><i class="fa fa-user"></i> User Management <i class="fa fa-chevron-down"></i></a>
                         	  <ul class="dropdown-menu">
-                                <li><a class="modal-btn" data-width="450" data-height="650"  href="{{ action("UsersController@create") }}">New User</a> </li>
-
-                                <li><a class="modal-btn" data-width="400" data-height="550"  href="{{ action("WaiterController@create") }}">New Waiter</a> </li>
-
-                                <li><a  href="#">User List</a> </li>
+                                <li><a  href="{{ action("UniversalUsersController@create") }}">New User</a> </li>
+                                <li><a  href="{{ action("UniversalUsersController@index") }}">User List</a> </li>
                                 
                             </ul>
                         </li>

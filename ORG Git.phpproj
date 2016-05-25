@@ -692,6 +692,8 @@
     <Compile Include="resources\lang\en\passwords.php" />
     <Compile Include="resources\lang\en\validation.php" />
     <Compile Include="resources\views\Backoffice\addAnnouncement.blade.php" />
+    <Compile Include="resources\views\Backoffice\ListUsers.blade.php" />
+    <Compile Include="resources\views\Backoffice\AddUser.blade.php" />
     <Compile Include="resources\views\Backoffice\AddCashBook.blade.php" />
     <Compile Include="resources\views\Backoffice\addTransaction.blade.php" />
     <Compile Include="resources\views\Backoffice\cashBookTransactions.blade.php" />
@@ -711,6 +713,7 @@
     <Compile Include="resources\views\Backoffice\payments.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Cashbooks.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Arrival.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\Frontdesk\BanquetBooking.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Banquet.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Deposits.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Breakfast.blade.php" />

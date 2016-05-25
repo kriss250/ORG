@@ -12,7 +12,7 @@
 		JSObj.ToolStripColor(215, 215, 215);
 	}
 	
-//Loading Products
+    //Loading Products
 	$.fn.loadProducts = function(options) { 
 		$.ajaxSetup({
    			 headers: { 'X-CSRF-TOKEN': $('input[name="_token"]').val() }

@@ -4,26 +4,16 @@
 
 <div class="row">
     <div class="col-md-9">
-        <h2>POS Bills-</h2>
+        <h2 style="margin-bottom:-2px">POS Bills</h2>
     </div>
 
-    <div class="col-md-3">
+    <!--<div class="col-md-3">
         <form class="form-inline" action="" method="get">
             <label>Cashier</label>
-            <select class="form-control" name="cashier">
-                <option value="0">All</option>
-                <?php  $cashiers = $cashiers =App\FX::GetCashiers(); ?>
-
-                @if(isset($cashiers))
-                        @foreach($cashiers as $cashier)
-                            <option value="{{ $cashier->id }}">{{$cashier->username}}</option>
-                @endforeach
-                    @endif
-            </select>
 
             <input class="btn btn-sm btn-success" type="submit" name="go" value="Go" />
         </form>
-    </div>
+    </div>-->
 </div>
 
 <br />
@@ -54,7 +44,9 @@
         })
     })
 </script>
-<p class="page_info"><i class="fa fa-info-circle"></i> Please use the table below to navigate or filter the results. You can download the table as csv, excel and pdf.</p>
+<p class="page_info">
+    <i class="fa fa-info-circle"></i>
+     Use this table to find bills and their status , you can also reset the bill's payment by clicking on the green button on the last column in the bill's row.</p>
 
 <table class="table table-bordered table-striped bills-table">
  

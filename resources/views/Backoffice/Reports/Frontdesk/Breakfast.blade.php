@@ -67,7 +67,7 @@
        <table style="margin-bottom:85px;width:100%;" class="table">
            <tr>
                <td>
-                   Cashier
+                   RECEPTIONIST
                </td>
 
                <td>

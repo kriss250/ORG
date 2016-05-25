@@ -179,6 +179,21 @@ companies.name as Company,concat(adults,'/',children) as pax,
         return ["data"=>self::$db->select($sql,$range)];
     }
 
+    public function allBanquets()
+    {
+        $sql = "select * from banquets";
+        return self::$db->select($sql);
+    }
+    public function banquetBooking($range)
+    {
+        $sql = "select banquet_event.idbanquet_event,date(arrival) arv,banquet_id, concat(coalesce(companies.name,''),coalesce(firstname,''),' ',coalesce(lastname,'')) as guest,pax,banquet_name,arrival,departure from banquet_event
+            left join guest on guest.id_guest = guest_id
+            left join companies on companies.idcompanies = company_id
+            join banquets on banquets.idbanquet = banquet_id where date(arrival) between ? and ?
+             order by arrival ";
+        return self::$db->select($sql,$range);
+    }
+
     public function Payments($range)
     {
         $sql = "select concat_ws(' ',guest.firstname,guest.lastname) as guest,companies.name as company,username,credit,method_name,room_number,folio.comment, folio.date from folio

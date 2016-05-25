@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth'],function(){
 		return View::make("Pos/Home");
 	}]);
 
+
 	Route::get("POS/NewDay",['as'=>'newday','uses'=>'SettingsController@newDay']);
 
 	Route::get("/POS/Products/search/","ProductsController@searchProduct");
@@ -79,10 +80,10 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get("/POS/Bills/assignedBills/","BillsController@assignedList");
 	Route::post("/POS/Bills/assignBill/pay","BillsController@payAssignedBill");
 	Route::post("/POS/Bills/creditBill/pay","BillsController@payCreditBill");
-    
+
     Route::get("/POS/Bills/deleteBillPayments","BillsController@deleteBillPayments");
     Route::post("/POS/GeneralReport",["uses"=>"POSReportController@GenerateReport","as"=>"POSGeneralReport"]);
-    
+
 	Route::get("POS/Bills/PrintBill/{id}",["as"=>"printbill","uses"=>"BillsController@printBill"]);
 
 	Route::get("/POS/Settings/changePassword",function(){
@@ -100,7 +101,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::resource("POS/Products/Categories","ProductsCategoryController");
 
     Route::get("POS/Products/markAsFavorite/{Product}/{state}","ProductsController@markAsFavorite");
-    
+
 	Route::get("POS/Reports/{name}",['uses'=>"POSReportController@index","as"=>"POSReports"]);
 	Route::post("POS/Reports/{name}",['uses'=>"POSReportController@getData","as"=>"POSReportsPOST"]);
 
@@ -117,14 +118,16 @@ Route::group(['middleware' => 'auth'],function(){
 });
 
 
-Route::group(['middleware' => 'auth'],function(){ 
+Route::group(['middleware' => 'auth'],function(){
+
+    Route::resource("/Backoffice/users","UniversalUsersController");
     Route::get("/Backoffice",["as"=>"backoffice","uses"=>"BackofficeController@index"]);
     Route::resource("/Backoffice/cashbook","CashbookController");
     Route::resource("/Backoffice/announcement","AnnouncementController");
     Route::resource("/Backoffice/payments","PaymentsController");
     Route::resource("/Backoffice/cashbook/transaction","CashbookTransactionController");
     Route::get("/Backoffice/Reports/POS/{name}","BackofficeReportController@index");
-    
+
     Route::get("/Backoffice/Search/{query}/",['uses'=>'BackofficeController@search','as'=>'BackofficeSearch']);
      Route::get("/Backoffice/itemPreview/",function(){
          return \View::make("Backoffice.ItemPreview");

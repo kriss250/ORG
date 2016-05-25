@@ -224,6 +224,10 @@ class BackofficeReportController extends Controller
             case "banquet":
                 $orders =$frontdesk->banquetOrders($range);
                 return \View::make("Backoffice.Reports.Frontdesk.Banquet",$orders);
+            case "banquetBooking":
+                $orders = $frontdesk->banquetBooking($range);
+                $banquets = $frontdesk->allBanquets();
+                return \View::make("Backoffice.Reports.Frontdesk.BanquetBooking",["orders"=>$orders,"banquets"=>$banquets,"range"=>$range]);
             case "foDeposits":
                 $deposits = $frontdesk->Deposit($range);
                 return \View::make("Backoffice.Reports.Frontdesk.Deposits",$deposits);

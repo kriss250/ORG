@@ -5,6 +5,16 @@ body {
     font-family:Roboto,sans-serif
 }
 
+.single-page-contents {
+  background: #fff;
+  padding: 18px 25px;
+  border: 1px solid rgb(230,230,230)
+}
+
+.single-page-contents h3 {
+    margin-top:5px;
+    padding-top:0
+}
 .report-btn > a {
     background: rgb(242, 242, 242);
     border-bottom: 1px solid #e1e1e1

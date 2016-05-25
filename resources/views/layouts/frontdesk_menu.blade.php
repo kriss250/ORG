@@ -43,6 +43,7 @@ $imported = (isset($_imported) && $_imported=="1") ? "?import" : "";
     <li><a href="{{action("BackofficeReportController@index","frontdeskMorning$imported") }}">Morning Report</a> </li>
     <li><a href="{{action("BackofficeReportController@index","rooming$imported") }}">Rooming</a> </li>
     <li><a href="{{action("BackofficeReportController@index","banquet$imported") }}">Halls</a> </li>
+    <li><a href="{{action("BackofficeReportController@index","banquetBooking$imported") }}">Halls Booking</a> </li>
     <li><a href="{{action("BackofficeReportController@index","roomtransfers$imported") }}">Room Transfer</a> </li>
     <!--<li><a href="#">Invoices</a> </li>-->
     <li><a href="{{action("BackofficeReportController@index","foPayments$imported") }}">Payments</a></li>
