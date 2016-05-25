@@ -51,7 +51,7 @@
     <p class="report-desc"><i class="fa fa-information"></i>Summarized report of sold and paid bills, as well as room post and credits</p>
 </div>
 <h5>PAID BILLS <i>({{ isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }})</i></h5>
-<table class="table table-bordered table-striped bills-table">
+<table class="table table-bordered table-striped bills-table table-condensed">
  
 <?php
     $totals= array("bill"=>"0","cash"=>"0","check"=>"0","card"=>"0");
@@ -107,16 +107,22 @@
 ?>
 <thead>
     <tr>
-        <th>Order</th> 
-        <th>Customer</th>
-        <th>Cashier</th>
-        <th>Waiter</th>
+        <th rowspan="2">Order</th> 
+        <th rowspan="2">Customer</th>
+        <th rowspan="2">Cashier</th>
+        <th rowspan="2">Waiter</th>
         <th class="text-center" colspan="4">Bill Items</th>
-        <th>Total</th>
-        <th>Cash</th>
-        <th>Card</th>
-        <th>Check</th>
-        <th>Time</th>
+        <th rowspan="2">Total</th>
+        <th rowspan="2">Cash</th>
+        <th rowspan="2">Card</th>
+        <th rowspan="2">Check</th>
+        <th rowspan="2">Time</th>
+    </tr>
+    <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>U.P</th>
+        <th>T.P</th>
     </tr>
 </thead>
     {!!$tr!!}
@@ -190,7 +196,7 @@
 
 @endforeach
 <tr>
-    <td colspan="3">TOTAL</td>
+    <td colspan="2">TOTAL</td>
     <td>{{ number_format($total_credit) }}</td>
     <td>{{ $total_paid }} </td>
 </tr>
@@ -199,7 +205,7 @@
 <thead>
     <tr>
         <th>TOTAL SALES</th>
-        <th>DEBTS(CREDIT)</th>
+        <th>CREDIT</th>
         <th>ROOM POSTS</th>
         <th>CASH</th>
         <th>VISA</th>
