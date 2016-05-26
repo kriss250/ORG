@@ -1,7 +1,7 @@
 <table style="width:100%">
 <tr>
     <td style="width:85px">
-        <img src="/images/logo.jpg" width="80" />
+        <img src="/assets/images/backoffice_logo.png" width="80" />
     </td>
     <td>
         <h4 style="margin-bottom:0">Report</h4>
