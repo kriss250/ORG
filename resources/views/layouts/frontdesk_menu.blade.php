@@ -23,21 +23,27 @@ $imported = (isset($_imported) && $_imported=="1") ? "?import" : "";
 
 
     <li>
-        <a href="{{action("BackofficeReportController@index","frontofficeArrival$imported") }}">Arrival</a> </li>
+        <a href="{{action("BackofficeReportController@index","frontofficeArrival$imported") }}">Arrival</a> 
+    </li>
 
 
     <li>
-        <a href="{{action("BackofficeReportController@index","frontofficeExpectedArrival$imported") }}">Expected Arrival</a> </li>
+        <a href="{{action("BackofficeReportController@index","frontofficeExpectedArrival$imported") }}">Expected Arrival</a> 
+    </li>
 
 
     <li>
-        <a href="{{action("BackofficeReportController@index","frontofficeDeparture$imported") }}">Departure</a> </li>
-    <li>
-        <a href="{{action("BackofficeReportController@index","frontofficeExpectedDeparture$imported") }}">Expected Departure</a> </li>
+        <a href="{{action("BackofficeReportController@index","frontofficeDeparture$imported") }}">Departure</a>
+     </li>
 
     <li>
-        <a href="{{action("BackofficeReportController@index","foDeposits$imported") }}">Cash Deposits</a> </li>
+        <a href="{{action("BackofficeReportController@index","frontofficeExpectedDeparture$imported") }}">Expected Departure</a> 
+    </li>
+
     <li>
+        <a href="{{action("BackofficeReportController@index","foDeposits$imported") }}">Cash Deposits</a>
+     </li>
+   
     <li><a href="{{action("BackofficeReportController@index","frontofficePayment$imported") }}">Payment Control</a> </li>
     <li><a href="{{action("BackofficeReportController@index","frontofficeBreakfast$imported") }}">Breakfast</a> </li>
     <li><a href="{{action("BackofficeReportController@index","frontdeskMorning$imported") }}">Morning Report</a> </li>

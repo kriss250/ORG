@@ -30,7 +30,7 @@
 
                          ?>
         </b> <br />
-       User :   {{ \Auth::user()->username }}
+       User :   {{ \Session::has("fo_user") ? Session::get("fo_user") :  \Auth::user()->username }}
 
     </td>
 
