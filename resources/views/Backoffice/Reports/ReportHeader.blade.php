@@ -11,7 +11,25 @@
 
     <td class="text-right">
     <b>Date ...../...../.......</b><br>
-       Report Date : <b>{{ $_GET['date_range'] }}</b> <br />
+       Report Date : <b>
+                         <?php
+
+
+                            $dates = explode(" - ",$_GET['date_range']);
+
+                            if(count($dates)>0){
+                                if($dates[0]==$dates[1])
+                                {
+                                    echo $dates[0];
+                                }else {
+                                    echo $_GET['date_range'];
+                                }
+                            }else {
+                                echo $_GET['date_range'];
+                            }
+
+                         ?>
+        </b> <br />
        User :   {{ \Auth::user()->username }}
 
     </td>
