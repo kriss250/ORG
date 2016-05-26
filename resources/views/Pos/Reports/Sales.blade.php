@@ -41,7 +41,7 @@
              
                     
                 <input type="submit" class="btn btn-success btn-sm" value="Go">
-                <button type="button" data-dates="{{ isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }}" data-title="Sales Report" class="btn btn-default report-print-btn">Print</button>
+                <button type="button" data-dates="{{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }} - {{ isset($_GET['enddate']) ? $_GET['enddate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }}" data-title="Sales Report" class="btn btn-default report-print-btn">Print</button>
            </form> 
            
         </td>
@@ -50,7 +50,7 @@
 
     <p class="report-desc"><i class="fa fa-information"></i>Summarized report of sold and paid bills, as well as room post and credits</p>
 </div>
-<h5>PAID BILLS <i>({{ isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }})</i></h5>
+<h5>PAID BILLS <i></i></h5>
 <table class="table table-bordered table-striped bills-table table-condensed">
  
 <?php
@@ -139,7 +139,7 @@
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
-        <th class="text-center" colspan="5">ROOM POSTS <b>({{ isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }})</b></th>
+        <th class="text-center" colspan="5">ROOM POSTS <b></b></th>
     </tr>
         <tr>
             <th>Order No</th>
@@ -174,7 +174,7 @@
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
-        <th class="text-center" colspan="5">CREDITS <b>({{ isset($_GET['date']) ? $_GET['date'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }})</b></th>
+        <th class="text-center" colspan="5">CREDITS <b></b></th>
     </tr>
         <tr>
             <th>Order No</th>
