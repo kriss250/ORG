@@ -71,6 +71,15 @@ class BackofficeReportController extends Controller
                 return \View::make("Backoffice.Reports.POS.Products",$info);
             case "jsonProducts":
                 return POSReport::jsonProducts();
+
+            case "posLogs":
+                $cashier=0;
+                if(isset($_GET['cashier']) && is_numeric($_GET['cashier']) &&  $_GET['cashier']>0 )
+                {
+                    $cashier = $_GET['cashier'];
+                }
+                $logs= POSReport::logs($range,$cashier);
+                return \View::make("Backoffice.Reports.POS.Logs",["logs"=>$logs]);
             case "cashierShift":
                 $info  = POSReport::CashierShift($range);
                 return \View::make("Backoffice.Reports.POS.CashierShift",$info);
@@ -231,6 +240,15 @@ class BackofficeReportController extends Controller
             case "foDeposits":
                 $deposits = $frontdesk->Deposit($range);
                 return \View::make("Backoffice.Reports.Frontdesk.Deposits",$deposits);
+
+            case "foLogs":
+                $cashier=0;
+                if(isset($_GET['cashier']) && is_numeric($_GET['cashier']) &&  $_GET['cashier']>0 )
+                {
+                    $cashier = $_GET['cashier'];
+                }
+                $logs= $frontdesk->logs($range,$cashier);
+                return \View::make("Backoffice.Reports.Frontdesk.Logs",["logs"=>$logs]);
             default:
                 abort(404);
                 break;

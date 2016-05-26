@@ -107,6 +107,6 @@
 
     @endif
 
-<button data-url="{{ action("BillsController@destroy") }}" data-id="{{ $bill[0]->idbills }}" {{ ($bill[0]->deleted==1) ? "disabled='disabled'" : "" }} style="margin: 20px auto;display: block;" class="delete_bill_btn btn btn-sm btn-danger">DELETE BILL</button>
+<button {{(\Auth::user()->level < 9) ? "disabled='disabled'":"" }} data-url="{{ action("BillsController@destroy") }}" data-id="{{ $bill[0]->idbills }}" {{ ($bill[0]->deleted==1) ? "disabled='disabled'" : "" }} style="margin: 20px auto;display: block;" class="delete_bill_btn btn btn-sm btn-danger">DELETE BILL</button>
 
 @endif

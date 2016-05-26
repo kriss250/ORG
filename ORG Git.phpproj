@@ -720,6 +720,7 @@
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Departure.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\FoPayments.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\FrontofficeReport.php" />
+    <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Logs.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\Morning.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\OfficeControl.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Frontdesk\PaymentControl.blade.php" />
@@ -739,6 +740,7 @@
     <Compile Include="resources\views\Backoffice\Reports\POS\ReprintedBills.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\RoomPosts.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\Sales.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\POS\Logs.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\StockPOSRelation.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\reportFooter.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\ReportHeader.blade.php" />

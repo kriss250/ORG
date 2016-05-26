@@ -190,7 +190,7 @@ class POSReport extends Model
 
 
         $bills= \DB::select("select idbills,customer,last_updated_by,bills.user_id,bill_total,room,status_name,status,username,bills.date,status_name,waiter_name,sum(bank_card) as card,sum(cash) as cash,sum(check_amount)  as check_amount from bills left join payments on payments.bill_id=idbills and void=0 join users on users.id = bills.user_id join waiters on waiters.idwaiter=waiter_id join bill_status on status_code=status where deleted=0 and $where_cashier $where_status date(bills.date) between ? and  ?   group by idbills order by idbills desc ",$params);
-       
+
         foreach ($bills as $bill) {
            $params= [$bill->idbills];
 
@@ -307,5 +307,15 @@ class POSReport extends Model
     public static function jsonProducts()
     {
     	return \DB::select("select products.id,product_name from products where stock_id=0 and category_id=1 order by product_name asc");
+    }
+
+    public static function logs($date,$cashier=0)
+    {
+        $cashier_str = "";
+        if($cashier>0){
+            array_push($date,$cashier);
+            $cashier_str = " and user_id=?";
+        }
+    	return \DB::select("SELECT concat(firstname,' ',lastname)as user,type,action,logs.date FROM logs join users on users.id = user_id where date(logs.date) between ? and ? {$cashier_str}",$date);
     }
 }

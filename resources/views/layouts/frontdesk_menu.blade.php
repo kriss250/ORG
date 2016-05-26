@@ -47,5 +47,5 @@ $imported = (isset($_imported) && $_imported=="1") ? "?import" : "";
     <li><a href="{{action("BackofficeReportController@index","roomtransfers$imported") }}">Room Transfer</a> </li>
     <!--<li><a href="#">Invoices</a> </li>-->
     <li><a href="{{action("BackofficeReportController@index","foPayments$imported") }}">Payments</a></li>
-
+    <li><a href="{{action("BackofficeReportController@index","foLogs$imported") }}">Logs</a></li>
 </ul>

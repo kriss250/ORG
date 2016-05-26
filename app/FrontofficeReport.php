@@ -210,4 +210,15 @@ companies.name as Company,concat(adults,'/',children) as pax,
         return ["data"=>self::$db->select($sql,$range)];
 
     }
+
+    public static function logs($date,$cashier=0)
+    {
+        $cashier_str = "";
+
+        if($cashier>0){
+            array_push($date,$cashier);
+            $cashier_str = " and user_id=?";
+        }
+    	return self::$db->select("SELECT concat(firstname,' ',lastname) as user,type,action,logs.date FROM logs join users on users.idusers=user_id where date(logs.date) between ? and ? {$cashier_str}",$date);
+    }
 }

@@ -11,4 +11,5 @@
     <li><a href="{{ action("BackofficeReportController@index",'debts') }}">Debts</a> </li>
     <li><a href="{{ action("BackofficeReportController@index",'cancelledBills') }}">Cancelled Bills</a> </li>
     <li><a href="{{ action("BackofficeReportController@index",'reprintedBills') }}">Reprinted Bills</a> </li>
+    <li><a href="{{ action("BackofficeReportController@index",'posLogs') }}">Logs</a> </li>
 </ul>
