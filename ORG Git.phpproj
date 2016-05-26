@@ -36,7 +36,6 @@
     <Compile Include="app\Http\Controllers\CashbookTransactionController.php" />
     <Compile Include="app\Http\Controllers\Controller.php" />
     <Compile Include="app\Http\Controllers\CustomersController.php" />
-    <Compile Include="app\Http\Controllers\dsds.php" />
     <Compile Include="app\Http\Controllers\FloorViewController.php" />
     <Compile Include="app\Http\Controllers\GuestController.php" />
     <Compile Include="app\Http\Controllers\InvoiceController.php" />
@@ -54,6 +53,7 @@
     <Compile Include="app\Http\Controllers\RoomTypesController.php" />
     <Compile Include="app\Http\Controllers\SettingsController.php" />
     <Compile Include="app\Http\Controllers\StoreController.php" />
+    <Compile Include="app\Http\Controllers\UniversalUsersController.php" />
     <Compile Include="app\Http\Controllers\UsersController.php" />
     <Compile Include="app\Http\Controllers\WaiterController.php" />
     <Compile Include="app\Http\Middleware\Authenticate.php" />

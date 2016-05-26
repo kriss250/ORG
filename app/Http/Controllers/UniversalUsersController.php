@@ -17,11 +17,11 @@ class UniversalUsersController extends Controller
     public function index()
     {
         $systems  =\App\User::$Systems;
-        $pos_users = \DB::select("select firstname,lastname,username,level,date,'POS' as system from users limit 60");
-        $stock_users= \DB::connection("mysql_stock")->select("select first_name as firstname,last_name as lastname,username,groups.name as group_name,created_on,'Stock' as system from users join users_groups on users_groups.user_id = users.id
-join groups on groups.id=group_id");
+        $pos_users = \DB::select("select id,firstname,lastname,username,level,date,'POS' as system from users limit 60");
+        $stock_users= \DB::connection("mysql_stock")->select("select users.id,first_name as firstname,last_name as lastname,username,groups.name as group_name,created_on,'Stock' as system from users join users_groups on users_groups.user_id = users.id
+ join groups on groups.id=group_id");
         //$backoffice_users = "";
-        $frontdesk_users = \DB::connection("mysql_book")->select("select firstname,lastname,username,users.date,user_group.name as group_name,'Frontdesk' as system from users join user_group on user_group.iduser_group = users.group_id limit 60");
+        $frontdesk_users = \DB::connection("mysql_book")->select("select idusers as id,firstname,lastname,username,users.date,user_group.name as group_name,'Frontdesk' as system from users join user_group on user_group.iduser_group = users.group_id limit 60");
 
         return \View::make("Backoffice.ListUsers",["fo_users"=>$frontdesk_users,"stock_users"=>$stock_users,"pos_users"=>$pos_users]);
     }
@@ -55,7 +55,7 @@ join groups on groups.id=group_id");
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -66,7 +66,7 @@ join groups on groups.id=group_id");
      */
     public function edit($id)
     {
-        //
+        return \View::make("Backoffice.UserEdit");
     }
 
     /**

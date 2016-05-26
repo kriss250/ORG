@@ -86,7 +86,10 @@ $(document).ready(function () {
             type: "delete",
             success: function (data) {
                 if (data == "1") {
-                    ualert.success("The bill has been deleted successfuly !");
+                    alert("The bill has been deleted successfuly !");
+                    $(".delete_bill_btn").removeClass("btn-danger").addClass("btn-primary").attr("disabled", "disabled");
+                } else {
+                    alert("Unable to delete the bill");
                 }
             },
             error: function () {

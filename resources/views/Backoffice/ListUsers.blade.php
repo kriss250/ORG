@@ -35,7 +35,7 @@
             <td>
               {{$user->system}}
             </td>
-            <td> <button class="btn btn-xs btn-danger"><i class="fa fa-key" aria-hidden="true"></i></button></td>
+            <td> <a href="{{action("UniversalUsersController@edit",$user->id)}}" class="btn btn-xs btn-danger"><i class="fa fa-key" aria-hidden="true"></i></a></td>
         </tr>
         @endforeach
     </table>
