@@ -17,7 +17,7 @@
 
                             $dates = explode(" - ",$_GET['date_range']);
 
-                            if(count($dates)>0){
+                            if(count($dates)>1){
                                 if($dates[0]==$dates[1])
                                 {
                                     echo $dates[0];
