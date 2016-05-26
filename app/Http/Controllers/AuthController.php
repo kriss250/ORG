@@ -47,13 +47,13 @@ class AuthController extends Controller
         if($att)
         {
             $url = \Session::get('url.intended','/');
-           
+            \ORG\POS::Log("User ".(\Auth::user()->username)." loggedin | Destination : $url","default");
             return redirect($url);
         }else {
             return redirect()->route("login")->withErrors(['Wrong Username/Password']);
         }
 
-        
+
     }
 
     /**
