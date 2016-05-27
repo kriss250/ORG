@@ -66,7 +66,7 @@ class FrontofficeReport extends Model
             left join acco_charges on acco_charges.reservation_id = reserved_rooms.reservation_id and acco_charges.room_id = reserved_rooms.room_id
             join guest on guest.id_guest = guest_in
             left join companies on companies.idcompanies = reservations.company_id
-            where checked_in is not null and ".($expected ? "checked_out is null " : "checked_out is not null")." and (date(checkout) between ? and ?)
+            where checked_in is not null and ".($expected ? "checked_out is null " : "checked_out is not null or shifted =1")." and (date(checkout) between ? and ?)
              group by rooms.idrooms,idreservation order by idreservation desc",$range )];
     }
 
@@ -93,7 +93,7 @@ class FrontofficeReport extends Model
         array_push($range,$range[0]);
         $d  = isset($range[0]) ? $range[0] : \ORG\Dates::$RESTODATE;
 
-        return ["data"=>self::$db->select("select idreservation,room_number,accounts.balance_amount,checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
+        return ["data"=>self::$db->select("select idreservation,shifted,room_number,accounts.balance_amount,checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
 companies.name as Company,concat(adults,'/',children) as pax,
         checkin,checkout,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=3 and date(date)='$d') as bar,

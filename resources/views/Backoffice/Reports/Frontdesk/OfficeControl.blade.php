@@ -33,9 +33,9 @@ foreach($data as $res) {
     #endregion
 
     $rows  .= "<tr>";
-    $rows .= "<td>{$res->room_number}</td>";
+    $rows .= "<td>".$res->room_number.($res->shifted > 0 ? " (Shifted) " :"" )."</td>";
     $rows .= "<td>{$res->type_name}</td>";
-    $rows .= "<td>{$res->guest }</td>";
+    $rows .= "<td>{$res->guest}</td>";
 
     if($firstRow){
         $rows .= "<td $span>".(strlen($res->Company) > 0 ? $res->Company : "WALKIN")."</td>" ;
