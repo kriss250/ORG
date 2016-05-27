@@ -66,7 +66,7 @@ class FrontofficeReport extends Model
             left join acco_charges on acco_charges.reservation_id = reserved_rooms.reservation_id and acco_charges.room_id = reserved_rooms.room_id
             join guest on guest.id_guest = guest_in
             left join companies on companies.idcompanies = reservations.company_id
-            where checked_in is not null and ".($expected ? "checked_out is null " : " (checked_out is not null or shifted=1 and reservations.status=6) ")." and (date(checkout) between ? and ?)
+            where checked_in is not null and ".($expected ? " (checked_out is null or shifted=1 and reservations.status=5 ) " : " (checked_out is not null or shifted=1 and reservations.status=6) ")." and (date(checkout) between ? and ?)
              group by rooms.idrooms,idreservation order by idreservation desc",$range )];
     }
 
