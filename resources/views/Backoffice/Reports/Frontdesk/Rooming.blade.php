@@ -31,7 +31,7 @@ foreach($data as $res) {
     #endregion
 
     $rows  .= "<tr>";
-
+    $rows  .= "<td>".($i+1)."</td>";
     $rows .= "<td>".$res->room_number.($res->shifted > 0 ? "(Shifted)" : "")."</td>";
     $rows .= "<td>{$res->type_name}</td>";
     $rows .= "<td>{$res->guest }</td>";
@@ -84,6 +84,7 @@ foreach($data as $res) {
     <table class="table table-bordered table-condensed">
         <thead>
                <tr>
+                <th>#</th>
                 <th>Room</th>
                  <th>Room Type</th>
                  <th>Guest</th>
