@@ -56,7 +56,7 @@ class FrontofficeReport extends Model
 
     public function Departure($range,$expected=false)
     {
-        return ["data"=>self::$db->select("select idreservation,pay_by_credit,date(checked_in) as checked_in, coalesce(date(checked_out),date(checkout)) as checked_out,due_amount,rooms.room_number,concat_ws(' ',firstname,lastname) as guest,companies.name as company,date(checkin) as checkin,
+        return ["data"=>self::$db->select("select idreservation,pay_by_credit,shifted,date(checked_in) as checked_in, coalesce(date(checked_out),date(checkout)) as checked_out,due_amount,rooms.room_number,concat_ws(' ',firstname,lastname) as guest,companies.name as company,date(checkin) as checkin,
             date(checkout) as checkout,night_rate,balance_amount, sum(acco_charges.amount) as acco,
 (select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
             (select sum(room_charges.amount) as services from room_charges where room_id=idrooms and room_charges.reservation_id = idreservation) as services ,is_group, payer from reserved_rooms
@@ -105,7 +105,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = reservations.company_id
-        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and date(checkout) > ? or ( date(checkout) > ? and date(checkout) <> ? ) or shifted=1  order by idreservation desc",$range)];
+        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and date(checkout) > ? or ( date(checkout) >= ? and date(checkout) <> ? ) or shifted=1  order by idreservation desc",$range)];
     }
 
     public function PaymentControl($range)
