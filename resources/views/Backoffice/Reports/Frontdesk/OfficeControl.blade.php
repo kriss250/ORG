@@ -47,6 +47,7 @@ foreach($data as $res) {
     $rows .=   "<td>".number_format($res->night_rate)."</td>";
 
     $tariff += $res->night_rate;
+
     $laundry += $res->laundry;
     $bar += $res->bar;
     $resto +=$res->resto;
