@@ -105,7 +105,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = reservations.company_id
-        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and date(checkout) > ? or ( date(checkout) >= ? and date(checkout) <> ? ) or shifted=1  order by idreservation desc",$range)];
+        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and date(checkout) >= ? or ( date(checkout) >= ? and date(checkout) <> ? ) or shifted=1  order by idreservation desc",$range)];
     }
 
     public function PaymentControl($range)
