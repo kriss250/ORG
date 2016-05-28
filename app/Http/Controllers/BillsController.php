@@ -525,7 +525,7 @@ class BillsController extends Controller
             $the_bill = DB::select($bill_total_sql,[$data['BillID']]);
 
 
-            $v = DB::connection("mysql_book")->select("select idrooms,reservation_id,concat_ws(' ',firstname,lastname) as guest from reserved_rooms
+            $v = DB::connection("mysql_book")->select("select idrooms,reservation_id,concat_ws(' ',firstname,lastname) as guest,idreserved_rooms from reserved_rooms
                 join rooms on rooms.idrooms = room_id
                 join guest on guest.id_guest = guest_in
                 where checked_in is not null and checked_out is null and room_number =?",[$data['Room']]);
@@ -534,9 +534,11 @@ class BillsController extends Controller
                $res= $v[0]->reservation_id;
                $customer_name = $v[0]->guest;
                $room_id = $v[0]->idrooms;
+               $reserved_room_id  = $v[0]->idreserved_rooms;
+
                foreach($the_bill as $bill){
 
-                   $ins = DB::connection("mysql_book")->insert("insert into room_charges (room_id,reservation_id,charge,amount,motif,date,user_id,user,pos) values (?,?,?,?,?,?,?,?,?)",
+                   $ins = DB::connection("mysql_book")->insert("insert into room_charges (room_id,reservation_id,charge,amount,motif,date,user_id,user,pos, reserved_room_id) values (?,?,?,?,?,?,?,?,?,?)",
                             [
                                 $room_id,
                                 $res,
@@ -546,7 +548,8 @@ class BillsController extends Controller
                                 \ORG\Dates::$RESTODATE,
                                 1,
                                 \Auth::user()->username,
-                                1
+                                1,
+                                $reserved_room_id
                         ]);
 
                }
