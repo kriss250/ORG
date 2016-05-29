@@ -94,7 +94,7 @@ class FrontofficeReport extends Model
         array_push($range,$range[0]);
         $d  = isset($range[0]) ? $range[0] : \ORG\Dates::$RESTODATE;
 
-        return ["data"=>self::$db->select("select idreservation,shifted,room_number,accounts.balance_amount,checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
+        return ["data"=>self::$db->select("select idreservation,shifted,room_number,accounts.balance_amount,COALESCE(checked_in,checkin) as checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
 companies.name as Company,concat(adults,'/',children) as pax,
         checkin,checkout,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=3 and date(date)='$d') as bar,
