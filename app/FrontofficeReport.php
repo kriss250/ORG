@@ -56,10 +56,9 @@ class FrontofficeReport extends Model
 
     public function Departure($range,$expected=false)
     {
-        array_push($range,$range[0]);
-        return ["data"=>self::$db->select("select idreservation,pay_by_credit,shifted,date(checked_in) as checked_in, coalesce(date(checked_out),date(checkout)) as checked_out,due_amount,rooms.room_number,concat_ws(' ',firstname,lastname) as guest,companies.name as company,date(checkin) as checkin,
+        return ["data"=>self::$db->select("select idreservation,pay_by_credit,shifted,date(checked_in) as checked_in,checkin, coalesce(date(checked_out),date(checkout)) as checked_out,due_amount,rooms.room_number,concat_ws(' ',firstname,lastname) as guest,companies.name as company,date(checkin) as checkin,
             date(checkout) as checkout,night_rate,balance_amount, sum(acco_charges.amount) as acco,
-(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation and date(checked_out)=?) as gsize,
+(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
             (select sum(room_charges.amount) as services from room_charges where room_id=idrooms and room_charges.reservation_id = idreservation and  reserved_room_id = reserved_rooms.idreserved_rooms) as services ,is_group, payer from reserved_rooms
             join accounts on accounts.reservation_id= reserved_rooms.reservation_id
             join rooms on rooms.idrooms = reserved_rooms.room_id
@@ -67,7 +66,7 @@ class FrontofficeReport extends Model
             left join acco_charges on acco_charges.reservation_id = reserved_rooms.reservation_id and acco_charges.room_id = reserved_rooms.room_id and acco_charges.reserved_room_id = reserved_rooms.idreserved_rooms
             join guest on guest.id_guest = guest_in
             left join companies on companies.idcompanies = reservations.company_id
-            where checked_in is not null and ".($expected ? " checked_out is null " : " (checked_out is not null or shifted=1 and reservations.status=6) ")." and (date(checkout) between ? and ?)
+            where checked_in is not null and ".($expected ? " checked_out is null " : " (checked_out is not null and reservations.status=6) ")." and (date(checkout) between ? and ?) or (shifted=1 and date(checked_in) >= date(checkin) and date(checked_out) <= checkout)
              group by idreserved_rooms,idreservation order by idreservation,idreserved_rooms asc",$range )];
     }
 
