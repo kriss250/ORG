@@ -3,30 +3,29 @@
 @section("contents")
 
 @if (session('status'))
-    <div class="alert alert-success">
+<div class="alert alert-success">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        {{ session('status') }}
-    </div>
+    {{ session('status') }}
+</div>
 @endif
 
 
 @if (session('error'))
-    <div class="alert alert-danger">
+<div class="alert alert-danger">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        {{ session('error') }}
-    </div>
+    {{ session('error') }}
+</div>
 @endif
 
-<?php 
+<?php
 $days="";
   $day_sales = "";
-  ?>
-@foreach($weeksales as $wk) 
-  <?php 
-  
+?>
+@foreach($weeksales as $wk)
+<?php
         $day_sales .= $wk->total.",";
         $days .= "'".$wk->day."',";
-   ?>
+?>
 @endforeach
 <script type="text/javascript">
     $(function () {
@@ -86,64 +85,82 @@ $days="";
 </script>
 <div class="col-md-9" style="padding-left:0">
 
-    <?php $sum = 0;$credit=0;$room_posts=0; ?>
-
-    @foreach ($bills as $bill)
-    <?php $sum +=$bill->total; ?>
-   
-        @if($bill->status ==\ORG\Bill::CREDIT)
-            <?php $credit +=$bill->total;  ?>
-        @endif
-   
-        @if($bill->status ==\ORG\Bill::ASSIGNED)
-            <?php $room_posts +=$bill->total; ?>
-        @endif
-
-    @endforeach
-
     <div class="color-box pink">
-        
+
         <span class="icon"><i class="fa fa-cart-arrow-down"></i></span>
         <div class="text">
-               <h4>POS Debts</h4>
-        <p>{{ number_format($credit) }} Rwf</p><p>Daily Debts</p>
+            <h6>TOTAL SALES</h6>
+            <p>{{number_format($sales["fo_sales"]+$sales["pos_sales"]) }} Rwf</p>
+            <p>F.O & POS Sales</p>
         </div>
-     
+
     </div>
 
-     <div class="color-box light-green">
-        
+    <div class="color-box light-green">
+
         <span class="icon"><i class="fa fa-cart-arrow-down"></i></span>
         <div class="text">
-               <h4>Room Posts</h4>
-      
-        <p>Sales {{ number_format($room_posts) }} </p>
-        <p>Bills posted to rooms</p>
-       
+            <h6>TOTAL CREDIT</h6>
+
+            <p>Sales {{ number_format($sales["fo_credit"]+$sales["pos_credit"]) }} </p>
+            <p>F.O & POS Credit</p>
+
         </div>
-     
+
     </div>
 
     <div class="color-box blue">
-        
+
         <span class="icon"><i class="fa fa-cart-arrow-down"></i></span>
         <div class="text">
-               <h4>POS Sales</h4>
-        <p>{{ number_format($sum) }}</p>
-         <p>Room posts ,Credits</p>
+            <h6>TOTAL PAID</h6>
+            <p>{{number_format($sales["total_paid"]) }}</p>
+            <p>Room posts ,Credits</p>
         </div>
-     
+
     </div>
 
 
 
     <div class="clearfix"></div>
     <br />
+    <div class="row sales-summary">
+        <div class="col-md-3">
+            <i class="fa fa-shopping-cart"></i>
+            <div class="item-info">
+                <h6>F.O SALES</h6>
+                <p>{{number_format($sales["fo_sales"])}} RWF</p>
+            </div>
+        </div>
 
-<div class="home-chart" style="min-width: 310px; height: 350px; margin: 0 auto" id="container"></div>
+        <div class="col-md-3">
+            <i class="fa fa-user"></i>
+            <div class="item-info">
+                <h6>F.O CREDIT</h6>
+                <p>{{number_format($sales["fo_credit"])}} RWF</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <i class="fa fa-usd"></i>
+            <div class="item-info">
+                <h6>POS SALES</h6>
+                <p>{{number_format($sales["pos_sales"])}} RWF</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 last">
+            <i class="fa fa-clock-o"></i>
+            <div class="item-info">
+                <h6>POS CREDIT</h6>
+                <p>{{number_format($sales["pos_sales"])}} RWF</p>
+            </div>
+        </div>
+    </div>
+    <div class="home-chart" style="min-width: 310px; height: 350px; margin: 0 auto" id="container"></div>
 
     <br />
-<p>RECENT PAYMENTS <em>POS</em></p>
+    <p>RECENT PAYMENTS <em>POS</em></p>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -155,17 +172,17 @@ $days="";
             </tr>
         </thead>
 
-@if(isset($payments) && count($payments)>0) 
-@foreach($payments as $payment)
-<?php $tsp = strtotime($payment->date); ?>
+        @if(isset($payments) && count($payments)>0)
+        @foreach($payments as $payment)
+        <?php $tsp = strtotime($payment->date); ?>
         <tr>
             <td>{{ $payment->idpayments }}</td>
-            
 
-             @if($payment->bank_card>0)
-             <td>{{ $payment->bank_card }}</td>
+
+            @if($payment->bank_card>0)
+            <td>{{ $payment->bank_card }}</td>
             <td>Card</td>
-            @else 
+            @else
             <td>{{ $payment->cash }}</td>
             <td>Cash</td>
             @endif
@@ -174,62 +191,76 @@ $days="";
             <td>{{ date("H:i:s",$tsp) }}</td>
         </tr>
 
-@endforeach
+        @endforeach
 
-@else 
-<tr>
-    <td colspan="5">There are no payments yet</td>
-</tr>
-@endif
+        @else
+        <tr>
+            <td colspan="5">There are no payments yet</td>
+        </tr>
+        @endif
     </table>
 
 </div>
 
 <div class="col-md-3">
     <div class="widget" style="border:1px solid rgb(227, 207, 218)">
-    <div class="widget-text">
-        <table style="width:100%;line-height:1.1">
-            <tr>
-            @foreach($exchangerates as $rate)
-                <td style="padding:5px">
-                <i style="font-size:22px" class="fa fa-{{ strtolower($rate->currency) }}"></i> 
-                </td>
+        <div class="widget-text">
+            <table style="width:100%;line-height:1.1">
+                <tr>
+                    @foreach($exchangerates as $rate)
+                    <td style="padding:5px">
+                        <i style="font-size:22px" class="fa fa-{{ strtolower($rate->currency) }}"></i>
+                    </td>
 
-                <td style="padding:5px">
-                <span class="text-danger">{{ floor($rate->buying) }} (B)</span> <br>  <span class="text-success">{{ floor($rate->selling) }} (S)</span>
-                </td>
-            @endforeach
-            </tr>
-        </table>
-        <p style="font-size:11px;color:#ccc;margin-top:5px;margin-bottom:-5px" class="text-center">{{ $exchangerates[0]->date }}</p>
-       
+                    <td style="padding:5px">
+                        <span class="text-danger">{{ floor($rate->buying) }} (B)</span> <br>  <span class="text-success">{{ floor($rate->selling) }} (S)</span>
+                    </td>
+                    @endforeach
+                </tr>
+            </table>
+            <p style="font-size:11px;color:#ccc;margin-top:5px;margin-bottom:-5px" class="text-center">{{$exchangerates[0]->date }}</p>
+
+        </div>
     </div>
-    </div>
+
+
 
     <div class="widget" style="border: 1px solid rgb(163, 149, 173)">
         <p class="widget-title" style="background:#7C5590">Cash Balance</p>
-            <table style="margin-bottom:0" class="table-responsive  table-striped table">
+        <table style="margin-bottom:0" class="table-responsive  table-striped table">
             @foreach($cashbooks as $book)
-                <tr>
-                    <td>{{ $book->cashbook_name }}</td><td> {{ number_format($book->balance) }}</td>
-                </tr>
+            <tr>
+                <td>{{ $book->cashbook_name }}</td>
+                <td> {{ number_format($book->balance) }}</td>
+            </tr>
 
             @endforeach
 
-            </table>
+        </table>
     </div>
-     @if(\Auth::user()->level >= 9)
+    @if(\Auth::user()->level >= 9)
+
+    <div class="widget" style="border: 1px solid rgb(61, 122, 92)">
+        <p class="widget-title" style="background:rgb(85, 144, 115)">Security Camera</p>
+        <div class="text-center">
+
+            <img class="text-center" style="padding:10px" width="72" src="/assets/images/lens.png" />
+            <p style="font-size:11px;margin-bottom:5px;color:#b0b0b0">Access to security Cameras</p>
+        </div>
+
+    </div>
     <div class="widget green">
         <p class="widget-title">User Activities</p>
         <div class="widget-text">
             <ul class="activities-list">
-            @foreach($logs as $log)
-               <?php  $tsp = strtotime($log->date); ?>
+                @foreach($logs as $log)
+                <?php  $tsp = strtotime($log->date); ?>
 
-                <li><p>{{$log->username}} : {{ $log->action }}</p><i class="fa fa-clock-o"></i> {{ date("H:i",$tsp) }}
-                    <span>{{ date("d",$tsp) }}</span>
+                <li>
+                    <p>{{$log->username}} : {{ $log->action }}</p><i class="fa fa-clock-o"></i> {{ date("d/m/Y H:i",$tsp) }}
+                    <span>{{ date("H",$tsp) }}</span>
                 </li>
-            @endforeach 
+                @endforeach
 
             </ul>
         </div>

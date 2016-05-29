@@ -91,6 +91,7 @@ class FrontofficeReport extends Model
     {
         $rangex = $range;
         array_push($range,$range[0]);
+        array_push($range,$range[0]);
         $d  = isset($range[0]) ? $range[0] : \ORG\Dates::$RESTODATE;
 
         return ["data"=>self::$db->select("select idreservation,shifted,room_number,accounts.balance_amount,checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
@@ -100,12 +101,12 @@ companies.name as Company,concat(adults,'/',children) as pax,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=2 and date(date)='$d') as resto,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=4 and date(date)='$d') as laundry
         from reservations
-        join  reserved_rooms on reserved_rooms.reservation_id =reservations.idreservation
+        join  reserved_rooms on reserved_rooms.reservation_id = reservations.idreservation
         join guest on guest.id_guest = reserved_rooms.guest_in
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = reservations.company_id
-        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and date(checkout) >= ? or ( date(checkout) >= ? and date(checkout) <> ? ) or shifted=1  order by idreservation desc",$range)];
+        join accounts on accounts.reservation_id = idreservation where reservations.status not in (2,3,4) and date(checkout) >= ? or ( date(checkout) >= ? and date(checkout) <> ? ) or (shifted=1 and date(checkout) >=?)  and checked_in is not null order by idreservation desc",$range)];
     }
 
     public function PaymentControl($range)

@@ -26,7 +26,7 @@ class BackofficeController extends Controller
     public function index()
     {
         $data = DB::connection("mysql_backoffice")->select("select buying,selling,currency,date(date) as date from exchange_rate order by id desc limit 2");
-
+        $sales = ["pos_sales"=>0,"fo_sales"=>0,"pos_credit"=>0,"fo_credit"=>0,"total_paid"=>0];
         //if not updated
         if($data[0]->date !=date("Y-m-d"))
         {
@@ -46,16 +46,44 @@ class BackofficeController extends Controller
 
         $payments = \DB::select("select * from payments where void=0 and date(date)=? limit 5",[$date]);
         $week_sales = \DB::select("SELECT  date_format(date,'%W') as day,sum(bill_total) as total FROM `bills` where deleted=0 and status not in( ".\ORG\Bill::OFFTARIFF.",".\ORG\Bill::SUSPENDED.") and date(bills.date) between  ' ".$d->format('Y-m-d')."' and '$d2' group by date_format(date,'%W') order by date asc");
-         $cashbooks = \DB::connection("mysql_backoffice")->select("select * from cash_book");
-         $logs  = \DB::select("select username,action,logs.date from logs join users on users.id = user_id order by idlogs desc limit 6");
-         $bills= \DB::select("select sum(bill_total) as total,status from bills where date(bills.date)='$date'  and status in (".\ORG\Bill::PAID.",".\ORG\Bill::ASSIGNED.",".\ORG\Bill::CREDIT.") and deleted=0 group by status order by status desc");
+        $cashbooks = \DB::connection("mysql_backoffice")->select("select * from cash_book");
+        $logs  = \DB::select("select username,action,logs.date from logs join users on users.id = user_id order by idlogs desc limit 6");
+
+       // $fo_sales = \DB::connection("mysql_book")->select()
+        $pos_sales = \DB::select("select status,coalesce(sum(bill_total),0) as amount from bills where status not in (".\ORG\Bill::SUSPENDED.",".\ORG\Bill::OFFTARIFF.") and date(date)=? group by status",[$date]);
+        $pos_payments = \DB::select("SELECT coalesce(sum(bank_card+cash+check_amount),0) as amount FROM payments where date(date)=? and void=0",[$date]);
+        $fo_payments = \DB::connection("mysql_book")->select("SELECT coalesce(sum(credit),0) as amount FROM folio where void=0 and date(date)=?",[$date]);
+        $fo_sales = \DB::connection("mysql_book")->select("select coalesce(sum(night_rate*DATEDIFF(date(checkout),date(checkin))),0) as  amount,pay_by_credit from reservations
+            join reserved_rooms on reserved_rooms.reservation_id = idreservation
+        where status=5 and date(reservations.date)=? group by pay_by_credit",[$date]);
 
          if(\Auth::user()->level>6 && \Auth::user()->level < 9){
              return \View::make("/Backoffice/dashboard2",['exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"bills"=>$bills,"weeksales"=>$week_sales,"payments"=>$payments]);
-
          }
 
-        return \View::make("/Backoffice/index",['exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"bills"=>$bills,"weeksales"=>$week_sales,"payments"=>$payments]);
+
+         foreach ($fo_sales as $fs)
+         {
+            if($fs->pay_by_credit>0){
+                $sales['fo_credit']=$fs->amount;
+            }
+
+            $sales['fo_sales'] += $fs->amount;
+         }
+
+         foreach($pos_sales as $ps)
+         {
+             if($ps->status == \ORG\Bill::CREDIT)
+             {
+                 $sales['pos_credit'] = $ps->amount;
+             }
+
+             $sales['pos_sales'] +=  $ps->amount;
+         }
+
+         $sales['total_paid'] = isset($pos_payments[0]->amount) ? $pos_payments[0]->amount : 0;
+         $sales['total_paid'] += isset($fo_payments[0]->amount) ? $fo_payments[0]->amount: 0 ;
+        return \View::make("/Backoffice/index",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"payments"=>$payments]);
     }
 
     /**
@@ -177,7 +205,7 @@ class BackofficeController extends Controller
 
     public function search($query)
     {
-        $keywords = ["#","order","bill","cashier"];
+        $keywords = ["#","order","bill","cashier","room"];
         $key ="";
         for($i=0;$i<count($keywords);$i++)
         {
@@ -190,9 +218,7 @@ class BackofficeController extends Controller
 
        if(is_numeric($query))
        {
-
            $data = \DB::select("select 'location=Bills' as location,concat('Bill : #',idbills,' Bill Total : ',bill_total) as text,idbills as ID from bills where idbills like ? limit 10",["%".$query."%"]);
-
            return json_encode( $data);
        }
 
@@ -212,16 +238,19 @@ class BackofficeController extends Controller
                  $cashierid = "%".explode(' ',$query)[1]."%";
                  $data = \DB::select("select idbills,bill_total from bills where user_id like ? order by date desc limit 20",[$cashierid]);
                  return json_encode( $data);
-
+             case "room":
+                 try{
+                     $room = "%".explode(' ',$query)[1];
+                 }catch(\Exception $x){$room="";}
+                 $data = \DB::connection("mysql_book")->select("select concat(room_number,' : ',type_name) as text,'location=rooms' as location,idrooms as ID from rooms
+                    join room_status on room_status.status_code = status
+                    join room_types on room_types.idroom_types = type_id where room_number like ?",[$room]);
+                 return json_encode( $data);
              default:
                  $data = \DB::select("select 'location=Bills' as location,concat('Bill : #',idbills,' customer : ',customer) as text,idbills as ID from bills where customer like ? order by idbills desc limit 10",["%".$query."%"]);
                  return json_encode( $data);
 
        }
 
-
-        //\DB::select("select idbills,customer,bill_total from bills where idbills=?");
-        //\DB::select("select idbills,customer,bill_total from bills where room=?");
-         //\DB
     }
 }

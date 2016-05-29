@@ -210,6 +210,57 @@ $(document).ready(function () {
     })
 
 
+    //Master Search
+
+    var searchDiv = $(".search-results");
+    var searchList = $("<ul class='search-results-list'>");
+
+    $("#master-search").blur(function () {
+        setTimeout(function () {
+            $(searchDiv).html($(searchList)).removeClass("open");
+            $(".loader-img").removeClass("shown");
+        }, 1500);
+
+    })
+
+    $("#master-search").keyup(function () {
+        $(".loader-img").addClass("shown");
+        var q = $(this).val();
+        var url = $(this).attr("data-search-url");
+
+        switch ($("#master-search-location").val().toLowerCase()) {
+            case "room":
+                q = "room " + q;
+                break;
+        }
+
+        url = url.replace('%7Bquery%7D', q);
+
+        var previewUrl = $("option:selected", "#master-search-location").attr("data-preview-url");
+        
+        setTimeout(function () {
+            $.ajax({
+                url: url,
+                type: "get",
+                contentType: "json",
+                success: function (data) {
+                    data = JSON.parse(data);
+                    $(searchList).html("");
+
+                    $.each(data, function (e, v) {
+                        var uri = previewUrl + "/?type=" + v.location.split('=')[1] + "&id=" + v.ID;
+                        $(searchList).append("<li><a data-height='600' data-width='580' class='modal-btn' href='" + uri + "'>" + v.text +
+                            "<span>Found in <em>" + v.location.split('=')[1] + "</em></span></a></li>");
+                    });
+
+                    $(searchDiv).html($(searchList)).addClass("open");
+                    $(".loader-img").removeClass("shown");
+                }
+            })
+        },500);
+
+    });
+
 })
 
 function showRangeValue(src) {

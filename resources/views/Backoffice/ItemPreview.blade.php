@@ -107,6 +107,53 @@
 
     @endif
 
-<button {{(\Auth::user()->level < 9) ? "disabled='disabled'":"" }} data-url="{{ action("BillsController@destroy") }}" data-id="{{ $bill[0]->idbills }}" {{ ($bill[0]->deleted==1) ? "disabled='disabled'" : "" }} style="margin: 20px auto;display: block;" class="delete_bill_btn btn btn-sm btn-danger">DELETE BILL</button>
+<button {{(\Auth::user()->level < 9) ? "disabled='disabled'":"" }} data-url="{{ action("BillsController@destroy") }}" data-id="{{ $bill[0]->idbills }}" {{($bill[0]->deleted==1) ? "disabled='disabled'" : "" }} style="margin: 20px auto;display: block;" class="delete_bill_btn btn btn-sm btn-danger">DELETE BILL</button>
 
+@endif
+
+
+@if(strtolower($_GET['type'])=="rooms")
+<h5>Room Preview</h5><br />
+
+<?php
+$sql = "select idrooms,room_number,type_name,status_name,due_amount,balance_amount,concat_ws(' ',guest.firstname,guest.lastname) as guest,coalesce(checked_in,checkin) as arrival,coalesce(checked_out,checkout) as departure  from rooms
+join room_status on room_status.status_code = status
+join room_types on room_types.idroom_types = type_id
+left join reserved_rooms on reserved_rooms.room_id  = idrooms
+left join guest on guest.id_guest = guest_in
+left join accounts on accounts.reservation_id = reserved_rooms.reservation_id
+where idrooms =? order by reserved_rooms.idreserved_rooms desc limit 1";
+
+$room_data  = \DB::connection("mysql_book")->select($sql,[$_GET['id']]);
+
+?>
+
+<h4>
+   Room : {{$room_data[0]->room_number}} {{$room_data[0]->type_name}}
+</h4>
+<p style="border:1px solid #ccc;padding:6px" class="text-center">Current Status : <b>{{$room_data[0]->status_name}}</b></p>
+<br />
+
+Previous/Current Occupying Guest
+<br />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Guest Names</th>
+            <th>Arrival</th>
+            <th>Departure</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>{{$room_data[0]->guest}}</td><td>{{$room_data[0]->arrival}}</td><td>{{$room_data[0]->departure}}</td>
+    </tr>
+    
+</table>
+<div class="text-right text-success">
+    <p>Due Amount: {{number_format($room_data[0]->due_amount)}}</p>
+    <p>Paid Amount: {{number_format($room_data[0]->balance_amount)}}</p>
+    
+    <p>Balance  : {{number_format($room_data[0]->due_amount-$room_data[0]->balance_amount)}}</p>
+</div>
+<br />
 @endif

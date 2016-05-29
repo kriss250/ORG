@@ -87,45 +87,7 @@
 
         //End report printing
 
-    var searchDiv = $(".search-results");
-    var searchList = $("<ul class='search-results-list'>");
-
-    $("#master-search").blur(function () {
-        setTimeout(function () {
-            $(searchDiv).html($(searchList)).removeClass("open");
-            $(".loader-img").removeClass("shown");
-        }, 1500);
-        
-    })
-
-    $("#master-search").keyup(function () {
-        $(".loader-img").addClass("shown");
-        var q = $(this).val();
-        var url = "{{route('BackofficeSearch')}}";
-        url = url.replace('%7Bquery%7D', q);
-        
-        $.ajax({
-            url: url,
-            type: "get",
-            contentType: "json",
-            success : function(data)
-            {
-                data = JSON.parse(data);
-                $(searchList).html("");
-                $.each(data, function (e, v) {
-                    var uri = "{{url('/Backoffice/itemPreview') }}/?type=" + v.location.split('=')[1]+"&id="+v.ID;
-                  
-
-                    $(searchList).append("<li><a data-height='600' data-width='520' class='modal-btn' href='"+uri+"'>" + v.text + 
-                    	"<span>Found in <em>"+v.location.split('=')[1]+"</em></span></a></li>");
-                });
-
-                $(searchDiv).html($(searchList)).addClass("open");
-                $(".loader-img").removeClass("shown");
-            }
-        })
-        
-    });
+    
 
 })
 
@@ -196,7 +158,7 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                     </li>
                     <li>
                         <?php $tsp = strtotime( \ORG\Dates::$RESTODT); ?>
-                        <p style="padding-top: 16px;padding-right: 30px;font-size: 11px;color: rgb(111, 111, 111)"> {{ date("l d, m Y",$tsp) }}</p>
+                        <p style="padding-top: 16px;padding-right: 30px;font-size: 11px;color: rgb(111, 111, 111)"> {{date("l d, m Y",$tsp) }}</p>
                     </li>
                 </ul>
             </div>
@@ -216,7 +178,15 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                 <br />
                 <form class="search-form" action="">
                     <div class="input-group">
-                          <input id="master-search" autocomplete="off" placeholder="Search ...." type="text" class="typeahead form-control" /> 
+                          <input data-search-url="{{route('BackofficeSearch')}}" id="master-search" autocomplete="off" placeholder="Search ...." type="text" class="typeahead form-control" /> 
+                        <span class="input-group-addon search-filter-addon">
+                            <select id="master-search-location" name="location" class="form-control">
+                                <option data-preview-url="{{url('/Backoffice/itemPreview')}}">POS Bill</option>
+                                <option data-preview-url="{{url('/Backoffice/itemPreview')}}">Room</option>
+                                <option data-preview-url="{{url('/Backoffice/itemPreview')}}">Stock Product</option>
+                                <option data-preview-url="{{url('/Backoffice/itemPreview')}}">F.O Customer</option>
+                            </select>
+                        </span>
                           <span class="input-group-addon"><i class="fa fa-search"></i></span>
                      </div>
                     <img class="loader-img" src="/assets/images/small-loader.gif" />
