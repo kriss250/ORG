@@ -67,7 +67,7 @@ class FrontofficeReport extends Model
             join guest on guest.id_guest = guest_in
             left join companies on companies.idcompanies = reservations.company_id
             where checked_in is not null and ".($expected ? " checked_out is null " : " (checked_out is not null and reservations.status=6) ")." and (date(checkout) between ? and ?)  or shifted=1
-             group by idreserved_rooms,idreservation order by idreserved_rooms desc",$range )];
+             group by idreserved_rooms,idreservation order by idreservation,idreserved_rooms desc",$range )];
     }
 
     public function Morning($range)
