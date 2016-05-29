@@ -56,9 +56,10 @@ class FrontofficeReport extends Model
 
     public function Departure($range,$expected=false)
     {
+        array_push($range,$range[0]);
         return ["data"=>self::$db->select("select idreservation,pay_by_credit,shifted,date(checked_in) as checked_in, coalesce(date(checked_out),date(checkout)) as checked_out,due_amount,rooms.room_number,concat_ws(' ',firstname,lastname) as guest,companies.name as company,date(checkin) as checkin,
             date(checkout) as checkout,night_rate,balance_amount, sum(acco_charges.amount) as acco,
-(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
+(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation and date(checked_out)=?) as gsize,
             (select sum(room_charges.amount) as services from room_charges where room_id=idrooms and room_charges.reservation_id = idreservation and  reserved_room_id = reserved_rooms.idreserved_rooms) as services ,is_group, payer from reserved_rooms
             join accounts on accounts.reservation_id= reserved_rooms.reservation_id
             join rooms on rooms.idrooms = reserved_rooms.room_id
