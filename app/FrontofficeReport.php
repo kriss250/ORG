@@ -64,7 +64,7 @@ class FrontofficeReport extends Model
             (select sum(room_charges.amount) as services from room_charges where room_id=idrooms and room_charges.reservation_id = idreservation and  reserved_room_id = reserved_rooms.idreserved_rooms) as services ,is_group, payer from reserved_rooms
             join accounts on accounts.reservation_id= reserved_rooms.reservation_id
             join rooms on rooms.idrooms = reserved_rooms.room_id
-            join reservations on reservations.idreservation = reserved_rooms.reservation_id ".(!$expected ? " and reservations.status=6" : " ")."
+            join reservations on reservations.idreservation = reserved_rooms.reservation_id ".(!$expected ? " and reservations.status=6 and last_check_out='$range[1]'" : " ")."
             left join acco_charges on acco_charges.reservation_id = reserved_rooms.reservation_id and acco_charges.room_id = reserved_rooms.room_id and acco_charges.reserved_room_id = reserved_rooms.idreserved_rooms
             join guest on guest.id_guest = guest_in
             left join companies on companies.idcompanies = reservations.company_id
