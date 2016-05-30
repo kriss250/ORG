@@ -153,7 +153,7 @@ $days="";
             <i class="fa fa-clock-o"></i>
             <div class="item-info">
                 <h6>POS CREDIT</h6>
-                <p>{{number_format($sales["pos_sales"])}} RWF</p>
+                <p>{{number_format($sales["pos_credit"])}} RWF</p>
             </div>
         </div>
     </div>
