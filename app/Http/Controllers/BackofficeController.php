@@ -58,7 +58,7 @@ class BackofficeController extends Controller
         where status=5 and date(reservations.date)=? group by pay_by_credit",[$date]);
 
          if(\Auth::user()->level>6 && \Auth::user()->level < 9){
-             return \View::make("/Backoffice/dashboard2",['exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"bills"=>$bills,"weeksales"=>$week_sales,"payments"=>$payments]);
+             return \View::make("/Backoffice/dashboard2",['exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"payments"=>$payments]);
          }
 
 
