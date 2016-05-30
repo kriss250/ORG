@@ -57,9 +57,6 @@ class BackofficeController extends Controller
             join reserved_rooms on reserved_rooms.reservation_id = idreservation
         where status=5 and date(reservations.date)=? group by pay_by_credit",[$date]);
 
-         if(\Auth::user()->level>6 && \Auth::user()->level < 9){
-             return \View::make("/Backoffice/dashboard2",['exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"payments"=>$payments]);
-         }
 
 
          foreach ($fo_sales as $fs)
@@ -83,7 +80,12 @@ class BackofficeController extends Controller
 
          $sales['total_paid'] = isset($pos_payments[0]->amount) ? $pos_payments[0]->amount : 0;
          $sales['total_paid'] += isset($fo_payments[0]->amount) ? $fo_payments[0]->amount: 0 ;
-        return \View::make("/Backoffice/index",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"payments"=>$payments]);
+
+         if(\Auth::user()->level>6 && \Auth::user()->level < 9){
+             return \View::make("/Backoffice/dashboard2",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"payments"=>$payments]);
+         }
+
+         return \View::make("/Backoffice/index",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"payments"=>$payments]);
     }
 
     /**

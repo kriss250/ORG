@@ -31,20 +31,7 @@ $days="";
 
 <div class="col-md-9" style="padding-left:0">
 
-    <?php $sum = 0;$credit=0;$room_posts=0; ?>
 
-    @foreach ($bills as $bill)
-    <?php $sum +=$bill->total; ?>
-   
-        @if($bill->status ==\ORG\Bill::CREDIT)
-            <?php $credit +=$bill->total;  ?>
-        @endif
-   
-        @if($bill->status ==\ORG\Bill::ASSIGNED)
-            <?php $room_posts +=$bill->total; ?>
-        @endif
-
-    @endforeach
 
         <h2>Cash Books</h2> 
 
