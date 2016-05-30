@@ -144,11 +144,11 @@ countSales();
 <div class="header">
 <div class="grid">
 <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 col-xs-3">
              <h2 class="pos_logo">ORG POS <i class="fa fa-bars"></i></h2>
         </div>
 
-        <div class="col-md-9 header-right">
+        <div class="col-md-9 col-xs-9 header-right">
           
           <ul>
           <li>
@@ -203,7 +203,7 @@ countSales();
         <span class="icon-bar"></span>
     </div>
 
-    <div class="col-md-3 sidebar">
+    <div class="col-md-3 hidden-xs sidebar">
      <nav class="list-group">
        <span href="#" class="list-group-item active">
             Menu

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-        <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <meta name="csrf-token" content="{{csrf_token() }}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         {!! HTML::style('assets/css/vendor/bootstrap.min.css') !!}
         {!! HTML::style('assets/css/vendor/font-awesome.min.css') !!}
         {!! HTML::style('assets/js/vendor/chosen/chosen.css') !!}
@@ -129,16 +130,16 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
 @endif 
     <header id="header">
         <div class="grid container-fluid">
-            <div class="col-md-1 logo">
+            <div class="col-md-1 col-xs-3 logo">
                 <img src="/assets/images/backoffice_logo.png" width="45" />
             </div>
 
-            <div style="padding-left:5px;" class="col-md-5">
+            <div style="padding-left:5px;" class="col-md-5 col-xs-6">
                 <h4 style="font-family:Lato;margin-bottom:0;margin-top:5px;">Classic Hotel</h4>
                 <p style="color:rgb(182, 179, 179)">Backoffice | ORG Systems</p>
             </div>
 
-            <div class="col-md-6 header-menu">
+            <div class="col-md-6 col-xs-4 header-menu">
                 <ul>
                     <li class="user-item">
                        <span class="round"><i class="fa fa-user"></i></span>
@@ -154,7 +155,7 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                     </li>
 
                     <li>
-                        <a class="expand-btn" href="#"><i class="fa fa-arrows-alt"></i></a>
+                        <a class="expand-btn hidden-xs" href="#"><i class="fa fa-arrows-alt"></i></a>
                     </li>
                     <li>
                         <?php $tsp = strtotime( \ORG\Dates::$RESTODT); ?>
@@ -169,7 +170,7 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
     <div class="grid">
 
         <div class="row subheader">
-            <div class="col-md-3">
+            <div class="col-md-3 hidden-xs">
                 <h4 style="margin-top: 15px; margin-bottom: 0; margin-left: 6px; color: rgb(93, 93, 93)">BACKOFFICE </h4>
                 <span style="font-size: 11px;margin-left:6px;color:rgb(132, 132, 132)">Dashboard</span>
             </div>
