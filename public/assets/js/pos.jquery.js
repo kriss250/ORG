@@ -1708,6 +1708,13 @@
 		});	
 	}
 
+
+	function confirmNewDay(src) {
+	    if(confirm("Are you sure you want to make a new day ?"))
+	    {
+	        location.href = $(src).attr("data-destination");
+	    }
+	}
 	function printBill(id)
 	{
 		$(document).ready(function(){

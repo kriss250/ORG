@@ -256,7 +256,7 @@ countSales();
          </li>
          @endif
 
-         <li class="list-group-item"> <a style="color:#C81313" onclick="confirm('You are about to make a new Day , \nDo you want to continue ?')" href="<?php echo action("SettingsController@newDay"); ?>"><i class="fa fa-calendar"></i> New Day</a></li>
+         <li class="list-group-item"> <a style="color:#C81313" onclick="confirmNewDay(this);" data-destination="<?php echo action("SettingsController@newDay"); ?>"><i class="fa fa-calendar"></i> New Day</a></li>
          <li class="list-group-item dropdown"> <a href=""><i class="fa fa-files-o"></i> Reports</a>
          <span><i class="fa fa-angle-down"></i></span>
              <ul class="dropdown_menu">

@@ -545,7 +545,7 @@ class BillsController extends Controller
                                 $bill->store_id=="1" ? $bar_code :  $resto_code,
                                 $bill->amount,
                                 $bill->store_id=="1" ? $bar_motif : $resto_motif,
-                                \ORG\Dates::$RESTODATE,
+                                \ORG\Dates::$RESTODT,
                                 1,
                                 \Auth::user()->username,
                                 1,
