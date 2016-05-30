@@ -18,10 +18,7 @@ $i=0;
 $firstRow = false;
 $totals = ["acco"=>0,"services"=>0,"totals"=>0,"credits"=>0,"paid"=>0];
 foreach($data as $res) {
-    if($res->checked_out < $_GET['enddate'])
-    {
-        //continue;
-    }
+    
 
     #region IS IT THE FIRT ROW
     $span = $res->gsize > 1 ? "rowspan='$res->gsize'" : "";
