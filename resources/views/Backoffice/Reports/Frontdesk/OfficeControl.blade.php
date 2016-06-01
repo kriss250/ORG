@@ -44,9 +44,11 @@ foreach($data as $res) {
 
     $rows .= "<td>".\App\FX::Date($res->checked_in)."</td>";
     $rows .=  "<td>".\App\FX::Date($res->checked_out)."</td>";
-    $rows .=   "<td>".number_format($res->night_rate)."</td>";
 
-    $tariff += $res->night_rate;
+    if($firstRow){
+        $rows .=   "<td $span>".number_format($res->night_rate)."</td>";
+        $tariff += $res->night_rate;
+    }
 
     $laundry += $res->laundry;
     $bar += $res->bar;
