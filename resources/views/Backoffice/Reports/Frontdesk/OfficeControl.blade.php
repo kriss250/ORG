@@ -17,6 +17,12 @@ $balance=0;
 $firstRow =false;
 foreach($data as $res) {
     $span= "";
+
+    if($res->checked_out)
+    {
+
+    }
+
     #region IS IT THE FIRT ROW
     $span = $res->gsize > 1 ? "rowspan='$res->gsize'" : "";
     if($i==0)
@@ -37,9 +43,9 @@ foreach($data as $res) {
     $rows .= "<td>{$res->type_name}</td>";
     $rows .= "<td>{$res->guest}</td>";
 
+
     if($firstRow){
         $rows .= "<td $span>".(strlen($res->Company) > 0 ? $res->Company : "WALKIN")."</td>" ;
-
     }
 
     $rows .= "<td>".\App\FX::Date($res->checked_in)."</td>";
