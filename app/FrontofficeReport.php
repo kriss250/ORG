@@ -103,7 +103,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=2 and date(date)='$d') as resto,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=4 and date(date)='$d') as laundry
         from reservations
-        join  reserved_rooms on reserved_rooms.reservation_id = reservations.idreservation and date(checked_in) <= '$d'
+        join  reserved_rooms on reserved_rooms.reservation_id = reservations.idreservation and date(checked_in) <= '$d' and date(checkout) > '$d'
         join guest on guest.id_guest = reserved_rooms.guest_in
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
