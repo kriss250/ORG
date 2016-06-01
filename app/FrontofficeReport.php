@@ -98,7 +98,7 @@ class FrontofficeReport extends Model
 
         return ["data"=>self::$db->select("select idreservation,shifted,room_number,accounts.balance_amount,COALESCE(checked_in,checkin) as checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
 companies.name as Company,concat(adults,'/',children) as pax,
-        checkin,checkout,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation) as gsize,
+        checkin,checkout,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation  and date(checked_in) <= '$d') as gsize,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=3 and date(date)='$d') as bar,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=2 and date(date)='$d') as resto,
         (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=4 and date(date)='$d') as laundry
