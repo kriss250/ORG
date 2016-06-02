@@ -91,24 +91,26 @@ class FrontofficeReport extends Model
 
     public function OfficeControl($range)
     {
-        $rangex = $range;
-        array_push($range,$range[0]);
-        array_push($range,$range[0]);
-        $d  = isset($range[0]) ? $range[0] : \ORG\Dates::$RESTODATE;
-
-        return ["data"=>self::$db->select("select idreservation,shifted,room_number,accounts.balance_amount,COALESCE(checked_in,checkin) as checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
+        $date  = $range[0];
+        return ["data"=>self::$db->select("
+            select type_name,room_number,night_rate,
+(select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=3 and date(date)='$date') as bar,
+        (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=2 and date(date)='$date') as resto,
+        (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=4 and date(date)='$date') as laundry,
+idreservation,shifted,room_number,accounts.balance_amount,COALESCE(checked_in,checkin) as checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
 companies.name as Company,concat(adults,'/',children) as pax,
-        checkin,checkout,night_rate,due_amount,(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation  and date(checked_in) <= '$d' and date(checkout) > '$d') as gsize,
-        (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=3 and date(date)='$d') as bar,
-        (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=2 and date(date)='$d') as resto,
-        (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=4 and date(date)='$d') as laundry
-        from reservations
-        join  reserved_rooms on reserved_rooms.reservation_id = reservations.idreservation and date(checked_in) <= '$d' and date(checkout) > '$d'
-        join guest on guest.id_guest = reserved_rooms.guest_in
-        join rooms on rooms.idrooms = reserved_rooms.room_id
-        join room_types on room_types.idroom_types = rooms.type_id
-        left join companies on companies.idcompanies = reservations.company_id
-        join accounts on accounts.reservation_id = idreservation where  date(checkout) > ? or ( date(checkout) > ? and date(checkout) <> ? and reservations.status not in (2,3,4) ) or (shifted=1 and date(checkout) >?)   and checked_in is not null and reservations.status not in (2,3,4) order by idreservation desc",$range)];
+checkin,checkout,night_rate,due_amount,
+(select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation  and date(checkin) <= '$date' and date(checkout) > '$date') as gsize
+from reserved_rooms
+join guest on guest.id_guest = reserved_rooms.guest_in
+join reservations on reservations.idreservation = reserved_rooms.reservation_id
+join rooms on rooms.idrooms = reserved_rooms.room_id
+left join companies on companies.idcompanies = reservations.company_id
+join accounts on accounts.reservation_id = idreservation
+join room_types on room_types.idroom_types = rooms.type_id
+where  date(checked_in) <= '$date' and date(checkout) > '$date' and reservations.status not in (2,3,4) and checked_in is not null order by idreservation
+
+            ")];
     }
 
     public function PaymentControl($range)

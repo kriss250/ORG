@@ -18,11 +18,6 @@ $firstRow =false;
 foreach($data as $res) {
     $span= "";
 
-    if($res->checked_out)
-    {
-
-    }
-
     #region IS IT THE FIRT ROW
     $span = $res->gsize > 1 ? "rowspan='$res->gsize'" : "";
     if($i==0)
@@ -39,6 +34,7 @@ foreach($data as $res) {
     #endregion
 
     $rows  .= "<tr>";
+    $rows .= "<td>".($i+1)."</td>";
     $rows .= "<td>".$res->room_number.($res->shifted > 0 ? " (Shifted) " :"" )."</td>";
     $rows .= "<td>{$res->type_name}</td>";
     $rows .= "<td>{$res->guest}</td>";
@@ -81,7 +77,7 @@ foreach($data as $res) {
 }
 
 $rows .= "<tfoot>";
-$rows .= "<tr><th colspan='6'>TOTAL</th><th>".number_format($tariff)."</th><th>".number_format($resto)."</th><th>".number_format($bar)."</th><th>".number_format($laundry)."</th><th>".number_format($due)."</th><th>".number_format($paid)."</th><th>".number_format($balance)."</th>";
+$rows .= "<tr><th colspan='7'>TOTAL</th><th>".number_format($tariff)."</th><th>".number_format($resto)."</th><th>".number_format($bar)."</th><th>".number_format($laundry)."</th><th>".number_format($due)."</th><th>".number_format($paid)."</th><th>".number_format($balance)."</th>";
 $rows .="</tr>";
 ?>
 
@@ -119,6 +115,7 @@ $rows .="</tr>";
     <table class="table table-bordered">
         <thead>
                <tr>
+                <th>#</th>
                 <th>Room</th>
                  <th>Room Type</th>
                  <th>Guest Names</th>
