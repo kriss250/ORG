@@ -102,7 +102,7 @@ companies.name as Company,concat(adults,'/',children) as pax,
 checkin,checkout,night_rate,due_amount,
 (select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation  and date(checkin) <= '$date' and date(checkout) > '$date') as gsize
 from reserved_rooms
-join guest on guest.id_guest = reserved_rooms.guest_in
+join guest on guest.id_guest = reserved_rooms.guest_in 
 join reservations on reservations.idreservation = reserved_rooms.reservation_id
 join rooms on rooms.idrooms = reserved_rooms.room_id
 left join companies on companies.idcompanies = reservations.company_id
