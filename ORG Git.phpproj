@@ -670,7 +670,6 @@
     <Compile Include="public\assets\js\vendor\touchspin\jquery.bootstrap-touchspin.min.js" />
     <Compile Include="public\assets\js\vendor\typeahead\typeahead.bundle.min.js" />
     <Compile Include="public\assets\js\backoffice.js" />
-    <Compile Include="public\assets\js\main.js" />
     <Compile Include="public\assets\js\ORGFrontdesk.js" />
     <Compile Include="public\assets\js\pos.jquery.js" />
     <Compile Include="public\assets\js\POS.js" />

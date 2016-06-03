@@ -24,10 +24,18 @@ body {
     background:rgb(228, 228, 228) !important;
     border-bottom: 1px solid rgb(216, 216, 216) !important
 }
+
+.table {
+    background:#fff;
+}
 @media print {
 
     .sidebar,#header,.footer,.subheader,.report-filter, .report-page-header,.report-page-content .menu-wrapper,.report-page-content .col-md-2  {
         display:none !important;
+    }
+
+    .table {
+        margin-bottom:15px;
     }
 
     .report-page-content .col-md-10 {

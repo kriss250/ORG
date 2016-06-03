@@ -35,39 +35,44 @@
 
 </head>
 <body>
-<style type="text/css">
-    .input-group .twitter-typeahead {
-        display: block !important;
-    }
+    <style type="text/css">
+        .input-group .twitter-typeahead {
+            display: block !important;
+        }
 
-    .tt-suggestion {
-        padding: 10px 0px;
-        cursor: pointer;
-    }
-    .tt-menu {
-        position: absolute;
-        top: 32px !important;
-        left: 0px;
-        z-index: 100;
-        display: block;
-        background: rgb(255, 255, 255) none repeat scroll 0% 0%;
-        width: 100%;
-        padding: 11px;
-        border: 1px solid rgb(204, 204, 204);
-    }
-</style>
-<script type="text/javascript">
+        .tt-suggestion {
+            padding: 10px 0px;
+            cursor: pointer;
+        }
+
+        .tt-menu {
+            position: absolute;
+            top: 32px !important;
+            left: 0px;
+            z-index: 100;
+            display: block;
+            background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+            width: 100%;
+            padding: 11px;
+            border: 1px solid rgb(204, 204, 204);
+        }
+    </style>
+    <script type="text/javascript">
 
     $(document).ready(function () {
-    
+
         //printing report
         $(".report-print-btn").click(function (e) {
             e.preventDefault();
+            $(this).html("Printing...");
+            var btn  = $(this);
             var headerDiv = $("<div class='print-header'>");
             var footerDiv = $("<div class='print-footer'>");
             var ds = "";
             var title = $(this).attr("data-title");
             var dates = $(this).attr("data-dates");
+
+        $.when(
             $.ajax({
                 url: "{{url('/Backoffice/Reports/Header') }}?title="+title+"&date_range="+dates,
                 type: "get",
@@ -80,34 +85,38 @@
                     }
 
                     window.print();
-                   
+
                 }
+            }) ).then(function(){
+                setTimeout(function(){
+                   $(btn).html("Print");
+                    $(headerDiv).html("");
+                 },500);
             })
-           
+
         })
 
         //End report printing
 
-    
+
 
 })
 
-</script>
+    </script>
 
-<?php
-
+    <?php
 $announcements = \DB::connection("mysql_backoffice")->select("select idannouncements,title,body,concat_ws(' ',firstname,lastname) as user,announcements.date,user_seen_annoucement.date from announcements join org_pos.users on users.id =announcements.user_id left join user_seen_annoucement on idannouncements=announcement_id and user_seen_annoucement.user_id=? where user_seen_annoucement.date is null and announcements.user_id<>?",[\Auth::user()->id,\Auth::user()->id]);
-?>
+    ?>
 
-@if(count($announcements)>0)
-    
+    @if(count($announcements)>0)
+
     <div class="announcements">
-     <script type="text/javascript">
+        <script type="text/javascript">
      $(document).ready(function(){
 
         @foreach($announcements as $announcement)
 
-       
+
             bootbox.dialog({
               message: "{{ trim($announcement->body) }} <br><br><p><b>From : {{ $announcement->user }} </b></p>",
               title: "{{ $announcement->title }}",
@@ -121,13 +130,13 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                 }
               }
           });
-        
+
         @endforeach
         })
         </script>
     </div>
-    
-@endif 
+
+    @endif
     <header id="header">
         <div class="grid container-fluid">
             <div class="col-md-1 col-xs-3 logo">
@@ -142,16 +151,16 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
             <div class="col-md-6 col-xs-4 header-menu">
                 <ul>
                     <li class="user-item">
-                       <span class="round"><i class="fa fa-user"></i></span>
+                        <span class="round"><i class="fa fa-user"></i></span>
                         <div class="btn-group">
-                              <button type="button" style="font-size:12px;background:rgb(91, 183, 63);border: medium none;border-radius: 0px 4px 4px 0;margin-left: -10px;margin-top: 12px;color: rgba(255, 255, 255, 0.93);padding-left: 15px;" class="btn btn-default dropdown-toggle login-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" style="font-size:12px;background:rgb(91, 183, 63);border: medium none;border-radius: 0px 4px 4px 0;margin-left: -10px;margin-top: 12px;color: rgba(255, 255, 255, 0.93);padding-left: 15px;" class="btn btn-default dropdown-toggle login-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Hi, {{ \Auth::user()->username }} <span class="caret"></span>
-                              </button>
-                              <ul class="dropdown-menu">
+                            </button>
+                            <ul class="dropdown-menu">
                                 <li><a class="modal-btn" data-width="400" data-height="300" href="/Backoffice/Settings/changePassword"><i class="fa fa-key"></i> Change Password</a></li>
                                 <li><a href="/POS/logout"> <i class="fa fa-sign-out"></i> Logout</a></li>
-                              </ul>
-                         </div>
+                            </ul>
+                        </div>
                     </li>
 
                     <li>
@@ -163,7 +172,7 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                     </li>
                 </ul>
             </div>
-            
+
         </div>
     </header>
 
@@ -179,7 +188,7 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                 <br />
                 <form class="search-form" action="">
                     <div class="input-group">
-                          <input data-search-url="{{route('BackofficeSearch')}}" id="master-search" autocomplete="off" placeholder="Search ...." type="text" class="typeahead form-control" /> 
+                        <input data-search-url="{{route('BackofficeSearch')}}" id="master-search" autocomplete="off" placeholder="Search ...." type="text" class="typeahead form-control" />
                         <span class="input-group-addon search-filter-addon">
                             <select id="master-search-location" name="location" class="form-control">
                                 <option data-preview-url="{{url('/Backoffice/itemPreview')}}">POS Bill</option>
@@ -188,8 +197,8 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                                 <option data-preview-url="{{url('/Backoffice/itemPreview')}}">F.O Customer</option>
                             </select>
                         </span>
-                          <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                     </div>
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
                     <img class="loader-img" src="/assets/images/small-loader.gif" />
                     <div class='search-results closed'></div>
                 </form>
@@ -210,48 +219,54 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                     <p>Menu</p>
                     <ul>
                         <li><a href="{{ action("BackofficeController@index") }}"><i class="fa fa-tachometer"></i>Dashboard</a></li>
-                        <li><a class="dropdown-btn" href=""><i class="fa fa-bullhorn"></i> Announcements <i class="fa fa-chevron-down"></i></a>
-                             <ul class="dropdown-menu">
-                                 <li><a class="modal-btn" data-width="350" data-height="250" href="{{ action("AnnouncementController@create") }}">New Announcement</a></li>
-                                 <li><a class="modal-btn" data-width="650" data-height="380" href="{{ action("AnnouncementController@index") }}">List Announcement</a></li>
-                             </ul>
+                        <li>
+                            <a class="dropdown-btn" href=""><i class="fa fa-bullhorn"></i> Announcements <i class="fa fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="modal-btn" data-width="350" data-height="250" href="{{ action("AnnouncementController@create") }}">New Announcement</a></li>
+                                <li><a class="modal-btn" data-width="650" data-height="380" href="{{ action("AnnouncementController@index") }}">List Announcement</a></li>
+                            </ul>
                         </li>
-                   
-                        <li><a class="dropdown-btn" href=""><i class="fa fa-money"></i> Debts <i class="fa fa-chevron-down"></i></a>
-                             <ul class="dropdown-menu">
-                                 <li><a  href="{{ action("POSCreditController@unexportedDebts") }}">Unexported Debts</a></li>
-                                 <li><a  href="{{ action("POSCreditController@externalDebts") }}">External Debts</a></li>
-                                 <li><a  href="{{ action("POSCreditController@internalDebts") }}">Internal Debts</a></li>
-                             </ul>
+
+                        <li>
+                            <a class="dropdown-btn" href=""><i class="fa fa-money"></i> Debts <i class="fa fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ action("POSCreditController@unexportedDebts") }}">Unexported Debts</a></li>
+                                <li><a href="{{ action("POSCreditController@externalDebts") }}">External Debts</a></li>
+                                <li><a href="{{ action("POSCreditController@internalDebts") }}">Internal Debts</a></li>
+                            </ul>
                         </li>
-                        
+
                         <li><a href="{{ action("PaymentsController@index") }}"><i class="fa fa-money"></i> Payments</a></li>
-                        <li class="report-btn"><a class="dropdown-btn" href=""><i class="fa fa-cutlery"></i> POS Reports <i class="fa fa-chevron-down"></i></a>
-                                @include("layouts.pos_menu")
+                        <li class="report-btn">
+                            <a class="dropdown-btn" href=""><i class="fa fa-cutlery"></i> POS Reports <i class="fa fa-chevron-down"></i></a>
+                            @include("layouts.pos_menu")
                         </li>
-                        <li class="report-btn"><a class="dropdown-btn" href="#"> <i class="fa fa-bed"></i> Frontdesk Reports <i class="fa fa-chevron-down"></i></a>
+                        <li class="report-btn">
+                            <a class="dropdown-btn" href="#"> <i class="fa fa-bed"></i> Frontdesk Reports <i class="fa fa-chevron-down"></i></a>
                             @include("layouts.frontdesk_menu")
                         </li>
 
-                         <li class="report-btn"><a href="{{ action("BackofficeReportController@index",'cashBooks') }}"><i class="fa fa-file-text-o"></i> CashBook Reports</a></li>
-                       
+                        <li class="report-btn"><a href="{{ action("BackofficeReportController@index",'cashBooks') }}"><i class="fa fa-file-text-o"></i> CashBook Reports</a></li>
 
-                         <li class="report-btn"><a class="dropdown-btn" href="#"> <i class="fa fa-archive"></i> Stock Reports <i class="fa fa-chevron-down"></i></a>
+
+                        <li class="report-btn">
+                            <a class="dropdown-btn" href="#"> <i class="fa fa-archive"></i> Stock Reports <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a  href="{{ action("BackofficeReportController@index",'stockOverview') }}">Stock Overview</a> </li>
-                                <li><a  href="{{ action("BackofficeReportController@index",'purchases') }}">Purchases</a> </li>
-                                <li><a  href="{{ action("BackofficeReportController@index",'stockSales') }}">Sales</a> </li>
-                                <li><a  href="{{ action("BackofficeReportController@index",'stockRequisition') }}">Requisition</a> </li>
-                                <li><a  href="{{ action("BackofficeReportController@index",'damagedProducts') }}">Damaged Products</a> </li>
+                                <li><a href="{{ action("BackofficeReportController@index",'stockOverview') }}">Stock Overview</a> </li>
+                                <li><a href="{{ action("BackofficeReportController@index",'purchases') }}">Purchases</a> </li>
+                                <li><a href="{{ action("BackofficeReportController@index",'stockSales') }}">Sales</a> </li>
+                                <li><a href="{{ action("BackofficeReportController@index",'stockRequisition') }}">Requisition</a> </li>
+                                <li><a href="{{ action("BackofficeReportController@index",'damagedProducts') }}">Damaged Products</a> </li>
 
                             </ul>
                         </li>
                         @if(\Auth::user()->level > 9)
-                        <li><a class="dropdown-btn" href=""><i class="fa fa-user"></i> User Management <i class="fa fa-chevron-down"></i></a>
-                        	  <ul class="dropdown-menu">
-                                <li><a  href="{{ action("UniversalUsersController@create") }}">New User</a> </li>
-                                <li><a  href="{{ action("UniversalUsersController@index") }}">User List</a> </li>
-                                
+                        <li>
+                            <a class="dropdown-btn" href=""><i class="fa fa-user"></i> User Management <i class="fa fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ action("UniversalUsersController@create") }}">New User</a> </li>
+                                <li><a href="{{ action("UniversalUsersController@index") }}">User List</a> </li>
+
                             </ul>
                         </li>
                         @endif
@@ -261,7 +276,7 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                         <li><a href="{{ url('POS', $parameters = array(), true) }}">POS</a></li>
                         <li><a href="{{ url('stock1', $parameters = array(), $secure = false) }}">Stock</a></li>
                     </ul>
-                 
+
                 </div>
 
                 <div class="col-md-10">
@@ -271,15 +286,15 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
-   <footer class="footer">
+    <footer class="footer">
         <div class="grid">
             <p class="text-center">&copy; {{ date('Y') }} Classic Hotel</p>
             <p class="text-center"> ORG System </p>
         </div>
-   </footer>
+    </footer>
 </body>
 </html>

@@ -132,10 +132,10 @@ $rows .="</tr>";
             </tr>
         </thead>
 
-        {!! $rows !!} 
+        {!!$rows !!} 
     </table>
 
-
+    <br />
 <div class="text-center print-footer">
        <table style="margin-bottom:85px;width:100%;" class="table">
            <tr>
@@ -165,6 +165,8 @@ $rows .="</tr>";
            </tr>
        </table>
         <div class="clearfix"></div>
+
+
     </div>
 
 </div>

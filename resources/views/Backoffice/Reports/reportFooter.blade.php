@@ -1,3 +1,3 @@
 <div class="print-footer">
-    Printed by {{ \Auth::user()->username }} , on {{ date('d/m/Y') }}
+    Printed by {{ \Session::has("fo_user") ? Session::get("fo_user") :  \Auth::user()->username }} , on {{ date('d/m/Y H:i:s') }}
 </div>
