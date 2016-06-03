@@ -79,6 +79,11 @@
                 success:function(data)
                 {
                     $(headerDiv).html(data);
+                    if($(".print-header").length > 1 )
+                    {
+                         $(headerDiv).html("");
+                    }
+
                     if($(".print-header").length < 1)
                     {
                         $(".main-contents").prepend($(headerDiv));
@@ -90,7 +95,7 @@
             }) ).then(function(){
                 setTimeout(function(){
                    $(btn).html("Print");
-                    $(headerDiv).html("");
+
                  },500);
             })
 
