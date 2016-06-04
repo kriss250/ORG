@@ -20,13 +20,27 @@
 <?php
 $days="";
   $day_sales = "";
+  $week1 = "";
+  $week2 = "";
+
+  $week1_days = "";
+  $i=1;
+
+
+  foreach ($weeksales[0] as $w)
+  {
+        $days .= "'".$w->day."',";
+        $week1 .= $w->total.",";
+  }
+
+  foreach ($weeksales[1] as $w)
+  {
+        $days .= "'".$w->day."',";
+        $week2 .= $w->total.",";
+  }
+
 ?>
-@foreach($weeksales as $wk)
-<?php
-        $day_sales .= $wk->total.",";
-        $days .= "'".$wk->day."',";
-?>
-@endforeach
+
 <script type="text/javascript">
     $(function () {
     $('#container').highcharts({
@@ -48,7 +62,7 @@ $days="";
         },
         xAxis: {
             categories: [
-                {!! trim($days,',') !!}
+                {!!trim($days,',') !!}
             ],
             plotBands: [{ // visualize the weekend
                 from: 4.5,
@@ -75,10 +89,10 @@ $days="";
         },
         series: [{
             name: 'Last Week',
-            data: [2020000,1988500,2261600,3098400,1029000]
+            data: [{{trim($week1,',')}}]
         }, {
             name: 'This week',
-            data: [{{trim($day_sales,',')}}]
+            data: [{{trim($week2,',')}}]
         }]
     });
 });
@@ -160,46 +174,76 @@ $days="";
     <div class="home-chart" style="min-width: 310px; height: 350px; margin: 0 auto" id="container"></div>
 
     <br />
-    <p>RECENT PAYMENTS <em>POS</em></p>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID#</th>
-                <th>Amount</th>
-                <th>Mode</th>
-                <th>Date</th>
-                <th>Time</th>
-            </tr>
-        </thead>
+    <h4>Stock Flashback</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="background:#fff" class="text-center" colspan="2">PURCHASES</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center" style="padding:2px">
+                            Stock
+                        </th>
 
-        @if(isset($payments) && count($payments)>0)
-        @foreach($payments as $payment)
-        <?php $tsp = strtotime($payment->date); ?>
-        <tr>
-            <td>{{ $payment->idpayments }}</td>
+                        <th class="text-center" style="padding:2px">Amount</th>
+                    </tr>
+                </thead>
+
+                
+                    @if(isset($purchases) && count($purchases) > 0)
+                    @foreach($purchases as $purchase)
+                        <tr>
+                            <td>{{$purchase->name}}</td>
+                            <td>{{number_format($purchase->amount) }}</td>
+                        </tr>
+                    @endforeach
+                    @else 
+                <tr><td colspan="2">No Data</td></tr>
+                    
+                    @endif
+               
+            </table>
+
+            
+        </div>
+
+        <div class="col-md-6">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="background:#fff" class="text-center" colspan="2">REQUISITIONS</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center" style="padding:2px">
+                            Department
+                        </th>
+
+                        <th class="text-center" style="padding:2px">Amount</th>
+                    </tr>
+                </thead>
 
 
-            @if($payment->bank_card>0)
-            <td>{{ $payment->bank_card }}</td>
-            <td>Card</td>
-            @else
-            <td>{{ $payment->cash }}</td>
-            <td>Cash</td>
-            @endif
+                @if(isset($requisitions) && count($requisitions) > 0)
+                    @foreach($requisitions as $requisition)
+                <tr>
+                    <td>{{$requisition->department_name}}</td>
+                    <td>{{number_format($requisition->amount) }}</td>
+                </tr>
+                @endforeach
+                    @else
+                <tr>
+                    <td colspan="2">No Data</td>
+                </tr>
 
-            <td>{{ date("d/m/Y",$tsp) }}</td>
-            <td>{{ date("H:i:s",$tsp) }}</td>
-        </tr>
+                @endif
 
-        @endforeach
+            </table>
 
-        @else
-        <tr>
-            <td colspan="5">There are no payments yet</td>
-        </tr>
-        @endif
-    </table>
 
+        </div>
+    </div>
 </div>
 
 <div class="col-md-3">

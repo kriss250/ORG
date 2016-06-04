@@ -42,10 +42,24 @@ class BackofficeController extends Controller
         $d2 = $date;
 
         $d = new \DateTime($date);
-        $d->sub(new \DateInterval('P7D'));
+        $d->sub(new \DateInterval('P6D'));
 
-        $payments = \DB::select("select * from payments where void=0 and date(date)=? limit 5",[$date]);
-        $week_sales = \DB::select("SELECT  date_format(date,'%W') as day,sum(bill_total) as total FROM `bills` where deleted=0 and status not in( ".\ORG\Bill::OFFTARIFF.",".\ORG\Bill::SUSPENDED.") and date(bills.date) between  ' ".$d->format('Y-m-d')."' and '$d2' group by date_format(date,'%W') order by date asc");
+        $d3 = new \DateTime($d->format('Y-m-d'));
+        $d3->sub(new \DateInterval('P7D'));
+
+        $purchases = \DB::connection("mysql_stock")->select("SELECT coalesce(sum(inv_total),0) as amount,warehouses.name FROM warehouses left join purchases on warehouses.id = warehouse_id where date =? group by warehouse_id ",[$date]);
+        $requisitions = \DB::connection("mysql_stock")->select("select department_name, coalesce((sub_total),0) as amount from requisition
+            join requisition_items on requisition_items.requisition_id = requisition.idrequisition
+            join departments on departments.iddepartment=department_id
+        where date(date)=?
+        group by department_id",[$date]);
+
+        $week_1 = \DB::select("SELECT  date_format(date,'%W') as day,coalesce(sum(bill_total),0) as total FROM `bills` where deleted=0 and status not in( ".\ORG\Bill::OFFTARIFF.",".\ORG\Bill::SUSPENDED.") and date(bills.date) between '{$d->format('Y-m-d')}' and '$d2' group by date_format(date,'%W') order by date_format(date,'%w') asc ");
+        $week_2 = \DB::select("SELECT  date_format(date,'%W') as day,coalesce(sum(bill_total),0) as total FROM `bills` where deleted=0 and status not in( ".\ORG\Bill::OFFTARIFF.",".\ORG\Bill::SUSPENDED.") and date(bills.date) between   '{$d3->format('Y-m-d')}' and '{$d->format('Y-m-d')}'  group by date_format(date,'%W') order by date_format(date,'%w') asc");
+
+        $week_sales = [$week_2,$week_1];
+
+
         $cashbooks = \DB::connection("mysql_backoffice")->select("select * from cash_book");
         $logs  = \DB::select("select username,action,logs.date from logs join users on users.id = user_id order by idlogs desc limit 6");
 
@@ -56,7 +70,6 @@ class BackofficeController extends Controller
         $fo_sales = \DB::connection("mysql_book")->select("select coalesce(sum(night_rate*DATEDIFF(date(checkout),date(checkin))),0) as  amount,pay_by_credit from reservations
             join reserved_rooms on reserved_rooms.reservation_id = idreservation
         where status=5 and date(reservations.date)=? group by pay_by_credit",[$date]);
-
 
 
          foreach ($fo_sales as $fs)
@@ -81,11 +94,12 @@ class BackofficeController extends Controller
          $sales['total_paid'] = isset($pos_payments[0]->amount) ? $pos_payments[0]->amount : 0;
          $sales['total_paid'] += isset($fo_payments[0]->amount) ? $fo_payments[0]->amount: 0 ;
 
-         if(\Auth::user()->level>6 && \Auth::user()->level < 9){
-             return \View::make("/Backoffice/dashboard2",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"payments"=>$payments]);
+         if(\Auth::user()->level>6 && \Auth::user()->level < 9)
+         {
+             return \View::make("/Backoffice/dashboard2",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"purchases"=>$purchases,"requisitions"=>$requisitions]);
          }
 
-         return \View::make("/Backoffice/index",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"payments"=>$payments]);
+         return \View::make("/Backoffice/index",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"purchases"=>$purchases,"requisitions"=>$requisitions]);
     }
 
     /**

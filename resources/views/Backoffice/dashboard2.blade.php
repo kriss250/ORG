@@ -17,29 +17,17 @@
     </div>
 @endif
 
-<?php 
-$days="";
-  $day_sales = "";
-  ?>
-@foreach($weeksales as $wk) 
-  <?php 
-  
-        $day_sales .= $wk->total.",";
-        $days .= "'".$wk->day."',";
-   ?>
-@endforeach
+
 
 <div class="col-md-9" style="padding-left:0">
 
-
-
-        <h2>Cash Books</h2> 
+        <h3 class="text-center" style="margin-bottom:2px;">Cash Books</h3> 
 
         <?php
         $_cashbooks =  DB::connection("mysql_backoffice")->select("SELECT * FROM cash_book order by cashbookid desc");
         ?>
 
-        <p>Cashbooks Balance</p>
+        <p class="text-center">Cashbooks Balance</p>
 
     <table class="table table-striped table-bordered">
         <thead>
@@ -55,15 +43,172 @@ $days="";
                 <td>
                     {{ $book->cashbook_name }}
                 </td>
-                <td>
+                <td class="text-right">
                     {{ number_format($book->balance) }}
                 </td>
-                		 	<td><a class="btn btn-xs" href="{{ action("CashbookController@show",$book->cashbookid) }}" style="font-size:12px;">Open</a>
+                		 	<td class="text-right"><a class="btn btn-xs btn-success" href="{{ action("CashbookController@show",$book->cashbookid) }}" style="font-size:12px;">Open</a>
 
             </tr>
         @endforeach
     </table>
+
     <div class="clearfix"></div>
+
+    @if(\Auth::user()->level > 7)
+    <?php
+            $days="";
+          $day_sales = "";
+          $week1 = "";
+          $week2 = "";
+
+          $week1_days = "";
+          $i=1;
+
+
+          foreach ($weeksales[0] as $w)
+          {
+                $days .= "'".$w->day."',";
+                $week1 .= $w->total.",";
+          }
+
+          foreach ($weeksales[1] as $w)
+          {
+                $days .= "'".$w->day."',";
+                $week2 .= $w->total.",";
+          }
+    ?>
+    <script type="text/javascript">
+    $(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'areaspline'
+        },
+        title: {
+            text: 'Daily Bar and Restaurant sales'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 150,
+            y: 100,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+        xAxis: {
+            categories: [
+                {!!trim($days,',') !!}
+            ],
+            plotBands: [{ // visualize the weekend
+                from: 4.5,
+                to: 6.5,
+                color: 'rgba(68, 170, 213, .2)'
+            }]
+        },
+        yAxis: {
+            title: {
+                text: 'Rwf'
+            }
+        },
+        tooltip: {
+            shared: true,
+            valueSuffix: ' Rwf'
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            areaspline: {
+                fillOpacity: 0.5
+            }
+        },
+        series: [{
+            name: 'Last Week',
+            data: [{{trim($week1,',')}}]
+        }, {
+            name: 'This week',
+            data: [{{trim($week2,',')}}]
+        }]
+    });
+});
+    </script>
+    <br />
+    <div class="home-chart" style="min-width: 310px; height: 350px; margin: 0 auto" id="container"></div>
+    <br />
+    <h4>Stock Flashback</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="background:#fff" class="text-center" colspan="2">PURCHASES</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center" style="padding:2px">
+                            Stock
+                        </th>
+
+                        <th class="text-center" style="padding:2px">Amount</th>
+                    </tr>
+                </thead>
+
+
+                @if(isset($purchases) && count($purchases) > 0)
+                    @foreach($purchases as $purchase)
+                <tr>
+                    <td>{{$purchase->name}}</td>
+                    <td>{{number_format($purchase->amount) }}</td>
+                </tr>
+                @endforeach
+                    @else
+                <tr>
+                    <td colspan="2">No Data</td>
+                </tr>
+
+                @endif
+
+            </table>
+
+
+        </div>
+
+        <div class="col-md-6">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="background:#fff" class="text-center" colspan="2">REQUISITIONS</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center" style="padding:2px">
+                            Department
+                        </th>
+
+                        <th class="text-center" style="padding:2px">Amount</th>
+                    </tr>
+                </thead>
+
+
+                @if(isset($requisitions) && count($requisitions) > 0)
+                    @foreach($requisitions as $requisition)
+                <tr>
+                    <td>{{$requisition->department_name}}</td>
+                    <td>{{number_format($requisition->amount) }}</td>
+                </tr>
+                @endforeach
+                    @else
+                <tr>
+                    <td colspan="2">No Data</td>
+                </tr>
+
+                @endif
+
+            </table>
+
+
+        </div>
+    </div>
+    @endif
     <br />
 
 
