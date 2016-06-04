@@ -168,7 +168,7 @@ class StockReport extends Model
         join sale_items on sale_items.sale_id = sales.id
         where sales.warehouse_id=$stock and product_id = products.id and sales.date >= '$start_date') as stout,
 
-        @trans :=(SELECT  COALESCE(sum(quantity),0) FROM transfers join transfer_items on transfer_items.transfer_id=transfers.id  where date >='$start_date' and from_warehouse_id=$stock) as trans,
+        @trans :=(SELECT  COALESCE(sum(quantity),0) FROM transfers join transfer_items on transfer_items.transfer_id=transfers.id  where product_id = products.id and date >='$start_date' and from_warehouse_id=$stock) as trans,
 
         @damagedp:=(select COALESCE(sum(damage_products.quantity),0) from damage_products
                 where product_id = products.id and warehouse_id=$stock and date >= '$start_date') as damagedp,
