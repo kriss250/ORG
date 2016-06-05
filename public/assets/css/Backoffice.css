@@ -361,6 +361,9 @@ display: inline-block;
     position:relative;
     margin-bottom:6px;
     font-size:12px;
+    max-height:56px;
+    overflow:hidden;
+    text-transform:capitalize;
     background:rgba(180, 180, 180, 0.1) none repeat scroll 0% 0%;
     margin-right:-25px;
     margin-left:-15px;
@@ -545,6 +548,38 @@ padding: 6px;
     position: absolute;
     top: 8px;
     right: 8px;
+}
+
+.room-table {
+  padding: 12px;
+  padding: 12px;
+border: 1px solid #e6e6e6;
+margin-bottom: 15px;
+}
+
+.room-table td {
+  padding: 6px !important;
+}
+
+.room-table td p {
+    font-size:12px;
+    margin-bottom:3px;
+}
+.room-table .col1 {
+  text-align: center;
+border-right: 1px solid #e7e7e7;
+}
+
+.room-table tr:nth-last-child(1) td
+{
+    font-size:11px;
+    color:#5a5a5a;
+    background:#f9f9f9
+}
+.room-table .col1 b {
+    font-size:22px;
+    display:block;
+    text-align:center;
 }
 
 .main-contents .alert {

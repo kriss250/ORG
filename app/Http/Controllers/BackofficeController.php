@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use \DB;
 use \ORG;
+
 class BackofficeController extends Controller
 {
 
@@ -54,7 +55,7 @@ class BackofficeController extends Controller
         where date(date)=?
         group by department_id",[$date]);
 
-        $week_1 = \DB::select("SELECT  date_format(date,'%W') as day,coalesce(sum(bill_total),0) as total FROM `bills` where deleted=0 and status not in( ".\ORG\Bill::OFFTARIFF.",".\ORG\Bill::SUSPENDED.") and date(bills.date) between '{$d->format('Y-m-d')}' and '$d2' group by date_format(date,'%W') order by date_format(date,'%w') asc ");
+        $week_1 = \DB::select("SELECT  date_format(date,'%W') as day,coalesce(sum(bill_total),0) as total FROM `bills` where deleted=0 and status not in( ".\ORG\Bill::OFFTARIFF.",".\ORG\Bill::SUSPENDED.") and date(bills.date) between '{$d->format('Y-m-d')}' and '$d2' group by date_format(date,'%W') order by date_format(date,'%w') asc");
         $week_2 = \DB::select("SELECT  date_format(date,'%W') as day,coalesce(sum(bill_total),0) as total FROM `bills` where deleted=0 and status not in( ".\ORG\Bill::OFFTARIFF.",".\ORG\Bill::SUSPENDED.") and date(bills.date) between   '{$d3->format('Y-m-d')}' and '{$d->format('Y-m-d')}'  group by date_format(date,'%W') order by date_format(date,'%w') asc");
 
         $week_sales = [$week_2,$week_1];
@@ -166,6 +167,18 @@ class BackofficeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function OccupiedRooms()
+    {
+        $sql = "select concat_ws(' ',firstname,lastname)as guest,room_number,concat(date_format(checkin,'%d/%M'),' - ',date_format(checkout,'%d/%M')) dates,night_rate,due_amount,balance_amount from reserved_rooms
+            join rooms on rooms.idrooms = room_id
+            join guest on guest.id_guest = guest_in
+            join accounts on accounts.reservation_id = reserved_rooms.reservation_id
+            where checked_in is not null and checked_out is null limit 12";
+
+        $data =  \DB::connection("mysql_book")->select($sql);
+        return json_encode($data);
     }
 
     public function retreiveExchangeRates(){

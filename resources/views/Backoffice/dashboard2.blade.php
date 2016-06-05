@@ -13,11 +13,48 @@
 @if (session('error'))
     <div class="alert alert-danger">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        {{ session('error') }}
+        {{session('error') }}
     </div>
 @endif
 
+<script>
+    $(document).ready(function(){
+             $.ajax({
+        type:"get",
+        url:"{{action("BackofficeController@OccupiedRooms")}}",
+        success:function(data)
+        {
+            data = JSON.parse(data);
 
+
+            $.each(data,function(i,x){
+                var itemDiv = $('<div class="col-md-6">');
+                var itemTb = $('<table class="room-table table table-condensed">');
+
+                var itemRow = $("<tr>");
+                var col1Td = $('<td class="col1">');
+                var Td = $("<td>");
+
+                //FIRST ROW
+                $(itemRow).append($(col1Td).html("<b>"+x.room_number+"</b>"));
+                $(itemRow).append($(Td).html("<p>"+x.guest+"</p>"+x.dates))
+
+                $(itemTb).append(itemRow);
+
+                //SECOND ROW
+                var itemRow2 = $("<tr>");
+                $(itemRow2).append($('<td class="col1">').html("Rate : "+x.night_rate));
+                $(itemRow2).append($('<td>').html("Current charges : "+x.due_amount));
+
+                $(itemTb).append($(itemRow2));
+                $(itemDiv).append(itemTb);
+
+                $(".rooms-overview").append(itemDiv);
+            });
+        }
+    })
+    })
+</script>
 
 <div class="col-md-9" style="padding-left:0">
 
@@ -134,6 +171,7 @@
 });
     </script>
     <br />
+
     <div class="home-chart" style="min-width: 310px; height: 350px; margin: 0 auto" id="container"></div>
     <br />
     <h4>Stock Flashback</h4>
@@ -155,13 +193,13 @@
 
 
                 @if(isset($purchases) && count($purchases) > 0)
-                    @foreach($purchases as $purchase)
+                @foreach($purchases as $purchase)
                 <tr>
                     <td>{{$purchase->name}}</td>
                     <td>{{number_format($purchase->amount) }}</td>
                 </tr>
                 @endforeach
-                    @else
+                @else
                 <tr>
                     <td colspan="2">No Data</td>
                 </tr>
@@ -190,13 +228,13 @@
 
 
                 @if(isset($requisitions) && count($requisitions) > 0)
-                    @foreach($requisitions as $requisition)
+                @foreach($requisitions as $requisition)
                 <tr>
                     <td>{{$requisition->department_name}}</td>
                     <td>{{number_format($requisition->amount) }}</td>
                 </tr>
                 @endforeach
-                    @else
+                @else
                 <tr>
                     <td colspan="2">No Data</td>
                 </tr>
@@ -208,6 +246,11 @@
 
         </div>
     </div>
+    <h4 class="text-center text-success">Occupied Rooms</h4>
+    <p  class="text-center" style="margin-top:-3px;color:rgb(167, 167, 167)">(Limited to 14 rooms)</p>
+    <div class="rooms-overview row"></div>
+
+    
     @endif
     <br />
 
