@@ -139,7 +139,7 @@ where  date(checked_in) <= '$date' and date(checkout) > '$date' and reservations
         join rooms on rooms.idrooms = reserved_rooms.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         left join companies on companies.idcompanies = reservations.company_id
-        join accounts on accounts.reservation_id = idreservation where checked_out is null and reservations.status=5 order by idreservation desc")];
+        join accounts on accounts.reservation_id = idreservation where checked_in is not null and reservations.status not in(2,3) and date(checkout)>=? and date(checkin)<=? order by idreservation desc",$range)];
 
     }
 

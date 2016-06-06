@@ -482,7 +482,6 @@
     <Compile Include="public\assets\ZeroClipboard\ZeroClipboard.as" />
     <Compile Include="public\assets\ZeroClipboard\ZeroClipboard.fla" />
     <Compile Include="public\assets\ZeroClipboard\ZeroClipboard.js" />
-    <Compile Include="public\curl\index.php" />
     <Compile Include="public\images\logo.jpg" />
     <Compile Include="public\.htaccess" />
     <Compile Include="public\favicon.ico" />
@@ -738,7 +737,6 @@
     <Folder Include="public\assets\swf" />
     <Folder Include="public\assets\ZeroClipboard" />
     <Folder Include="public\assets" />
-    <Folder Include="public\curl" />
     <Folder Include="public\images" />
     <Folder Include="public" />
     <Folder Include="resources\" />
