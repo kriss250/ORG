@@ -32,7 +32,7 @@ class BookingViewController extends Controller
           }
 
         }
-
+        \ORG\POS::Log("Access Booking View","default");
         return \View::make("ORGFrontdesk.homeviews.BookingView",["types"=>$data]);
     }
 
