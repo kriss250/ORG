@@ -143,6 +143,8 @@ $html_date ="";
 $html_days ="";
 $html_booking_td="";
 $html_date_td ="";
+
+
 for($i=1;$i<=$days;$i++){
     if($i==1)
     {
@@ -180,6 +182,8 @@ for($i=1;$i<=$days;$i++){
                 data = JSON.parse(data);
 
                 $.each(data,function (i, x) {
+                    var the_date = '{{$_GET["startdate"]}}';
+                    var prv_days = 0;
                     x.days++;
                     var cell = $(".room_" + x.room_id + " .room_date_" + x.checkin);
                     var location = $(cell).index();
