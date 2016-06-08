@@ -24,7 +24,7 @@
     }
 
     tr.houseuse {
-        background-color: #ff7d3b;
+        background-color:#f58248;
         color: #fff;
     }
 

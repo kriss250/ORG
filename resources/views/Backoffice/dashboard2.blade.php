@@ -174,7 +174,8 @@
 
     <div class="home-chart" style="min-width: 310px; height: 350px; margin: 0 auto" id="container"></div>
     <br />
-    <h4>Stock Flashback</h4>
+    <h4>Stock Summary</h4>
+    <?php $purchase_total = 0; $req_total = 0; ?>
     <div class="row">
         <div class="col-md-6">
             <table class="table table-striped table-bordered">
@@ -198,6 +199,7 @@
                     <td>{{$purchase->name}}</td>
                     <td>{{number_format($purchase->amount) }}</td>
                 </tr>
+                <?php $purchase_total += $purchase->amount; ?>
                 @endforeach
                 @else
                 <tr>
@@ -206,6 +208,12 @@
 
                 @endif
 
+                <tfoot>
+                    <tr>
+                        <th>TOTAL</th>
+                        <th>{{number_format($purchase_total)}}</th>
+                    </tr>
+                </tfoot>
             </table>
 
 
@@ -231,8 +239,9 @@
                 @foreach($requisitions as $requisition)
                 <tr>
                     <td>{{$requisition->department_name}}</td>
-                    <td>{{number_format($requisition->amount) }}</td>
+                    <td>{{    number_format($requisition->amount) }}</td>
                 </tr>
+                <?php $req_total += $requisition->amount; ?>
                 @endforeach
                 @else
                 <tr>
@@ -241,6 +250,12 @@
 
                 @endif
 
+                <tfoot>
+                    <tr>
+                        <th>TOTAL</th>
+                        <th>{{number_format($req_total)}}</th>
+                    </tr>
+                </tfoot>
             </table>
 
 

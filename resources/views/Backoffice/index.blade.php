@@ -213,7 +213,9 @@ $days="";
     </div>
 
     <br />
-    <h4>Stock Flashback</h4>
+    <h4 class="text-center">Stock Summary</h4>
+    <br />
+    <?php $purchase_total = 0; $req_total = 0; ?>
     <div class="row">
         <div class="col-md-6">
             <table class="table table-striped table-bordered">
@@ -237,12 +239,19 @@ $days="";
                     <td>{{$purchase->name}}</td>
                     <td>{{number_format($purchase->amount) }}</td>
                 </tr>
+                <?php $purchase_total += $purchase->amount; ?>
                 @endforeach
                 @else
                 <tr><td colspan="2">No Data</td></tr>
 
                 @endif
 
+                <tfoot>
+                    <tr>
+                        <th>TOTAL</th>
+                        <th>{{number_format($purchase_total)}}</th>
+                    </tr>
+                </tfoot>
             </table>
 
 
@@ -268,8 +277,9 @@ $days="";
                 @foreach($requisitions as $requisition)
                 <tr>
                     <td>{{$requisition->department_name}}</td>
-                    <td>{{number_format($requisition->amount) }}</td>
+                    <td>{{    number_format($requisition->amount) }}</td>
                 </tr>
+                <?php $req_total += $requisition->amount; ?>
                 @endforeach
                 @else
                 <tr>
@@ -278,6 +288,12 @@ $days="";
 
                 @endif
 
+                <tfoot>
+                    <tr>
+                        <th>TOTAL</th>
+                        <th>{{number_format($req_total)}}</th>
+                    </tr>
+                </tfoot>
             </table>
 
 
