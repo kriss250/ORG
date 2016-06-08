@@ -55,7 +55,7 @@ class BookingViewController extends Controller
         $enddate = $new_date->add(new \DateInterval("P{$days}D"))->format("Y-m-d");
 
         $data = \DB::connection("mysql_book")->select("select concat_ws(' ',firstname,lastname)as guest,room_number,room_id,reservation_status.status_name,reservation_id,greatest('{$_date->format("Y-m-d")}',
-date_format(checkin,'%Y-%m-%d'))  as checkin,date_format(checkout,'%d_%m') as checkout,datediff(date(checkout),date(checkin))+1 as days from reserved_rooms
+date_format(checkin,'%Y-%m-%d'))  as checkin,date_format(checkout,'%d_%m') as checkout,datediff(date(checkout),date(checkin)) as days from reserved_rooms
             join reservations on reservations.idreservation = reservation_id
             join rooms on rooms.idrooms = room_id
 join reservation_status on reservation_status.idreservation_status = reservations.status
