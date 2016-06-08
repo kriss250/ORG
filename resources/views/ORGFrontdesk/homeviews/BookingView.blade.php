@@ -171,7 +171,8 @@ for($i=1;$i<=$days;$i++){
             $("[name='filter-form']").submit();
         })
 
-        var shownDays ='{{$days}}' ;
+        var shownDays ={{$days}};
+
         $.ajax({
             url: '{{action("BookingViewController@getBookingData")}}?startdate={{$_GET["startdate"]}}&days={{$days}}',
             type: "get",
