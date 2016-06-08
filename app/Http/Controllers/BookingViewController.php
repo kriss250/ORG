@@ -61,7 +61,7 @@ date_format(checkin,'%Y-%m-%d'))) as days from reserved_rooms
             join rooms on rooms.idrooms = room_id
 join reservation_status on reservation_status.idreservation_status = reservations.status
 join guest on guest.id_guest = guest_in
-            where reservations.status not in (2,3,4) and date(checkin) <= ? and date(checkin) and date(checkin)<=? and date(checkout) >=?  order by reservations.status desc ",[$date,$enddate,$date]);
+            where reservations.status not in (2,3,4) and date(checkin) <= ? and date(checkin)<=? and date(checkout) >=?  order by reservations.status desc ",[$enddate,$date,$date]);
 
         return json_encode($data);
     }
