@@ -180,6 +180,7 @@ for($i=1;$i<=$days;$i++){
                 data = JSON.parse(data);
 
                 $.each(data,function (i, x) {
+                    x.days++;
                     var cell = $(".room_" + x.room_id + " .room_date_" + x.checkin);
                     var location = $(cell).index();
                     var spanSize = 1;
