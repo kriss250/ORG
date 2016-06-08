@@ -31,7 +31,7 @@
         {!! HTML::script('assets/js/backoffice.js') !!}
 
     
-    <title>ORG Backoffice</title>
+    <title>Backoffice | ORG Systems</title>
 
 </head>
 <body>
@@ -110,7 +110,7 @@
     </script>
 
     <?php
-$announcements = \DB::connection("mysql_backoffice")->select("select idannouncements,title,body,concat_ws(' ',firstname,lastname) as user,announcements.date,user_seen_annoucement.date from announcements join org_pos.users on users.id =announcements.user_id left join user_seen_annoucement on idannouncements=announcement_id and user_seen_annoucement.user_id=? where user_seen_annoucement.date is null and announcements.user_id<>?",[\Auth::user()->id,\Auth::user()->id]);
+        $announcements = DB::connection("mysql_backoffice")->select("select idannouncements,title,body,concat_ws(' ',firstname,lastname) as user,announcements.date,user_seen_annoucement.date from announcements join org_pos.users on users.id =announcements.user_id left join user_seen_annoucement on idannouncements=announcement_id and user_seen_annoucement.user_id=? where user_seen_annoucement.date is null and announcements.user_id<>?",[\Auth::user()->id,\Auth::user()->id]);
     ?>
 
     @if(count($announcements)>0)
@@ -241,7 +241,8 @@ $announcements = \DB::connection("mysql_backoffice")->select("select idannouncem
                             </ul>
                         </li>
 
-                        <li><a href="{{ action("PaymentsController@index") }}"><i class="fa fa-money"></i> Payments</a></li>
+                        <!--<li><a href="{{action("PaymentsController@index") }}"><i class="fa fa-money"></i> Payments</a></li>-->
+                        <li><a  href="{{ action("BookingViewController@index") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-tasks"></i> R. Booking <span style="font-size:11px;color:rgb(222, 68, 68)">(New !)</span></a></li>
                         <li class="report-btn">
                             <a class="dropdown-btn" href=""><i class="fa fa-cutlery"></i> POS Reports <i class="fa fa-chevron-down"></i></a>
                             @include("layouts.pos_menu")

@@ -31,6 +31,7 @@
     <Compile Include="app\Http\Controllers\BackofficeController.php" />
     <Compile Include="app\Http\Controllers\BackofficeReportController.php" />
     <Compile Include="app\Http\Controllers\BillsController.php" />
+    <Compile Include="app\Http\Controllers\BookingViewController.php" />
     <Compile Include="app\Http\Controllers\CalendarViewController.php" />
     <Compile Include="app\Http\Controllers\CashbookController.php" />
     <Compile Include="app\Http\Controllers\CashbookTransactionController.php" />
@@ -561,6 +562,7 @@
     <Compile Include="resources\views\layouts\master.blade.php" />
     <Compile Include="resources\views\layouts\pos_menu.blade.php" />
     <Compile Include="resources\views\layouts\ReportHeader.blade.php" />
+    <Compile Include="resources\views\ORGFrontdesk\homeviews\BookingView.blade.php" />
     <Compile Include="resources\views\ORGFrontdesk\homeviews\calendarView.blade.php" />
     <Compile Include="resources\views\ORGFrontdesk\homeviews\floors.blade.php" />
     <Compile Include="resources\views\ORGFrontdesk\homeviews\master.blade.php" />
@@ -860,6 +862,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="composer.json" />
+    <Content Include="public\images\tape-limit.png" />
     <Content Include="resources\assets\less\app.less" />
     <Content Include="resources\views\layouts\assets\css\fonts\glyphicons-halflings-regular-2.html" />
     <Content Include="resources\views\layouts\assets\css\fonts\glyphicons-halflings-regular-3.html" />

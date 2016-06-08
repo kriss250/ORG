@@ -23,6 +23,14 @@ Route::get('/ORGFrontdesk/views/floors', [
     'uses' => 'FloorViewController@Display'
 ]);
 
+Route::get('/ORGFrontdesk/views/BookingView', [
+    'uses' => 'BookingViewController@index'
+]);
+
+Route::get('/ORGFrontdesk/views/BookingView/data', [
+    'uses' => 'BookingViewController@getBookingData'
+]);
+
 Route::get("/ORGFrontdesk/views/calendar",[
     "uses" => "CalendarViewController@DisplayCal"
     ]);
