@@ -34,7 +34,16 @@ foreach($data as $res) {
     #endregion
 
     $rows  .= "<tr>";
-    $rows .= "<td>".($i+1)."</td>";
+    if($res->shifted > 0 && $res->gsize > 1)
+    {
+        if($firstRow){
+            $rows .= "<td $span>".($i+1)."</td>";
+        }
+    }else {
+        $rows .= "<td>".($i+1)."</td>";
+    }
+
+
     $rows .= "<td>".$res->room_number.($res->shifted > 0 ? " (Shifted) " :"" )."</td>";
     $rows .= "<td>{$res->type_name}</td>";
     $rows .= "<td>{$res->guest}</td>";

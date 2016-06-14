@@ -16,18 +16,18 @@ class BookingViewController extends Controller
      */
     public function index()
     {
-        $roomTypes = \DB::connection("mysql_book")->select("select idroom_types as id,type_name from room_types");
+        $roomTypes = \DB::connection("mysql_book")->select("select idroom_types as id,type_name,alias from room_types");
         $data = [];
         foreach($roomTypes as $type)
         {
             $rooms = \DB::connection("mysql_book")->select("select idrooms as id,room_number,status_name from rooms join room_status on room_status.status_code = status where type_id=?",[$type->id]);
-            $data[$type->type_name] = [];
+            $data[$type->alias] = [];
 
           if(count($rooms)>0)
           {
               foreach($rooms as $room)
               {
-                  array_push( $data[$type->type_name],$room);
+                  array_push( $data[$type->alias],$room);
               }
           }
 
@@ -36,6 +36,28 @@ class BookingViewController extends Controller
         return \View::make("ORGFrontdesk.homeviews.BookingView",["types"=>$data]);
     }
 
+
+    public function indexv2()
+    {
+        $roomTypes = \DB::connection("mysql_book")->select("select idroom_types as id,type_name,alias from room_types");
+        $data = [];
+        foreach($roomTypes as $type)
+        {
+            $rooms = \DB::connection("mysql_book")->select("select idrooms as id,room_number,status_name from rooms join room_status on room_status.status_code = status where type_id=?",[$type->id]);
+            $data[$type->alias] = [];
+
+            if(count($rooms)>0)
+            {
+                foreach($rooms as $room)
+                {
+                    array_push( $data[$type->alias],$room);
+                }
+            }
+
+        }
+        \ORG\POS::Log("Access Booking View","default");
+        return \View::make("ORGFrontdesk.homeviews.BookingView2",["types"=>$data]);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -54,7 +76,7 @@ class BookingViewController extends Controller
         $new_date = new \DateTime($date);
         $enddate = $new_date->add(new \DateInterval("P{$days}D"))->format("Y-m-d");
 
-        $data = \DB::connection("mysql_book")->select("select concat_ws(' ',firstname,lastname)as guest,room_number,room_id,reservation_status.status_name,reservation_id,greatest('{$_date->format("Y-m-d")}',
+        $data = \DB::connection("mysql_book")->select("select reservation_id,concat_ws(' ',firstname,lastname)as guest,room_number,room_id,reservation_status.status_name,reservation_id,greatest('{$_date->format("Y-m-d")}',
 date_format(checkin,'%Y-%m-%d'))  as checkin,date_format(checkout,'%d_%m') as checkout,datediff(date(checkout),greatest('{$_date->format("Y-m-d")}',
 date_format(checkin,'%Y-%m-%d'))) as days from reserved_rooms
             join reservations on reservations.idreservation = reservation_id

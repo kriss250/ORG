@@ -562,6 +562,7 @@
     <Compile Include="resources\views\layouts\master.blade.php" />
     <Compile Include="resources\views\layouts\pos_menu.blade.php" />
     <Compile Include="resources\views\layouts\ReportHeader.blade.php" />
+    <Compile Include="resources\views\ORGFrontdesk\homeviews\BookingView2.blade.php" />
     <Compile Include="resources\views\ORGFrontdesk\homeviews\BookingView.blade.php" />
     <Compile Include="resources\views\ORGFrontdesk\homeviews\calendarView.blade.php" />
     <Compile Include="resources\views\ORGFrontdesk\homeviews\floors.blade.php" />

@@ -27,6 +27,10 @@ Route::get('/ORGFrontdesk/views/BookingView', [
     'uses' => 'BookingViewController@index'
 ]);
 
+Route::get('/ORGFrontdesk/views/BackofficeBookingView', [
+    'uses' => 'BookingViewController@indexv2'
+]);
+
 Route::get('/ORGFrontdesk/views/BookingView/data', [
     'uses' => 'BookingViewController@getBookingData'
 ]);

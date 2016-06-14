@@ -1,21 +1,12 @@
-@extends('ORGFrontdesk.homeviews.master')
+@extends('Backoffice.Master')
 
 @section("contents")
 
 <style>
-    body {
-        background:#fff;
-        padding:0 !important;
-        overflow-x:hidden;
-    }
-
-    .report-filter{
-        padding:10px;
-    }
     .booking_table {
         position: relative;
-        padding: 0px;
-        background:#dae6ef;
+        padding: 20px;
+        background: #fff;
     }
 
         .booking_table .curtain {
@@ -33,7 +24,7 @@
     }
 
     tr.houseuse {
-        background-color:#f58248;
+        background-color: #fe8549;
         color: #fff;
     }
 
@@ -90,7 +81,7 @@
     }
 
     .tape.reserved {
-        background: url("/images/tape-limit.png") right no-repeat #72c2ee;
+        background: url("/images/tape-limit.png") right no-repeat  rgb(99, 188, 224);
         color: #fff;
     }
 
@@ -105,7 +96,7 @@
     }
 
     .tape.active {
-        background: url("/images/tape-limit.png") right no-repeat rgb(99, 188, 224) !important;
+        background: url("/images/tape-limit.png") right no-repeat  rgb(99, 188, 224)!important;
         color: #fff;
     }
 
@@ -130,12 +121,13 @@
         color: #fff;
     }
 
+
     .tape.continuing {
         background-image: none !important;
     }
 
     .booking-counter td:first-child {
-        background: #f7f9ff;
+        background: #eaeeff;
         font-family: Open sans;
         padding-top: 5px;
     }
@@ -144,7 +136,6 @@
         border-color: rgb(235,235,235) !important;
     }
 </style>
-
 <?php
 $startdate = new DateTime($_GET['startdate']);
 $days = $_GET['days'];
@@ -152,8 +143,6 @@ $html_date ="";
 $html_days ="";
 $html_booking_td="";
 $html_date_td ="";
-
-
 for($i=1;$i<=$days;$i++){
     if($i==1)
     {
@@ -167,7 +156,6 @@ for($i=1;$i<=$days;$i++){
     $html_booking_td .="<td class='booking_".$date->format("Y-m-d")."'>0</td>";
 }
 ?>
-
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -207,10 +195,6 @@ for($i=1;$i<=$days;$i++){
                     $(cell).html(guest);
                     $(cell).addClass("tape "+(x.status_name.replace("_","")));
 
-                    if(typeof x.reservation_id != "undefined"){
-                        $(cell).attr("onclick","window.external.OpenRoom('"+x.reservation_id+"','"+x.room_id+"')" );
-                    }
-
                     if(location > -1)
                     {
 
@@ -233,24 +217,22 @@ for($i=1;$i<=$days;$i++){
         })
     });
 </script>
-
 <div class="booking_table">
     <div class="curtain"></div>
     <div class="report-filter">
         <form name="filter-form" class="row form-inline">
-            <!--<div class="col-md-6">
-              
+            <div class="col-md-6">
+                <h3 style="margin-top:-2px;margin-bottom:15px;">Room Booking</h3>
                 <label>Start Date</label>
                 <input name="startdate" style="width:90px;" class="form-control date-picker" value="{{$_GET['startdate']}}" />
                 Period <select class="form-control" name="days">
                     <option {{$_GET['days']== 7 ? " selected " : ""}} value="7">1 Week</option>
-                <option {{$_GET['days']== 14 ? " selected " : ""}} value="14">2 Weeks</option>
-                <option {{$_GET['days']== 21 ? " selected " : ""}} value="21">3 Weeks</option>
-                <option {{$_GET['days']== 28 ? " selected " : ""}} value="28">4 Weeks</option>
+                    <option {{$_GET['days']== 14 ? " selected " : ""}} value="14">2 Weeks</option>
+                    <option {{$_GET['days']== 21 ? " selected " : ""}} value="21">3 Weeks</option>
+                    <option {{$_GET['days']== 28 ? " selected " : ""}} value="28">4 Weeks</option>
                 </select>
-            </div>-->
-
-            <!--<div class="col-md-6">
+            </div>
+            <div class="col-md-6">
                 <p style="margin-bottom:-10px;margin-top:10px;">Color Map</p>
                 <br />
                 <span style="width:10px;height:10px;background:#db4a4a;display:inline-block;"></span> Occupied
@@ -258,23 +240,20 @@ for($i=1;$i<=$days;$i++){
                 <span style="width:10px;height:10px;background:#be48bf;display:inline-block;"></span> Checkedout
                 <span style="width:10px;height:10px;background:#ff7d3b;display:inline-block;"></span> House Use
                 <span style="width:10px;height:10px;background:#2b2b2b;display:inline-block;"></span> Blocked
-            </div>-->
+            </div>
         </form>
     </div>
     <img style="position:absolute;top:100px;left:40%" src="/assets/images/small-loader.gif" />
     <table style="background-color:#fff" class="table table-bordered">
-
         <tr>
             <th class="text-center" colspan="2">
                 Date
             </th>
-
             {!!$html_date!!}
         </tr>
-
         <tr>
             <th>
-                R.Type
+                Room Type
             </th>
             <th>
                 Room
@@ -282,15 +261,12 @@ for($i=1;$i<=$days;$i++){
             {!!$html_days!!}
         </tr>
 
-
         @foreach($types as $key=>$type)
         <tr class="booking-counter">
             <td rowspan="{{(count($type)+1)}}" colspan="1">{{$key}}</td>
             <td>Booking</td>
-
             {!! $html_booking_td !!}
         </tr>
-
 
         @foreach($type as $room)
         <tr class="{{strtolower( str_replace(' ','',$room->status_name))}} room_{{$room->id}}">

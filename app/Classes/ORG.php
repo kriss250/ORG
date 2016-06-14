@@ -11,7 +11,9 @@ class POS extends Settings
 {
     public static function Log($activity,$type)
     {
-        $done = \DB::insert("insert into logs (user_id,type,action,date) values(?,?,?,?)",[Auth::user()->id,$type,$activity,Dates::$RESTODT]);
+        try {
+            $done = \DB::insert("insert into logs (user_id,type,action,date) values(?,?,?,?)",[Auth::user()->id,$type,$activity,Dates::$RESTODT]);
+        }catch(\Exception $x){}
     }
 }
 
