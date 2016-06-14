@@ -78,7 +78,7 @@ class BookingViewController extends Controller
 
         $data = \DB::connection("mysql_book")->select("select reservation_id,concat_ws(' ',firstname,lastname)as guest,room_number,room_id,reservation_status.status_name,reservation_id,greatest('{$_date->format("Y-m-d")}',
 date_format(checkin,'%Y-%m-%d'))  as checkin,date_format(checkout,'%d_%m') as checkout,datediff(date(checkout),greatest('{$_date->format("Y-m-d")}',
-date_format(checkin,'%Y-%m-%d'))) as days from reserved_rooms
+date_format(checkin,'%Y-%m-%d')))-(1) as days from reserved_rooms
             join reservations on reservations.idreservation = reservation_id
             join rooms on rooms.idrooms = room_id
 join reservation_status on reservation_status.idreservation_status = reservations.status
