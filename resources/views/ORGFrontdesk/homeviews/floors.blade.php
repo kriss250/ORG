@@ -61,16 +61,27 @@
 <div class="room-view-wrapper">
     
     <div style="margin-top:-15px;" class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-7">
             <h3 style="font-family:'Eras ITC';font-weight:600;color:#3E3E3E"><i class="fa fa-building-o"></i> Floors View</h3>
             <p style="margin-top: -5px; color: #969696; font-size: 13px; margin-bottom: 20px;border-bottom: 1px solid #CCC;padding-right:80px;padding-bottom:10px;display: table;">Rooms arranged by floors</p>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-5">
             <p class="text-right" style="padding: 0 5px; font-size: 13px; color: #A1A1A1;">Status Color Codes</p>
         
             <div class="room_status_list">
-            <div class="col-md-6">
+
+                <div class="col-md-4">
+                    <ul>
+                        <li style="color: #191919">
+                            <a href="#" data-target="all" class="status_filter">
+                                <i class="fa fa-heart"></i> All
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            <div class="col-md-4">
             <ul class="">
                 <li style="color: #2cae00"><a href="#"  data-target="vacant" class="status_filter"><i class="fa fa-circle"></i> Vacant </a></li>
                 <li style="color: #b72626"><a href="#"  data-target="occupied" class="status_filter"><i class="fa fa-circle"></i> Occupied </a></li>
@@ -78,14 +89,18 @@
            </ul>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
             <ul>
                 <li style="color: #24acd8"><a href="#" data-target="reserved" class="status_filter"><i class="fa fa-circle"></i> Reserved </a> </li>
-                <li style="color: #9f9f9f"><a href="#" data-target="blocked" class="status_filter"><i class="fa fa-circle"></i> Blocked </a></li>
-                <li style="color: #000"><a href="#" data-target="all" class="status_filter"><i class="fa fa-circle"></i> All </a></li>
-
+                <li style="color: #191919"><a href="#" data-target="blocked" class="status_filter"><i class="fa fa-circle"></i> Blocked </a></li>
+                <li style="color: #e46121"><a href="#" data-target="house" class="status_filter"><i class="fa fa-circle"></i> House Use </a></li>
+                
             </ul>
+
+                
                 </div>
+
+                
 
                 <div class="clearfix"></div>
                 </div>

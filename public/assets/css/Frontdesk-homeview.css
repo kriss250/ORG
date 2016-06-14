@@ -104,16 +104,20 @@ a:focus {
         background: transparent linear-gradient(to bottom, #38E138, #24AD16) repeat scroll 0% 0%
 }
 
-.room_item.house.use {
-    background:#299f5b
-}
+    .room_item.house.use {
+        background: transparent linear-gradient(to bottom, #fb854a, #e46121) repeat scroll 0% 0%;
+    }
+
+     .room_item.checked.out {
+        background: transparent linear-gradient(to bottom, #ca46cb,  #b029b1) repeat scroll 0% 0%;
+    }
 
     .room_item.reserved {
         background: transparent linear-gradient(to bottom, #09B7E7, #077eac) repeat scroll 0% 0%;
     }
 
      .room_item.blocked {
-        background: transparent linear-gradient(to bottom, #C2C2C2, #878787) repeat scroll 0% 0%
+        background: transparent linear-gradient(to bottom, #6d6d6d, #2c2c2c) repeat scroll 0% 0%
     }
 
 
