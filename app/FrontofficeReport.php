@@ -94,15 +94,15 @@ class FrontofficeReport extends Model
         $date  = $range[0];
         return ["data"=>self::$db->select("
             select type_name,room_number,night_rate,
-(select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=3 and date(date)='$date') as bar,
-        (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=2 and date(date)='$date') as resto,
-        (select sum(amount) from room_charges where reservation_id=idreservation and room_id=idrooms and charge=4 and date(date)='$date') as laundry,
+(select sum(amount) from room_charges where reservation_id=idreservation and charge=3 and date(date)='$date') as bar,
+        (select sum(amount) from room_charges where reservation_id=idreservation and charge=2 and date(date)='$date') as resto,
+        (select sum(amount) from room_charges where reservation_id=idreservation and charge=4 and date(date)='$date') as laundry,
 idreservation,shifted,room_number,accounts.balance_amount,COALESCE(checked_in,checkin) as checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
 companies.name as Company,concat(adults,'/',children) as pax,
 checkin,checkout,night_rate,due_amount,
 (select count(reservation_id) as size from reserved_rooms where reservation_id=idreservation  and date(checkin) <= '$date' and date(checkout) > '$date') as gsize
 from reserved_rooms
-join guest on guest.id_guest = reserved_rooms.guest_in 
+join guest on guest.id_guest = reserved_rooms.guest_in
 join reservations on reservations.idreservation = reserved_rooms.reservation_id
 join rooms on rooms.idrooms = reserved_rooms.room_id
 left join companies on companies.idcompanies = reservations.company_id
@@ -158,7 +158,7 @@ where  date(checked_in) <= '$date' and date(checkout) > '$date' and reservations
 
     public function RoomTransfers($range)
     {
-        $sql = "SELECT from_roomnumber,to_roomnumber,concat_ws(' ',guest.firstname,guest.lastname) as guest,from_roomtype,to_roomtype,from_rate,new_rate,room_shift.date,username FROM room_shift
+        $sql = "SELECT reserved_rooms.reservation_id,from_roomnumber,to_roomnumber,concat_ws(' ',guest.firstname,guest.lastname) as guest,from_roomtype,to_roomtype,from_rate,new_rate,room_shift.date,username FROM room_shift
             join users on users.idusers = room_shift.user_id
             join rooms on rooms.room_number = room_shift.to_roomnumber
             join reserved_rooms on reserved_rooms.room_id=idrooms and reserved_rooms.reservation_id = room_shift.reservation_id

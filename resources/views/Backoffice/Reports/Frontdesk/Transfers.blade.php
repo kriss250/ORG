@@ -61,7 +61,7 @@
         <?php $i=1; $total=0; ?>
         @foreach($data as $item)
 
-        <tr>
+        <tr title="Reservation : {{$item->reservation_id}}">
             <td>{{$i}}</td>
             <td>{{ $item->guest }}</td>
             <td>{{ $item->from_roomnumber }}</td>

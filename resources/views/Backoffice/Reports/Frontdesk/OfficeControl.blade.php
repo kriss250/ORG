@@ -33,7 +33,7 @@ foreach($data as $res) {
 
     #endregion
 
-    $rows  .= "<tr>";
+    $rows  .= "<tr title='Res ID : {$res->idreservation}'>";
     if($res->shifted > 0 && $res->gsize > 1)
     {
         if($firstRow){
