@@ -18,7 +18,7 @@ $i=0;
 $firstRow = false;
 $totals = ["acco"=>0,"services"=>0,"totals"=>0,"credits"=>0,"paid"=>0];
 foreach($data as $res) {
-    
+
 
     #region IS IT THE FIRT ROW
     $span = $res->gsize > 1 ? "rowspan='$res->gsize'" : "";
@@ -40,7 +40,7 @@ foreach($data as $res) {
 
     $total_paid += $span ==1 && strlen($res->idreservation) > 0 ? $res->balance_amount : 0;
 
-    $rows  .= "<tr>";
+    $rows  .= "<tr title='Due : {$res->due_amount} - Diff:".($res->services+$res->acco)."'>";
     $rows .= "<td>".($i+1)."</td>";
     $rows .= "<td>{$res->room_number}</td>";
 
