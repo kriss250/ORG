@@ -78,6 +78,7 @@
         text-transform: capitalize;
         font-weight: bold;
         font-family: 'Open Sans';
+        background-size:11px 22px
     }
 
     .tape.reserved {

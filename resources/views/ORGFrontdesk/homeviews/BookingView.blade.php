@@ -86,7 +86,9 @@
         font-size: 11px;
         text-transform: capitalize;
         font-weight: bold;
+        max-height:21px;
         font-family: 'Open Sans';
+        background-size:11px 22px
     }
 
     .tape.reserved {
@@ -143,6 +145,8 @@
     .table.table-bordered td {
         border-color: rgb(235,235,235) !important;
     }
+
+    {{$_GET['days'] > 27 ? ".tape {text-indent:-99999px}" :""}}
 </style>
 
 <?php
