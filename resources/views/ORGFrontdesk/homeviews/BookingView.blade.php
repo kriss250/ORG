@@ -88,7 +88,7 @@
         font-weight: bold;
         max-height:21px;
         font-family: 'Open Sans';
-        background-size:11px 22px
+        background-size:11px 22px !important
     }
 
     .tape.reserved {
