@@ -19,21 +19,23 @@ class FloorViewController extends Controller
     public function index()
     {
 
-       
+
 
     }
-    
+
     public function Display()
     {
-        
-        $this->res = DB::connection("mysql")->select("select idrooms,room_number,type_name,floors_id,status_name,floor_name,reservation_id from rooms 
+
+        $this->res = DB::connection("mysql")->select("select concat_ws(' ',firstname,lastname) as guest, idrooms,room_number,type_name,floors_id,status_name,floor_name,reservation_id from rooms
         join room_types on type_id = idroom_types
         join room_status on status_code = rooms.status
         join floors on rooms.floors_id = idfloors
-        left join reserved_rooms on (room_id= idrooms and checked_out is null)
-        left join reservations on reservation_id = idreservation and reservations.status=1 group by idrooms
+        left join reserved_rooms on (room_id= idrooms and checked_out is null and reservation_id=(select reservation_id from reserved_rooms where room_id=idrooms and checked_out is null order by date(checkin) asc  limit 1))
+        left join guest on guest.id_guest = guest_in
+        left join reservations on reservation_id = idreservation and reservations.status in(1,5) group by idrooms
+
         order by idfloors");
-  
+
        return \View::make("ORGFrontdesk/homeviews/floors")->with(array('data'=>$this->res));
     }
 

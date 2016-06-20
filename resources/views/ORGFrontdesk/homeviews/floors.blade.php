@@ -8,20 +8,20 @@
     $next_floor = "";
     $floor = "";
     $floors_li = "";
-    
+
     $rooms_no = count($data);
-    
+
     //print floor when all rooms are appended
-    
+
     for($i=0;$i<$rooms_no;$i++)
     {
         $current_floor= $data[$i]->floors_id;
         $next_floor = isset($data[$i+1]->floors_id) ?  $data[$i+1]->floors_id : 0;
-        $floor .= "<div ".((strtolower($data[$i]->status_name) =='occupied' || strtolower($data[$i]->status_name) =='reserved') ?  "onclick='window.external.OpenRoom( ".$data[$i]->reservation_id.",".$data[$i]->idrooms.");'" :  '')." class='room_item ".strtolower($data[$i]->status_name).((($i+1)%4)==0 ?  ' room_space' : '' )."'>
+        $floor .= "<div title='Guest : {$data[$i]->guest}' ".((strtolower($data[$i]->status_name) =='occupied' || strtolower($data[$i]->status_name) =='reserved') ?  "onclick='window.external.OpenRoom( ".$data[$i]->reservation_id.",".$data[$i]->idrooms.");'" :  '')." class='room_item ".strtolower($data[$i]->status_name).((($i+1)%4)==0 ?  ' room_space' : '' )."'>
                          <p>".$data[$i]->room_number."</p>
                          <span> ".substr($data[$i]->type_name,0,9)." </span>
                      </div>";
-        
+
         if($next_floor!=$current_floor){
             $floors_li .="<li><a data-floor='".$data[$i]->floors_id."' class='floor-nav-item' href='#'>".$data[$i]->floor_name."</a></li>";
             $all_floors .="<li class='floor-li floor_".$data[$i]->floors_id."'>".$floor."</li>";
@@ -29,7 +29,7 @@
             $next_floor =-1;
         }
     }
-    
+
 ?>
 <script>
     $(document).ready(function () {
