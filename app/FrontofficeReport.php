@@ -51,7 +51,7 @@ class FrontofficeReport extends Model
             join room_types on room_types.idroom_types = rooms.type_id
             join guest on guest.id_guest = guest_in
             left join companies on companies.idcompanies =reservations.company_id
-            where  ".($expected ? "checked_in is null" : "checked_in is not null"). " and (date(checkin) between ? and ?) and shifted=0",$range  )];
+            where  ".($expected ? "checked_in is null" : "checked_in is not null"). " and (date(checkin) between ? and ?)",$range  )];
     }
 
     public function Departure($range,$expected=false)
@@ -96,7 +96,11 @@ class FrontofficeReport extends Model
             select type_name,room_number,night_rate,
 (select sum(amount) from room_charges where reservation_id=idreservation and charge=3 and date(date)='$date') as bar,
         (select sum(amount) from room_charges where reservation_id=idreservation and charge=2 and date(date)='$date') as resto,
-        (select sum(amount) from room_charges where reservation_id=idreservation and charge=4 and date(date)='$date') as laundry,
+         (select sum(amount) from room_charges where reservation_id=idreservation and charge not in(3,2) and date(date)='$date') as other,
+(select sum(amount) from room_charges where reservation_id=idreservation and date(date)<='$date') as charges,
+        (select sum(amount) from acco_charges where reservation_id=idreservation and date  <='$date' ) as acco,
+(SELECT sum(credit)-sum(debit) FROM orgdb2.folio where reservation_id=idreservation and date(folio.date) <='$date') as payments,
+
 idreservation,shifted,room_number,accounts.balance_amount,COALESCE(checked_in,checkin) as checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
 companies.name as Company,concat(adults,'/',children) as pax,
 checkin,checkout,night_rate,due_amount,

@@ -33,16 +33,16 @@ foreach($data as $res) {
 
     #endregion
 
-    $rows  .= "<tr title='Res ID : {$res->idreservation}'>";
+    $rows  .= "<tr title='Bal D: {$res->due_amount} Res ID : {$res->idreservation}'>";
     if($res->shifted > 0 && $res->gsize > 1)
     {
-        if($firstRow){
+        if($firstRow)
+        {
             $rows .= "<td $span>".($i+1)."</td>";
         }
     }else {
         $rows .= "<td>".($i+1)."</td>";
     }
-
 
     $rows .= "<td>".$res->room_number.($res->shifted > 0 ? " (Shifted) " :"" )."</td>";
     $rows .= "<td>{$res->type_name}</td>";
@@ -61,23 +61,23 @@ foreach($data as $res) {
         $tariff += $res->night_rate;
     }
 
-    $laundry += $res->laundry;
     $bar += $res->bar;
     $resto +=$res->resto;
 
     $rows .="<td>".number_format($res->resto)."</td>";
     $rows .="<td>".number_format($res->bar)."</td>";
-    $rows .="<td>".number_format($res->laundry)."</td>";
+    $rows .="<td>".number_format($res->other)."</td>";
 
+    $total = ($res->acco+$res->charges);
 
     if($firstRow){
-        $rows .=   "<td $span>".number_format($res->due_amount)."</td>" ;
-        $rows .=   "<td $span>".number_format($res->balance_amount)."</td>" ;
-        $rows .=   "<td $span>".number_format($res->due_amount-$res->balance_amount)."</td>" ;
+        $rows .=   "<td $span>".number_format($total)."</td>" ;
+        $rows .=   "<td $span>".number_format($res->payments)."</td>" ;
+        $rows .=   "<td $span>".number_format($total-$res->payments)."</td>" ;
 
-        $balance +=($res->due_amount-$res->balance_amount);
-        $due +=$res->due_amount;
-        $paid +=$res->balance_amount;
+        $balance +=($total-$res->payments);
+        $due += $total;
+        $paid += $res->payments;
     }
 
     $rows .=" </tr>";
@@ -134,7 +134,7 @@ $rows .="</tr>";
                  <th>Tariff</th>
                 <th>Resto</th>
                 <th>Bar</th>
-                <th>Laundry</th>
+                <th>Services</th>
                  <th>Total Due</th>
                 <th>Paid</th>
                 <th>Balance</th>
