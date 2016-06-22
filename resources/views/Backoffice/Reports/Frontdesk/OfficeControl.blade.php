@@ -9,12 +9,12 @@ $span = 1;
 $i=0;
 $tariff=0;
 $resto=0;
-$laundry=0;
 $bar=0;
 $due=0;
 $paid=0;
 $balance=0;
 $firstRow =false;
+$otherServices = 0;
 foreach($data as $res) {
     $span= "";
 
@@ -63,11 +63,12 @@ foreach($data as $res) {
 
     $bar += $res->bar;
     $resto +=$res->resto;
+    $otherServices += $res->other;
 
     $rows .="<td>".number_format($res->resto)."</td>";
     $rows .="<td>".number_format($res->bar)."</td>";
     $rows .="<td>".number_format($res->other)."</td>";
-
+    
     $total = ($res->acco+$res->charges);
 
     if($firstRow){
@@ -86,7 +87,7 @@ foreach($data as $res) {
 }
 
 $rows .= "<tfoot>";
-$rows .= "<tr><th colspan='7'>TOTAL</th><th>".number_format($tariff)."</th><th>".number_format($resto)."</th><th>".number_format($bar)."</th><th>".number_format($laundry)."</th><th>".number_format($due)."</th><th>".number_format($paid)."</th><th>".number_format($balance)."</th>";
+$rows .= "<tr><th colspan='7'>TOTAL</th><th>".number_format($tariff)."</th><th>".number_format($resto)."</th><th>".number_format($bar)."</th><th>".number_format($otherServices)."</th><th>".number_format($due)."</th><th>".number_format($paid)."</th><th>".number_format($balance)."</th>";
 $rows .="</tr>";
 ?>
 
