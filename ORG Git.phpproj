@@ -24,6 +24,8 @@
     <Compile Include="app\Console\Kernel.php" />
     <Compile Include="app\Events\Event.php" />
     <Compile Include="app\Exceptions\Handler.php" />
+    <Compile Include="app\Http\Controllers\StatementController.php" />
+    <Compile Include="app\Http\Controllers\CustomerController.php" />
     <Compile Include="app\Http\Controllers\Auth\AuthController.php" />
     <Compile Include="app\Http\Controllers\Auth\PasswordController.php" />
     <Compile Include="app\Http\Controllers\AnnouncementController.php" />
@@ -494,6 +496,9 @@
     <Compile Include="resources\lang\en\passwords.php" />
     <Compile Include="resources\lang\en\validation.php" />
     <Compile Include="resources\views\Backoffice\addAnnouncement.blade.php" />
+    <Compile Include="resources\views\Backoffice\FOStatement.blade.php" />
+    <Compile Include="resources\views\Backoffice\POSStatement.blade.php" />
+    <Compile Include="resources\views\Backoffice\CustomerSearch.blade.php" />
     <Compile Include="resources\views\Backoffice\ListUsers.blade.php" />
     <Compile Include="resources\views\Backoffice\AddUser.blade.php" />
     <Compile Include="resources\views\Backoffice\AddCashBook.blade.php" />

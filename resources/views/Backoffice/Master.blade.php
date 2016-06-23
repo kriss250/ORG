@@ -242,7 +242,9 @@
                         </li>
 
                         <!--<li><a href="{{action("PaymentsController@index") }}"><i class="fa fa-money"></i> Payments</a></li>-->
-                        <li><a  href="{{ action("BookingViewController@indexv2") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-tasks"></i> R. Booking <span style="font-size:11px;color:rgb(222, 68, 68)">(New !)</span></a></li>
+                        <li><a  href="{{ action("BookingViewController@indexv2") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-tasks"></i> R. Booking</a></li>
+                        <li><a  href="{{ action("CustomerController@index") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-database"></i> Customer DB. <span style="font-size:11px;color:rgb(222, 68, 68)">(New !)</span></a></li>
+
                         <li class="report-btn">
                             <a class="dropdown-btn" href=""><i class="fa fa-cutlery"></i> POS Reports <i class="fa fa-chevron-down"></i></a>
                             @include("layouts.pos_menu")
@@ -299,7 +301,7 @@
     <footer class="footer">
         <div class="grid">
             <p class="text-center">&copy; {{ date('Y') }} Classic Hotel</p>
-            <p class="text-center"> ORG System </p>
+            <p class="text-center"> ORG SYSTEMS </p>
         </div>
     </footer>
 </body>
