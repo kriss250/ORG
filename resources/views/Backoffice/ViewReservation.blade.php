@@ -18,8 +18,56 @@
         </div>
     </div>
 </div>
-<h5>Charges</h4>
-<h5>Payments</h4>
+<h5>Charges</h5>
+
+<table style="text-align:left" class="table table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>User</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <?php  $chargesx = 0;?>
+    @if($charges != null)
+        @foreach($charges as $charge)
+            <tr>
+                <td>{{$charge->motif}}</td>
+                <td>{{number_format($charge->amount)}}</td>
+                <td>{{$charge->user}}</td>
+                <td>{{$charge->date}}</td>
+            </tr>
+
+    <?php $chargesx += $charge->amount;?>
+        @endforeach
+    @endif
+</table>
+<h5>Payments</h5>
+
+<table style="text-align:left" class="table table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Mode of Pay.</th>
+            <th>User</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+
+    @if($payments != null)
+        @foreach($payments as $pay)
+            <tr>
+                <td>{{$pay->motif}}</td>
+                <td>{{number_format($pay->credit)}}</td>
+                <td>{{$pay->method_name}}</td>
+                <td>{{$pay->username}}</td>
+                <td>{{$pay->date}}</td>
+            </tr>
+        @endforeach
+    @endif
+</table>
 
 Summary
 <table class="table table-condensed table-bordered">
@@ -34,8 +82,8 @@ Summary
     </thead>
 
     <tr>
-        <td>Acc</td>
-        <td>SER</td>
+        <td>{{number_format($info->acco)}}</td>
+        <td>{{number_format($chargesx)}}</td>
         <td>{{number_format($info->due_amount)}}</td>
         <td>{{number_format($info->balance_amount)}}</td>
         <td>{{number_format($info->due_amount-$info->balance_amount)}}</td>
