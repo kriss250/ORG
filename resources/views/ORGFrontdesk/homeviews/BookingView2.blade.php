@@ -78,11 +78,11 @@
         text-transform: capitalize;
         font-weight: bold;
         font-family: 'Open Sans';
-        background-size:11px 22px !important
+        background-size: 11px 22px !important;
     }
 
     .tape.reserved {
-        background: url("/images/tape-limit.png") right no-repeat  rgb(99, 188, 224);
+        background: url("/images/tape-limit.png") right no-repeat rgb(99, 188, 224);
         color: #fff;
     }
 
@@ -97,7 +97,7 @@
     }
 
     .tape.active {
-        background: url("/images/tape-limit.png") right no-repeat  rgb(99, 188, 224)!important;
+        background: url("/images/tape-limit.png") right no-repeat rgb(99, 188, 224) !important;
         color: #fff;
     }
 
@@ -160,7 +160,6 @@ for($i=1;$i<=$days;$i++){
 <script type="text/javascript">
     $(document).ready(function () {
 
-
         $(".date-picker").change(function(){
 
             $("[name='filter-form']").submit();
@@ -189,7 +188,15 @@ for($i=1;$i<=$days;$i++){
 
                     spanSize = (x.days + location -1 > shownDays ? shownDays-location+1 : x.days);
 
-                    $(cell).attr("colspan",spanSize );
+                    $(cell).attr({
+                        "colspan": spanSize,
+                        "title":x.reservation_id+" : "+ x.guest,
+                        "id":x.reservation_id,
+                        "href": "{{action("ReservationController@show",'')}}/"+x.reservation_id,
+                        "data-width":"600"
+                    });
+
+                    $(cell).addClass("modal-btn");
 
                     $(cell).addClass(x.days + location - 1 > shownDays ? "continuing" : "");
                     guest =  x.guest.toLowerCase().substr(0,8);

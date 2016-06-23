@@ -30,6 +30,11 @@ body {
 }
 @media print {
 
+    table { page-break-inside:auto }
+    tr    { page-break-inside:avoid; page-break-after:auto }
+    thead { display:table-header-group }
+    tfoot { display:table-footer-group }
+
     .sidebar,#header,.footer,.subheader,.report-filter, .report-page-header,.report-page-content .menu-wrapper,.report-page-content .col-md-2  {
         display:none !important;
     }

@@ -52,7 +52,7 @@ class StatementController extends Controller
                 //Search Front office
                 $sql = "select idreservation,night_rate,rooms.room_number,
 (select coalesce(sum((folio.credit)),0) from folio where reservation_id=idreservation and date(folio.date) between ? and ? ) as paid,
-(select coalesce(sum(room_charges.amount),0) from room_charges where reservation_id =idreservation and date(room_charges.date) between ? and ?) as services,
+(select coalesce(sum(room_charges.amount),0) from room_charges where reservation_id=idreservation and date(room_charges.date) between ? and ?) as services,
 ( select coalesce(sum(acco_charges.amount),0) from acco_charges where reservation_id=idreservation and date(acco_charges.date) between ? and ? ) as acco,
 concat_ws(' ',firstname,lastname) as guest,checkin,checkout from reservations
 join reserved_rooms on reserved_rooms.reservation_id = idreservation

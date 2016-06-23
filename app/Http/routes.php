@@ -113,6 +113,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get("/Statement/{where}/{id}/{company}/{individual}/","StatementController@ShowStatement");
 	Route::resource("POS/Waiters","WaiterController");
 	Route::resource("POS/Products/Categories","ProductsCategoryController");
+    Route::resource("FO/Reservations","ReservationController");
 
     Route::get("POS/Products/markAsFavorite/{Product}/{state}","ProductsController@markAsFavorite");
 
