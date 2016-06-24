@@ -7,13 +7,19 @@
         <h2 style="margin-bottom:-2px">POS Bills</h2>
     </div>
 
-    <!--<div class="col-md-3">
+    @if(\Auth::user()->level > 8)
+    <div class="col-md-3">
         <form class="form-inline" action="" method="get">
-            <label>Cashier</label>
-
-            <input class="btn btn-sm btn-success" type="submit" name="go" value="Go" />
+            <label>Date</label>
+            <div class="form-group">
+                
+                <input class="input-sm form-control date-picker" type="text" value="{{ \ORG\Dates::$RESTODATE }}" name="startdate" />
+                <input class="btn btn-sm btn-success group-addon" type="submit" value="Go" />
+            </div>
         </form>
-    </div>-->
+    </div>
+    @endif
+
 </div>
 
 <br />

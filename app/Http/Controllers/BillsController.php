@@ -40,8 +40,17 @@ class BillsController extends Controller
     public function index()
     {
         $cashier =(\Auth::user()->level < 9) ?  \Auth::user()->id : 0;
+        $params =[\ORG\Dates::$RESTODATE,\ORG\Dates::$RESTODATE];
 
-        $params = [\ORG\Dates::$RESTODATE,\ORG\Dates::$RESTODATE];
+        if(\Auth::user()->level < 9 ){
+            //Prevent viewing past bills (cashiers)
+            $params = [\ORG\Dates::$RESTODATE,\ORG\Dates::$RESTODATE];
+        }else {
+            if(isset($_GET['startdate']))
+            {
+                $params = [$_GET['startdate'],$_GET['startdate']];
+            }
+        }
 
         $bills = \App\POSReport::Bills($params,0,$cashier);
 
@@ -823,7 +832,7 @@ class BillsController extends Controller
         $id = $_GET['id'];
 
         \DB::beginTransaction();
-        $b = \DB::update("update bills set last_updated_by=?,last_updated_at=?,status=?, amount_paid=?,change_returned=?, pay_date=? where idbills=?",[\Auth::user()->id,\ORG\Dates::$RESTODT,\ORG\Bill::SUSPENDED,0,0,null,$id]);
+        $b = \DB::update("update bills set last_updated_by=?,last_updated_at=?,status=?, amount_paid=?,change_returned=?, pay_date=? where idbills=? and date(bills.date)=?",[\Auth::user()->id,\ORG\Dates::$RESTODT,\ORG\Bill::SUSPENDED,0,0,null,$id,\ORG\Dates::$RESTODATE]);
 
         $p = \DB::update("update payments set void=1 where idpayments>0 and bill_id=?",[$id]);
 
