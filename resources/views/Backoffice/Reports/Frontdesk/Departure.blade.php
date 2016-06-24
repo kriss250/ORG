@@ -97,7 +97,7 @@ $rows .="
             <th>".number_format($totals["services"])."</th>
             <th>".number_format($totals["totals"])."</th>
             <th>".number_format($totals["paid"])."</th>
-            <th>".number_format($totals["credits"])."</th>
+            <th>".number_format($totals["credits"]-$totals["paid"])."</th>
             <th></th>
         </tr>
     </tfoot>
