@@ -131,13 +131,14 @@
 			e.preventDefault();
 			
 			//{product_name,product_price,product_id,qty,}
+			var newQty = 1;
 
 			var product = {
 				price : parseFloat($(this).attr("data-price")) ,
 				name: $(this).attr("data-name"),
 				id : $(this).attr("data-id"),
 				stock_id:$(this).attr("data-stock_id"),
-				qty:1,
+				qty:newQty,
 				total: 0
 			};
 
@@ -1471,9 +1472,9 @@
 	    		var row =$("tr[data-prodid="+product.id+"]");
 	    		
 	    		qtybox = $(row).find(".qty_box");
-	    		oldValue =parseInt($(qtybox).val());
-
-	    		$(qtybox).val(oldValue+1).change();
+	    		oldValue =parseFloat($(qtybox).val());
+	    		var _newQty = parseFloat(product.qty);
+	    		$(qtybox).val(oldValue+_newQty).change();
 	    		return 0;
 	    	}
 
