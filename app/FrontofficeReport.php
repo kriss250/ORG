@@ -98,7 +98,7 @@ class FrontofficeReport extends Model
         (select sum(amount) from room_charges where reservation_id=idreservation and charge=2 and date(date)='$date') as resto,
          (select sum(amount) from room_charges where reservation_id=idreservation and charge not in(3,2) and date(date)='$date') as other,
 (select sum(amount) from room_charges where reservation_id=idreservation and date(date)<='$date') as charges,
-        (select sum(amount) from acco_charges where reservation_id=idreservation and date  <='$date' ) as acco,
+        (select sum(amount) from acco_charges where reservation_id=idreservation and date  <'$date' ) as acco,
 (SELECT sum(credit)-sum(debit) FROM orgdb2.folio where reservation_id=idreservation and date(folio.date) <='$date') as payments,
 
 idreservation,shifted,room_number,accounts.balance_amount,COALESCE(checked_in,checkin) as checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
