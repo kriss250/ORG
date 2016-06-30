@@ -100,7 +100,8 @@ class BackofficeController extends Controller
              return \View::make("/Backoffice/dashboard2",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"purchases"=>$purchases,"requisitions"=>$requisitions]);
          }
 
-         return \View::make("/Backoffice/index",["sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"purchases"=>$purchases,"requisitions"=>$requisitions]);
+         $room_chart  = \App\FrontofficeReport::RoomStatusChartJson();
+         return \View::make("/Backoffice/index",["room_chart"=>$room_chart, "sales"=>$sales,'exchangerates'=>$data,"cashbooks"=>$cashbooks,"logs"=>$logs,"weeksales"=>$week_sales,"purchases"=>$purchases,"requisitions"=>$requisitions]);
     }
 
     /**

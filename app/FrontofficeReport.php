@@ -230,4 +230,13 @@ where  date(checked_in) <= '$date' and date(checkout) > '$date' and reservations
         }
     	return self::$db->select("SELECT concat(firstname,' ',lastname) as user,type,action,logs.date FROM logs join users on users.idusers=user_id where date(logs.date) between ? and ? {$cashier_str}",$date);
     }
+
+    public static function RoomStatusChartJson()
+    {
+        $sql = "select concat(status_name,' (',count(*),')') as name,(count(*)/(select count(*) from rooms))*100 as y from rooms
+        join room_status on rooms.status  = room_status.idroom_status
+            group by status order by status_name asc";
+        $data  = \DB::connection("mysql_book")->select($sql);
+        return json_encode($data,JSON_NUMERIC_CHECK);
+    }
 }
