@@ -177,7 +177,7 @@ $days="";
             }
         },
         series: [{
-            name: 'Brands',
+            name: 'Percentage',
             data: JSON.parse('{!!$room_chart!!}')
         }]
     });
