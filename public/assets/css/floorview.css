@@ -1,0 +1,224 @@
+﻿
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.DTTT_Print .report {
+    border:none
+}
+
+a:focus {
+    outline:none
+}
+.tab_wrapper {
+    position:relative;
+}
+
+.tab-content {
+    border-bottom:1px solid #DDD;
+    border-left:1px solid #DDD;
+    border-right:1px solid #DDD;
+    padding:25px;
+    background:#fff;
+    border-radius: 0 0 4px 4px;
+    box-shadow:0 0 6px #DEDEDE
+}
+
+.tab-pane > h4 {
+    color:#9E9E9E;
+    margin-bottom:15px
+}
+.nav-tabs > li.active > a {
+    box-shadow:0 -2px  2px #E6E6E6;
+    z-index:6;
+}
+
+.nav-tabs li a {
+    cursor:pointer;
+    background:#EEE;
+    font-size:13px;
+    margin-right:6px;
+    margin-bottom:-1px;
+    position:relative;
+    
+    text-transform:capitalize
+}
+
+.room_space {
+  margin-right:25px !important
+}
+.room_status_list ul {
+    list-style: outside none none;
+    display: table;
+    float: right;
+    padding: 6px 12px;
+    margin:0;
+    width:100%;
+    border: 1px solid #EAEAEA;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 5px #EDEDED;
+}
+
+.room_status_list > div {
+    padding:5px
+}
+.room_status_list li {
+   text-transform:uppercase;
+   font-size:12px;
+   display:block;
+   padding:0px
+}
+
+.room_item {
+    display: table;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    color: #fff;
+    margin-bottom:10px;
+    text-transform: uppercase;
+    float:left;
+    position:relative;
+    margin-right:8px;
+     width:80px;
+}
+
+.room_item.occupied {
+  background:linear-gradient(to bottom,#ec5a5a,#d82a2a);
+}
+
+.room_item.vacant {
+        background: transparent linear-gradient(to bottom, #56D856, #00B328) repeat scroll 0% 0%
+}
+
+    .room_item.house.use {
+        background: transparent linear-gradient(to bottom, #fb854a, #e46121) repeat scroll 0% 0%;
+    }
+
+     .room_item.checked.out {
+        background: transparent linear-gradient(to bottom, #ca46cb,  #b029b1) repeat scroll 0% 0%;
+    }
+
+    .room_item.reserved {
+        background:transparent linear-gradient(to bottom, #3FB3D4, #318eb3) repeat scroll 0% 0%;
+    }
+
+     .room_item.blocked {
+        background: transparent linear-gradient(to bottom, #6d6d6d, #2c2c2c) repeat scroll 0% 0%
+    }
+
+
+    .room_item.dirty {
+        background: transparent linear-gradient(to bottom, #8F8F8F, #626262) repeat scroll 0% 0%;
+    }
+     
+.room_item p {
+    font-weight:bold;
+    font-size:16px;margin:0;
+    border-bottom: 1px solid rgba(255,255,255,0.2)
+}
+
+.room_item span {
+    font-size:11px;
+    opacity:0.7
+}
+
+.room_item.occupied , .room_item.reserved {
+    cursor:pointer
+}
+
+    .room_item .fa {
+        position: absolute;
+        font-size: 14px;
+        right: -5px;
+        background: #FFF none repeat scroll 0% 0%;
+        padding: 5px 8px;
+        border-radius: 50%;
+        top: -6px;
+        color: #606060;
+        box-shadow: 0 0 3px #ADADAD;
+    }
+
+.status_filter {
+    color:inherit !important;
+}
+
+.floors-nav {
+  display: block;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.floors-nav li {
+  display: inline-block;
+  background: #fff;
+  position:relative;
+  z-index:2;
+  margin-bottom:-1px;
+  font-size: 12px;
+  margin-right: 12px;
+}
+
+.floors-nav li a {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  display: block;
+  text-decoration:none;
+  border-left: 1px solid rgb(221, 221, 221);
+border-right: 1px solid rgb(221, 221, 221);
+border-top: 1px solid rgb(221, 221, 221);
+}
+
+
+
+.active-floor {
+  position: relative;
+  color:red;
+  z-index:5 !important
+}
+
+.active-floor a {
+    color:green
+}
+.inner-room-view {
+    position:relative;
+    z-index:4;
+}
+.all-floors {
+  background: #fff;
+  padding: 22px;
+  border:1px solid rgb(227, 227, 227);
+  list-style: none;
+  margin: 0;
+  padding-bottom: 8px;
+  border-radius:0 0 6px 6px;
+}
+
+.room-view-wrapper {
+    padding:20px;
+    padding-top:45px;
+}
+
+.all-floors:after {
+  display: block;
+  content: " ";
+  clear: both;
+}
+.status_filter:hover, .status_filter:focus {
+    text-decoration:none
+}
+
+.fc-center h2 {
+    font-size:18px;
+}
+
+
+

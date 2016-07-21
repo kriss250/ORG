@@ -1,4 +1,4 @@
-@extends(isset($_GET['import']) ? "ORGFrontdesk.Reports.Master" : "Backoffice.Master")
+@extends(isset($_GET['import']) ? "Frontdesk::master" : "Backoffice.Master")
 
 @section("contents")
 
