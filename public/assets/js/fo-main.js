@@ -1,4 +1,6 @@
-﻿if (typeof JSObj !== "undefined") {
+﻿window.autoRefresh = false;
+
+if (typeof JSObj !== "undefined") {
     window.confirm = function (text) {
         return JSObj.confirm(text);
     };
@@ -18,14 +20,32 @@
 }
 
 
-function openDialog(url,title,features)
+function openDialog(url, title, features, _src)
 {
     $("body").prepend("<div class='modal-bg'>");
+
     setTimeout(function () {
+        window.src = _src;
         opener = window.open(url, title, features);
-        opener.onbeforeunload = function () {
-            $("body").remove("modal-bg");
-        };
+        opener.src = _src;
+
+            opener.onunload = function () {
+
+                var timer = window.setInterval(function () {
+                    if (opener.closed) {
+
+                        window.clearInterval(timer);
+                        
+                        $(".modal-bg").remove();
+                        if (window.autoRefresh) {
+                            window.location.reload(1);
+                        }
+                    }
+                }, 200);
+
+            };
+        
+
     }, 90);
     
    

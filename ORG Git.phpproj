@@ -67,6 +67,7 @@
     <Compile Include="packages\kris\Frontdesk\src\controllers\UsersController.php" />
     <Compile Include="packages\kris\Frontdesk\src\Property.php" />
     <Compile Include="packages\kris\Frontdesk\src\ReservationStatus.php" />
+    <Compile Include="packages\kris\Frontdesk\src\Bill.php" />
     <Compile Include="packages\kris\Frontdesk\src\User.php" />
     <Compile Include="packages\kris\Frontdesk\src\Http\Middleware\FoAuth.php" />
     <Compile Include="app\Http\Middleware\RedirectIfAuthenticated.php" />
