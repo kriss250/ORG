@@ -63,7 +63,10 @@
     <Compile Include="app\Http\Middleware\Authenticate.php" />
     <Compile Include="app\Http\Middleware\EncryptCookies.php" />
     <Compile Include="packages\kris\Frontdesk\src\Charge - Copy.php" />
+    <Compile Include="packages\kris\Frontdesk\src\controllers\GuestController.php" />
     <Compile Include="packages\kris\Frontdesk\src\controllers\UsersController.php" />
+    <Compile Include="packages\kris\Frontdesk\src\Property.php" />
+    <Compile Include="packages\kris\Frontdesk\src\ReservationStatus.php" />
     <Compile Include="packages\kris\Frontdesk\src\User.php" />
     <Compile Include="packages\kris\Frontdesk\src\Http\Middleware\FoAuth.php" />
     <Compile Include="app\Http\Middleware\RedirectIfAuthenticated.php" />
@@ -130,6 +133,11 @@
     <Compile Include="packages\kris\Frontdesk\src\Room.php" />
     <Compile Include="packages\kris\Frontdesk\src\RateType.php" />
     <Compile Include="packages\kris\Frontdesk\src\RoomType.php" />
+    <Compile Include="packages\kris\Frontdesk\views\print-header.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\billDoc.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\addGuest.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\roomView.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\guestList.blade.php" />
     <Compile Include="packages\Kris\Frontdesk\views\bookingView.blade.php" />
     <Compile Include="packages\Kris\Frontdesk\views\CheckinForm.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\billList.blade.php" />
@@ -145,6 +153,7 @@
     <Compile Include="packages\kris\Frontdesk\views\home.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reservationForm.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reservationList.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\addChargeForm.blade.php" />
     <Compile Include="packages\Kris\Frontdesk\views\walkinForm.blade.php" />
     <Compile Include="public\assets\css\font\weathericons-regular-webfont-2.html" />
     <Compile Include="public\assets\css\font\weathericons-regular-webfont-3.html" />
@@ -217,7 +226,7 @@
     <Compile Include="public\assets\css\Frontdesk-homeview.css" />
     <Compile Include="public\assets\css\main.css" />
     <Compile Include="public\assets\css\ORGFrontdeskReport.css" />
-    <Compile Include="public\assets\css\POS - Copy.css" />
+    <Compile Include="public\assets\css\fo-login.css" />
     <Compile Include="public\assets\css\POS.css" />
     <Compile Include="public\assets\css\ReportCenter.css" />
     <Compile Include="public\assets\css\Roboto-font.css" />
@@ -921,6 +930,10 @@
     <Content Include="composer.json" />
     <Content Include="packages\kris\Frontdesk\composer.json" />
     <Content Include="public\assets\css\frontdesk.css" />
+    <Content Include="public\assets\css\print-doc.css" />
+    <Content Include="public\assets\images\Contact-Lock.png" />
+    <Content Include="public\assets\images\fo-bg-1.jpg" />
+    <Content Include="public\assets\images\fo-bg-2.jpg" />
     <Content Include="public\assets\js\fo-main.js" />
     <Content Include="public\images\frontdesk\arrow-left.svg" />
     <Content Include="public\images\frontdesk\arrow-right.svg" />

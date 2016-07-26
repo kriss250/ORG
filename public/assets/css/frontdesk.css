@@ -4,6 +4,22 @@
     overflow: hidden;
 }
 
+.modal-bg{
+  content: " ";
+  position: absolute;
+  background: rgba(0,0,0,0.4);
+  left: 0;
+  right: 0;
+  z-index: 55;
+  top: 0;
+  bottom: 0;
+}
+
+.form-btn {
+    display:inline;
+    width:auto
+}
+
 .logo-wrapper {
     padding-right: 0;
     padding-left: 0;
@@ -15,6 +31,7 @@
 
 .ifr-body {
     padding-right:18px;
+    padding-left:10px;
 }
 
 #header {
@@ -258,6 +275,7 @@ padding: 50px
     padding: 0px;
     margin-top: -12px;
     width: 101.7%;
+    max-height:41px;
     margin-left: -11px;
     color: rgba(255, 255, 255, 0.83);
     margin-bottom: -2px;
@@ -270,7 +288,7 @@ padding: 50px
 .window {
     position: absolute;
     z-index: 3000;
-    width: 750px;
+    width: 810px;
     top:50px;
     margin: auto;
     border: 2px solid rgba(11, 0, 48, 0.48);
@@ -281,6 +299,10 @@ padding: 50px
     box-shadow: 0 0 20px rgb(70,70,70);
 }
 
+
+.if-modal-body {
+    padding:0
+}
 .window .title-bar {
     background: #e0e0e0;
     background:linear-gradient(to top,#e4e4e4,#f8f8f8);
@@ -301,6 +323,7 @@ padding: 8px 18px;
 font-size: 11px;
 position:relative;
 border-bottom: 1px solid rgb(245, 224, 73);
+border-top: 1px solid rgb(245, 224, 73);
 color: rgb(198, 140, 0);
 }
 
@@ -374,12 +397,14 @@ font-size: 18px
 
  footer {
     background:rgb(245, 242, 217);
-margin-bottom: -20px;
-padding: 10px 17px;
+margin-bottom: 0px;
+padding: 14px 17px;
 margin-top:10px;
-margin-left: -10px;
-margin-right: -10px;
-border-top: 1px solid rgb(233, 231, 219)
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+border-top: 1px solid rgb(222, 210, 210)
 }
 
 .main-menu .menu-1 li {
@@ -464,7 +489,7 @@ border: medium none;
 
     .modal-body {
         max-height:500px;
-        padding-top:5px;
+        padding-top:0px;
     }
 
     .modal-body .table tbody {
@@ -543,12 +568,30 @@ fieldset input {
   border: none !important;
   background:none !important;
   width:100%;
+  display:block;
   outline:none !important;
   box-shadow: none !important;
   padding: 0 !important;
   font-size: 13px !important;
   max-width:100%;
 }
+
+fieldset > i.fa {
+    position:absolute;
+    top:38%;
+    right:15px;
+    opacity:0.3;
+}
+
+fieldset input[readonly] {
+    color:#a3a3a3;
+}
+
+fieldset.readonly label
+{
+    opacity:.5
+}
+
 
 fieldset input:focus {
      outline:none !important;
@@ -599,6 +642,8 @@ cursor:pointer;
  border-top: 1px dashed rgb(215, 215, 215);
     position:relative;
 }
+
+
 
 fieldset .select-wrapper .fa {
     position:absolute;
@@ -659,9 +704,12 @@ fieldset label{
   font-weight: bold;
   font-size: 9px;
   margin: 0;
+  margin-bottom:1px;
+  margin-top:4px !important;
   display:block;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   color:rgb(82, 118, 153);
+  font-family:'Open Sans';
   text-transform: uppercase;
 }
 
@@ -751,7 +799,7 @@ text-indent: -99999px;
 .rooms-table {
     background:#fff;
     margin-top:15px;
-        font-size:8.5pt;
+        font-size:8.6pt;
         font-family:'Microsoft Sans Serif';
         font-synthesis:weight;
         font-weight:400;
@@ -784,7 +832,7 @@ text-indent: -99999px;
 }
 
 .rooms-table .blocked{
-  background: #000 !important;
+  color: #000 !important;
 }
 
 .rooms-table td  {
@@ -960,6 +1008,7 @@ clear:both
     background:#fff;
     position:relative;
     padding:1px 5px;
+    padding-left:0;
     z-index:2;
 }
 
@@ -1069,7 +1118,9 @@ fieldset .suggestions li:last-child {
 
 .form-inline fieldset input[type=radio]
 {
-  min-height: 20px;
+  min-height: 10px;
+  padding:7px;
+  display:inline-block;
 }
 
 .list-filter .btn {
@@ -1091,4 +1142,163 @@ font-weight: bold;
 background: #f5f5f5;
 font-family: roboto;
 color: rgb(89, 89, 89)
+}
+
+.btn-group .btn-success {
+    background:#66b366
+}
+
+
+.btn-group .btn-danger {
+    background:#c5625f
+}
+
+.popover-content li {
+    list-style:none;
+    font-size:12px;
+    border-bottom:1px dotted #ccc;
+    padding:3px 6px;
+}
+
+.light-fieldsets fieldset{
+  border: 1px solid rgb(230, 230, 230) !important;
+  border-radius:0;
+  margin-bottom:2px;
+    background: rgba(255, 255, 255, 0.71) none repeat scroll 0% 0%;
+    color: rgb(123, 123, 123)
+}
+
+.inline-fieldsets fieldset {
+    float:left;
+    margin-right:5px;
+}
+
+.inline-fieldsets > label {
+    font-size:12px;
+}
+
+
+fieldset.bordered input {
+    margin-top:6px;padding:4px 5px !important;border-top:1px dashed rgb(215, 215, 215) !important
+}
+.inline-fieldsets::after {
+    clear:both;
+    content : " ";
+    display:block;
+}
+
+.light-fieldsets {
+    position:relative;
+    padding:10px;
+   background: rgb(249, 252, 255) none repeat scroll 0% 0%;
+border: 1px solid rgb(228, 239, 255);
+border-radius:4px;
+margin-bottom: 8px;
+}
+
+.guest-info-dropdown {
+  padding:14px 3px;
+  width: 100%;
+  margin-top:-5px;
+}
+
+.guest-info-dropdown > div {
+    padding:0 13px;
+}
+.tab-content {
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+padding: 16px;
+border-left: 1px solid rgb(218, 211, 211);
+border-right: 1px solid rgb(218, 211, 211);
+border-bottom: 1px solid rgb(218, 211, 211);
+margin: 0
+}
+
+.nav-tabs li a {
+    padding: 5px 10px;
+font-size: 12px
+}
+
+.nav-tabs > li.active a {
+    border:1px solid rgb(218, 211, 211);
+    border-bottom:1px solid transparent;
+}
+
+.nav-tabs {
+    height:29px
+}
+
+.room-st {
+    padding:3px;
+}
+
+
+
+.room-st.checked.out {
+ border: 1px solid rgb(219, 201, 226);
+border-radius: 4px;
+background: rgb(239, 214, 252) none repeat scroll 0% 0%;
+color: #9255ae
+}
+
+.room-st.occupied {
+    color:#d33512;
+    border:#f33b12;
+    background:#ffdcd4
+}
+
+.room-st.reserved {
+    color:#129ed3;
+    border:#127ef3;
+    background:#d4eeff
+}
+
+footer.m-footer{ 
+    position: static;
+margin-left: -10px;
+margin-right: -10px;
+left: auto;
+max-width:100%;
+}
+
+.ifr-body .panel-desc {
+    margin-left:-10px;
+    margin-right:-18px;
+    margin-bottom:8px;
+}
+
+.charges-sm-table {
+    background:rgba(255, 255, 255, 0.86);
+    font-size:11px;
+    margin-left:-6px;
+    border-top:1px solid rgb(203, 242, 192) ;
+    width:auto;
+    display:block;
+    max-width:none;
+    margin-bottom:0 !important;
+    border-bottom:none !important;
+    margin-right:-6px;
+}
+.charges-sm-table  td {
+    text-align:left;
+    width:100%;
+    color:#535353;
+    padding:4px 19px !important
+}
+
+.charges-sm-table  td:empty {
+    padding-top:12px !important;
+    padding-bottom:6px !important;
+}
+
+.charges-sm-table  th {
+  padding:4px 19px !important;
+  border-bottom-width:1px !important;
+  background:rgb(238, 248, 227);
+  background: rgb(221, 252, 219);
+}
+
+.black-tooltip .tooltip {
+    color:red !important;
+    border-radius:0
 }

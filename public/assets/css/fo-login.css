@@ -1,0 +1,33 @@
+body {
+    background:url(/assets/images/fo-bg-2.jpg) no-repeat;
+    background-size:cover;
+}
+
+.login-form {
+    width:380px;
+    background:#fff;
+    padding:25px;
+    position:relative;
+    border-radius:6px;
+    border:8px solid rgba(225, 225, 225, 0.59);
+    box-shadow:0 0 28px #6c6c6c;
+    margin:185px auto 0 auto;
+}
+
+.login-form .login-icon {
+    position:absolute;
+    top:-80px;
+    left:41%;
+}
+
+.login-form input[type=submit]
+{
+    margin:auto;
+    display:block
+}
+
+.alert {
+    margin:10px auto;
+    padding:5px 8px;
+    text-align:center
+}

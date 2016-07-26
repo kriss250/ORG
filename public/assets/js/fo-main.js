@@ -1,4 +1,36 @@
-﻿function initSelectBoxes() {
+﻿if (typeof JSObj !== "undefined") {
+    window.confirm = function (text) {
+        return JSObj.confirm(text);
+    };
+
+    window.warning = function (text) {
+        return JSObj.warning(text);
+    };
+
+    window.error = function (text) {
+        return JSObj.error(text);
+    };
+
+    //working in ORGBox
+
+    JSObj.ToolStripBG(38, 114, 164);
+    JSObj.ToolStripColor(215, 215, 215);
+}
+
+
+function openDialog(url,title,features)
+{
+    $("body").prepend("<div class='modal-bg'>");
+    setTimeout(function () {
+        opener = window.open(url, title, features);
+        opener.onbeforeunload = function () {
+            $("body").remove("modal-bg");
+        };
+    }, 90);
+    
+   
+}
+function initSelectBoxes() {
     $(document).ready(function () {
         var containers = $("fieldset .select-wrapper");
        
@@ -51,6 +83,19 @@ function SearchCompany(name,url,dest)
 
 $(document).ready(function () {
 
+    $('body').on('click', function (e) {
+        //did not click a popover toggle or popover
+        if ($(e.target).data('toggle') !== 'popover'
+            && $(e.target).parents('.popover.in').length === 0) {
+            $('[data-toggle="popover"]').popover('hide');
+        }
+    });
+
+    $(".pop-toggle").popover({
+        animation: true, content: function () {
+            return $(this).parent().find(".dropdown-menu").html()
+        }, container: "body", html: true
+    });
 
     $('body').on('focus', '.datepicker', function () {
         $(this).datetimepicker({
@@ -70,14 +115,8 @@ $(document).ready(function () {
         height:"100px"
     })
 
-    $(".modal-body").css("height",(window.windowHeight - 150)+"px");
-    $(".modal-body").slimscroll({
-        height: (window.windowHeight - 150) + "px",
-        alwaysVisible: true,
-        railVisible: true,
-    })
-    
-
+    $(".modal-body").css("height",(window.windowHeight - 100)+"px");
+  
     var headerHeight = $(".main-menu").height();
     windowHeight = $(window).height();
 
@@ -135,10 +174,11 @@ $(document).ready(function () {
 
         if (typeof $(this).attr("data-iframe") !="undefined" && $(this).attr("data-iframe").length > 0)
         {
+            //iFrame
             var ifr = $("<iframe>");
             $(ifr).height("500px");
             $(ifr).attr("src", url).attr("scrolling", "auto");
-            $(".main-modal .modal-body").append(ifr);
+            $(".main-modal .modal-body").addClass("if-modal-body").append(ifr);
             $(ifr).load(function () {
                 $(".loading-bg").remove();
             })

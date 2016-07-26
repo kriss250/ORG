@@ -1,0 +1,95 @@
+﻿
+     @media print
+    {
+        body {
+            background:#fff!important;
+            height:auto;
+            padding:0;
+            font-size:12px;
+            max-height:none;
+        }
+
+        div.print-document {
+            padding:0px;
+            margin:0;
+            background:#fff;
+            width:100%;
+            max-width:3550px !important;
+           display:block !important
+        }
+
+        .btn {display:none !important; }
+        .print-header-desc {
+            color: #898989 !important;
+        }
+    } 
+
+     p {
+         margin-bottom:1px;
+     }
+.print-logo-wrapper {
+        float: left;
+        width: 60%;
+        box-sizing: padding-box;
+    }
+
+    .logo {
+        float: left;
+        margin-right: 15px;
+    }
+
+    .logo-text {
+        float: left;
+        line-height: 1.1;
+        max-width: 300px;
+    }
+
+        .logo-text p {
+            margin-bottom: 2px;
+        }
+
+        .logo-text h3 {
+            margin-bottom: 3px;
+            margin-top: 5px;
+        }
+
+    .print-header {
+        padding: 10px 0;
+        box-sizing: padding-box;
+        margin-bottom:20px;
+        border-bottom: 1px dashed #a4a4a4;
+    }
+
+    .print-header-desc {
+        float: right;
+        box-sizing: padding-box;
+        width: 39%;
+        color: #898989 !important;
+    }
+   
+    hr {
+        margin-bottom:5px;
+        margin-top:5px;
+    }
+    .panel-desc {
+        display:none
+    }
+    .inline-fieldsets fieldset{
+        display:block !important;
+        width:100%;
+        background:rgb(253,253,253);
+        border-radius:0
+    }
+
+    body {
+        background:#575757;
+        font-family:'Segoe ui' !important;
+    }
+    .print-document {
+        background:#fff;
+        width:90%;
+        max-width:970px;
+        margin:15px auto;
+        padding:20px 40px;
+        box-shadow:0 0 15px #121212;
+    }
