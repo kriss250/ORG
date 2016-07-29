@@ -38,7 +38,7 @@ foreach($data as $res) {
     $days = (strtotime($res->checked_out) - strtotime($res->checked_in)) / 60 / 60 / 24;
 
 
-    $total_paid += $span ==1 && strlen($res->idreservation) > 0 ? $res->balance_amount : 0;
+    $total_paid += $span ==1 && strlen($res->idreservation) > 0 ? $res->paid_amount : 0;
 
     $rows  .= "<tr title='Due : {$res->due_amount} - Diff:".($res->services+$res->acco)."'>";
     $rows .= "<td>".($i+1)."</td>";
@@ -70,12 +70,12 @@ foreach($data as $res) {
     $rows .="<td>".number_format($res->services+$res->acco)."</td>";
 
     if($firstRow){
-        $totals['paid'] += $res->balance_amount;
+        $totals['paid'] += $res->paid_amount;
 
-        $rows .= "<td $span>".number_format($res->balance_amount)."</td>";//paid
+        $rows .= "<td $span>".number_format($res->paid_amount)."</td>";//paid
         if($res->pay_by_credit=="1"){
-            $totals["credits"] += $res->due_amount-$res->balance_amount;
-            $rows .=  "<td $span>".number_format($res->due_amount-$res->balance_amount)."</td>";//credit
+            $totals["credits"] += $res->due_amount-$res->paid_amount;
+            $rows .=  "<td $span>".number_format($res->due_amount-$res->paid_amount)."</td>";//credit
         }else {
             $rows .=  "<td $span>".number_format(0)."</td>";//credit
 

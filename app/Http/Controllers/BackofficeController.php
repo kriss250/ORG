@@ -67,9 +67,11 @@ class BackofficeController extends Controller
        // $fo_sales = \DB::connection("mysql_book")->select()
         $pos_sales = \DB::select("select status,coalesce(sum(bill_total),0) as amount from bills where status not in (".\ORG\Bill::SUSPENDED.",".\ORG\Bill::OFFTARIFF.") and date(date)=? group by status",[$date]);
         $pos_payments = \DB::select("SELECT coalesce(sum(bank_card+cash+check_amount),0) as amount FROM payments where date(date)=? and void=0",[$date]);
+        
         $fo_payments = \DB::connection("mysql_book")->select("SELECT coalesce(sum(credit),0) as amount FROM folio where void=0 and date(date)=?",[$date]);
+        
         $fo_sales = \DB::connection("mysql_book")->select("select coalesce(sum(night_rate*DATEDIFF(date(checkout),date(checkin))),0) as  amount,pay_by_credit from reservations
-            join reserved_rooms on reserved_rooms.reservation_id = idreservation
+            
         where status=5 and date(reservations.date)=? group by pay_by_credit",[$date]);
 
 
@@ -172,10 +174,10 @@ class BackofficeController extends Controller
 
     public function OccupiedRooms()
     {
-        $sql = "select concat_ws(' ',firstname,lastname)as guest,room_number,concat(date_format(checkin,'%d/%M'),' - ',date_format(checkout,'%d/%M')) dates,night_rate,due_amount,balance_amount from reserved_rooms
+        $sql = "select concat_ws(' ',firstname,lastname)as guest,room_number,concat(date_format(checkin,'%d/%M'),' - ',date_format(checkout,'%d/%M')) dates,night_rate,due_amount,balance_amount from
+           reservations
             join rooms on rooms.idrooms = room_id
             join guest on guest.id_guest = guest_in
-            join accounts on accounts.reservation_id = reserved_rooms.reservation_id
             where checked_in is not null and checked_out is null limit 12";
 
         $data =  \DB::connection("mysql_book")->select($sql);

@@ -69,10 +69,9 @@ class ReportsController extends Controller
     private function  MonthlyRoomIncome()
     {
         $data = DB::connection("mysql")->select("select room_number,room_types.type_name,datediff(checkout,checkin) as nights,format((night_rate*datediff(checkout,checkin)),0) as projected_income,format(sum(balance_amount),0) as Income from rooms 
-            left join reserved_rooms on room_id = idrooms
             join room_types on idroom_types= rooms.type_id
             left join reservations on reserved_rooms.reservation_id = idreservation
-            left join accounts on accounts.reservation_id = idreservation  group by idrooms");
+              group by idrooms");
         $col_array = array(
                          array("data"=>"room_number","show"=>"Room"),
                          array("data"=>"type_name","show"=>"Room Type"),

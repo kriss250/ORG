@@ -4,6 +4,15 @@
     overflow: hidden;
 }
 
+body {
+      -webkit-touch-callout: none;
+  -webkit-user-select: none; 
+  -khtml-user-select: none;
+  -moz-user-select: none; 
+  -ms-user-select: none;
+  user-select: none;   
+}
+
 .modal-bg{
   content: " ";
   position: absolute;
@@ -198,17 +207,17 @@ padding: 50px
 
 .tape.checkedout {
     background: url("/images/tape-limit.png") right no-repeat #be48bf;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.91);
 }
 
 .tape.blocked {
     background: #1e1e1e;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.91);
 }
 
 .tape.active {
     background: url("/images/tape-limit.png") right no-repeat rgb(99, 188, 224) !important;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.91);
 }
 
 .tape.houseuse {
@@ -224,12 +233,12 @@ padding: 50px
 
 .tape.dirty {
     background: url("/images/tape-limit.png") right no-repeat #808080;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.91);
 }
 
 .tape.checkedin {
     background: url("/images/tape-limit.png") right no-repeat #db6060;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.91);
 }
 
 .tape.continuing {
@@ -244,6 +253,24 @@ padding: 50px
 
 .table.table-bordered td {
     border-color: rgb(235,235,235) !important;
+}
+
+.rooms-table.table.table-bordered td {
+    border-left:1px solid rgb(222, 222, 222) !important;
+    
+}
+
+.rooms-table.table.table-bordered td:last-child {
+    border-right:1px solid rgb(222, 222, 222) !important;
+}
+
+.rooms-table.table.table-bordered th:last-child {
+    border-right:1px solid rgb(222, 222, 222) !important;
+}
+
+.rooms-table.table.table-bordered th {
+    border-top:1px solid rgb(222, 222, 222) !important;
+    border-left:1px solid rgb(222, 222, 222) !important;
 }
 
 
@@ -267,7 +294,7 @@ padding: 50px
     display: inline-block;
     text-align: center;
     margin-right: 0px;
-    max-width: 80px;
+    max-width: 180px;
 }
 
 .main-menu .menu-1 {
@@ -283,6 +310,7 @@ padding: 50px
     border-top: 1px solid rgba(27, 117, 152, 0.7);
     border-bottom: 1px solid rgba(52, 92, 173, 0.44);
     padding-top: 7px;
+     font-family:'Segoe UI';
 }
 
 .window {
@@ -320,6 +348,7 @@ padding: 50px
     display: block;
 background: rgb(252, 246, 175) none repeat scroll 0% 0%;
 padding: 8px 18px;
+top:0;
 font-size: 11px;
 position:relative;
 border-bottom: 1px solid rgb(245, 224, 73);
@@ -408,14 +437,22 @@ border-top: 1px solid rgb(222, 210, 210)
 }
 
 .main-menu .menu-1 li {
-    padding: 4px 8px;
-    padding-bottom: 9px;
+    padding: 4px 9px;
+    padding-bottom: 7px;
     padding-top: 5px;
     position:relative;
-    margin-right: 14px;
+    margin-right: 11px;
     font-weight: normal;
 }
 
+.main-menu .menu-1 li a{
+    text-decoration:none;
+    color:#e7eff0
+}
+
+.main-menu .menu-1 li a:hover {
+    color:#fff;
+}
 
 .main-menu .menu-1 li .dropdown-menu {
     padding:3px;
@@ -540,7 +577,7 @@ margin-left: -10px;
 
 
 .the_content {
-    margin-top: 141px;
+    margin-top: 137px;
     overflow: auto !important;
     min-height: 475px;
     background:rgb(249, 249, 249) none repeat scroll 0% 0%
@@ -725,7 +762,6 @@ fieldset label{
   font-size:11px;
   font-family:Lato;
   float: left;
-  opacity:.85;
   color:#fff;
   padding: 10px 18px;
   box-sizing: padding-box;
@@ -739,27 +775,33 @@ fieldset label{
 }
 
 .status-list .vc_status {
-  background: #2ecc71;
+  background: #4dd386;
+  color:rgba(255, 255, 255, 0.88)
 }
 
 .status-list .oc_status {
-  background:#e74c3c;
+  background:#ea6759;
+  color:rgba(255, 255, 255, 0.88)
 }
 
 .status-list .rs_status {
-  background:#3498db;
+  background:#53a7e0;
+  color:rgba(255, 255, 255, 0.88)
 }
 
 .status-list .co_status {
-  background:#9b59b6;
+  background:#aa72c1;
+  color:rgba(255, 255, 255, 0.88)
 }
 
 .status-list .hu_status {
-  background: #f39c12
+  background: #f4ab36;
+  color:rgba(255, 255, 255, 0.88)
 }
 
 .status-list .bl_status {
-  background: #000 !important;
+  background: #272727 !important;
+  color:rgba(255, 255, 255, 0.88)
 }
 
 .status-list p {
@@ -799,7 +841,7 @@ text-indent: -99999px;
 .rooms-table {
     background:#fff;
     margin-top:15px;
-        font-size:8.6pt;
+        font-size:8.3pt;
         font-family:'Microsoft Sans Serif';
         font-synthesis:weight;
         font-weight:400;
@@ -839,7 +881,7 @@ text-indent: -99999px;
     font-feature-settings:"dlig";
     text-align:left !important;
     text-transform:capitalize;
-    padding:1px 8px !important;
+    padding:1.5px 8px !important;
 }
 
 .rooms-table th {
@@ -953,7 +995,7 @@ color: #686868
 }
 
 .room-status-table td {
-    padding:5px 6px;
+    padding:3px 6px;
 }
 
 .room-status-table th {
@@ -1058,14 +1100,14 @@ color: rgb(22, 78, 132);
 }
 
 .existing-guest-btn {
-background: rgb(190, 243, 209) none repeat scroll 0% 0%;
-border: medium none;
-font-size: 9px;
-font-family: Roboto;
-border-radius: 6px;
-color: rgb(7, 128, 26);
-text-transform: uppercase;
-padding: 1px 6px;
+    background: rgb(190, 243, 209) none repeat scroll 0% 0%;
+    border: medium none;
+    font-size: 9px;
+    font-family: Roboto;
+    border-radius: 6px;
+    color: rgb(7, 128, 26);
+    text-transform: uppercase;
+    padding: 1px 6px;
 }
 
 .card-info {
@@ -1092,14 +1134,14 @@ padding: 1px 6px;
 
 fieldset .suggestions {
     position: absolute;
-background: rgb(255, 255, 255) none repeat scroll 0% 0%;
-padding: 0px;
-list-style: outside none none;
-border: 1px solid rgb(204, 204, 204);
-width: 92%;
-z-index:20;
-border-radius: 3px;
-font-size: 12px;
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+    padding: 0px;
+    list-style: outside none none;
+    border: 1px solid rgb(204, 204, 204);
+    width: 92%;
+    z-index: 20;
+    border-radius: 3px;
+    font-size: 12px;
 }
 
 fieldset .suggestions li {
@@ -1153,11 +1195,30 @@ color: rgb(89, 89, 89)
     background:#c5625f
 }
 
+.popover-content {
+    padding:0 9px;
+}
 .popover-content li {
-    list-style:none;
-    font-size:12px;
-    border-bottom:1px dotted #ccc;
-    padding:3px 6px;
+    list-style: none;
+font-size: 12px;
+border-bottom: 1px solid #e4e4e4;
+
+margin-left: -9px;
+margin-right: -9px
+}
+
+.popover-content li:last-child{
+    border-bottom:none;
+}
+
+.popover-content li a {
+    padding: 5px 16px;
+    display:block;
+    text-decoration:none
+}
+
+.popover-content li a:hover {
+    background:#f1f1f1
 }
 
 .light-fieldsets fieldset{
@@ -1166,6 +1227,24 @@ color: rgb(89, 89, 89)
   margin-bottom:2px;
     background: rgba(255, 255, 255, 0.71) none repeat scroll 0% 0%;
     color: rgb(123, 123, 123)
+}
+
+.list-filter fieldset {
+    border: 1px solid rgb(230, 230, 230) !important;
+  border-radius:0;
+  margin-bottom:2px;
+    background: rgba(255, 255, 255, 0.71) none repeat scroll 0% 0%;
+    color: rgb(123, 123, 123)
+}
+
+.list-filter {
+     position:relative;
+    padding:12px 16px;
+   background: rgb(249, 252, 255) none repeat scroll 0% 0%;
+border: 1px solid rgb(228, 239, 255);
+margin-left:-10px;
+margin-right:-18px;
+margin-bottom: 8px;
 }
 
 .inline-fieldsets fieldset {

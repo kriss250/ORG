@@ -534,20 +534,19 @@ class BillsController extends Controller
             $the_bill = DB::select($bill_total_sql,[$data['BillID']]);
 
 
-            $v = DB::connection("mysql_book")->select("select idrooms,reservation_id,concat_ws(' ',firstname,lastname) as guest,idreserved_rooms from reserved_rooms
+            $v = DB::connection("mysql_book")->select("select idrooms,idreservation as reservation_id,concat_ws(' ',firstname,lastname) as guest from reservations
                 join rooms on rooms.idrooms = room_id
-                join guest on guest.id_guest = guest_in
+                join guest on guest.id_guest = guest_id
                 where checked_in is not null and checked_out is null and room_number =?",[$data['Room']]);
             //bar = 1
             if($v){
                $res= $v[0]->reservation_id;
                $customer_name = $v[0]->guest;
                $room_id = $v[0]->idrooms;
-               $reserved_room_id  = $v[0]->idreserved_rooms;
 
                foreach($the_bill as $bill){
 
-                   $ins = DB::connection("mysql_book")->insert("insert into room_charges (room_id,reservation_id,charge,amount,motif,date,user_id,user,pos, reserved_room_id) values (?,?,?,?,?,?,?,?,?,?)",
+                   $ins = DB::connection("mysql_book")->insert("insert into room_charges (room_id,reservation_id,charge,amount,motif,date,user_id,user,pos) values (?,?,?,?,?,?,?,?,?)",
                             [
                                 $room_id,
                                 $res,
@@ -557,15 +556,14 @@ class BillsController extends Controller
                                 \ORG\Dates::$RESTODT,
                                 1,
                                 \Auth::user()->username,
-                                1,
-                                $reserved_room_id
+                                1
                         ]);
 
                }
 
 
                //Update account
-               DB::connection("mysql_book")->update("update accounts set due_amount = due_amount+? where reservation_id=?",[
+               DB::connection("mysql_book")->update("update reservations set due_amount = due_amount+? where idreservation=?",[
                     $data['due'],
                     $res
                    ]);

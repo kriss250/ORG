@@ -79,7 +79,7 @@ function initSelectBoxes() {
 function iframeLoaded() {
     var iFrameID = document.getElementById('iframe');
     if (iFrameID) {
-        iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
+        //iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
     }
 }
 
