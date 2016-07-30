@@ -11,6 +11,10 @@
             border-color:#1a1a1a !important;
             padding:2px 3px
         }
+       
+        tr {
+            page-break-after:always
+        }
 
         .table>thead:first-child > tr:first-child > th {
             border-top:1px solid !important;
@@ -38,6 +42,7 @@
            display:block !important
         }
 
+        
         .btn {display:none !important; }
         .print-header-desc {
             color: #898989 !important;
@@ -47,8 +52,7 @@
      p {
          margin-bottom:1px;
      }
-
-    
+        
 .print-logo-wrapper {
         float: left;
         width: 60%;
@@ -188,5 +192,6 @@ color: rgb(198, 18, 0);
   font-size: 16px;
   font-weight: bold;
 }
+
 
   

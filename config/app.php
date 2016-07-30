@@ -195,8 +195,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Form'      => 'Illuminate\Html\FormFacade', 
-        'HTML'       => 'Illuminate\Html\HtmlFacade',
-        'Frontdesk' => 'Kris\Frontdesk'
+        'HTML'      => 'Illuminate\Html\HtmlFacade',
+        'FO'        => 'Kris\Frontdesk\FOFacade',
     ],
 
 ];

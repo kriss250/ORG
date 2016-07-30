@@ -89,7 +89,7 @@ class FrontofficeReport extends Model
     {
         $date  = $range[0];
         return ["data"=>self::$db->select("
-            select type_name,room_number,night_rate,
+            select type_name,package_name,room_number,night_rate,
 (select sum(amount) from room_charges where reservation_id=idreservation and charge=3 and date(date)='$date') as bar,
         (select sum(amount) from room_charges where reservation_id=idreservation and charge=2 and date(date)='$date') as resto,
          (select sum(amount) from room_charges where reservation_id=idreservation and charge not in(3,2) and date(date)='$date') as other,
@@ -230,4 +230,14 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
         $data  = \DB::connection("mysql_book")->select($sql);
         return json_encode($data,JSON_NUMERIC_CHECK);
     }
+
+    public function receptionist(Array $range,$id=0)
+    {
+        $range[] = $id;
+        $q = "SELECT paymethod, sum(credit) as pays,sum(debit)as refund FROM folio where void=0 and (date(date) between ? and ?) and user_id ".($id>0?"=":">")." ?  group by paymethod";
+
+        $data  = \DB::connection("mysql_book")->select($q,$range);
+
+    }
+
 }

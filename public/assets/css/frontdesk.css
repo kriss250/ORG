@@ -437,9 +437,7 @@ border-top: 1px solid rgb(222, 210, 210)
 }
 
 .main-menu .menu-1 li {
-    padding: 4px 9px;
-    padding-bottom: 7px;
-    padding-top: 5px;
+    
     position:relative;
     margin-right: 11px;
     font-weight: normal;
@@ -447,7 +445,12 @@ border-top: 1px solid rgb(222, 210, 210)
 
 .main-menu .menu-1 li a{
     text-decoration:none;
-    color:#e7eff0
+    color:#e7eff0;
+    padding: 4px 9px;
+    padding-bottom: 7px;
+    padding-top: 5px;
+    display:block
+
 }
 
 .main-menu .menu-1 li a:hover {
@@ -467,18 +470,19 @@ border-top: 1px solid rgb(222, 210, 210)
     display:block
 }
 
-    .main-menu .menu-1 li.active {
+    .main-menu .menu-1 .active {
         background: #fff;
         border-top: 1px solid;
         border-left: 1px solid;
+        color: #8a8a8a;
         border-right: 1px solid;
         border-radius: 3px 3px 0px 0px;
         border-color: #fff;
     }
 
-        .main-menu .menu-1 li.active a {
-            color: #8a8a8a;
-        }
+    .main-menu .menu-1 .active a {
+        color:#75868f !important
+    }
 
         .notification-menu {
             float:right;
@@ -491,16 +495,19 @@ font-size: 12px;
 margin-left: 15px;
 border: medium none;
         }
-.main-menu .menu-2 {
+.main-menu .tab-content {
     background: transparent linear-gradient(to top, rgba(255, 255, 255, 0.19), rgb(255, 255, 255)) repeat scroll 0% 0%;
     border-bottom: 1px solid rgb(205, 212, 224);
-    padding: 8px 0;
+    padding: 2px 0;
     box-shadow: 0px 3px 3px rgba(185, 183, 183, 0.15);
-    margin-left: -10px;
-    margin-right: -10px;
+    margin-left: -11px;
+    min-height:102px;
+    margin-right: -11px;
 }
 
-
+.main-menu .menu-2 {
+    padding:0
+}
 
     .main-menu .menu-2 a {
         display: block;
@@ -566,11 +573,14 @@ border: medium none;
 border-radius: 3px 3px 0px 0px;
 margin-left: -10px;
 }
-.menu-group {
-    float: left;
+li.menu-group {
+ 
     border-right: 1px solid rgba(200, 217, 228, 0.57);
     margin-right: 10px;
     padding-right: 5px;
+    display:inline-block;
+    float:left;
+    max-width:500px !important;
     border-left: 1px solid rgba(251, 251, 251, 0.87);
     margin-right: 0;
 }
@@ -841,15 +851,15 @@ text-indent: -99999px;
 .rooms-table {
     background:#fff;
     margin-top:15px;
-        font-size:8.3pt;
-        font-family:'Microsoft Sans Serif';
-        font-synthesis:weight;
-        font-weight:400;
-        text-align:left;
+    font-size:8.7pt;
+    font-family:Tahoma;
+    font-synthesis:weight;
+    font-weight:400;
+    text-align:left;
 }
 
 .rooms-table .occupied {
-    color:#e74c3c;
+    color:#e13232;
     cursor:pointer;
 }
 
@@ -870,11 +880,12 @@ text-indent: -99999px;
 }
 
 .rooms-table .vacant {
-  color: #2ecc71;
+  color: #089744;
 }
 
 .rooms-table .blocked{
   color: #000 !important;
+  text-decoration:line-through
 }
 
 .rooms-table td  {
@@ -884,10 +895,10 @@ text-indent: -99999px;
     padding:1.5px 8px !important;
 }
 
-.rooms-table th {
-    padding:4px 7px !important;
-    background: linear-gradient(to top, rgb(237, 245, 255), rgb(247, 252, 255));
-border: 1px solid #e3e7e7 !important;
+.table.rooms-table th {
+    padding: 4px 7px !important;
+background: linear-gradient(to top, rgb(218, 235, 255), rgb(227, 243, 254));
+border:1px solid #afdddd  !important;
 color: #686868
 }
 
@@ -1380,4 +1391,23 @@ max-width:100%;
 .black-tooltip .tooltip {
     color:red !important;
     border-radius:0
+}
+
+
+.menu-group >ul >li {
+  display: inline-block
+}
+
+.menu-group > ul {
+  padding: 0;
+  margin: 0;
+}
+
+
+.main-menu .nav-tabs{
+    height:auto
+}
+
+.main-menu .nav-tabs li a {
+    background:none;
 }
