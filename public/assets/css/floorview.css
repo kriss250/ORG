@@ -19,7 +19,7 @@ a:focus {
     position:relative;
 }
 
-.tab-content {
+room-view-wrapper .tab-content {
     border-bottom:1px solid #DDD;
     border-left:1px solid #DDD;
     border-right:1px solid #DDD;
@@ -33,12 +33,12 @@ a:focus {
     color:#9E9E9E;
     margin-bottom:15px
 }
-.nav-tabs > li.active > a {
+room-view-wrapper .nav-tabs > li.active > a {
     box-shadow:0 -2px  2px #E6E6E6;
     z-index:6;
 }
 
-.nav-tabs li a {
+room-view-wrapper .nav-tabs li a {
     cursor:pointer;
     background:#EEE;
     font-size:13px;

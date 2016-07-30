@@ -470,11 +470,12 @@ border-top: 1px solid rgb(222, 210, 210)
     display:block
 }
 
-    .main-menu .menu-1 .active {
+    .main-menu .menu-1 .active a {
         background: #fff;
         border-top: 1px solid;
         border-left: 1px solid;
         color: #8a8a8a;
+        box-shadow:none;
         border-right: 1px solid;
         border-radius: 3px 3px 0px 0px;
         border-color: #fff;
@@ -556,6 +557,16 @@ border: medium none;
     color: #F8F8F8;
     font-family: Roboto;
     font-size: 12px;
+    margin-right:0
+}
+
+.main-menu .menu-1 .nav-tabs > li > a:hover {
+    border:1px solid transparent;
+}
+.main-menu .menu-1 .nav-tabs li > a:focus {
+    
+border-color: transparent !important;
+
 }
 
 .main-menu ul li img {
