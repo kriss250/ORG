@@ -86,6 +86,32 @@ class ReportsController extends Controller
                 }
                 $logs= $frontdesk->logs($range,$cashier);
                 return \View::make("Frontdesk::reports.Logs",["logs"=>$logs]);
+
+            case "myShift":
+
+                $data= $frontdesk->receptionist($range,\FO::me()->idusers);
+                return \View::make("Frontdesk::reports.MyShift",$data);
+            case "roomStatus":
+                $rooms = \Kris\Frontdesk\Room::all();
+                $data =  ["rooms"=>$rooms];
+                return \View::make("Frontdesk::reports.RoomStatus",$data);
+
+            case "laundry":
+                $orders = \Kris\Frontdesk\Laundry::whereBetween("laundry.date",$range)->get();
+                return \View::make("Frontdesk::reports.Laundry",["orders"=>$orders]);
+
+            case "housekeeping":
+                $tasks = \Kris\Frontdesk\Housekeeping::where("date",$range[0])->get();
+                return \View::make("Frontdesk::reports.Housekeeping",["tasks"=>$tasks]);
+
+            case "extraSales":
+                $q = "SELECT idmisc_sales,is_credit,guest,receipt,service,method_name,amount,username,misc_sales.date FROM misc_sales
+                                join users on users.idusers = user_id
+                                left join pay_method on pay_method.idpay_method = pay_mode where date(misc_sales.date) between ? and ?";
+
+                $data = \DB::connection("mysql_book")->select($q,$range);
+
+                return \View::make("Frontdesk::reports.ExtraSales",["sales"=>$data]);
             default:
                 abort(404);
                 break;

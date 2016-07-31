@@ -6,8 +6,8 @@
 <script>
     function checkRoomsWith(floor,maid)
     {
-        $(".room_checkbox.maid_"+maid+":checked").removeAttr("checked").change();
-        $(".floor_"+floor+".maid_"+maid+":not(:disabled)").attr("checked","checked").change();
+        $(".room_checkbox.maid_"+maid+":checked").prop("checked",false).removeAttr("checked").change();
+        $(".floor_"+floor+".maid_"+maid+":not(:disabled)").prop("checked",true).change();
 
     }
 
@@ -50,17 +50,11 @@ $floors = \Kris\Frontdesk\Floor::all();
 
 </ul>
 <?php
-if(isset($_POST['save']))
-{
-    array_pop($_POST);
-
-    unset($_POST['_token']);
-
-    $keys =array_keys($_POST);
-    print_r($keys);
-}
+$checkedRoom = false;
 ?>
-<form action="" method="post">
+
+
+<form action="{{action("\Kris\Frontdesk\Controllers\OperationsController@frame",'newHkTask')}}" method="post">
     <input type="hidden" name="_token" value="{{csrf_token()}}" />
 <div class="tab-content ">
     
@@ -78,7 +72,20 @@ if(isset($_POST['save']))
         @foreach($rooms as $room)
         <fieldset style="display:block;float:left;margin-right:6px;margin-bottom:6px;">
             <label>{{$room->room_number}}</label>
-            <input name="room_{{$room->idrooms}}_{{$maid->idmaids}}" onchange="disableSimilar({{$maid->idmaids}},{{$room->idrooms}},this)"  class="room_checkbox room_{{$room->idrooms}} floor_{{$room->floors_id}} maid_{{$maid->idmaids}}" type="checkbox" />
+
+            @if($tasks ==null)
+            <input name="room_{{$room->idrooms}}_{{$maid->idmaids}}" onchange="disableSimilar({{$maid->idmaids}},{{$room->idrooms}},this)" class="room_checkbox room_{{$room->idrooms}} floor_{{$room->floors_id}} maid_{{    $maid->idmaids}}" type="checkbox" />
+
+            @else
+                @foreach($tasks as $task)
+            <?php $checkedRoom = $task->maid_id==$maid->idmaids && $task->room_id==$room->idrooms; if($checkedRoom)break;  ?>
+                      
+                @endforeach
+                <input {{$checkedRoom ? " checked " :"" }} name="room_{{$room->idrooms}}_{{$maid->idmaids}}" onchange="disableSimilar({{$maid->idmaids}},{{$room->idrooms}},this)" class="room_checkbox room_{{$room->idrooms}} floor_{{$room->floors_id}} maid_{{$maid->idmaids}}" type="checkbox" />
+
+            @endif
+
+
         </fieldset>
         @endforeach
         <div class="clearfix"></div>

@@ -35,7 +35,7 @@
             <td>{{ $item->user}}</td>
             <td>{{ \App\FX::DT($item->date) }}</td>
         </tr>
-        <?php $i++; $total +=$item->amount; ?>
+        <?php $i++; $total +=$room->amount; ?>
     @endforeach
 
         <tfoot>

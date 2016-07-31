@@ -99,9 +99,10 @@
 
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","standard")}}">Standard View</a> </li>
-                        <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","booking")}}?startdate={{\Kris\Frontdesk\Env::WD()->format('Y-m-d')}}&days=20">Booking View</a> </li>
-                        <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","floor")}}">Floors View</a> </li>
+                        <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","standard")}}"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Standard View</a> </li>
+                        <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","booking")}}?startdate={{\Kris\Frontdesk\Env::WD()->format('Y-m-d')}}&days=20"><i class="fa fa-tasks"></i> Booking View</a> </li>
+                        <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","floor")}}"><i class="fa fa-braille" aria-hidden="true"></i>
+Floors View</a> </li>
                     </ul>
                 </li>
 
@@ -113,7 +114,7 @@
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">Housekeeping <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a onclick="openWindow('newHkTask','Housekeeping Task',this,760,480)" href="#">New Task</a></li>
+                        <li><a onclick="openWindow('newHkTask','Housekeeping Task',this,760,480)" href="#">Today's Housekeeping</a></li>
 
                         <li class="separator"></li>
                         <li><a onclick="openWindow('newLaundry','Laundry Order',this,480,310)" href="#">New Laundry Order</a></li>
@@ -303,39 +304,41 @@ margin-right: 8px;">
             </div>
 
             <div class="tab-pane" id="pane-2">
+                <div style="padding-top:8px;" class="grid">
                 <ul class="menu-2">
 
                     <li>
-                        <a href="">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <img src="/images/frontdesk/box-file.svg" />
                             Daily Reports
+                            <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeControl") }}','','width=1010,height=640',this)">>Frontoffice Control</a>
+                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeControl") }}','','width=1010,height=640',this)">Frontoffice Control</a>
                             </li>
 
 
                             <li>
-                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeArrival") }}','','width=1010,height=640',this)">>Arrival</a>
+                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeArrival") }}','','width=1010,height=640',this)">Arrival</a>
                             </li>
 
 
                             <li>
-                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeExpectedArrival") }}','','width=1010,height=640',this)">>Expected Arrival</a>
+                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeExpectedArrival") }}','','width=1010,height=640',this)">Expected Arrival</a>
                             </li>
 
 
                             <li>
-                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeDeparture") }}','','width=1010,height=640',this)">>Departure</a>
+                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeDeparture") }}','','width=1010,height=640',this)">Departure</a>
                             </li>
 
                             <li>
-                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeExpectedDeparture") }}','','width=1010,height=640',this)">>Expected Departure</a>
+                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeExpectedDeparture") }}','','width=1010,height=640',this)">Expected Departure</a>
                             </li>
 
                             <li>
-                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontdeskServiceSales") }}','','width=1010,height=640',this)">>Service Sales</a>
+                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontdeskServiceSales") }}','','width=1010,height=640',this)">Service Sales</a>
                             </li>
 
                             <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","frontofficeBreakfast") }}','','width=1010,height=640',this)">Breakfast</a></li>
@@ -352,6 +355,13 @@ margin-right: 8px;">
                     </li>
 
                     <li>
+                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","extraSales") }}','','width=1010,height=640',this)">
+                            <img src="/images/frontdesk/groceries-bag.svg" />
+                            Extra Sales
+                        </a>
+                    </li>
+
+                    <li>
                         <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","rooming") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/parking-sign.svg" />
                             Police Report
@@ -359,14 +369,14 @@ margin-right: 8px;">
                     </li>
 
                     <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","rooming") }}','','width=1010,height=640',this)">
+                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","myShift") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/woman-suit.svg" />
 
                             My Shift
                         </a>
                     </li>
                     <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","rooming") }}','','width=1010,height=640',this)">
+                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","receptionist") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/support.svg" />
                             Receptionist
                         </a>
@@ -374,12 +384,13 @@ margin-right: 8px;">
 
 
                     <li>
-                        <a href="">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="/images/frontdesk/bed.svg" />
                             Rooms
+                            <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","rooming") }}','','width=1010,height=640',this)">Room Status</a></li>
+                            <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","roomStatus") }}','','width=1010,height=640',this)">Room Status</a></li>
                             <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","roomtransfers") }}','','width=1010,height=640',this)">Room Transfer</a> </li>
 
                         </ul>
@@ -401,24 +412,25 @@ margin-right: 8px;">
                     </li>
 
                     <li>
-                        <a href="">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <img src="/images/frontdesk/vacuum-cleaner.svg" />
                             Housekeeping
+                            <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","foLogs") }}','','width=1010,height=640',this)">
-
+                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","housekeeping") }}','','width=1010,height=640',this)">
                                     Housekeeping
                                 </a>
                             </li>
-                            <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","foLogs") }}','','width=1010,height=640',this)">Laundry</a></li>
+                            <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","laundry") }}','','width=1010,height=640',this)">Laundry</a></li>
 
                         </ul>
                     </li>
 
 
                 </ul>
+                    </div>
             </div>
 
             <div class="clearfix"></div>

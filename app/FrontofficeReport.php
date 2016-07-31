@@ -234,10 +234,13 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
     public function receptionist(Array $range,$id=0)
     {
         $range[] = $id;
-        $q = "SELECT paymethod, sum(credit) as pays,sum(debit)as refund FROM folio where void=0 and (date(date) between ? and ?) and user_id ".($id>0?"=":">")." ?  group by paymethod";
+        $q = "SELECT paymethod,username,sum(credit) as pay,sum(debit)as refund FROM folio join users on users.idusers=user_id where void=0 and (date(folio.date) between ? and ?) and user_id ".($id>0?"=":">")." ?  group by user_id,paymethod order by user_id";
 
-        $data  = \DB::connection("mysql_book")->select($q,$range);
+        $pays  = \DB::connection("mysql_book")->select($q,$range);
+        $sales = \DB::connection("mysql_book")->select("SELECT sum(amount) as amount,username,pay_mode,is_credit FROM misc_sales join users on users.idusers=user_id  where date(misc_sales.date) between ? and  ? and user_id ".($id>0?"=":">")." ? group by user_id,pay_mode order by user_id",$range);
 
+        return ["payments"=>$pays,"sales"=>$sales];
     }
+
 
 }

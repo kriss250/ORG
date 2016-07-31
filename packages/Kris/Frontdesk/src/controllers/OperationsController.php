@@ -302,8 +302,31 @@ join guest on guest.id_guest = guest_id
 
     public function newHkTask()
     {
+        if(\Request::isMethod("post"))
+        {
+            $fields = \Request::all();
+
+            $wdate = \Kris\Frontdesk\Env::WD();
+            $keys =array_keys($_POST);
+
+            $data = [];
+            $userid = \Kris\Frontdesk\User::me()->idusers;
+            foreach($keys as $key)
+            {
+                $parts = explode("_",$key);
+
+                if($parts[0]=="room")
+                {
+                    $data[] = ["room_id"=>$parts[1],"maid_id"=> $parts[2],"date"=>$wdate->format("Y-m-d"),"user_id"=>$userid];
+                }
+            }
+            \Kris\Frontdesk\Housekeeping::where("date",$wdate->format("Y-m-d"))->delete();
+            \Kris\Frontdesk\Housekeeping::insert($data);
+        }
+
         $maids = \Kris\Frontdesk\Maid::all();
-        return view("Frontdesk::housekeeping.newTask")->with("maids",$maids);
+        $tasks = \Kris\Frontdesk\Housekeeping::where("date",\Kris\Frontdesk\Env::WD()->format("Y-m-d"))->get();
+        return view("Frontdesk::housekeeping.newTask")->with(["maids"=>$maids,"tasks"=>$tasks]);
     }
 
     public function newLaundry()

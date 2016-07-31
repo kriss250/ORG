@@ -21,4 +21,9 @@ class Helpers {
             "date"=>Env::WD()->format("Y-m-d")." ".date("H:i:s")
             ]);
     }
+
+    public function me()
+    {
+        return User::me();
+    }
 }
