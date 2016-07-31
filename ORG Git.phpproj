@@ -169,6 +169,7 @@
     <Compile Include="packages\kris\Frontdesk\src\RoomType.php" />
     <Compile Include="packages\kris\Frontdesk\views\roomStatus.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\addSales.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\newDay.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\SalesList.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\banquetEvent.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\banquet.blade.php" />

@@ -58,6 +58,11 @@ class OperationsController extends Controller
         }
     }
 
+    public function newDay()
+    {
+        return view("Frontdesk::newDay");
+    }
+
     public function expectedDeparture()
     {
         $reservations = null;

@@ -136,7 +136,7 @@ Floors View</a> </li>
                 </li>
 
                 <li>
-                    <a href=""><i style="color:rgb(144, 192, 203)" class="fa fa-moon-o"></i> New Day</a>
+                    <a href="#" onclick="openWindow('newDay')"><i style="color:rgb(144, 192, 203)" class="fa fa-moon-o"></i> New Day</a>
                 </li>
 
                 <div class="notification-menu">
