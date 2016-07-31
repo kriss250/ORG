@@ -399,9 +399,21 @@ border: 1px solid rgb(236, 236, 236);border-radius:6px;"><button onclick="window
                         @if($payment->void ==0)
                         <tr>
                             <td>{{ (new \Carbon\Carbon($payment->date))->format("d/m/Y H:i:s") }}</td>
-                            <td>{{$payment->credit > 0 ? $payment->credit  : "-".$payment->credit}}</td>
+                            <td>
+                               @if($payment->debit > 0)
+                                <em class="text-danger">-{{$payment->debit}}</em>
+                                @endif
+
+                                @if($payment->credit > 0 && $payment->debit==0)
+                                {{$payment->credit}}
+                                @endif
+
+                                @if($payment->credit < 0 && $payment->debit==0)
+                                {{$payment->credit}}
+                                @endif
+                            </td>
                             <td width="50%">{{$payment->motif}}</td>
-                            <td>{{$payment->mode->method_name}}</td>
+                            <td>{{$payment->debit > 0 ? "-" : $payment->mode->method_name}}</td>
                             <td>{{$payment->user->username}}</td>
                         </tr>
                         <?php $i++; ?>

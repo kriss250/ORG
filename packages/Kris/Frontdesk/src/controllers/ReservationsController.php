@@ -534,6 +534,42 @@ class ReservationsController extends Controller
 
     }
 
+
+     public function addRefund($id)
+    {
+        $data = \Request::all();
+        $errors =\Validator::make($data, [
+            'amount' => 'required|numeric',
+         ]);
+
+        if($data["amount"]<0)
+        {
+            return;
+        }
+
+        if(count($errors->errors()) ==0)
+        {
+             \Kris\Frontdesk\Payment::create([
+                "credit"=>0,
+                "debit"=>$data["amount"],
+                "motif"=>$data["motif"],
+                "paymethod"=>0,
+                "user_id"=>\Kris\Frontdesk\User::me()->idusers,
+                "reservation_id"=>$id,
+                "date"=>\Kris\Frontdesk\Env::WD()->format("Y-m-d")." ".date("H:i:s"),
+                ]);
+
+            $up = \Kris\Frontdesk\Reservation::find($id)->update(["paid_amount"=> \DB::raw("paid_amount-".$data["amount"])]);
+            if($up)
+            {
+                \FO::log("Added refund to ".$id);
+                return redirect()->back()->with("msg","Refund saved");
+            }
+        }else {
+            return redirect()->back()->withErrors($errors->errors());
+        }
+
+    }
     public function shiftRoom($id)
     {
         $data = \Request::all();

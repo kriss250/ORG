@@ -27,4 +27,9 @@ class Payment extends Model
     {
         return $this->hasOne("Kris\Frontdesk\PayMethod","idpay_method","paymethod");
     }
+
+    public function reservation()
+    {
+        return $this->belongsTo("\Kris\Frontdesk\Reservation","reservation_id","idreservation");
+    }
 }

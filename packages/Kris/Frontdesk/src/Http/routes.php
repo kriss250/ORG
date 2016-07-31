@@ -22,6 +22,7 @@ namespace Kris\Frontdesk;
     \Route::get("fo/print/{doc}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@_print"]);
 
 
+    \Route::post("fo/reservation/refund/{id}",["uses"=>"Kris\Frontdesk\Controllers\ReservationsController@addRefund"]);
     \Route::get("fo/ajax/list/{list}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@lists"]);
     \Route::get("fo/guest/edit/{id}",["uses"=>"Kris\Frontdesk\Controllers\GuestController@edit"]);
     \Route::get("fo/section/frame/{name}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@frame"]);

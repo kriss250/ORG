@@ -113,8 +113,8 @@ class ReportsController extends Controller
                 return \View::make("Frontdesk::reports.ExtraSales",["sales"=>$data]);
 
             case "refund":
-                $refunds = \Kris\Frontdesk\Housekeeping::where("date",$range[0])->get();
-                return \View::make("Frontdesk::reports.Housekeeping",["tasks"=>$tasks]);
+                $refunds = \Kris\Frontdesk\Payment::whereBetween(\DB::raw("date(folio.date)"),$range)->where("debit",">","0")->get();
+                return \View::make("Frontdesk::reports.Refund",["refunds"=>$refunds]);
             default:
                 abort(404);
                 break;

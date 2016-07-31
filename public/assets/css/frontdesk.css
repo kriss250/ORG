@@ -1252,7 +1252,7 @@ margin-right: -9px
 }
 
 .light-fieldsets fieldset{
-  border: 1px solid rgb(230, 230, 230) !important;
+  border: 1px solid rgb(224, 224, 224) !important;
   border-radius:0;
   margin-bottom:2px;
     background: rgba(255, 255, 255, 0.71) none repeat scroll 0% 0%;
@@ -1300,7 +1300,7 @@ fieldset.bordered input {
     position:relative;
     padding:10px;
    background: rgb(249, 252, 255) none repeat scroll 0% 0%;
-border: 1px solid rgb(228, 239, 255);
+border:1px solid rgb(210, 226, 249);
 border-radius:4px;
 margin-bottom: 8px;
 }

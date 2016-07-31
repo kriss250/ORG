@@ -18,7 +18,7 @@
     }
 </style>
 <div style="padding:6px 10px" class="inline-fieldsets">
-    <form action="" method="post">
+    <form action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@addRefund",$_GET['id'])}}" method="post">
         <input type="hidden" name="_token" value="{{csrf_token()}}" />
    
 

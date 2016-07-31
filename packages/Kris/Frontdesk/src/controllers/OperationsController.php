@@ -142,6 +142,11 @@ class OperationsController extends Controller
         return view("Frontdesk::refundForm");
     }
 
+    public function saveRefund()
+    {
+        
+    }
+
     public function reservationList()
     {
         return view("Frontdesk::reservationList");

@@ -348,6 +348,13 @@ margin-right: 8px;">
                         </a>
                     </li>
 
+                     <li>
+                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","refund") }}','','width=1010,height=640',this)">
+                            <img src="/images/frontdesk/scale.svg" />
+                            Refunds
+                        </a>
+                    </li>
+
                     <li>
                         <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","extraSales") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/groceries-bag.svg" />

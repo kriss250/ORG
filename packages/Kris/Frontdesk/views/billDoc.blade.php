@@ -20,7 +20,7 @@ $subtotal = 0;
         <div class="col-xs-7">
             <p>Guest names : {{$res->guest->firstname}} {{$res->guest->lastname}}</p>
             <p>Phone : {{$res->guest->phone}}</p>
-            <p>Company : {{$res->company->name}}</p>
+            <p>Company : {{$res->company != null ? $res->company->name : ""}}</p>
             <hr style="max-width:350px" />
             <p>Arrival : {{ ( new \Carbon\Carbon($res->checkin))->format("d/m/Y")}}</p>
             <p>Departure : {{( new \Carbon\Carbon($res->checkout))->format("d/m/Y")}}</p>
@@ -80,8 +80,8 @@ $subtotal = 0;
         </div>
         <div class="col-xs-8 bill-summary text-right">
 
-            <span>SUBTOTAL(TAX EXCLUSIVE) <b>{{number_format($total-$VAT)}}</b></span>
-            <span>VAT <b>{{number_format($VAT)}}</b></span>
+            <p>SUBTOTAL(TAX EXCLUSIVE) <b>{{number_format($total-$VAT)}}</b></p>
+            <p>VAT <b>{{number_format($VAT)}}</b></p>
             <span>TAX INCLUSIVE <b>{{number_format($total)}}</b></span>
             <span>
                 PAID
