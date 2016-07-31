@@ -234,12 +234,6 @@ margin-right: 8px;">
                                     </a>
                                 </li>
 
-                                <li>
-                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('http://org.com/fo/section/frame/statements','Reservation','width=800,height=590,resizable=no',this)" href="#">
-                                        <img src="/images/frontdesk/file-graphic.svg" />
-                                        Statement
-                                    </a>
-                                </li>
                             </ul>
 
                         </li>

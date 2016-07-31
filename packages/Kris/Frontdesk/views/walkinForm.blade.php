@@ -25,7 +25,9 @@
                     {
                         alert(jsData.errors[0]);
                     }else if(jsData.msg.length > 1) {
-                         alert(jsData.msg);
+
+                          alert(jsData.msg);
+                         window.opener.autoRefresh = true;
                           window.close();
                     }
                 },

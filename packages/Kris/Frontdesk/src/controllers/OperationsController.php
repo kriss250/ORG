@@ -60,7 +60,38 @@ class OperationsController extends Controller
 
     public function newDay()
     {
-        return view("Frontdesk::newDay");
+           if(\Request::isMethod("post"))
+           {
+               $date = \Kris\Frontdesk\Env::WD();
+
+                 $toCheckout = \Kris\Frontdesk\Reservation::whereNotNull("checked_in")->whereNull("checked_out")->where(\DB::raw("date(checkout)"),"=",$date->format("Y-m-d"))->get()->count();
+                 $toCheckin = \Kris\Frontdesk\Reservation::whereNull("checked_out")->whereNull("checked_in")->whereNotIn("status",[\Kris\Frontdesk\Reservation::CANCELLED,\Kris\Frontdesk\Reservation::NOSHOW])->where(\DB::raw("date(checkin)"),"=",$date->format("Y-m-d"))->get()->count();
+
+
+                 if($toCheckout > 0 || $toCheckin > 0)
+                 {
+                     return redirect()->back()->withErrors(["There are guests that need to be checked in or out , to make a new day"]);
+
+                 }
+               $sql1 = "insert into night_audit (working_date,user_id,new_date) values ('" .($date->format("Y-m-d")). "',".(\Kris\Frontdesk\User::me()->idusers).",'" .($date->addDay()->format("Y-m-d")). "');";
+               $sql2 = "insert ignore into acco_charges (reservation_id,room_id,room_number,amount,date) select idreservation,reservations.room_id,rooms.room_number,night_rate,'".($date)."'
+                 from reservations
+                join rooms on rooms.idrooms = reservations.room_id
+                where checked_out is null and checked_in is not null
+                and reservations.status=".(\Kris\Frontdesk\Reservation::CHECKEDIN).";";
+
+               $sql3 = "update rooms
+                join reservations on reservations.room_id = idrooms and checked_in is null and checked_out is null
+                set rooms.status =".(\Kris\Frontdesk\RoomStatus::RESERVED)." where reservations.status not in (2,3,4,5) and rooms.status <>".(\Kris\Frontdesk\RoomStatus::OCCUPIED)." and date(checkin)='".(\Kris\Frontdesk\Env::WD()->format("Y-m-d"))."'";
+
+               \DB::connection("mysql_book")->insert($sql1);
+               \DB::connection("mysql_book")->insert($sql2);
+               \DB::connection("mysql_book")->update($sql3);
+               \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->whereNotNull("checked_in")->whereNull("checked_out")->update(["due_amount"=>\DB::raw("due_amount+night_rate")]);
+               return redirect()->back()->with(["msg"=>"New day Set","refresh"=>1]);
+           }
+
+       return view("Frontdesk::newDay");
     }
 
     public function expectedDeparture()
@@ -104,6 +135,11 @@ class OperationsController extends Controller
     public function addChargeForm()
     {
         return view("Frontdesk::addChargeForm");
+    }
+
+    public function makeRefundForm()
+    {
+        return view("Frontdesk::refundForm");
     }
 
     public function reservationList()

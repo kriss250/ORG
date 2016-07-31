@@ -91,11 +91,13 @@ class Room extends Model
 
         foreach($reserved_rooms as $room)
         {
-            if($room->checkin == $checkin)
+            #!!!
+            if($room->checkin == $checkin && $room->checkout > $checkin)
             {
                 return false;
             }
 
+            //Covers another reservation
             if($checkin < $room->checkin && $checkout > $room->checkout)
             {
                 return false;

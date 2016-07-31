@@ -68,6 +68,7 @@
     <Compile Include="packages\kris\Frontdesk\src\Helpers.php" />
     <Compile Include="packages\kris\Frontdesk\src\Maid.php" />
     <Compile Include="packages\kris\Frontdesk\src\Log.php" />
+    <Compile Include="packages\kris\Frontdesk\views\refundForm.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\lostAndFound.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\laundryOrders.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\newLaundry.blade.php" />

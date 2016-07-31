@@ -372,7 +372,7 @@ font-weight: bold" class="btn btn-success">
                         <label style="display:block;">Refund</label>
                         <div class="text-center" style="padding: 8px;margin-top:15px;
 background: rgb(245, 245, 245) none repeat scroll 0% 0%;
-border: 1px solid rgb(236, 236, 236);border-radius:6px;"><button class="btn btn-danger btn-xs">Make a refund</button></div>
+border: 1px solid rgb(236, 236, 236);border-radius:6px;"><button onclick="window.open('{{action("\Kris\Frontdesk\Controllers\OperationsController@forms","makeRefund")}}?id={{$res->idreservation}}','','width=400,height=280')" class="btn btn-danger btn-xs">Make a refund</button></div>
                         
                     </div>
                 </div>

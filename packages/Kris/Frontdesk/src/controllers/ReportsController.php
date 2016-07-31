@@ -72,8 +72,7 @@ class ReportsController extends Controller
                 return \View::make("Frontdesk::reports.Banquet",$orders);
             case "banquetBooking":
                 $orders = $frontdesk->banquetBooking($range);
-                $banquets = $frontdesk->allBanquets();
-                return \View::make("Frontdesk::reports.BanquetBooking",["orders"=>$orders,"banquets"=>$banquets,"range"=>$range]);
+                return \View::make("Frontdesk::reports.Banquet",["orders"=>$orders]);
             case "foDeposits":
                 $deposits = $frontdesk->Deposit($range);
                 return \View::make("Frontdesk::reports.Deposits",$deposits);
@@ -112,6 +111,10 @@ class ReportsController extends Controller
                 $data = \DB::connection("mysql_book")->select($q,$range);
 
                 return \View::make("Frontdesk::reports.ExtraSales",["sales"=>$data]);
+
+            case "refund":
+                $refunds = \Kris\Frontdesk\Housekeeping::where("date",$range[0])->get();
+                return \View::make("Frontdesk::reports.Housekeeping",["tasks"=>$tasks]);
             default:
                 abort(404);
                 break;
