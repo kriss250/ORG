@@ -74,9 +74,9 @@ background: rgb(240, 255, 230) none repeat scroll 0% 0%
             <a href="#3" data-toggle="tab">Room</a>
         </li>
 
-        <li>
+        <!--<li>
             <a href="#4" data-toggle="tab">Charges</a>
-        </li>
+        </li>-->
     </ul>
 
     <div class="tab-content ">
@@ -505,16 +505,17 @@ border: 1px solid rgb(219, 242, 242)">
 
         <div class="col-xs-5">
             <div style="font-size:12px !important" class="btn-group">
-                <button type="button" style="font-size:12px" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
+                <button onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}&type=standard','','width=920,height=620',this)" type="button" style="font-size:12px" class="btn btn-default"><i class="fa fa-print"></i> Print</button>
                 <button type="button" style="font-size:12px" data-placement="top" class="pop-toggle btn btn-default" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}','','width=920,height=620',this)" href="#">With Payments</a></li>
-                    <li><a href="#">Accomodation</a></li>
-                    <li><a href="#">Services</a></li>
+                    <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}&type=standard','','width=920,height=620',this)" href="#">Standard Bill</a></li>
 
+                    <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}&type=payments','','width=920,height=620',this)" href="#">With Payments</a></li>
+                    <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}&type=accomodation','','width=920,height=620',this)" href="#">Accomodation</a></li>
+                    <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}&type=services','','width=920,height=620',this)" href="#">Services</a></li>
                 </ul>
             </div>
 

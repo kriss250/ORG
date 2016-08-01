@@ -1,6 +1,6 @@
 @extends("Frontdesk::MasterIframe")
 @section("contents")
-
+<div style="padding:15px">
 <?php
 $res = \Kris\Frontdesk\Reservation::find($_GET['id']);
 $subtotal = 0;
@@ -13,6 +13,20 @@ $subtotal = 0;
 <button onclick="window.print()" style="margin:5px auto;display:block" class="btn btn-primary">
     <i class="fa fa-print"></i>Print
 </button>
+
+    @if(isset($_GET['type']) && $_GET['type']=="services")
+    <div class="bill-filter">
+        <form action="{{\Request::url()}}" method="get">
+        <input type="hidden" name="id" value="{{$_GET['id']}}" />
+            <input type="hidden" name="type" value="{{$_GET['type']}}" />
+            @foreach(\Kris\Frontdesk\ChargeType::all() as $chargeType)
+            <input checked type="checkbox" name="charge_{{$chargeType->idcharge_type}}" value="{{$chargeType->idcharge_type}}" /> {{$chargeType->charge_name}}
+            @endforeach
+            <input type="submit" name="charge_filter" value="Filter" class="btn btn-success" />
+        </form>
+    </div>
+    @endif
+
 <div class="print-document">
     @include("Frontdesk::print-header")
 
@@ -50,14 +64,21 @@ $subtotal = 0;
         @for($i=0;$i<$min;$i++)
 
         @if(isset($items{$i}))
+
+               <?php 
+               if($items{$i}->type=="payment"){
+                    $items{$i}->unit_price = - $items{$i}->unit_price;
+               }
+               ?>
         <tr>
             <td class="text-left">{{( new \Carbon\Carbon($items{$i}->date))->format("d/m/Y") }}</td>
             <td class="text-left">{{$items{$i}->motif}}</td>
             <td class="text-right">{{$items{$i}->qty}}</td>
-            <td class="text-right">{{$items{$i}->unit_price}}</td>
-            <?php $subtotal = $items{$i}->unit_price*$items{$i}->qty ?>
+            <td class="text-right">{{$items{$i}->unit_price >= 0  ? $items{$i}->unit_price :""}}</td>
+            <?php $subtotal =  $items{$i}->unit_price >= 0 ? $items{$i}->unit_price*$items{$i}->qty : 0; ?>
             <td class="text-right">{{number_format($subtotal)}}</td>
         </tr>
+        <?php $total += $subtotal;?>
         @else 
         <tr style="text-indent:-99999px">
             <td class="text-left">.</td>
@@ -67,7 +88,7 @@ $subtotal = 0;
             <td class="text-right"></td>
         </tr>
         @endif
-        <?php $total += $subtotal;?>
+       
 
         @endfor
 
@@ -80,9 +101,9 @@ $subtotal = 0;
         </div>
         <div class="col-xs-8 bill-summary text-right">
 
-            <p>SUBTOTAL(TAX EXCLUSIVE) <b>{{number_format($total-$VAT)}}</b></p>
-            <p>VAT <b>{{number_format($VAT)}}</b></p>
-            <span>TAX INCLUSIVE <b>{{number_format($total)}}</b></span>
+            <p style="padding:3px;">SUBTOTAL(TAX EXCLUSIVE) : <b style="margin-left:8px">{{number_format($total-$VAT)}}</b></p>
+            <p style="padding:3px;">VAT : <b>{{number_format($VAT)}}</b></p>
+            <span>TAX INCLUSIVE : <b style="margin-left:8px">{{number_format($total)}}</b></span>
             <span>
                 PAID
                 <b>{{number_format($res->paid_amount)}}</b>
@@ -121,4 +142,5 @@ $subtotal = 0;
     });
 
 </script>
+    </div>
 @stop

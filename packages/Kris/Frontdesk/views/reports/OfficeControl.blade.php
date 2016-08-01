@@ -73,7 +73,7 @@ foreach($data as $res) {
     $i++;
 }
 $rows .= "<tfoot>";
-$rows .= "<tr><th colspan='7'>TOTAL</th><th>".number_format($tariff)."</th><th>".number_format($resto)."</th><th>".number_format($bar)."</th><th>".number_format($otherServices)."</th><th>".number_format($due)."</th><th>".number_format($paid)."</th><th>".number_format($balance)."</th>";
+$rows .= "<tr><th colspan='8'>TOTAL</th><th>".number_format($tariff)."</th><th>".number_format($resto)."</th><th>".number_format($bar)."</th><th>".number_format($otherServices)."</th><th>".number_format($due)."</th><th>".number_format($paid)."</th><th>".number_format($balance)."</th>";
 $rows .="</tr>";
 ?>
 @include("Frontdesk::reports.report-filter")

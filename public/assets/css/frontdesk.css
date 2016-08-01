@@ -125,9 +125,12 @@ body {
         background: rgba(255, 255, 255, 0.89);
     }
 
-.table {
-    font-size: 12px;
+.table.centered {
     text-align: center;
+}
+
+.table {
+    font-size:12px;
 }
 
 tr.houseuse {
@@ -1203,7 +1206,7 @@ fieldset .suggestions li:last-child {
 .list-filter {
     padding-bottom: 10px;
 border-bottom: 1px solid rgb(218, 218, 218);
-margin-bottom:10px;
+margin-bottom:0px;
 padding-top:15px;
 }
 
@@ -1270,8 +1273,8 @@ margin-right: -9px
 .list-filter {
      position:relative;
     padding:12px 16px;
-   background: rgb(249, 252, 255) none repeat scroll 0% 0%;
-border: 1px solid rgb(228, 239, 255);
+  background: rgb(239, 246, 254) none repeat scroll 0% 0%;
+border: 1px solid rgb(222, 235, 255);
 margin-left:-10px;
 margin-right:-18px;
 margin-bottom: 8px;
@@ -1447,4 +1450,53 @@ right: 0px;
 }
 .menu-2 .dropdown-toggle {
     height:80px;
+}
+
+
+.list-wrapper {
+    padding:0px;
+    max-width:100%;
+    margin-right:10px;
+    margin-left:15px;
+    padding-top:0;
+    overflow-x:hidden;
+    border:1px solid rgb(173, 202, 243);
+    overflow:hidden;
+}
+
+.list-wrapper > .table {
+   margin-left:-1px;
+   margin-top:-1px;
+   border-top:none;
+   margin-right:-2px;
+    max-width:none;
+   width:100.28%;
+   margin-bottom:-1px;
+   border-bottom:none;
+
+}
+
+.list-wrapper > .table.table-bordered  td {
+    border-color:rgb(205, 218, 230) !important
+}
+
+.list-wrapper > .table th {
+    border-top:none;
+    background:linear-gradient(to bottom,#dce9f5,#f7fbff);
+    border-bottom:1px solid #AAC2D7
+}
+
+.list-wrapper-title {
+   padding: 5px;
+  
+margin-left: -2px;
+text-align:center;
+margin-right: -2px;
+background: linear-gradient(to bottom,#bfe3fb,#84C8DE);
+font-size: 10px;
+text-transform: uppercase;
+font-weight: bold;
+font-family: Open Sans;
+color: #272727;
+ border-bottom:1px solid rgb(110, 159, 228);
 }

@@ -36,7 +36,20 @@
             Starting Date : {{$_GET['startdate']}}
         </div>
         <br />
+        <div class="bookingview-switch">
+            <fieldset style="width:110px;float:left">
+                <label>Start Date</label>
+                <input type="text" value="{{$_GET['startdate']}}" style="height:28px;border-radius:0;font-size:12px" class="form-control datepicker" />
+            </fieldset>
 
+            <fieldset style="width:60px;display:table;float:left;margin-left:8px;">
+                <label>Days</label>
+                <input step="7" style="margin-top:10px;" type="number" value="{{$_GET['days']}}" placeholder="#" />
+            </fieldset>
+        </div>
+
+        <div class="clearfix"></div>
+        <p style="font-size:12px">Room Info</p>
         <?php
         
         $room_status = \Kris\Frontdesk\RoomStatus::select(\DB::raw("room_number,idrooms,status_name,count(status) as qty"))->leftJoin("rooms","status_code","=","status")->groupBy("status_code")->get();
@@ -77,7 +90,7 @@
                     <label>Checkout</label>
                     <input type="text" value="" placeholder="YYYY-MM-DD" />
                 </fieldset>
-                <fieldset style="width:10px;display:table;float:left">
+                <fieldset style="width:60px;display:table;float:left">
                     <label>Quantity</label>
                     <input style="width:100%" type="number" value="" placeholder="#" />
                 </fieldset>

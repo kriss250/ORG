@@ -150,8 +150,8 @@ margin-right: 8px;">
                     </span>
                     Arrival <span class="text-center circle-badge" style=" background:#e74c3c;">3</span>
                     Departure <span class="text-center circle-badge" style=" background:#9b59b6;">3</span>
-                    <li style="margin:0;padding:0">
-                        <a style="position:relative;margin-bottom:0;margin-top:0" href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                    <li style="margin:0;padding:0;float:right;position:relative;margin-top:-3px;">
+                        <a style="background:#34495e; position:relative;margin-bottom:0;margin-top:0" href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                             <i class="fa fa-user"></i> {{\Kris\Frontdesk\User::me()->username}} <span class="caret"></span>
 
                         </a>

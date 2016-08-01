@@ -16,8 +16,8 @@ class ReportsController extends Controller
 {
     public function index($name)
     {
-        $start_date = isset($_GET['startdate']) ? $_GET['startdate'] : \ORG\Dates::$RESTODATE;
-        $end_date = isset($_GET['enddate']) ? $_GET['enddate'] : \ORG\Dates::$RESTODATE;
+        $start_date = isset($_GET['startdate']) ? $_GET['startdate'] : \Kris\Frontdesk\Env::WD()->format("Y-m-d");
+        $end_date = isset($_GET['enddate']) ? $_GET['enddate'] : \Kris\Frontdesk\Env::WD()->format("Y-m-d");
 
         $range = [$start_date,$end_date];
         $frontdesk = new \App\FrontofficeReport();

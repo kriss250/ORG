@@ -3,6 +3,14 @@
             border-color:#c1c1c1!important;
             padding:4px
     }
+
+  .bill-filter {
+      background:#fff;
+      border-radius:8px;
+      margin:6px auto !important;
+      padding:10px;
+      display:table;
+  }
        
 @media print
     {
@@ -16,6 +24,9 @@
             page-break-after:always
         }
 
+        .bill-summary span b {
+            border:1px solid #292929 !important;
+        }
         .table>thead:first-child > tr:first-child > th {
             border-top:1px solid !important;
         }
@@ -24,11 +35,12 @@
             background:#fff!important;
             height:auto;
             padding:0;
+            overflow:auto;
             font-size:12px;
             max-height:none;
         }
 
-        .panel-desc,.report-filter {
+        .panel-desc,.report-filter,.bill-filter {
             display: none !important;
         }
 
@@ -37,6 +49,7 @@
             padding:0px;
             margin:0;
             background:#fff;
+            overflow:visible;
             width:100%;
             max-width:3550px !important;
            display:block !important
@@ -46,6 +59,10 @@
         .btn {display:none !important; }
         .print-header-desc {
             color: #898989 !important;
+        }
+
+        html {
+            overflow:auto;
         }
     } 
 
@@ -83,7 +100,7 @@
         padding: 10px 0;
         box-sizing: padding-box;
         margin-bottom:20px;
-        border-bottom: 1px dashed #a4a4a4;
+        border-bottom: 1px dashed #3c3c3c;
     }
 
     .print-header-desc {
@@ -162,7 +179,7 @@
         margin-left:10px;
         display:inline-block;
         border:1px solid #c2c2c2;
-        padding:4px 8px;
+        padding:2px 8px;
     }
     
     .report-filter {

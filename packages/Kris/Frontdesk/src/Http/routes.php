@@ -69,6 +69,12 @@ namespace Kris\Frontdesk;
      **/
 
     \Route::get("fo/reports/{room}",["uses"=>"\Kris\Frontdesk\Controllers\ReportsController@index"]);
+
+    /**
+     * Statements
+     * */
+    \Route::get("fo/statements/guest/{id}",["uses"=>"\Kris\Frontdesk\Controllers\StatementsController@guest"]);
+
 });
 
 
