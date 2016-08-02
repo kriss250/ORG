@@ -2,7 +2,7 @@
 
 @section("contents")
 <div class="panel-desc">
-    <p class="title">Add Charge to room</p>
+    <p class="title">Add Charge to room.</p>
     <p class="desc"></p>
 </div>
 

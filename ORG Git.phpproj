@@ -79,6 +79,7 @@
     <Compile Include="packages\kris\Frontdesk\views\reports\Laundry.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reports\Housekeeping.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reports\ExtraSales.blade.php" />
+    <Compile Include="packages\Kris\Frontdesk\views\reports\Refund.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reports\RoomStatus.blade.php" />
     <Compile Include="packages\Kris\Frontdesk\views\reports\MyShift.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reports\report-filter.blade.php" />
