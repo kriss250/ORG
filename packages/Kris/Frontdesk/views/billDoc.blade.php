@@ -71,7 +71,7 @@ $subtotal = 0;
                }
                ?>
         <tr>
-            <td class="text-left">{{( new \Carbon\Carbon($items{$i}->date))->format("d/m/Y") }}</td>
+            <td class="text-left"></td>
             <td class="text-left">{{$items{$i}->motif}}</td>
             <td class="text-right">{{$items{$i}->qty}}</td>
             <td class="text-right">{{$items{$i}->unit_price >= 0  ? $items{$i}->unit_price :""}}</td>
