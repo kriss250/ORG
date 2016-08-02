@@ -13,13 +13,13 @@
         <input type="hidden" name="_token" value="{{csrf_token()}}" />
     
         <fieldset class="bordered">
-            <label>Guest Names</label>
+            <label>Guest Names </label>
             <input type="text" name="fromdate" value="" class="form-control" placeholder="Names of the guest" />
         </fieldset>
 
         <fieldset class="bordered">
             <label>From Date</label>
-            <input type="text" name="todate" value="{{$wd->format("Y-m-d")}}" class="form-control datepicker" placeholder="From date" />
+            <input type="text" name="fromdate" value="{{$wd->format("Y-m-d")}}" class="form-control datepicker" placeholder="From date" />
         </fieldset>
 
         <fieldset class="bordered">
