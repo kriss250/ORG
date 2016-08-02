@@ -14,7 +14,7 @@
     
         <fieldset class="bordered">
             <label>Guest Names </label>
-            <input type="text" name="fromdate" value="" class="form-control" placeholder="Names of the guest" />
+            <input type="text" name="guest" value="" class="form-control" placeholder="Names of the guest" />
         </fieldset>
 
         <fieldset class="bordered">

@@ -728,6 +728,7 @@
     <Folder Include="database\migrations" />
     <Folder Include="database\seeds" />
     <Folder Include="database" />
+    <Folder Include="backups\" />
     <Folder Include="packages\" />
     <Folder Include="packages\kris\" />
     <Folder Include="packages\kris\Frontdesk\" />
