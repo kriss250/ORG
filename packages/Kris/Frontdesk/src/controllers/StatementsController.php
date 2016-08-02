@@ -33,7 +33,7 @@ class StatementsController extends Controller
             $res = \Kris\Frontdesk\Reservation::whereRaw("(date(checkin) between ? and ? or date(checkout) between ? and ?)")->where("company_id",$id)->setBindings([$_GET['startdate'],$_GET['enddate'],$_GET['startdate'],$_GET['enddate'],$id])->get();
         }
 
-        return \View::make("Frontdesk::reservationHistory",["guest"=>$guest,"res"=>$res]);
+        return \View::make("Frontdesk::reservationHistory",["company"=>$company,"res"=>$res]);
     }
 
     public function reservation($id)

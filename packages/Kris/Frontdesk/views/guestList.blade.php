@@ -3,12 +3,11 @@
 
 <div class="list-filter">
     <?php $wd = \Kris\Frontdesk\Env::WD(); ?>
-    <form action="" method="post" class="form-inline">
-        <input type="hidden" name="_token" value="{{csrf_token()}}" />
-    
+    <form action="" method="get" class="form-inline">
+
         <fieldset class="bordered" style="width:280px;">
             <label>Guest Names</label>
-            <input type="text" name="todate" value="" class="form-control" placeholder="Names of the guest" />
+            <input type="text" name="guest_name" value="" class="form-control" placeholder="Names of the guest" />
         </fieldset>
 
 

@@ -124,7 +124,24 @@ class OperationsController extends Controller
 
     public function guestDB()
     {
+        if(isset($_GET['company_name']))
+        {
+            $guests= \Kris\Frontdesk\Company::where('firstname', 'LIKE', '?')->where('lastname', 'LIKE', '?')->setBindings(["%".$_GET['company_name']."%"])->get();
+            return \View::make("Frontdesk::guestList",["guests"=>$guests]);
+        }
+
         return view("Frontdesk::guestList");
+    }
+
+    public function companies()
+    {
+        if(isset($_GET['company_name']))
+        {
+            $cps = \Kris\Frontdesk\Company::where('name', 'LIKE', '?')->setBindings(["%".$_GET['company_name']."%"])->get();
+
+            return \View::make("Frontdesk::companyList",["companies"=>$cps]);
+        }
+        return view("Frontdesk::companyList");
     }
 
     public function walkinForm()
@@ -144,7 +161,7 @@ class OperationsController extends Controller
 
     public function saveRefund()
     {
-        
+
     }
 
     public function reservationList()

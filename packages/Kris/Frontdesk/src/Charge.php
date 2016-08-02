@@ -53,4 +53,9 @@ class Charge extends Model
         }
     }
 
+
+    public function room()
+    {
+        return $this->belongsTo("\Kris\Frontdesk\Room","room_id","idrooms");
+    }
 }

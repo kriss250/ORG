@@ -88,7 +88,7 @@
 </style>
 <div class="panel-desc">
     <p class="title">Room Reservation</p>
-    <p class="desc"></p>
+     <p class="desc" style="display:block">Room reservation  for future dates.</p>
 </div>
 <script>
     function getAvailableRooms() {
@@ -115,7 +115,7 @@
     }
 </script>
 
-<div style="padding:6px 10px" class="row">
+<div style="padding:6px 10px;padding-bottom:0" class="row">
  
     <form id="walkin-form" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@reserve")}}" method="post">
         <div class="col-xs-4">
@@ -139,7 +139,7 @@
                 <input name="adults" type="number" min="1" value="1" placeholder="#" />
             </fieldset>
 
-            <fieldset style="width:60px;display:table;float:right">
+            <fieldset style="width:68px;display:table;float:right">
                 <label>Children</label>
                 <input name="children" type="number" value="0" min="0" max="20" placeholder="#" />
             </fieldset>
@@ -209,11 +209,7 @@
                 <input autocomplete="off" type="text" name="rate" placeholder="#" />
             </fieldset>
 
-            <p class="text-center">
-                <img src="/images/frontdesk/card-visa.svg" width="34" />
-                <img src="/images/frontdesk/card-mastercard.svg" width="34" />
-                <img src="/images/frontdesk/card-front.svg" width="34" />
-            </p>
+           
             <div class="clearfix"></div>
 
             <fieldset>
@@ -232,7 +228,11 @@
                     </select>
                 </div>
             </fieldset>
-
+ <p class="text-center">
+                <img src="/images/frontdesk/card-visa.svg" width="24" />
+                <img src="/images/frontdesk/card-mastercard.svg" width="24" />
+                <img src="/images/frontdesk/card-front.svg" width="24" />
+            </p>
 
 
         </div>
@@ -276,14 +276,7 @@
                 <input type="text" name="email" placeholder="Email @" />
             </fieldset>
 
-
-            <fieldset>
-                <label>ID / Passport</label>
-                <input type="text" name="passport" placeholder="#Pass" />
-            </fieldset>
-
-
-            <fieldset>
+     		 <fieldset>
                 <label>Country</label>
                 <div class="select-wrapper">
                     <i class="fa fa-angle-down"></i>
@@ -297,6 +290,13 @@
                     </select>
                 </div>
             </fieldset>
+            <fieldset>
+                <label>ID / Passport</label>
+                <input type="text" name="passport" placeholder="#Pass" />
+            </fieldset>
+
+
+      
 
         </div>
 

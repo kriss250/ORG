@@ -252,14 +252,14 @@ margin-right: 8px;">
                         <li class="menu-group">
                             <ul>
                                 <li>
-                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('http://org.com/fo/section/frame/guestDB','Reservation','width=850,height=590,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@frame","guestdb")}}','Reservation','width=850,height=590,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/books-2.svg" />
                                         Guest Info.
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('http://org.com/fo/section/frame/companies','Reservation','width=800,height=590,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@frame","companies")}}','Reservation','width=800,height=590,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/organogram-2.svg" />
                                         Companies
                                     </a>
@@ -271,7 +271,7 @@ margin-right: 8px;">
                         <li class="menu-group">
                             <ul>
                                 <li>
-                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('http://org.com/fo/section/frame/banquet','Reservation','width=800,height=590,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@frame","banquet")}}','Reservation','width=800,height=590,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/stopwatch.svg" />
                                         Banquet
                                     </a>

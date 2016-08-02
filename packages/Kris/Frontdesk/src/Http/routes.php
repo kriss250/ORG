@@ -74,6 +74,7 @@ namespace Kris\Frontdesk;
      * Statements
      * */
     \Route::get("fo/statements/guest/{id}",["uses"=>"\Kris\Frontdesk\Controllers\StatementsController@guest"]);
+    \Route::get("fo/statements/company/{id}",["uses"=>"\Kris\Frontdesk\Controllers\StatementsController@company"]);
 
 });
 

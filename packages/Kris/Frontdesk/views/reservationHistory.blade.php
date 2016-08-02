@@ -24,18 +24,14 @@
 
 <div class="clearfix"></div>
 
-<?php
-\Session::put("back_url",\URL::previous());
-?>
-
-<a href="{{\Session::get("back_url")}}">
-    Go Back
+<a href="#" style="margin-left:15px;font-size:12px" onclick="history.back()">
+    << Go Back
 </a>
-    {!! !isset($_GET['startdate']) ? "<p>Choose dates to continue</p>" : "" !!}
+    {!! !isset($_GET['startdate']) ? "<p class='text-center'>Choose dates to continue</p>" : "" !!}
 
 <div class="list-wrapper">
     <p class="list-wrapper-title">
-        <span>Guest Statement({{$guest->firstname}})</span>
+        <span>Statement({{isset($guest) ?  $guest->firstname : $company->name}})</span>
     </p>
 
     <table class="table table-bordered table-condensed data-table table-striped text-left">
@@ -62,13 +58,22 @@
             <td>{{$reservation->idreservation}}</td>
             <td>{{$reservation->guest->firstname}} {{$reservation->guest->lastname}}</td>
             <td>{{$reservation->company->name}}</td>
-            <td>{{$reservation->checkin}}</td>
-            <td>{{$reservation->checkout}}</td>
+            <td>{{(new \Carbon\Carbon($reservation->checkin))->format("d/m/Y")}}</td>
+            <td>{{(new \Carbon\Carbon($reservation->checkout))->format("d/m/Y")}}</td>
             <td>{{$reservation->due_amount}}</td>
             <td>{{$reservation->paid_amount}}</td>
             <td>{{($reservation->due_amount-$reservation->paid_amount)}}</td>
             <td>
-                <i class="fa fa-edit"></i>
+                <span href="#" data-placement="left" class="pop-toggle btn-xs btn btn-default" aria-haspopup="true" aria-expanded="false"><i class="fa fa-eye"></i>
+                    <ul class="dropdown-menu">
+                        
+                        <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$reservation->idreservation}}&type=standard','','width=920,height=620',this)" href="#">Standard Bill</a></li>
+                        <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$reservation->idreservation}}&type=payments','','width=920,height=620',this)" href="#">With Payments</a></li>
+                        <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$reservation->idreservation}}&type=accomodation','','width=920,height=620',this)" href="#">Accomodation</a></li>
+                        <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$reservation->idreservation}}&type=services','','width=920,height=620',this)" href="#">Services</a></li>
+                    </ul>
+                </span>
+                
             </td>
         </tr>
         @endforeach

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -62,12 +62,14 @@
     <Compile Include="app\Http\Controllers\WaiterController.php" />
     <Compile Include="app\Http\Middleware\Authenticate.php" />
     <Compile Include="app\Http\Middleware\EncryptCookies.php" />
+    <Compile Include="packages\Kris\Frontdesk\src\Controllers\StatementsController.php" />
     <Compile Include="packages\kris\Frontdesk\src\Housekeeping.php" />
     <Compile Include="packages\kris\Frontdesk\src\Laundry.php" />
     <Compile Include="packages\kris\Frontdesk\src\FOFacade.php" />
     <Compile Include="packages\kris\Frontdesk\src\Helpers.php" />
     <Compile Include="packages\kris\Frontdesk\src\Maid.php" />
     <Compile Include="packages\kris\Frontdesk\src\Log.php" />
+    <Compile Include="packages\kris\Frontdesk\views\companyList.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\refundForm.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\lostAndFound.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\laundryOrders.blade.php" />
@@ -168,6 +170,7 @@
     <Compile Include="packages\kris\Frontdesk\src\Room.php" />
     <Compile Include="packages\kris\Frontdesk\src\RateType.php" />
     <Compile Include="packages\kris\Frontdesk\src\RoomType.php" />
+    <Compile Include="packages\Kris\Frontdesk\views\reservationHistory.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\roomStatus.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\addSales.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\newDay.blade.php" />

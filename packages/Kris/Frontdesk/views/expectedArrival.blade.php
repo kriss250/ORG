@@ -28,6 +28,11 @@
 <?php
 $reservations  = !isset($reservations) ? \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::ACTIVE)->whereBetween("checkin",[$wd->format("Y-m-d"),$wd->format("Y-m-d")])->get() : $reservations;
 ?>
+
+<div class="list-wrapper">
+    <p class="list-wrapper-title">
+        <span>Expected Arrival</span>
+    </p>
 <table class="table table-bordered table-condensed data-table table-striped">
     <thead>
         <tr>
@@ -70,5 +75,5 @@ $reservations  = !isset($reservations) ? \Kris\Frontdesk\Reservation::where("sta
     </tr>
     @endif
 </table>
-
+</div>
 @stop

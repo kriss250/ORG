@@ -80,7 +80,7 @@
     })
 </script>
 
-<div style="padding:6px 10px" class="row">
+<div style="padding:6px 10px;padding-bottom:2px" class="row">
 
     <form id="walkin-form" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@walkin")}}" method="post">
         <div class="col-xs-4">
@@ -190,11 +190,7 @@
                 <input autocomplete="off" type="text" name="rate" placeholder="#" />
             </fieldset>
 
-           <p class="text-center">
-                <img src="/images/frontdesk/card-visa.svg" width="34" />
-            <img src="/images/frontdesk/card-mastercard.svg" width="34" />
-            <img src="/images/frontdesk/card-front.svg" width="34" />
-           </p>
+           
             <div class="clearfix"></div>
            
             <fieldset>
@@ -214,7 +210,11 @@
                 </div>
             </fieldset>
 
-
+<p class="text-center">
+                <img src="/images/frontdesk/card-visa.svg" width="24" />
+            <img src="/images/frontdesk/card-mastercard.svg" width="24" />
+            <img src="/images/frontdesk/card-front.svg" width="24" />
+           </p>
 
         </div>
 
@@ -256,14 +256,6 @@
                 <label>Email</label>
                 <input type="text" name="email" placeholder="Email @" />
             </fieldset>
-
-
-             <fieldset>
-                <label>ID / Passport</label>
-                <input type="text" name="passport" placeholder="#Pass" />
-            </fieldset>
-
-
             <fieldset>
                 <label>Country</label>
                 <div class="select-wrapper">
@@ -278,6 +270,13 @@
                     </select>
                 </div>
             </fieldset>
+
+             <fieldset>
+                <label>ID / Passport</label>
+                <input type="text" name="passport" placeholder="#Pass" />
+            </fieldset>
+
+
 
         </div>
 

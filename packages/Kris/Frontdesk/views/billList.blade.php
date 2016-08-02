@@ -36,6 +36,11 @@
 
 $reservations  =  !isset($reservations)  || is_null($reservations) ? \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->whereBetween(DB::raw("date(checkout)"),[$wd->format("Y-m-d"),$wd->format("Y-m-d")])->get() : $reservations;
 ?>
+
+<div class="list-wrapper">
+    <p class="list-wrapper-title">
+        <span>Customer Bills</span>
+    </p>
 <table class="table table-bordered table-condensed data-table table-striped">
     <thead>
         <tr>
@@ -47,7 +52,7 @@ $reservations  =  !isset($reservations)  || is_null($reservations) ? \Kris\Front
             <th>Checkout</th>
             <th>Due</th>
             <th>Paid</th>
-            <th><i class="fa fa-printer"></i></th>
+            <th><i class="fa fa-eye"></i></th>
         </tr>
     </thead>
 
@@ -68,7 +73,15 @@ $reservations  =  !isset($reservations)  || is_null($reservations) ? \Kris\Front
         <td>{{$res->due_amount}}</td>
         <td>{{$res->paid_amount}}</td>
         <td>
-            <i class="fa fa-eye"></i>
+             <span href="#" data-placement="left" class="pop-toggle btn-xs btn btn-default" aria-haspopup="true" aria-expanded="false"><i class="fa fa-eye"></i>
+                    <ul class="dropdown-menu">
+                        
+                        <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}&type=standard','','width=920,height=620',this)" href="#">Standard Bill</a></li>
+                        <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}&type=payments','','width=920,height=620',this)" href="#">With Payments</a></li>
+                        <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}&type=accomodation','','width=920,height=620',this)" href="#">Accomodation</a></li>
+                        <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@_print",'bill')}}?id={{$res->idreservation}}&type=services','','width=920,height=620',this)" href="#">Services</a></li>
+                    </ul>
+                </span>
         </td>
     </tr>
     @endforeach
@@ -80,4 +93,5 @@ $reservations  =  !isset($reservations)  || is_null($reservations) ? \Kris\Front
     </tr>
     @endif
 </table>
+    </div>
 @stop

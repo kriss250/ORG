@@ -2,7 +2,7 @@
 @section("contents")
 <div class="panel-desc">
     <p class="title">Expected Departure</p>
-    <p class="desc"></p>
+   
 </div>
 
 <div class="list-filter">
@@ -30,6 +30,11 @@
 
 $reservations  =  !isset($reservations)  || is_null($reservations) ? \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->whereBetween(DB::raw("date(checkout)"),[$wd->format("Y-m-d"),$wd->format("Y-m-d")])->get() : $reservations;
 ?>
+
+<div class="list-wrapper">
+    <p class="list-wrapper-title">
+        <span>Expected Departure</span>
+    </p>
 <table class="table table-bordered table-condensed data-table table-striped">
     <thead>
         <tr>
@@ -72,4 +77,5 @@ $reservations  =  !isset($reservations)  || is_null($reservations) ? \Kris\Front
     </tr>
     @endif
 </table>
+</div>
 @stop
