@@ -9,11 +9,12 @@
         <div class="col-xs-8">
             <form style="float:right" action="" class="form-inline" method="get">
                 <label>Date</label>
-                <input name="startdate" type="text" value="{{ \Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" class="date-picker form-control" />-
-                <input name="enddate" type="text" value="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" class="date-picker form-control" />
+                <input name="startdate" type="text" value="{{ \Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" class="datepicker form-control" />-
+                <input name="enddate" type="text" value="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" class="datepicker form-control" />
                 <input type="submit" class="btn btn-success btn-sm" value="Go" />
                 <button type="button" onclick="window.print()" class="btn btn-default report-print-btn">Print</button>
             </form>
+            <div class="clearfix"></div>
         </div>
     </div>
 </div>
