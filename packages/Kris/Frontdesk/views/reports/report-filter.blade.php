@@ -10,10 +10,10 @@
 
                 <div class="col-xs-4">
                    
-                    <input style="max-width:100%" name="startdate" type="text" value="{{\Kris\Frontdesk\Env::WD()->format(" y-m-d")}}" class="datepicker form-control" />-
+                    <input style="max-width:100%" name="startdate" type="text" value="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" class="datepicker form-control" />-
                 </div>
                 <div class="col-xs-4">
-                    <input name="enddate" type="text" value="{{\Kris\Frontdesk\Env::WD()->format(" y-m-d")}}" class="datepicker form-control" />
+                    <input name="enddate" type="text" value="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" class="datepicker form-control" />
                 </div>
 
                 <div class="col-xs-3">
