@@ -177,7 +177,7 @@ margin-right: 8px;">
                         <li class="menu-group">
                             <ul>
                                 <li>
-                                    <a data-desc="Use this window to register a client that is checking in a to this date , without a reservation" class="dlg-bt" title="Guest Walkin" onclick="window.openDialog('http://org.com/fo/ajax/form/walkin','Room','width=800,height=590,resizable=no',this)" data-url="" href="#">
+                                    <a data-desc="Use this window to register a client that is checking in a to this date , without a reservation" class="dlg-bt" title="Guest Walkin" onclick="window.openDialog('/fo/ajax/form/walkin','Room','width=800,height=590,resizable=no',this)" data-url="" href="#">
                                         <img src="/images/frontdesk/man-suit.svg" />
                                         Walkin
                                     </a>
@@ -185,21 +185,21 @@ margin-right: 8px;">
 
                                 <li>
 
-                                    <a data-desc="Use this window to make a reservation in future dates" onclick="window.openDialog('http://org.com/fo/ajax/form/reservation','Room','width=800,height=590,resizable=no',this)" href="#">
+                                    <a data-desc="Use this window to make a reservation in future dates" onclick="window.openDialog('/fo/ajax/form/reservation','Room','width=800,height=590,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/calendar-plus.svg" />
                                         New Reservation
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a data-desc="Use this window to make a group reservation" class="dlg-btn" title="Group reservation" data-toggle="modal" onclick="openDialog('http://org.com/fo/ajax/form/groupReservation','Reservation','width=800,height=590,resizable=no',this)" href="">
+                                    <a data-desc="Use this window to make a group reservation" class="dlg-btn" title="Group reservation" data-toggle="modal" onclick="openDialog('/fo/ajax/form/groupReservation','Reservation','width=800,height=590,resizable=no',this)" href="">
                                         <img height="32" src="/images/frontdesk/groupres.png" />
                                         Group Reservation
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" title="Reservations" onclick="openDialog('http://org.com/fo/ajax/list/reservation','Reservation','width=800,height=590,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" title="Reservations" onclick="openDialog('/fo/ajax/list/reservation','Reservation','width=800,height=590,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/file-picture.svg" />
                                         Reservation List
                                     </a>
@@ -217,7 +217,7 @@ margin-right: 8px;">
                                 </li>
 
                                 <li>
-                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" onclick="openDialog('http://org.com/fo/section/frame/expectedDeparture','Reservation','width=800,height=590,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" onclick="openDialog('/fo/section/frame/expectedDeparture','Reservation','width=800,height=590,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/arrow-left.svg" />
                                         Expected Departure
                                     </a>
@@ -228,7 +228,7 @@ margin-right: 8px;">
                         <li class="menu-group">
                             <ul>
                                 <li>
-                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Bills" data-toggle="modal" onclick="openDialog('http://org.com/fo/section/frame/billList','Reservation','width=800,height=590,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Bills" data-toggle="modal" onclick="openDialog('/fo/section/frame/billList','Reservation','width=800,height=590,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/file-attachment.svg" />
                                         Bills
                                     </a>
@@ -241,7 +241,7 @@ margin-right: 8px;">
                         <li style="padding:1px 15px" class="menu-group">
                             <ul>
                                 <li>
-                                    <a data-iframe="yes" data-desc="Manage room status" class="dlg-btn" title="Room status management" data-toggle="modal" onclick="openDialog('http://org.com/fo/section/frame/roomStatus','Reservation','width=850,height=610,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="Manage room status" class="dlg-btn" title="Room status management" data-toggle="modal" onclick="openDialog('/fo/section/frame/roomStatus','Reservation','width=850,height=610,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/hue.svg" />
                                         Room Status
                                     </a>
@@ -278,13 +278,13 @@ margin-right: 8px;">
                                 </li>
 
                                 <li>
-                                    <a data-iframe="yes" data-desc="List of all extra sales" class="dlg-btn" title="Sales" data-toggle="modal" onclick="openDialog('http://org.com/fo/section/frame/salesList?startdate=2016-07-17&enddate=2016-07-17','Sales List','width=620,height=490,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="List of all extra sales" class="dlg-btn" title="Sales" data-toggle="modal" onclick="openDialog('/fo/section/frame/salesList?startdate=2016-07-17&enddate=2016-07-17','Sales List','width=620,height=490,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/basket-full.svg" />
                                         Other Sales List
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('http://org.com/fo/section/frame/addSale','Extra Sales','width=480,height=540,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('/fo/section/frame/addSale','Extra Sales','width=480,height=540,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/cart-plus.svg" />
                                         Add Sales
                                     </a>
