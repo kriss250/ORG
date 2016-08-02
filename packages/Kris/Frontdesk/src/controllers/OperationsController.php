@@ -104,7 +104,7 @@ class OperationsController extends Controller
             return view("Frontdesk::expectedDeparture");
         }
 
-    }
+    }   
 
     public function billList()
     {
