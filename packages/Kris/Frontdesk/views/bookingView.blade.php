@@ -30,22 +30,28 @@
 </style>
 <div class="container-fluid page">
     <div class="col-md-2">
-      
+
         <div  class="booking-view-sidebar-label">
             <p><i class="fa fa-info-circle"></i> Showing</p>
             Starting Date : {{$_GET['startdate']}}
         </div>
         <br />
         <div class="bookingview-switch">
-            <fieldset style="width:110px;float:left">
-                <label>Start Date</label>
-                <input type="text" value="{{$_GET['startdate']}}" style="height:28px;border-radius:0;font-size:12px" class="form-control datepicker" />
-            </fieldset>
+            <form method="get" action="{{\Request::URL()}}">
+                <fieldset style="width:98px;float:left">
+                    <label>Start Date</label>
+                    <input name="startdate" type="text" value="{{$_GET['startdate']}}" style="height:28px;border-radius:0;font-size:12px" class="form-control datepicker" />
+                </fieldset>
 
-            <fieldset style="width:60px;display:table;float:left;margin-left:8px;">
-                <label>Days</label>
-                <input step="7" style="margin-top:10px;" type="number" value="{{$_GET['days']}}" placeholder="#" />
-            </fieldset>
+                <fieldset style="width:60px;display:table;float:left;margin-left:8px;">
+                    <label>Days</label>
+                    <input step="7" name="days" style="margin-top:10px;" type="number" value="{{$_GET['days']}}" placeholder="#" />
+                </fieldset>
+
+                <button style="width:20px;margin-top:15px;border-radius:50%; height:20px;margin-left:3px" type="submit" class="btn btn-xs btn-default">
+                    <i class="fa fa-angle-right"></i>
+                </button>
+            </form>
         </div>
 
         <div class="clearfix"></div>
@@ -136,15 +142,6 @@
     $(document).ready(function () {
 
 
-        $(".date-picker").change(function(){
-
-            $("[name='filter-form']").submit();
-        })
-
-         $("[name='days']").change(function(){
-
-            $("[name='filter-form']").submit();
-        })
 
         var shownDays ={{$days}};
 

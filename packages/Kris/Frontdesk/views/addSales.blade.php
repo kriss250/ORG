@@ -52,6 +52,11 @@
                 <select required name="service">
                     <option value="">Choose Service</option>
                     <option value="Halls">Hall</option>
+                    <option value="Gym">Gym</option>
+                    <option value="Sauna/Massage">Sauna/Massage</option>
+                    <option value="Stationary">Stationary</option>
+                    <option value="Resto/Bar">Resto/Bar</option>
+                    <option value="Other">Other</option>
                 </select>
             </div>
         </fieldset>
@@ -85,6 +90,8 @@
                 <input required style="margin-top:6px;padding:4px 5px !important;border-top:1px dashed rgb(215, 215, 215) !important" value="{{old("amount")}}" type="text" name="amount" placeholder="#" />
             </fieldset>
         </div>
+        <br />
+        <br />
         <br />
         <button type="submit" value="Save" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
     </form>

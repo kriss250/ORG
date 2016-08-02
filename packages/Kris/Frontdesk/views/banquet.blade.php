@@ -35,21 +35,24 @@
             <input type="text" name="enddate" value="{{$enddate->format("Y-m-d")}}" class="form-control datepicker" placeholder="To" />
         </fieldset>
 
-        <button title="Banquet Event" onclick="window.openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@forms",'banquetEvent')}}','Banquet','width=410,height=350,resizable=no',this)" class="btn btn-primary btn-xs" type="button">Add Event</button>
-        <input type="submit" value="Find" class="btn btn-success btn-xs" />
+        <button style="margin-left:5px" title="Banquet Event" onclick="window.openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@forms",'banquetEvent')}}','Banquet','width=410,height=350,resizable=no',this)" class="btn btn-primary btn-xs" type="button">Add Event</button>
+        <input  type="submit" value="Find" class="btn btn-success btn-xs" />
     </form>
 
     <div class="clearfix"></div>
 </div>
 
-<p>Booking</p>
+<div class="list-wrapper">
+     <p class="list-wrapper-title">
+        <span>Room Reservations</span>
+    </p>
 
-<table class="table table-stripped table-bordered table-condensed">
+<table class="table table-striped table-bordered table-condensed">
     <thead>
         <tr>
-            <td>Date</td>
+            <th>Date</th>
             @foreach($bans as $ban)
-            <td>{{$ban->banquet_name}}</td>
+            <th>{{$ban->banquet_name}}</th>
             <?php  $hallsCounter++; ?>
             @endforeach
         </tr>
@@ -76,5 +79,5 @@
     </tr>
     @endfor
 </table>
-
+</div>
 @stop
