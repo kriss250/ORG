@@ -16,7 +16,7 @@
                     <input name="enddate" type="text" value="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" class="datepicker form-control" />
                 </div>
 
-                <div class="col-xs-3">
+                <div class="col-xs-3">  
                     <input type="submit" class="btn btn-success btn-sm" value="Go" />
                     <button type="button" onclick="window.print()" class="btn btn-default report-print-btn">Print</button>
                 </div>
