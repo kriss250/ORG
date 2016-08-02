@@ -110,7 +110,7 @@ class OperationsController extends Controller
     {
         if(\Request::isMethod('post'))
         {
-            $reservations = \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->whereBetween(\DB::raw("date(checkout)"),[\Request::input("fromdate"),\Request::input("todate")])->get();
+            $reservations = \Kris\Frontdesk\Reservation::where("status","<>",\Kris\Frontdesk\Reservation::CANCELLED)->whereBetween(\DB::raw("date(checkout)"),[\Request::input("fromdate"),\Request::input("todate")])->limit("100")->get();
 
             return \View::make("Frontdesk::billList",["reservations"=>$reservations]);
         }

@@ -12,10 +12,10 @@ $i=1;
 $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
 ?>
 @include("Frontdesk::reports.report-filter")
-<div class="page-contents">
+<div class="print-document">
 
     @include("Frontdesk::reports.report-print-header")
-    <p class="report-title">Front office Control Report</p>
+    <p class="report-title">Payments Report</p>
     <table class="table table-bordered">
         <thead>
             <tr>
