@@ -34,7 +34,7 @@
 </div>
 <?php
 
-$reservations  =  !isset($reservations)  || is_null($reservations) ? \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->whereBetween(DB::raw("date(checkout)"),[$wd->format("Y-m-d"),$wd->format("Y-m-d")])->get() : $reservations;
+$reservations  =  !isset($reservations)  || is_null($reservations) ? \Kris\Frontdesk\Reservation::where("status","<>",\Kris\Frontdesk\Reservation::CANCELLED)->whereBetween(DB::raw("date(checkout)"),[$wd->format("Y-m-d"),$wd->format("Y-m-d")])->get() : $reservations;
 ?>
 
 <div class="list-wrapper">
