@@ -637,6 +637,7 @@ fieldset input {
   border: none !important;
   background:none !important;
   width:100%;
+  position:relative;
   display:block;
   outline:none !important;
   box-shadow: none !important;
@@ -1500,4 +1501,16 @@ font-weight: bold;
 font-family: Open Sans;
 color: #272727;
  border-bottom:1px solid rgb(110, 159, 228);
+}
+
+.report-filter .dropdown-menu{
+    color:#313131
+}
+
+.datepicker-dropdown {
+  font-size: 12px;
+}
+
+.datepicker-dropdown td  {
+  padding: 4px !important;
 }

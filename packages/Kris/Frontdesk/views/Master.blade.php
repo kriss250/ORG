@@ -6,18 +6,17 @@
     {!!HTML::style("assets/css/vendor/font-awesome.min.css")!!}
     {!!HTML::style("assets/css/vendor/jquery-ui.min.css")!!}
    
-    {!!HTML::style("assets/js/vendor/datetimepicker/css/bootstrap-datetimepicker.min.css")!!}
+    {!!HTML::style("assets/js/vendor/bsdatepicker/css/bootstrap-datepicker.min.css")!!}
     {!!HTML::style("assets/css/floorview.css")!!}
     {!!HTML::style("assets/css/frontdesk.css")!!}
 
     {!!HTML::script("assets/js/vendor/jquery/jquery-1.11.2.min.js")!!}
-    {!!HTML::script("assets/js/vendor/bootstrap/bootstrap.min.js")!!}
-
     {!!HTML::script("assets/js/vendor/moment/moment.min.js") !!}
+    {!!HTML::script("assets/js/vendor/bootstrap/bootstrap.min.js")!!}
 
     {!!HTML::script("assets/js/vendor/chosen/chosen.jquery.min.js")!!}
     {!!HTML::script("assets/js/vendor/jquery-ui/jquery-ui.min.js") !!}
-    {!!HTML::script("assets/js/vendor/datetimepicker/js/bootstrap-datetimepicker.min.js") !!}
+    {!!HTML::script("assets/js/vendor/bsdatepicker/js/bootstrap-datepicker.min.js") !!}
     {!!HTML::script("assets/js/vendor/slimscroll/jquery.slimscroll.min.js") !!}
 
    

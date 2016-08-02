@@ -755,6 +755,8 @@
     <Folder Include="public\assets\js\vendor\animsition" />
     <Folder Include="public\assets\js\vendor\bootbox" />
     <Folder Include="public\assets\js\vendor\bootstrap" />
+    <Folder Include="public\assets\js\vendor\bsdatepicker\js\" />
+    <Folder Include="public\assets\js\vendor\bsdatepicker\css\" />
     <Folder Include="public\assets\js\vendor\calendar" />
     <Folder Include="public\assets\js\vendor\chosen" />
     <Folder Include="public\assets\js\vendor\classie" />
@@ -833,6 +835,8 @@
     <Folder Include="public\assets\js\vendor\morris" />
     <Folder Include="public\assets\js\vendor\nestable\css" />
     <Folder Include="public\assets\js\vendor\nestable" />
+    <Folder Include="public\assets\js\vendor\datepair\" />
+    <Folder Include="public\assets\js\vendor\bsdatepicker\" />
     <Folder Include="public\assets\js\vendor\owl-carousel" />
     <Folder Include="public\assets\js\vendor\parsley" />
     <Folder Include="public\assets\js\vendor\raphael" />
@@ -985,6 +989,10 @@
     <Content Include="public\assets\images\fo-bg-2.jpg" />
     <Content Include="public\assets\images\organogram-2.svg" />
     <Content Include="public\assets\js\fo-main.js" />
+    <Content Include="public\assets\js\vendor\bsdatepicker\css\bootstrap-datepicker.min.css" />
+    <Content Include="public\assets\js\vendor\bsdatepicker\js\bootstrap-datepicker.min.js" />
+    <Content Include="public\assets\js\vendor\datepair\jquery.datepair.js" />
+    <Content Include="public\assets\js\vendor\datepair\jquery.datepair.min.js" />
     <Content Include="public\images\frontdesk\arrow-left.svg" />
     <Content Include="public\images\frontdesk\arrow-right.svg" />
     <Content Include="public\images\frontdesk\Basket-Full.png" />

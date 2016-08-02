@@ -118,8 +118,11 @@ $(document).ready(function () {
     });
 
     $('body').on('focus', '.datepicker', function () {
-        $(this).datetimepicker({
-            format: "YYYY-MM-DD"
+        $(this).datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            container:$(this).parent(),
+            todayHighlight: true
         });
     });
 
