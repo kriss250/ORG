@@ -58,7 +58,7 @@ class FrontofficeReport extends Model
 
         return ["data"=>self::$db->select("select idreservation,pay_by_credit,shifted,date(checked_in) as checked_in,checkin, coalesce(date(checked_out),date(checkout)) as checked_out,due_amount,rooms.room_number,concat_ws(' ',firstname,lastname) as guest,companies.name as company,date(checkin) as checkin,
             date(checkout) as checkout,night_rate,paid_amount, sum(acco_charges.amount) as acco,'1' as gsize,
-            (select sum(room_charges.amount) as services from room_charges where room_id=idrooms and room_charges.reservation_id = idreservation) as services ,is_group, payer from reservations
+            (select sum(room_charges.amount) as services from room_charges where room_charges.reservation_id = idreservation) as services ,is_group, payer from reservations
 
             join rooms on rooms.idrooms = reservations.room_id
             left join acco_charges on acco_charges.reservation_id = reservations.idreservation
