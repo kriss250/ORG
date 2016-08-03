@@ -671,7 +671,7 @@ class ReservationsController extends Controller
     public function cancel($id)
     {
         $res = \Kris\Frontdesk\Reservation::find($id);
-        $res->cancel();
+        $res->cancel(); 
 
         return redirect()->back()->with(["msg"=>"Reservation cancelled","refresh"=>"1"]);
     }

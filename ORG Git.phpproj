@@ -62,7 +62,7 @@
     <Compile Include="app\Http\Controllers\WaiterController.php" />
     <Compile Include="app\Http\Middleware\Authenticate.php" />
     <Compile Include="app\Http\Middleware\EncryptCookies.php" />
-    <Compile Include="packages\Kris\Frontdesk\src\Controllers\StatementsController.php" />
+    <Compile Include="packages\kris\Frontdesk\src\Controllers\StatementsController.php" />
     <Compile Include="packages\kris\Frontdesk\src\Housekeeping.php" />
     <Compile Include="packages\kris\Frontdesk\src\Laundry.php" />
     <Compile Include="packages\kris\Frontdesk\src\FOFacade.php" />
@@ -99,9 +99,9 @@
     <Compile Include="packages\kris\Frontdesk\views\reports\ServiceSales.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reports\Transfers.blade.php" />
     <Compile Include="packages\kris\Frontdesk\src\Banquet.php" />
-    <Compile Include="packages\kris\Frontdesk\src\controllers\GuestController.php" />
-    <Compile Include="packages\kris\Frontdesk\src\controllers\ReportsController.php" />
-    <Compile Include="packages\kris\Frontdesk\src\controllers\UsersController.php" />
+    <Compile Include="packages\kris\Frontdesk\src\Controllers\GuestController.php" />
+    <Compile Include="packages\kris\Frontdesk\src\Controllers\ReportsController.php" />
+    <Compile Include="packages\kris\Frontdesk\src\Controllers\UsersController.php" />
     <Compile Include="packages\kris\Frontdesk\src\Property.php" />
     <Compile Include="packages\kris\Frontdesk\src\ReservationStatus.php" />
     <Compile Include="packages\kris\Frontdesk\src\Bill.php" />
@@ -152,11 +152,11 @@
     <Compile Include="database\seeds\.gitkeep" />
     <Compile Include="database\seeds\DatabaseSeeder.php" />
     <Compile Include="database\.gitignore" />
-    <Compile Include="packages\kris\Frontdesk\src\controllers\ReservationsController.php" />
+    <Compile Include="packages\kris\Frontdesk\src\Controllers\ReservationsController.php" />
     <Compile Include="packages\kris\Frontdesk\src\Countries.php" />
     <Compile Include="packages\kris\Frontdesk\src\Env.php" />
     <Compile Include="packages\kris\Frontdesk\src\RoomStatus.php" />
-    <Compile Include="packages\kris\Frontdesk\src\controllers\OperationsController.php" />
+    <Compile Include="packages\kris\Frontdesk\src\Controllers\OperationsController.php" />
     <Compile Include="packages\kris\Frontdesk\src\PayMethod.php" />
     <Compile Include="packages\kris\Frontdesk\src\ChargeType.php" />
     <Compile Include="packages\kris\Frontdesk\src\Charge.php" />
@@ -738,7 +738,7 @@
     <Folder Include="packages\kris\Frontdesk\views\" />
     <Folder Include="packages\kris\Frontdesk\src\Http\" />
     <Folder Include="packages\kris\Frontdesk\src\" />
-    <Folder Include="packages\kris\Frontdesk\src\controllers\" />
+    <Folder Include="packages\kris\Frontdesk\src\Controllers\" />
     <Folder Include="packages\kris\Frontdesk\views\frames\" />
     <Folder Include="public\assets\css\font" />
     <Folder Include="public\assets\css\fonts" />
