@@ -29,6 +29,7 @@ class UsersController extends Controller
 
         if(!is_null($user)){
             \Session::put("fo_user",$user);
+            \FO::log("Logged in");
             return redirect()->to("/frontdesk/standard");
         }else
         {

@@ -144,6 +144,7 @@ class ReservationsController extends Controller
         if($res != null)
         {
             \DB::commit();
+            \FO::log("Guest Walkin");
             $msg = "Guest checked in successfully  # code ".$res->idreservation;
         }else {
             \DB::rollBack();
@@ -280,6 +281,7 @@ class ReservationsController extends Controller
         if($res != null)
         {
             \DB::commit();
+            \FO::log("Created reservation");
             $msg = "Reservation saved successfully  # code ".$res->idreservation;
         }else {
             \DB::rollBack();
@@ -346,6 +348,7 @@ class ReservationsController extends Controller
             if($saved)
             {
                 DB::commit();
+                \FO::log("Guest checkin ".$res->room->room_number);
                 $msg = "Guest checked in";
             }else {
                 $error = "Checkin failed";
@@ -408,6 +411,7 @@ class ReservationsController extends Controller
             if($saved)
             {
                 DB::commit();
+                \FO::log("Guest checkout ".$res->room->room_number);
                 $msg = "Guest checked out";
             }else
             {
@@ -500,6 +504,7 @@ class ReservationsController extends Controller
         }
 
         $res->save();
+        \FO::log("Updated reservation ".$res->idreservation);
         return redirect()->back()->with("refresh","1");
     }
 
