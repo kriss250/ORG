@@ -104,7 +104,7 @@ class OperationsController extends Controller
             return view("Frontdesk::expectedDeparture");
         }
 
-    }   
+    }
 
     public function billList()
     {
@@ -414,13 +414,14 @@ join guest on guest.id_guest = guest_id
                          \DB::connection("mysql_book")->insert("insert into laundry (amount,room_id,reservation_id,user_id,items,reference,date) values(?,?,?,?,?,?,?)",
                              [
                              $data['amount'],
-                             $room->idrooms,
+                             $room->idrooms, 
                              $res->idreservation,
                              \Kris\Frontdesk\User::me()->idusers,
                              $data['items'],
                              $data['ref'],
                              \Kris\Frontdesk\Env::WD()->format("Y-m-d")
                              ]);
+                         \FO::log("Added laundry order".$res->idreservation);
                          return redirect()->back()->with("msg","Order posted to room ".$data['room']);
                      }else {
                          return redirect()->back()->withInput()->withErrors(["Posting to room ".$data['room']." failed"]);
