@@ -25,7 +25,6 @@ class FoAuth
                 return response('Unauthorized.', 401);
              } else {
                 \Session::put('url.intended',\Request::url());
-
                 return redirect()->route('fo.login');
             }
         }
