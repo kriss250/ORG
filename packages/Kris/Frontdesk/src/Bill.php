@@ -44,14 +44,14 @@ class Bill extends Model
         }
 
         $services_sql = "
-                select sum(room_charges.amount) as unit_price,1 as qty,date(room_charges.date) as date,motif,'charge' as type from room_charges
+                select room_charges.amount as unit_price,1 as qty,date(room_charges.date) as date,motif,'charge' as type from room_charges
                 join charge_types on idcharge_type = room_charges.charge
                 join users on idusers = room_charges.user_id
-                where reservation_id = " . $reservationid ." ".(strlen($charge_types)? "and room_charges.charge in($charge_types)" : "")." group by idroom_charge";
+                where reservation_id = " . $reservationid ." ".(strlen($charge_types)? "and room_charges.charge in($charge_types)" : "");
 
         $q = $acc_sql." union all ".$services_sql;
 
-        $pays = "SELECT ( coalesce(debit,0)+coalesce(credit,0)) as unit_price,'1' as qty,date(date),concat('Payment: ' ,motif) as motif,'payment' as type FROM folio
+        $pays = "SELECT (coalesce(debit,0)+coalesce(credit,0)) as unit_price,'1' as qty,date(date) as date,concat('Payment: ' ,motif) as motif,'payment' as type FROM folio
                 where reservation_id =" . $reservationid ."
                 ";
 

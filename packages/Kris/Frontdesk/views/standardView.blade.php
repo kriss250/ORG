@@ -216,7 +216,7 @@ if(!empty($ExpectedCheckout))
 {
     $script = "";
     foreach($ExpectedCheckout as $room){
-        $script .= "<span><b>{$room->room_number}</b>{$room->Guest}</span>";
+        $script .= "<span><b>{$room->room_number}</b>".substr($room->Guest,0,10)."</span>";
     }
     echo "<script> $(document).ready(function(){ $('.departure-widget').append('{$script}'); }) </script>";
 }else {

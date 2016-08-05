@@ -337,8 +337,14 @@ join guest on guest.id_guest = guest_id
 
 
         $in = \DB::connection("mysql_book")->table("banquet_booking")->insert($rows);
-
+        \FO::log("Created banquet booking");
         return redirect()->back()->with("msg","Order saved");
+    }
+
+    public function deleteBanquetOrder()
+    {
+        $id = $_GET['id'];
+        return \Kris\Frontdesk\Banquet::deleteOrder($id);
     }
 
     public function salesList()
@@ -414,7 +420,7 @@ join guest on guest.id_guest = guest_id
                          \DB::connection("mysql_book")->insert("insert into laundry (amount,room_id,reservation_id,user_id,items,reference,date) values(?,?,?,?,?,?,?)",
                              [
                              $data['amount'],
-                             $room->idrooms, 
+                             $room->idrooms,
                              $res->idreservation,
                              \Kris\Frontdesk\User::me()->idusers,
                              $data['items'],

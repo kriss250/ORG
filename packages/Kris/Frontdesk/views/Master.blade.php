@@ -55,34 +55,7 @@
     <?php
     $wdate = \Kris\Frontdesk\Env::WD();
     ?>
-    <header id="header">
-        <div class="grid">
 
-            <div class="row">
-                <div class="col-md-3 title-wrapper">
-                    <div class="col-md-3 logo-wrapper">
-                        <img src="/assets/images/backoffice_logo.png" width="30" />
-                    </div>
-
-                    <div class="col-md-9">
-                        <p>ORG Frontdesk</p>
-                        <p style="margin-top:-4px">Version 1.0</p>
-                    </div>
-                </div>
-
-                <div class="col-md-7 text-right">
-
-                    Arrival <span class="text-center circle-badge" style=" background:#e74c3c;">3</span>
-                    Departure <span class="text-center circle-badge" style=" background:#9b59b6;">3</span>
-                </div>
-                <div class="col-md-2" style="text-align:right">
-
-                </div>
-
-            </div>
-
-        </div>
-    </header>
 
     <nav class="main-menu">
         <div class="menu-1">
@@ -147,8 +120,10 @@ margin-right: 8px;">
                         <i class="fa fa-sun-o"></i>
                         {{\Kris\Frontdesk\Env::WD(true)}}
                     </span>
-                    Arrival <span class="text-center circle-badge" style=" background:#e74c3c;">3</span>
-                    Departure <span class="text-center circle-badge" style=" background:#9b59b6;">3</span>
+                    Arrival
+                    <span class="text-center circle-badge" style=" background:#e74c3c;">{{\Kris\Frontdesk\Reservation::where("status",5)->where(\DB::raw("date(checked_in)"),$wdate->format("Y-m-d"))->count() }}</span>
+                    Departure
+                    <span class="text-center circle-badge" style=" background:#9b59b6;">{{\Kris\Frontdesk\Reservation::where("status",6)->where(\DB::raw("date(checked_out)"),$wdate->format("Y-m-d"))->count() }}</span>
                     <li style="margin:0;padding:0;float:right;position:relative;margin-top:-3px;">
                         <a style="background:#34495e; position:relative;margin-bottom:0;margin-top:0" href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                             <i class="fa fa-user"></i> {{\Kris\Frontdesk\User::me()->username}} <span class="caret"></span>

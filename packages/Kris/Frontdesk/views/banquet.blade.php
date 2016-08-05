@@ -1,12 +1,37 @@
 @extends("Frontdesk::MasterIframe")
 
 @section("contents")
-
+<script>
+    function deleteEntry(id)
+    {
+        if(confirm("Are you sure you want to delete this entry ?"))
+        {
+            $.ajax({
+                url: '{{action("\Kris\Frontdesk\Controllers\OperationsController@deleteBanquetOrder")}}?id=' + id,
+                type: "get",
+                success:function(data)
+                {
+                    if(data=="1")
+                    {
+                        location.reload();
+                    } else {
+                        alert("Error deleting entry");
+                    }
+                }
+            })
+        }
+    }
+</script>
 <div class="panel-desc">
     <p class="title">Banquet Booking</p>
     <p class="desc"></p>
 </div>
-
+<style>
+    .b-booking-table td .dropdown-menu li {
+        padding: 2px 10px;
+        border-bottom: 1px solid rgb(230,230,230);
+    }
+</style>
 <?php $bans = \Kris\Frontdesk\Banquet::all();
 
     $date1 = isset($_GET['startdate']) ? $_GET['startdate'] : \Kris\Frontdesk\Env::WD()->format("Y-m-d") ;
@@ -44,10 +69,10 @@
 
 <div class="list-wrapper">
      <p class="list-wrapper-title">
-        <span>Room Reservations</span>
+        <span>Banquet Booking</span>
     </p>
 
-<table class="table table-striped table-bordered table-condensed">
+<table class="table table-striped table-bordered table-condensed b-booking-table">
     <thead>
         <tr>
             <th>Date</th>
@@ -68,9 +93,16 @@
         @foreach($bans as $ban)
         
 
-        <td>
+        <td class="b_{{$ban->idbanquet}}">
             @if(isset($booking[$ban->banquet_name][$date->format("Y-m-d")]))
-            {{$booking[$ban->banquet_name][$date->format("Y-m-d")]}}
+            <span data-toggle="dropdown" style="cursor:pointer;display:block" class="dropdown-toggle">{{ preg_replace("~[0-9](.*?)(\^)~","",$booking[$ban->banquet_name][$date->format("Y-m-d")]) }}</span>
+            <ul class="dropdown-menu">
+               @foreach(explode('~',$booking[$ban->banquet_name][$date->format("Y-m-d")]) as $item)
+                   <li>
+                      <span style="display:inline">{{explode('^',$item)[1]}}</span>  <a  style="display:inline;color:#c20303" onclick="deleteEntry({{explode('^',$item)[0]}})" class="text-danger" href="#"><i class="fa fa-trash"></i></a>
+                   </li>
+               @endforeach
+            </ul>
             @endif
         </td>
        

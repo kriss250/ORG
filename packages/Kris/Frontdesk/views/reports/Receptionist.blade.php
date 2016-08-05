@@ -8,11 +8,12 @@
 
     @include("Frontdesk::reports.report-print-header")
 
-    <p class="report-title">Shift Report - {{\FO::me()->username}}</p>
-    <?php 
-    $cash = 0;$bank = 0;$check = 0;$cc = 0; $credit = 0; $refund=0;
-          $userTotal = ["cash"=>0,"cc"=>0,"check"=>0,"bank"=>0,"refund"=>0,"credit"=>0];
-    ?>
+    <p class="report-title">Shift Report</p>
+    <?php $cash = 0;$bank = 0;$check = 0;$cc = 0; $credit = 0; $refund=0; ?>
+
+    @foreach($users as $key=>$user)
+    <?php $userTotal = ["cash"=>0,"cc"=>0,"check"=>0,"bank"=>0,"refund"=>0,"credit"=>0]; ?>
+    <h4 class="text-success text-capitalize">{{$key}}</h4>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -27,8 +28,13 @@
         </thead>
         <tr>
             <td>Room</td>
-            @foreach($payments as $payment)
+
             <?php
+
+
+             if(isset($user["payments"])){
+                 foreach($user["payments"] as $payment)
+                 {
             $refund += $payment->refund;
             $userTotal["refund"] += $refund;
             switch($payment->paymethod)
@@ -41,7 +47,6 @@
                     $cc += $payment->pay;
                     $userTotal["cc"] += $cc;
                     break;
-
                 case 3:
                     $check += $payment->pay;
                     $userTotal["check"] += $check;
@@ -51,9 +56,9 @@
                     $userTotal["bank"] += $bank;
                     break;
             }
+                 }
+             }
             ?>
-            @endforeach
-
             <td>{{$cash}}</td>
             <td>{{$cc}}</td>
             <td>{{$check}}</td>
@@ -61,13 +66,15 @@
             <td>-</td>
             <td>{{$refund}}</td>
 
-           
+
         </tr>
+        
         <?php $cash = 0;$bank = 0;$check = 0;$cc = 0; $credit = 0; $refund=0; ?>
-        @foreach($sales as $sale)
+        @if(isset($user["sales"]))
+        @foreach($user["sales"] as $sale)
         <?php
             $credit = $sale->is_credit ? $sale->amount : 0;
-            $userTotal["credit"] +=$credit;
+            $userTotal["credit"] += $credit;
             switch($sale->pay_mode)
             {
                 case 1:
@@ -76,22 +83,21 @@
                     break;
                 case 2:
                     $cc += $sale->amount;
-                    $userTotal["cc"] += $cc;
+                     $userTotal["cc"] += $cc;
                     break;
-
                 case 3:
                     $check += $sale->amount;
-                    $userTotal["check"] +=$check;
+                     $userTotal["check"] += $cc;
                     break;
                 case 4:
                     $bank += $sale->amount;
-                    $userTotal["bank"] += $bank;
+                     $userTotal["bank"] += $cc;
                     break;
             }
         ?>
-            @endforeach
-        
-      
+        @endforeach
+        @endif
+
         <tr>
             <td>Extra Sales</td>
             <td>{{$cash}}</td>
@@ -101,7 +107,7 @@
             <td>{{$credit}}</td>
             <td>-</td>
         </tr>
-
+        
         <tr class="text-bold">
             <td>TOTAL</td>
             <td>{{number_format($userTotal['cash'])}}</td>
@@ -112,6 +118,7 @@
             <td>{{number_format($userTotal['refund'])}}</td>
         </tr>
     </table>
+    @endforeach
 
     @include("Frontdesk::reports.report-footer")
 

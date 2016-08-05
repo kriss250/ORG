@@ -140,11 +140,14 @@ background: rgb(240, 255, 230) none repeat scroll 0% 0%
                         <fieldset>
                             <label>Package</label>
                             <span>BB</span>
-                            <input name="package" value="BB" {{$res->package_name=="BB" ? "checked" : ""}} type="radio" />
+                            <input title="Bed and Breakfast" name="package" value="BB" {{$res->package_name=="BB" ? "checked" : ""}} type="radio" />
                             <span>HB</span>
                             <input {{$res->package_name=="HB" ? "checked" : ""}} name="package" value="HB" type="radio" />
                             <span>FB</span>
                             <input {{$res->package_name=="FB" ? "checked" : ""}} name="package" value="FB" type="radio" />
+
+                            <span>CR</span>
+                            <input {{$res->package_name=="CR" ? "checked" : ""}} name="package" value="CR" type="radio" />
                             <div class="clearfix"></div>
                         </fieldset>
 

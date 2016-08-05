@@ -115,4 +115,9 @@ class Room extends Model
         return true;
 
     }
+
+    public function countRoomsByStatus()
+    {
+        return $this->groupBy("status");
+    }
 }

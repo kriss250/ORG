@@ -29,13 +29,18 @@ class Banquet extends Model
 
             foreach($bookings as $booking){
                 if(isset($data[$hall->banquet_name][$booking->date])){
-                    $data[$hall->banquet_name][$booking->date] .="~".$booking->info;
+                    $data[$hall->banquet_name][$booking->date] .=$booking->orderid."^~".$booking->orderid."^".$booking->info;
                 }else {
-                    $data[$hall->banquet_name][$booking->date] = $booking->info;
+                    $data[$hall->banquet_name][$booking->date] = $booking->orderid."^".$booking->info;
                 }
             }
         }
 
         return $data;
+    }
+
+    public static function deleteOrder($id)
+    {
+        return \DB::connection("mysql_book")->delete("delete from banquet_booking where orderid=".$id);
     }
 }

@@ -48,6 +48,7 @@ namespace Kris\Frontdesk;
 
     \Route::get("fo/ajax/availableRooms",["uses"=>"\Kris\Frontdesk\Controllers\ReservationsController@getAvailableRooms"]);
 
+
     /**
      * Room Operations
      * */
@@ -61,8 +62,7 @@ namespace Kris\Frontdesk;
 
     \Route::post("fo/reservation/addCharge/{id}",["uses"=>"\Kris\Frontdesk\Controllers\ReservationsController@addcharge"]);
     \Route::post("fo/addBanquetEvent",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@addBanquetEvent"]);
-
-
+    \Route::get("fo/deleteBanquetEvent",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@deleteBanquetOrder"]);
 
     /**
      * Reports

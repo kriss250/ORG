@@ -116,6 +116,7 @@
                 <span>BB</span> <input name="package" value="BB" checked type="radio" />
                 <span>HB</span> <input name="package" value="HB" type="radio" />
                 <span>FB</span> <input name="package" value="FB" type="radio" />
+                <span title="Complimentary Room">CR</span> <input name="package" value="CR" type="radio" />
                 <div class="clearfix"></div>
             </fieldset>
 

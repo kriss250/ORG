@@ -88,8 +88,24 @@ class ReportsController extends Controller
 
             case "myShift":
 
-                $data= $frontdesk->receptionist($range,\FO::me()->idusers);
+                $data = $frontdesk->receptionist($range,\FO::me()->idusers);
                 return \View::make("Frontdesk::reports.MyShift",$data);
+            case "receptionist":
+                $data = $frontdesk->receptionist($range,0);
+                $_data = [];
+              
+                foreach($data["payments"] as $pay)
+                {
+
+                    $_data[$pay->username]["payments"][] = $pay;
+                }
+
+                foreach ($data["sales"]  as $sale)
+                {
+                	  $_data[$sale->username]["sales"][] = $sale;
+                }
+
+                return \View::make("Frontdesk::reports.Receptionist",["users"=>$_data]);
             case "roomStatus":
                 $rooms = \Kris\Frontdesk\Room::all();
                 $data =  ["rooms"=>$rooms];
@@ -112,7 +128,7 @@ class ReportsController extends Controller
 
                 return \View::make("Frontdesk::reports.ExtraSales",["sales"=>$data]);
 
-            case "refund":
+            case "refund" :
                 $refunds = \Kris\Frontdesk\Payment::whereBetween(\DB::raw("date(folio.date)"),$range)->where("debit",">","0")->get();
                 return \View::make("Frontdesk::reports.Refund",["refunds"=>$refunds]);
             default:
