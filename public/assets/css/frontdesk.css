@@ -72,7 +72,9 @@ body {
     max-height: 100%;
 }
 
-
+.datepicker {
+    cursor:pointer;
+}
 .circle-badge {
     border-radius: 50%;
     color: #fff;

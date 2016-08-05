@@ -98,7 +98,7 @@
             <span data-toggle="dropdown" style="cursor:pointer;display:block" class="dropdown-toggle">{{ preg_replace("~[0-9](.*?)(\^)~","",$booking[$ban->banquet_name][$date->format("Y-m-d")]) }}</span>
             <ul class="dropdown-menu">
                @foreach(explode('~',$booking[$ban->banquet_name][$date->format("Y-m-d")]) as $item)
-                   <li>
+                   <li>  
                       <span style="display:inline">{{explode('^',$item)[1]}}</span>  <a  style="display:inline;color:#c20303" onclick="deleteEntry({{explode('^',$item)[0]}})" class="text-danger" href="#"><i class="fa fa-trash"></i></a>
                    </li>
                @endforeach
