@@ -121,7 +121,6 @@ $(document).ready(function () {
         $(this).datepicker({
             format: "yyyy-mm-dd",
             autoclose: true,
-            container:$(this).parent(),
             todayHighlight: true
         });
     });

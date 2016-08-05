@@ -2,6 +2,7 @@
     background: #ebf2f2;
     padding: 0 !important;
     overflow: hidden;
+    position:relative;
 }
 
 body {
@@ -23,7 +24,7 @@ body {
   left: 0;
   right: 0;
   z-index: 55;
-  top: 0;
+  top: -140px;
   bottom: 0;
 }
 

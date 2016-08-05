@@ -10,14 +10,15 @@ $ExpectedCheckout = [];
         <br />
         <p class="widget-title">Room Availability</p>
         <div class="sidebar-widget room-av-container">
-
+            
             <form method="post">
+                <input type="hidden" name="_token" value="{{csrf_token()}}" />
                 <fieldset>
                     <label>Checkin</label>
                     <input class="datepicker" type="text" value="" placeholder="YYYY-MM-DD" />
                 </fieldset>
 
-                <fieldset>
+                <fieldset style="position:relative">
                     <label>Checkout</label>
                     <input class="datepicker" type="text" value="" placeholder="YYYY-MM-DD" />
                 </fieldset>
@@ -25,7 +26,7 @@ $ExpectedCheckout = [];
                     <label>Quantity</label>
                     <input style="width:100%" type="number" value="" placeholder="#" />
                 </fieldset>
-                <button class="btn btn-success" style="margin-left:15px;margin-top:10px; display:table;float:left; padding:5px 15px;font-size:11px;font-weight:bold !important">
+                <button disabled class="btn btn-success" style="margin-left:15px;margin-top:10px; display:table;float:left; padding:5px 15px;font-size:11px;font-weight:bold !important">
                     Check
                     <i class="fa fa-question-circle"></i>
                 </button>
