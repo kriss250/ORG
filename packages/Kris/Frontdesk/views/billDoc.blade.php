@@ -58,7 +58,6 @@ $subtotal = 0;
         </thead>
         <?php $min = 12; $total = 0; $items = \Kris\Frontdesk\Bill::getBillItems($_GET['id']);  
               $min = count($items) > $min ? count($items) : $min;
-              print_r($items);
         ?>
 
 
