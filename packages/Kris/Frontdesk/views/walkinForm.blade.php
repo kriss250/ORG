@@ -6,6 +6,13 @@
     <p class="title">Guest Walkin</p>
     <p class="desc">Guest without reservation</p>
 </div>
+<style>
+     body 
+    {
+        overflow:hidden;
+        height:550px;
+    }
+</style>
 <script type="text/javascript">
     initSelectBoxes();
 

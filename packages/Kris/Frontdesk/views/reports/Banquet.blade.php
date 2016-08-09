@@ -42,7 +42,7 @@
 
             <td>
                 @if(isset($booking[$ban->banquet_name][$date->format("Y-m-d")]))
-            {{$booking[$ban->banquet_name][$date->format("Y-m-d")]}}
+            {{preg_replace("~[0-9](.*?)(\^)~","",$booking[$ban->banquet_name][$date->format("Y-m-d")])}}
             @endif
             </td>
 

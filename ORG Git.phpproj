@@ -77,6 +77,7 @@
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\newLaundry.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\newTask.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\taskList.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\reports\OccupancyChart.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reports\Laundry.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reports\Housekeeping.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\reports\ExtraSales.blade.php" />
@@ -1008,6 +1009,7 @@
     <Content Include="public\images\frontdesk\card-visa.svg" />
     <Content Include="public\images\frontdesk\cart-plus.svg" />
     <Content Include="public\images\frontdesk\check.svg" />
+    <Content Include="public\images\frontdesk\confetti.svg" />
     <Content Include="public\images\frontdesk\dustpan.svg" />
     <Content Include="public\images\frontdesk\find.svg" />
     <Content Include="public\images\frontdesk\groceries-bag.svg" />

@@ -51,7 +51,7 @@ class Bill extends Model
 
         $q = $acc_sql." union all ".$services_sql;
 
-        $pays = "SELECT (coalesce(debit,0)+coalesce(credit,0)) as unit_price,'1' as qty,date(date) as date,concat('Payment: ' ,motif) as motif,'payment' as type FROM folio
+        $pays = "SELECT IF( coalesce(debit,0) > 0, coalesce(debit,0)*-1,coalesce(credit,0) ) as unit_price,'1' as qty,date(date) as date,concat('Payment: ' ,motif) as motif,'payment' as type FROM folio
                 where reservation_id =" . $reservationid ."
                 ";
 

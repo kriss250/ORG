@@ -48,7 +48,6 @@ class OperationsController extends Controller
 
     public function expectedArrival()
     {
-
         $reservations = null;
         if(\Request::isMethod('post')){
             $reservations = \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::ACTIVE)->whereBetween(\DB::raw("date(checkout)"),[\Request::input("fromdate"),\Request::input("todate")])->get();
@@ -240,7 +239,6 @@ class OperationsController extends Controller
 
         return \View::make("Frontdesk::bookingView")->with(array('types'=>$data));
     }
-
 
     public function getBookingData()
     {
@@ -457,5 +455,11 @@ left join reservation_group on reservation_group.groupid = reservations.group_id
     public function groupViewer()
     {
         return \View::make("Frontdesk::groupViewer",["group"=>\Kris\Frontdesk\ReservationGroup::find($_GET['id'])]);
+    }
+
+    public function occupancyChart()
+    {
+        $room_chart  = \Kris\Frontdesk\Controllers\ReportsController::RoomStatusChartJson();
+        return \View::make("Frontdesk::reports.OccupancyChart",["data"=>$room_chart]);
     }
 }

@@ -60,25 +60,25 @@ $subtotal = 0;
               $min = count($items) > $min ? count($items) : $min;
         ?>
 
-
         @for($i=0;$i<$min;$i++)
 
         @if(isset($items{$i}))
 
                <?php 
+               
                if($items{$i}->type=="payment"){
-                    $items{$i}->unit_price = - $items{$i}->unit_price;
+                    //$items{$i}->unit_price = - $items{$i}->unit_price;
                }
                ?>
         <tr>
             <td class="text-left">{{(new \Carbon\Carbon($items{$i}->date))->format("d/m/Y") }}</td>
             <td class="text-left">{{$items{$i}->motif}}</td>
             <td class="text-right">{{$items{$i}->qty}}</td>
-            <td class="text-right">{{$items{$i}->unit_price >= 0  ? $items{$i}->unit_price :""}}</td>
-            <?php $subtotal =  $items{$i}->unit_price >= 0 ? $items{$i}->unit_price*$items{$i}->qty : 0; ?>
-            <td class="text-right">{{number_format($subtotal)}}</td>
+            <td class="text-right">{{ $items{$i}->type!="payment"  ? $items{$i}->unit_price :"-"}}</td>
+            <?php $subtotal =  $items{$i}->unit_price*$items{$i}->qty; ?>
+            <td class="text-right">{{$items{$i}->type=="payment" ? number_format(-$subtotal) :number_format($subtotal) }}</td>
         </tr>
-        <?php $total += $subtotal;?>
+        <?php $total += $items{$i}->type=="payment" ?  0 : $subtotal;?>
         @else 
         <tr style="text-indent:-99999px">
             <td class="text-left">.</td>

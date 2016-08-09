@@ -131,6 +131,7 @@ class ReservationsController extends Controller
                 "room_id"=> $room->idrooms,
                 "status"=> 5,
                 "guest_id"=>$g->id_guest,
+                "breakfast"=>1,
                 "package_name"=>$data['package'],
                 "checkedin_by"=>\Kris\Frontdesk\User::me()->idusers,
                 ]);
@@ -268,6 +269,7 @@ class ReservationsController extends Controller
                 "prefered_pay_mode"=>$data['pay_method'],
                 "room_id"=> $data['room'],
                 "status"=> 1,
+                "breakfast"=>1,
                 "guest_id"=>$g->id_guest,
                 "package_name"=>$data['package']
                 ]);

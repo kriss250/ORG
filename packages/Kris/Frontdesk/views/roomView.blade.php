@@ -96,7 +96,7 @@ background: rgb(240, 255, 230) none repeat scroll 0% 0%
                         ?>
                         <fieldset class="readonly">
                             <label>Checkin</label>
-                            <input type="text" {{$res->status == \Kris\Frontdesk\Reservation::ACTIVE ? "" :"readonly"}} name="checkin" value="{{$checkin}}" class="form-control" placeholder="Names of the guest" />
+                            <input type="text" {{$res->status == \Kris\Frontdesk\Reservation::ACTIVE ? "" :"readonly"}} name="checkin" value="{{$checkin}}" class="form-control datepicker" placeholder="Names of the guest" />
                         </fieldset>
 
                         <fieldset class="bordered">

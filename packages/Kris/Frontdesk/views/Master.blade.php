@@ -18,7 +18,7 @@
     {!!HTML::script("assets/js/vendor/jquery-ui/jquery-ui.min.js") !!}
     {!!HTML::script("assets/js/vendor/bsdatepicker/js/bootstrap-datepicker.min.js") !!}
     {!!HTML::script("assets/js/vendor/slimscroll/jquery.slimscroll.min.js") !!}
-
+    {!! HTML::script('assets/js/vendor/highcharts/highcharts.js') !!}
    
     {!!HTML::script("assets/js/fo-main.js")!!}
     <title>Frontoffice</title>
@@ -99,11 +99,11 @@ Floors View</a> </li>
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="$">Charts <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Occupancy</a></li>
+                        <li><a onclick="openWindow('occupancyChart')" href="#">Occupancy</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a data-toggle="tab" href="#pane-2">Reports <i class="fa fa-angle-down"></i></a>
+                    <a data-toggle="tab" href="#pane-2">Reports</a>
                     
                 </li>
 
@@ -323,42 +323,42 @@ margin-right: 8px;">
 
 
                     <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","foPayments") }}','','width=1010,height=640',this)">
+                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","foPayments") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/card-visa-blue.svg" />
                             Payment Control
                         </a>
                     </li>
 
                      <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","refund") }}','','width=1010,height=640',this)">
+                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","refund") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/scale.svg" />
                             Refunds
                         </a>
                     </li>
 
                     <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","extraSales") }}','','width=1010,height=640',this)">
+                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","extraSales") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/groceries-bag.svg" />
                             Extra Sales
                         </a>
                     </li>
 
                     <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","rooming") }}','','width=1010,height=640',this)">
+                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","rooming") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/parking-sign.svg" />
                             Police Report
                         </a>
                     </li>
 
                     <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","myShift") }}','','width=1010,height=640',this)">
+                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","myShift") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/woman-suit.svg" />
 
                             My Shift
                         </a>
                     </li>
                     <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","receptionist") }}','','width=1010,height=640',this)">
+                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","receptionist") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/support.svg" />
                             Receptionist
                         </a>
@@ -372,40 +372,40 @@ margin-right: 8px;">
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","roomStatus") }}','','width=1010,height=640',this)">Room Status</a></li>
-                            <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","roomtransfers") }}','','width=1010,height=640',this)">Room Transfer</a> </li>
+                            <li><a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","roomStatus") }}','','width=1010,height=640',this)">Room Status</a></li>
+                            <li><a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","roomtransfers") }}','','width=1010,height=640',this)">Room Transfer</a> </li>
 
                         </ul>
                     </li>
 
                     <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","banquetBooking") }}','','width=1010,height=640',this)">
-                            <img src="/images/frontdesk/paste.svg" />
+                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","banquetBooking") }}','','width=1010,height=640',this)">
+                            <img src="/images/frontdesk/confetti.svg" />
                             Halls Booking
                         </a>
                     </li>
                     <!--<li><a href="#">Invoices</a> </li>-->
                    <!-- <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","") }}','','width=1010,height=640',this)">Payments</a></li>-->
                     <li>
-                        <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","foLogs") }}','','width=1010,height=640',this)">
+                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","foLogs") }}','','width=1010,height=640',this)">
                             <img src="/images/frontdesk/paste.svg" />
                             Logs
                         </a>
                     </li>
 
                     <li>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <img src="/images/frontdesk/vacuum-cleaner.svg" />
                             Housekeeping
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","housekeeping") }}','','width=1010,height=640',this)">
+                                <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","housekeeping") }}','','width=1010,height=640',this)">
                                     Housekeeping
                                 </a>
                             </li>
-                            <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","laundry") }}','','width=1010,height=640',this)">Laundry</a></li>
+                            <li><a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","laundry") }}','','width=1010,height=640',this)">Laundry</a></li>
 
                         </ul>
                     </li>

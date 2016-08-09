@@ -109,7 +109,7 @@
         }
         $(".walkin-room-table > tbody").html("Loading....");
         $.ajax({
-            url: '{{action("\Kris\Frontdesk\Controllers\ReservationsController@getAvailableRooms")}}?checkin=' + checkin + '&checkout=' + checkout+ checkout+"&floor="+floor+"&type="+roomType,
+            url: '{{action("\Kris\Frontdesk\Controllers\ReservationsController@getAvailableRooms")}}?checkin=' + checkin + '&checkout=' + checkout+"&floor="+floor+"&type="+roomType,
             type: "get",
             success: function (resp) {
                 //data = JSON.parse(data);

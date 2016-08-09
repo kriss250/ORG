@@ -42,7 +42,7 @@ class Room extends Model
 
     public function availableRooms($checkin,$checkout,$roomType=0,$floor=0)
     {
-        $sql = "select room_id,date(checkin) as checkin,date(checkout) as checkout from reservations where date(checkin) >=? and date(checkin)<? and reservations.status not in(".(\Kris\Frontdesk\Reservation::CANCELLED).",".(\Kris\Frontdesk\Reservation::NOSHOW).")";
+        $sql = "select room_id,date(checkin) as checkin,date(checkout) as checkout from reservations where checked_out is null and date(checkout) >=? and date(checkin)<? and reservations.status not in(".(\Kris\Frontdesk\Reservation::CANCELLED).",".(\Kris\Frontdesk\Reservation::NOSHOW).")";
 
         $reserved_rooms = \DB::connection($this->connection)->select($sql,[\Kris\Frontdesk\Env::WD()->format("Y-m-d"),$checkout]);
 
@@ -101,7 +101,7 @@ class Room extends Model
      */
     public function isAvailable($roomid,$checkin,$checkout,$excluded=0)
     {
-        $sql = "select room_id,date(checkin) as checkin,date(checkout) as checkout from reservations where date(checkin) >=? and date(checkin)<? and room_id=? and idreservation<>? and reservations.status not in(".(\Kris\Frontdesk\Reservation::CANCELLED).",".(\Kris\Frontdesk\Reservation::NOSHOW).")";
+        $sql = "select room_id,date(checkin) as checkin,date(checkout) as checkout from reservations where checked_out is null and date(checkout) >=? and date(checkin)<? and room_id=? and idreservation<>? and reservations.status not in(".(\Kris\Frontdesk\Reservation::CANCELLED).",".(\Kris\Frontdesk\Reservation::NOSHOW).")";
 
         $reserved_rooms = \DB::connection($this->connection)->select($sql,[\Kris\Frontdesk\Env::WD()->format("Y-m-d"),$checkout,$roomid,$excluded]);
 

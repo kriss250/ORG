@@ -93,7 +93,7 @@ class ReportsController extends Controller
             case "receptionist":
                 $data = $frontdesk->receptionist($range,0);
                 $_data = [];
-              
+
                 foreach($data["payments"] as $pay)
                 {
 
@@ -135,5 +135,14 @@ class ReportsController extends Controller
                 abort(404);
                 break;
         }
+    }
+
+    public static function RoomStatusChartJson()
+    {
+        $sql = "select concat(status_name,' (',count(*),')') as name,(count(*)/(select count(*) from rooms))*100 as y from rooms
+        join room_status on rooms.status  = room_status.idroom_status
+            group by status order by status_name asc";
+        $data  = \DB::connection("mysql_book")->select($sql);
+        return json_encode($data,JSON_NUMERIC_CHECK);
     }
 }
