@@ -17,7 +17,7 @@ class Bill extends Model
 
     public static function getBillItems($reservationid)
     {
-        $acc_sql = "SELECT amount as unit_price,count(date) as qty,date,concat('Accomodation: ' ,room_number) as motif,'charge' as type FROM  acco_charges
+        $acc_sql = "SELECT amount as unit_price,count(date) as qty, date,concat('Accomodation: ' ,room_number) as motif,'charge' as type FROM  acco_charges
                 where reservation_id =" . $reservationid ."
                 group by room_id,amount
                 ";
@@ -44,7 +44,7 @@ class Bill extends Model
         }
 
         $services_sql = "
-                select room_charges.amount as unit_price,1 as qty,date(room_charges.date) as date,motif,'charge' as type from room_charges
+                select room_charges.amount as unit_price,1 as qty,room_charges.date as date,motif,'charge' as type from room_charges
                 join charge_types on idcharge_type = room_charges.charge
                 join users on idusers = room_charges.user_id
                 where reservation_id = " . $reservationid ." ".(strlen($charge_types)? " and room_charges.charge in($charge_types)" : "");
