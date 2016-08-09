@@ -133,12 +133,12 @@
             <input type="hidden" name="_token" value="{{csrf_token()}}" />
             <fieldset>
                 <label>Checkin</label>
-                <input onchange="getAvailableRooms();" name="checkin" autocomplete="off" class="datepicker" type="text" value="" placeholder="YYYY-MM-DD" />
+                <input data-mindate="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" onchange="getAvailableRooms();" name="checkin" autocomplete="off" class="datepicker" type="text" value="" placeholder="YYYY-MM-DD" />
             </fieldset>
 
             <fieldset>
                 <label>Checkout</label>
-                <input onchange="getAvailableRooms();" name="checkout" autocomplete="off" class="datepicker" type="text" placeholder="YYYY-MM-DD" />
+                <input data-mindate="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" onchange="getAvailableRooms();" name="checkout" autocomplete="off" class="datepicker" type="text" placeholder="YYYY-MM-DD" />
             </fieldset>
 
 

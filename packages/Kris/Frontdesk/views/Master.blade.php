@@ -78,11 +78,6 @@ Floors View</a> </li>
                     </ul>
                 </li>
 
-                <!--<li>
-                    <a href="">Customers</a>
-                </li>-->
-
-
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">Housekeeping <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu">
@@ -94,7 +89,6 @@ Floors View</a> </li>
                         <!--<li><a href="#">Lost and found</a></li>-->
                     </ul>
                 </li>
-
 
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="$">Charts <i class="fa fa-angle-down" aria-hidden="true"></i></a>
@@ -167,7 +161,7 @@ margin-right: 8px;">
 
                                 <li>
                                     <a data-desc="Use this window to make a group reservation" class="dlg-btn" title="Group reservation" data-toggle="modal" onclick="openDialog('/fo/ajax/form/groupReservation','Reservation','width=800,height=590,resizable=no',this)" href="">
-                                        <img height="32" src="/images/frontdesk/groupres.png" />
+                                        <img height="32" src="/images/frontdesk/briefcase.svg" />
                                         Group Reservation
                                     </a>
                                 </li>

@@ -97,12 +97,12 @@
             <input type="hidden" name="_token" value="{{csrf_token()}}" />
             <fieldset>
                 <label>Checkin</label>
-                <input name="checkin" autocomplete="off" readonly type="text" value="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" placeholder="YYYY-MM-DD" />
+                <input data-mindate="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" name="checkin" autocomplete="off" readonly type="text" value="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" placeholder="YYYY-MM-DD" />
             </fieldset>
 
             <fieldset>
                 <label>Checkout</label>
-                <input name="checkout" autocomplete="off" class="datepicker" type="text" placeholder="YYYY-MM-DD" />
+                <input data-mindate="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" name="checkout" autocomplete="off" class="datepicker" type="text" placeholder="YYYY-MM-DD" />
             </fieldset>
 
 

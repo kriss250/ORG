@@ -1002,6 +1002,7 @@
     <Content Include="public\images\frontdesk\Basket-Full.png" />
     <Content Include="public\images\frontdesk\basket-full.svg" />
     <Content Include="public\images\frontdesk\bed.svg" />
+    <Content Include="public\images\frontdesk\briefcase.svg" />
     <Content Include="public\images\frontdesk\calendar-plus.svg" />
     <Content Include="public\images\frontdesk\card-front.svg" />
     <Content Include="public\images\frontdesk\card-mastercard.svg" />
@@ -1011,6 +1012,9 @@
     <Content Include="public\images\frontdesk\check.svg" />
     <Content Include="public\images\frontdesk\confetti.svg" />
     <Content Include="public\images\frontdesk\dustpan.svg" />
+    <Content Include="public\images\frontdesk\file-attachment.svg" />
+    <Content Include="public\images\frontdesk\file-graphic.svg" />
+    <Content Include="public\images\frontdesk\file-picture.svg" />
     <Content Include="public\images\frontdesk\find.svg" />
     <Content Include="public\images\frontdesk\groceries-bag.svg" />
     <Content Include="public\images\frontdesk\groupres.png" />
