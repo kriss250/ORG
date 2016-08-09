@@ -187,7 +187,7 @@ class OperationsController extends Controller
 
     public function standardView()
     {
-        $sql = "select room_number,type_name,floor_name,status_name,concat_ws(' ',firstname,lastname) as Guest,name,checkin,checkout,phone_ext,status_code,idrooms,idreservation,idroom_types,idfloors from rooms
+        $sql = "select room_number,type_name,floor_name,status_name,concat_ws(' ',firstname,lastname) as Guest,group_name,name,checkin,checkout,phone_ext,status_code,idrooms,idreservation,idroom_types,idfloors from rooms
                         join room_types on type_id = idroom_types
                         join floors on rooms.floors_id = idfloors
                         join room_status on status_code = rooms.status
@@ -195,6 +195,7 @@ class OperationsController extends Controller
                         left join reservations on reservations.room_id= rooms.idrooms and checked_out is null and rooms.status in (" . \Kris\Frontdesk\RoomStatus::RESERVED.",".\Kris\Frontdesk\RoomStatus::OCCUPIED.") and reservations.status IN(" .\Kris\Frontdesk\Reservation::ACTIVE . ",".\Kris\Frontdesk\Reservation::CHECKEDIN .") ".
                         "left join guest on guest.id_guest = reservations.guest_id
                         left join companies on company_id = idcompanies
+                        left join reservation_group on reservation_group.groupid = reservations.group_id
                         group by idrooms
                         order by rooms.status desc";
 
@@ -249,12 +250,13 @@ class OperationsController extends Controller
         $new_date = new \DateTime($date);
         $enddate = $new_date->add(new \DateInterval("P{$days}D"))->format("Y-m-d");
 
-        $data = \DB::connection("mysql_book")->select("select concat_ws(' ',firstname,lastname)as guest,room_number,room_id,reservation_status.status_name,idreservation as reservation_id,greatest('{$_date->format("Y-m-d")}',
+        $data = \DB::connection("mysql_book")->select("select concat_ws(' ',firstname,lastname)as guest,group_name,room_number,room_id,reservation_status.status_name,idreservation as reservation_id,greatest('{$_date->format("Y-m-d")}',
 date_format(checkin,'%Y-%m-%d'))  as checkin,date_format(checkout,'%d_%m') as checkout,datediff(date(checkout),greatest('{$_date->format("Y-m-d")}',
 date_format(checkin,'%Y-%m-%d')))-(1) as days from reservations
             join rooms on rooms.idrooms = room_id
 join reservation_status on reservation_status.idreservation_status = reservations.status
-join guest on guest.id_guest = guest_id
+left join guest on guest.id_guest = guest_id
+left join reservation_group on reservation_group.groupid = reservations.group_id
             where reservations.status not in (2,3,4) and date(checkin) <= ? and date(checkout) >=?  order by reservations.status desc ",[$enddate,$date]);
 
         return json_encode($data);
@@ -440,5 +442,20 @@ join guest on guest.id_guest = guest_id
         }else{
             return view("Frontdesk::housekeeping.newLaundry");
         }
+    }
+
+    public function groupReservationListForm()
+    {
+        $d = \Kris\Frontdesk\Env::WD()->format("Y-m-d");
+        $startdate = \Request::input("fromdate",$d);
+        $enddate = \Request::input("todate",$d);
+
+        $groups = \Kris\Frontdesk\ReservationGroup::whereBetween(\DB::raw("date(arrival)"),[$startdate,$enddate])->limit("40")->get();
+        return \View::make("Frontdesk::groupList",["groups"=>$groups]);
+    }
+
+    public function groupViewer()
+    {
+        return \View::make("Frontdesk::groupViewer",["group"=>\Kris\Frontdesk\ReservationGroup::find($_GET['id'])]);
     }
 }

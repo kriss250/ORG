@@ -42,6 +42,7 @@ namespace Kris\Frontdesk;
 
     \Route::post("fo/ajax/saveWalkin",["uses"=>"\Kris\Frontdesk\Controllers\ReservationsController@walkin"]);
     \Route::post("fo/ajax/reserve",["uses"=>"\Kris\Frontdesk\Controllers\ReservationsController@reserve"]);
+    \Route::post("fo/ajax/reserveGroup",["uses"=>"\Kris\Frontdesk\Controllers\ReservationsController@reserveGroup"]);
 
     \Route::get("fo/reservation/cancel/{id}",["uses"=>"\Kris\Frontdesk\Controllers\ReservationsController@cancel"]);
     \Route::get("fo/reservation/noshow/{id}",["uses"=>"\Kris\Frontdesk\Controllers\ReservationsController@noshow"]);

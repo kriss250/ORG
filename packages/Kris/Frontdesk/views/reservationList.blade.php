@@ -62,7 +62,7 @@ $reservations  = !isset($reservations) ? \Kris\Frontdesk\Reservation::where("sta
         ?>
         <tr>
             <td>{{$res->idreservation}}</td>
-            <td class="text-left">{{$res->guest->firstname}} {{$res->guest->lastname}}</td>
+            <td class="text-left">{{$res->guest != null ? $res->guest->firstname : ""}} {{$res->guest != null ? $res->guest->lastname : ""}}</td>
             <td>{{$res->room->room_number}}</td>
             <td>{{$type->type_name}}</td>
             <td>{{number_format($res->night_rate)}}</td>

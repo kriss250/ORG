@@ -151,8 +151,6 @@ background: rgb(240, 255, 230) none repeat scroll 0% 0%
                             <div class="clearfix"></div>
                         </fieldset>
 
-
-
                     </div>
 
                     <div class="col-xs-4" style="padding:0">
@@ -162,7 +160,7 @@ background: rgb(240, 255, 230) none repeat scroll 0% 0%
                         <div class="light-fieldsets">
                             <fieldset>
                                 <label>Guest Names</label>
-                                <input name="names" autocomplete="off" value="{{$res->guest->firstname}} {{$res->guest->lastname}}" type="text" placeholder="Firstname & Lastname" />
+                                <input name="names" autocomplete="off" value="{{$res->guest !=null  ? $res->guest->firstname : ""}} {{$res->guest !=null  ? $res->guest->lastname : ""}}" type="text" placeholder="Firstname & Lastname" />
                             </fieldset>
                             <fieldset>
                                 <label>Country</label>
@@ -171,7 +169,7 @@ background: rgb(240, 255, 230) none repeat scroll 0% 0%
                                     <select name="country">
                                         <option value="">Choose Country</option>
                                         @foreach(Kris\Frontdesk\Countries::$list as $country)
-                                        <option {{$country == $res->guest->country ? " selected " :""}}>
+                                        <option {{$res->guest !=null && $country == $res->guest->country ? " selected " :""}}>
                                             {{$country}}
                                         </option>
                                         @endforeach
@@ -199,7 +197,7 @@ display: block;">
                                     <li>
                                         <fieldset>
                                             <label>Phone</label>
-                                            <input autocomplete="off" value="{{$res->guest->phone}}" type="text" name="phone" placeholder="Family name" />
+                                            <input autocomplete="off" value="{{$res->guest !=null ? $res->guest->phone : ""}}" type="text" name="phone" placeholder="Phone Number" />
                                         </fieldset>
                                      
                                     </li>
@@ -208,14 +206,14 @@ display: block;">
                                     <li>
                                         <fieldset>
                                             <label>Email</label>
-                                            <input type="text" value="{{$res->guest->email}}" name="email" placeholder="@email" />
+                                            <input type="text" value="{{$res->guest !=null ? $res->guest->email :""}}" name="email" placeholder="@email" />
                                         </fieldset>
                                     </li>
 
                                     <li>
                                         <fieldset>
                                             <label>City</label>
-                                            <input type="text" value="{{$res->guest->city}}" name="city" placeholder="Address" />
+                                            <input type="text" value="{{$res->guest !=null ? $res->guest->city : ""}}" name="city" placeholder="Address" />
                                         </fieldset>
                                     </li>
 
@@ -223,7 +221,7 @@ display: block;">
                                     <li>
                                         <fieldset>
                                             <label>ID / Passport #</label>
-                                            <input value="{{$res->guest->id_doc}}" type="text" name="id_doc" placeholder="ID#" />
+                                            <input value="{{$res->guest !=null ? $res->guest->id_doc:""}}" type="text" name="id_doc" placeholder="ID#" />
                                         </fieldset>
                                     </li>
 

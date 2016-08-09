@@ -2,15 +2,18 @@
 
 @section("contents")
 
-                <div class="panel-desc">
-        <p class="title">Group Booking</p>
-        <p class="desc"></p>
-    </div>
+<div class="panel-desc">
+    <p class="title">Group Booking</p>
+    <p class="desc"></p>
+</div>
 <script type="text/javascript">
     initSelectBoxes();
 
     $(document).ready(function () {
 
+        $(".walkin-room-table").on("change",".room_tick",function(e){
+            $(this).parent().parent().toggleClass("selected_room");
+        });
         $("#walkin-form").submit(function (e) {
             e.preventDefault();
             var form = $(this);
@@ -35,12 +38,6 @@
                 }
             })
         });
-
-        $("body").on("change","input[name=room]",function () {
-            var room = $(this).parent().parent();
-
-            $("input[name=rate]").val($(room).attr("data-rate"));
-        })
 
         $(".rooms-table-wrapper").slimscroll({
             height: "156px",
@@ -79,35 +76,38 @@
 </script>
 
 <style>
-.panel-desc {
-    display: block;
-    background: rgb(137, 222, 135);
-    padding: 8px 18px;
-    font-size: 11px;
-    position: relative;
-    border-bottom: 1px solid rgb(122, 206, 109);
-    color: rgb(78, 78, 78);
-}
+    .panel-desc {
+        display: block;
+        background: rgb(137, 222, 135);
+        padding: 8px 18px;
+        font-size: 11px;
+        position: relative;
+        border-bottom: 1px solid rgb(122, 206, 109);
+        color: rgb(78, 78, 78);
+    }
 </style>
 
 <script>
     function getAvailableRooms() {
-        
+
         var checkin = $("input[name=checkin]").val();
         var checkout = $("input[name=checkout]").val();
+
+        var roomType = $("select[name=room_type]").val();
+        var floor = $("select[name=floor]").val();
 
         if (checkin.length < 3 || checkout.length < 3) {
             return;
         }
         $(".walkin-room-table > tbody").html("Loading....");
         $.ajax({
-            url: '{{action("\Kris\Frontdesk\Controllers\ReservationsController@getAvailableRooms")}}?checkin=' + checkin + '&checkout=' + checkout,
+            url: '{{action("\Kris\Frontdesk\Controllers\ReservationsController@getAvailableRooms")}}?checkin=' + checkin + '&checkout=' + checkout+"&floor="+floor+"&type="+roomType,
             type: "get",
             success: function (resp) {
                 //data = JSON.parse(data);
                 $(".walkin-room-table > tbody").html("");
                 $.each(resp, function (key, value) {
-                    var row = $("<tr data-rate='"+value.rate_amount+"'>").append('<td><input type="radio" value="' + value.idrooms + '" name="room" /></td><td>'+value.room_number+'</td><td>'+value.type_name+'</td><td>'+value.floor_name+'</td>');
+                    var row = $("<tr data-rate='"+value.rate_amount+"'>").append('<td><input class="room_tick" type="checkbox" value="' + value.idrooms + '" name="room_'+value.idrooms+'" /></td><td>'+value.room_number+'</td><td>'+value.type_name+'</td><td>'+value.floor_name+'</td><td><input size="10" name="rate_'+value.idrooms+'" value="'+value.rate_amount+'" class="room_rate_input" type="text"></td>');
                     $(".walkin-room-table > tbody").append(row);
                 })
             }
@@ -116,8 +116,8 @@
 </script>
 
 <div style="padding:6px 10px" class="row">
- 
-    <form id="walkin-form" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@reserve")}}" method="post">
+
+    <form id="walkin-form" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@reserveGroup")}}" method="post">
         <div class="col-xs-5">
 
             <p class="section-title">
@@ -125,7 +125,7 @@
             </p>
             <fieldset>
                 <label>Group Name</label>
-                <input type="text" autocomplete="off" name="company" placeholder="Name of the group" />
+                <input type="text" autocomplete="off" name="group_name" placeholder="Name of the group" />
             </fieldset>
 
             <p class="section-title">
@@ -185,7 +185,22 @@
             <p class="section-title">
                 <span>Room configuration</span>
             </p>
-      
+            <div class="room-filter">
+                Room Type
+                <select onchange="getAvailableRooms()" name="room_type">
+                    <option value="0">All</option>
+                    @foreach(\Kris\Frontdesk\RoomType::all() as  $type)
+                    <option value="{{$type->idroom_types}}">{{$type->type_name}}</option>
+                    @endforeach
+                </select>
+                Floor
+                <select onchange="getAvailableRooms()" name="floor">
+                    <option value="0">All</option>
+                    @foreach(\Kris\Frontdesk\Floor::all() as $floor)
+                    <option value="{{$floor->idfloors}}">{{$floor->floor_name}}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="rooms-table-wrapper">
                 <table class="walkin-room-table">
                     <thead>
@@ -195,7 +210,6 @@
                             <th>Room Type</th>
                             <th>Floor</th>
                             <th>Rate</th>
-                            <th>x</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -237,7 +251,7 @@
                         <option value="">Choose Method</option>
                         @foreach(Kris\Frontdesk\PayMethod::all() as $mode)
                         <option value="{{$mode->idpay_method}}">
-                            {{    $mode->method_name}}
+                            {{$mode->method_name}}
                         </option>
                         @endforeach
                     </select>

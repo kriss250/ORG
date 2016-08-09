@@ -40,7 +40,7 @@ class Room extends Model
         return self::where("status",RoomStatus::VACANT)->join("room_types","idroom_types","=","type_id")->join("room_rates","room_type_id","=","type_id")->join("floors","floors_id","=","idfloors")->get();
     }
 
-    public function availableRooms($checkin,$checkout)
+    public function availableRooms($checkin,$checkout,$roomType=0,$floor=0)
     {
         $sql = "select room_id,date(checkin) as checkin,date(checkout) as checkout from reservations where date(checkin) >=? and date(checkin)<? and reservations.status not in(".(\Kris\Frontdesk\Reservation::CANCELLED).",".(\Kris\Frontdesk\Reservation::NOSHOW).")";
 
@@ -69,6 +69,22 @@ class Room extends Model
             }
 
 
+        }
+
+        if($floor > 0 && $roomType==0)
+        {
+            return $this->whereNotIn("idrooms",$not_av_rooms)->where("floors_id",$floor)->whereNotIn("status",[RoomStatus::BLOCKED,RoomStatus::HOUSEUSE])->join("room_types","idroom_types","=","type_id")->join("room_rates","room_type_id","=","type_id")->join("floors","floors_id","=","idfloors")->get();
+        }
+
+
+        if($floor == 0 && $roomType>0)
+        {
+            return $this->whereNotIn("idrooms",$not_av_rooms)->where("type_id",$roomType)->whereNotIn("status",[RoomStatus::BLOCKED,RoomStatus::HOUSEUSE])->join("room_types","idroom_types","=","type_id")->join("room_rates","room_type_id","=","type_id")->join("floors","floors_id","=","idfloors")->get();
+        }
+
+        if($floor > 0 && $roomType>0)
+        {
+            return $this->whereNotIn("idrooms",$not_av_rooms)->where("floors_id",$floor)->where("type_id",$roomType)->whereNotIn("status",[RoomStatus::BLOCKED,RoomStatus::HOUSEUSE])->join("room_types","idroom_types","=","type_id")->join("room_rates","room_type_id","=","type_id")->join("floors","floors_id","=","idfloors")->get();
         }
 
         return $this->whereNotIn("idrooms",$not_av_rooms)->whereNotIn("status",[RoomStatus::BLOCKED,RoomStatus::HOUSEUSE])->join("room_types","idroom_types","=","type_id")->join("room_rates","room_type_id","=","type_id")->join("floors","floors_id","=","idfloors")->get();

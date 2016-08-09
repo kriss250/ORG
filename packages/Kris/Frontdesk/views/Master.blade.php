@@ -173,6 +173,13 @@ margin-right: 8px;">
                                 </li>
 
                                 <li>
+                                    <a data-desc="Use this window to make a group reservation" class="dlg-btn" title="Group reservation" data-toggle="modal" onclick="openDialog('/fo/ajax/form/groupReservationList','Group Reservations','width=800,height=590,resizable=no',this)" href="">
+                                        <img height="32" src="/images/frontdesk/pencil.svg" />
+                                        Edit Group Reservation
+                                    </a>
+                                </li>
+
+                                <li>
                                     <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" title="Reservations" onclick="openDialog('/fo/ajax/list/reservation','Reservation','width=800,height=590,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/file-picture.svg" />
                                         Reservation List

@@ -13,7 +13,13 @@ body {
   -ms-user-select: none;
   user-select: none;   
 }
-
+.room_rate_input {
+  background: rgba(255,255,255,.8);
+  border: none;
+  padding: 0 10px;
+  box-sizing: padding-box;
+  font-weight: bold;
+}
 .text-bold {
     font-weight:bold
 }
@@ -27,7 +33,19 @@ body {
   top: -140px;
   bottom: 0;
 }
+.room-filter {
+  font-size: 12px;
+  padding: 2px 0;
+  margin-top:-2px;
+  margin-bottom: 10px;
+}
 
+.room-filter select {
+  border:1px solid rgb(200,200,200);
+  padding:1px;
+  max-width:80px;
+  border-radius: 4px;
+}
 .form-btn {
     display:inline;
     width:auto
@@ -1108,6 +1126,14 @@ font-size:12px;
 width:100%;
 }
 
+.walkin-room-table .selected_room td {
+    background: #62aacc !important;
+    color: #fff;
+}
+
+.walkin-room-table .selected_room td input {
+    color:black
+}
 .walkin-room-table thead{
     font-size: 11px;
 background: #fff;

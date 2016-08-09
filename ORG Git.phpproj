@@ -70,6 +70,7 @@
     <Compile Include="packages\kris\Frontdesk\src\Maid.php" />
     <Compile Include="packages\kris\Frontdesk\src\Log.php" />
     <Compile Include="packages\kris\Frontdesk\views\companyList.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\groupViewer.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\refundForm.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\lostAndFound.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\laundryOrders.blade.php" />
@@ -173,6 +174,7 @@
     <Compile Include="packages\kris\Frontdesk\src\RateType.php" />
     <Compile Include="packages\kris\Frontdesk\src\RoomType.php" />
     <Compile Include="packages\Kris\Frontdesk\views\reservationHistory.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\groupList.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\roomStatus.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\addSales.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\newDay.blade.php" />
@@ -1017,6 +1019,7 @@
     <Content Include="public\images\frontdesk\organogram-2.svg" />
     <Content Include="public\images\frontdesk\parking-sign.svg" />
     <Content Include="public\images\frontdesk\paste.svg" />
+    <Content Include="public\images\frontdesk\pencil.svg" />
     <Content Include="public\images\frontdesk\support.svg" />
     <Content Include="public\images\frontdesk\vacuum-cleaner.svg" />
     <Content Include="public\images\frontdesk\woman-suit.svg" />

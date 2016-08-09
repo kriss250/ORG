@@ -36,6 +36,10 @@ class Reservation extends Model
         return $this->hasOne("\Kris\Frontdesk\Company","idcompanies","company_id");
     }
 
+    public function group()
+    {
+        return $this->belongsTo("\Kris\Frontdesk\ReservationGroup","group_id","groupid");
+    }
     public function cancel()
     {
         $this->update([

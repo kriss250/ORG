@@ -165,7 +165,7 @@
 
                     $(cell).addClass(x.days + location - 1 > shownDays ? "continuing" : "");
                     guest =  x.guest.toLowerCase().substr(0,8);
-                    $(cell).html(guest);
+                    $(cell).html(guest.length > 1 ? guest : x.group_name);
                     $(cell).addClass("tape "+(x.status_name.replace("_","")));
                     var url = '{{action("\Kris\Frontdesk\Controllers\OperationsController@roomView",'_id_')}}';
                     url = url.replace('_id_',x.reservation_id);

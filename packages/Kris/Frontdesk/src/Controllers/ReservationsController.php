@@ -225,6 +225,7 @@ class ReservationsController extends Controller
             if(is_null($g))
             {
                 //Create Guest
+
                 $g = \Kris\Frontdesk\Guest::create([
                     "firstname"=>$data['firstname'],
                     "lastname"=>$data['lastname'],
@@ -294,11 +295,153 @@ class ReservationsController extends Controller
         return json_encode($resp);
     }
 
+    public function reserveGroup(\Request $req)
+    {
+        $data = $req::all();
+        $rooms = [];
+        $roomIds = [];
+        foreach($data as $key=>$val)
+        {
+            $parts = explode("_",$key);
+
+
+            if(count($parts)>0 && $parts[0]=="room")
+            {
+                if($parts[1] < 1)
+                {
+                    continue;
+                }
+                //Save the room
+                $theRoom = new  \stdClass();
+                $theRoom->id = $val;
+                $theRoom->rate = $data['rate_'.$parts[1]];
+                $rooms[] = $theRoom;
+                $roomIds[] = $val;
+            }
+        }
+
+        $errors = [];
+        $msg = "";
+        $res = null;
+        \DB::beginTransaction();
+
+        if(count($rooms) < 1)
+        {
+            $errors[]= "Please choose at least one room";
+        }
+
+        if($data['mode']==0 && $data['pay_method'] <1)
+        {
+            $errors[]= "Please choose payment method";
+        }
+
+        if(strlen($data['checkout']) < 4)
+        {
+            $errors[]= "Invalid checkout date";
+        }
+
+        $checkin  = new \Carbon\Carbon($data['checkin']);
+        $checkout  = new \Carbon\Carbon($data['checkout']);
+
+        if($checkin->gte($checkout) || $checkin->lt(\Kris\Frontdesk\Env::WD()))
+        {
+            $errors[]= "Invalid Checkin/Checkout dates";
+        }
+
+        if(empty($errors))
+        {
+
+            //Create Company
+            $c = null;
+
+            if(strlen($data['company'])>1){
+                $c = \Kris\Frontdesk\Company::where("name",$data['company'])->get()->first();
+                if(is_null($c))
+                {
+                    $c = \Kris\Frontdesk\Company::create([
+                        "name"=>$data['company']
+                        ]);
+                }
+            }
+
+            //create the group
+
+            $group = \Kris\Frontdesk\ReservationGroup::create([
+                "group_name"=>$data['group_name'],
+                "company_id"=> is_null($c) ? 0 : $c->idcompanies,
+                "arrival"=>$data['checkin'],
+                "departure"=>$data['checkout'],
+                "adults"=> $data['adults'],
+                "children"=>$data['children'],
+                "date"=>\Kris\Frontdesk\Env::WD()->format("Y-m-d"),
+                "created_by"=>\Kris\Frontdesk\User::me()->idusers,
+                "is_credit"=>$data['mode'],
+                "prefered_pay_method"=>$data['pay_method']
+                ]);
+
+            //Create businessSource
+
+            ///Save reservation
+            // ! credit = 1 payment = 0
+
+            foreach ($rooms as $room)
+            {
+            	if(!(new \Kris\Frontdesk\Room)->isAvailable($room->id,$data['checkin'],$data['checkout']))
+                {
+                    $errors[] = "The selected room is not available";
+                    continue;
+                }else {
+
+                    $res = \Kris\Frontdesk\User::me()->reservation()->create([
+                        "checkin"=>$data['checkin'],
+                        "checkout"=>$data['checkout'],
+                        "adults"=>$data['adults'],
+                        "children"=>$data['children'],
+                        "night_rate"=>$room->rate,
+                        "date"=>\Kris\Frontdesk\Env::WD()->format("Y-m-d"),
+                        "company_id"=> is_null($c) ? 0 : $c->idcompanies,
+                        "rate_id"=>$data['rate_type'],
+                        "business_source"=>1,
+                        "payer"=> is_null($c) ? "SELF" : $c->name,
+                        "pay_by_credit"=> $data['mode'],
+                        "prefered_pay_mode"=>$data['pay_method'],
+                        "room_id"=> $room->id,
+                        "status"=> 1,
+                        "guest_id"=>0,
+                        "group_id"=>$group->groupid,
+                        "package_name"=>$data['package']
+                        ]);
+                }
+            }
+            //update room status
+            if($checkin->eq(\Kris\Frontdesk\Env::WD())){
+                \Kris\Frontdesk\Room::whereIn("idrooms",$roomIds)->update(["status"=>\Kris\Frontdesk\RoomStatus::RESERVED]);
+            }
+
+        }
+
+        if($res != null)
+        {
+            \DB::commit();
+            \FO::log("Created reservation");
+            $msg = "Reservation saved successfully  # code ".$res->idreservation;
+        }else {
+            \DB::rollBack();
+        }
+
+        $resp = new \stdClass();
+        $resp->errors = $errors;
+        $resp->msg = $msg;
+
+        return json_encode($resp);
+    }
     public static function getAvailableRooms()
     {
         $checkin  = \Request::input("checkin");
         $checkout = \Request::input("checkout");
-        return (new \Kris\Frontdesk\Room())->availableRooms($checkin,$checkout);
+        $roomType = \Request::input("type",0);
+        $floor = \Request::input("floor",0);
+        return (new \Kris\Frontdesk\Room())->availableRooms($checkin,$checkout,$roomType,$floor);
     }
 
     public function listReservations()
@@ -313,9 +456,14 @@ class ReservationsController extends Controller
         $msg = "";
         $error = "";
 
+
         $res  = \Kris\Frontdesk\Reservation::where(["status"=>\Kris\Frontdesk\Reservation::ACTIVE,"idreservation"=>$id,"room_id"=>$roomid])->get()->first();
         $room  = \Kris\Frontdesk\Room::find($roomid);
 
+        if($res->guest == null)
+        {
+            return redirect()->back()->withErrors(["Please update the guest s name first !"]);
+        }
         if($res != null && $room !=null)
         {
 
@@ -360,7 +508,7 @@ class ReservationsController extends Controller
         }
 
         if($saved){
-            return redirect()->back()->with(["msg"=>$msg]);
+            return redirect()->back()->with(["refresh"=>1,"msg"=>$msg]);
         }else {
             return redirect()->back()->withErrors([$error]);
         }
@@ -425,7 +573,7 @@ class ReservationsController extends Controller
         }
 
         if($saved){
-            return redirect()->back()->with(["msg"=>$msg]);
+            return redirect()->back()->with(["refresh"=>1,"msg"=>$msg]);
         }else {
             return redirect()->back()->withErrors([$error]);
         }
@@ -474,33 +622,66 @@ class ReservationsController extends Controller
         $res->pay_by_credit = $data['mode'];
         $res->prefered_pay_mode = $data['pay_method'];
 
-        //guest
-        $names = explode(" ",$data['names']);
-        $res->guest->firstname = $names[0];
-        $res->guest->lastname = $names[1];
-        $res->guest->phone = $data['phone'];
-        $res->guest->email = $data['email'];
-        $res->guest->id_doc = $data['id_doc'];
-        $res->guest->country = $data['country'];
-        $res->guest->city  = $data['city'];
+        $names = explode(" ",trim($data['names']),2);
 
-        $res->guest->save();
+        //guest
+        if($res->guest !=null)
+        {
+            $res->guest->firstname = $names[0];
+            $res->guest->lastname = $names[1];
+            $res->guest->phone = $data['phone'];
+            $res->guest->email = $data['email'];
+            $res->guest->id_doc = $data['id_doc'];
+            $res->guest->country = $data['country'];
+            $res->guest->city  = $data['city'];
+            $res->guest->save();
+        }else {
+
+            //Create the guest
+            $guest_uid = md5(trim($data['names']) ." ". trim(strtolower($data['email'])));
+
+            $guest = \Kris\Frontdesk\Guest::create([
+                "firstname"=> $names[0],
+                "lastname"=> $names[1],
+                "phone"=>$data['phone'],
+                "email"=>$data['email'],
+                "country"=>$data["country"],
+                "guest_uid"=>$guest_uid,
+                "id_doc"=>$data['id_doc'],
+                "city"=>$data['city']
+                ]);
+            $res->guest_id = $guest->id_guest;
+        }
+
         //Update existing company
         if($res->company!=null && $res->company->name != $data['company'])
         {
-            $res->company->name = $data['company'];
-            $res->company->save();
-            $res->payer = $data['company'];
+            $ex = \Kris\Frontdesk\Company::where("name",$data['company'])->get()->first();
+            if($ex == null && !isset($ex->idcompanies))
+            {
+                $res->company->name = $data['company'];
+                $res->company->save();
+                $res->payer = strlen($data['company']) > 0 ? $data['company'] : "SELF";
+            }else {
+                //use existing one
+                $res->company_id = $ex->idcompanies;
+                $res->payer = strlen($data['company']) > 0 ? $data['company'] : "SELF";
+            }
+
         }
 
         //Create a new company
         if($res->company == null)
         {
-            $cp = \Kris\Frontdesk\Company::firstOrNew([
-                "name"=>$data['company']
-                ]);
-            $cp->save();
-            $res->company_id = $cp->idcompanies;
+            if(strlen($data['company'])>1){
+                $cp = \Kris\Frontdesk\Company::firstOrNew([
+                    "name"=>$data['company']
+                    ]);
+                $cp->save();
+                $res->company_id = $cp->idcompanies;
+            }else {
+                $res->payer = "SELF";
+            }
         }
 
         $res->save();
@@ -671,7 +852,7 @@ class ReservationsController extends Controller
     public function cancel($id)
     {
         $res = \Kris\Frontdesk\Reservation::find($id);
-        $res->cancel(); 
+        $res->cancel();
 
         return redirect()->back()->with(["msg"=>"Reservation cancelled","refresh"=>"1"]);
     }

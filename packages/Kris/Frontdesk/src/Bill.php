@@ -47,7 +47,7 @@ class Bill extends Model
                 select room_charges.amount as unit_price,1 as qty,date(room_charges.date) as date,motif,'charge' as type from room_charges
                 join charge_types on idcharge_type = room_charges.charge
                 join users on idusers = room_charges.user_id
-                where reservation_id = " . $reservationid ." ".(strlen($charge_types)? "and room_charges.charge in($charge_types)" : "");
+                where reservation_id = " . $reservationid ." ".(strlen($charge_types)? " and room_charges.charge in($charge_types)" : "");
 
         $q = $acc_sql." union all ".$services_sql;
 

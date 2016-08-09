@@ -187,7 +187,7 @@ $ExpectedCheckout = [];
                     </td>
 
                     <td style="width:22%">
-                        {{$room->Guest}}
+                        {{strlen($room->Guest) < 2 && strlen($room->group_name) > 0 ? $room->group_name : $room->Guest}}
                     </td>
 
                     <td>

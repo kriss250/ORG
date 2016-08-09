@@ -45,7 +45,7 @@
         })
 
         $(".rooms-table-wrapper").slimscroll({
-            height: "156px",
+            height: "120px",
             wheelStep: 5,
             distance: '2px',
             railVisible: true
@@ -141,6 +141,23 @@
             <p class="section-title">
                 <span>Choose a room</span>
             </p>
+
+            <div class="room-filter">
+                Room Type
+                <select onchange="filterRoooms()" name="room_type">
+                    <option value="0">All</option>
+                    @foreach(\Kris\Frontdesk\RoomType::all() as  $type)
+                    <option value="{{$type->idroom_types}}">{{$type->type_name}}</option>
+                    @endforeach
+                </select>
+                Floor
+                <select onchange="filterRooms()" name="floor">
+                    <option value="0">All</option>
+                    @foreach(\Kris\Frontdesk\Floor::all() as $floor)
+                    <option value="{{$floor->idfloors}}">{{$floor->floor_name}}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="rooms-table-wrapper">
                 <table class="walkin-room-table">
                     <thead>
@@ -283,7 +300,7 @@
 
 
         <div class="clearfix"></div>
-        <footer class="m-footer">
+        <footer>
             <button class="btn btn-success">Checkin</button>
         </footer>
 

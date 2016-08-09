@@ -58,7 +58,7 @@ $reservations  =  !isset($reservations)  || is_null($reservations) ? \Kris\Front
     ?>
     <tr>
         <td>{{$res->idreservation}}</td>
-        <td class="text-left">{{$res->guest->firstname}} {{$res->guest->lastname}}</td>
+        <td class="text-left">{{$res->guest !=null && $res->group ==null ? $res->guest->firstname :$res->group->group_name }} {{$res->guest !=null && $res->group ==null ? $res->guest->lastname : ""}}</td>
         <td>{{$res->room->room_number}}</td>
         <td>{{$type->type_name}}</td>
         <td>{{number_format($res->night_rate)}}</td>
