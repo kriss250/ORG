@@ -1,0 +1,124 @@
+﻿.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    z-index: 2;
+    color: #fff;
+    background-color: #16a085;
+    border-color: #0f997e;
+}
+
+.list-group-item {
+    background-color:#21303F;
+    border:1px solid transparent;
+}
+
+.sidebar li a i {
+    color:#0f997e
+}
+
+.sidebar li a {
+    color:rgba(255, 255, 255, 0.77)
+}
+
+.pos_box {
+    border:1px solid #ddd;
+    border-left:none;
+    border-top:none;
+    background:#f5f5f5
+}
+
+.sidebar li > span {
+    color: #D7CCCC
+}
+
+.prod_filter {
+    background:#17987e;
+    margin-top:0
+}
+
+.prod_filter ul li .chosen-single {
+    background: #40495a;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: none;
+    font-size: 13px;
+    border: none;
+}
+
+    .prod_filter ul li a {
+        border-radius:6px;
+    }
+
+    .contents {
+        padding-left:0
+    }
+
+.product_lists ul li {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    width: 23.1%;
+    box-sizing: padding-box;
+    background: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: center;
+    padding: 20px 8px;
+    transition: all .2s;
+    font-weight: 600;
+    height: 90px;
+    border:1px solid RGBA(33, 48, 63, 0.36);
+    border-radius:2px;
+    overflow: hidden;
+}
+
+.pos_box .pos_title {
+    padding: 8px;
+    display: block;
+    margin-bottom: 0px;
+    border-bottom: 1px solid #0a9283;
+    position: relative;
+    background:rgb(56, 183, 152);
+    color:#fff;
+}
+
+.list-group-item.active {
+    border-radius: 0;
+border-right: 0;
+}
+
+.suspendedbills_btn {
+    float: right;
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+color: #233344;
+    padding: 3px 7px;
+}
+
+.pos_biller table {
+    border:1px solid #63997d;
+    background:#fff;
+}
+
+.pos_biller table tr:nth-child(odd){
+    background:#f3f3f3
+}
+
+.pos_biller .summary {
+    border-bottom: 1px solid #63997d;
+border-left: 1px solid #63997d;
+border-right: 1px solid #63997d
+}
+
+.pos-search-btn {
+    float: right;
+    margin-right: 0px;
+    border: medium none;
+    padding: 3px 10px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.58) none repeat scroll 0% 0%;
+    color: rgb(26, 116, 52);
+    border-right: 1px solid #592781;
+    border-width: medium 1px medium medium;
+    border-style: none solid none none;
+    border-color: -moz-use-text-color rgb(156, 200, 179) -moz-use-text-color -moz-use-text-color;
+    border-image: none;
+}

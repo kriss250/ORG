@@ -987,6 +987,7 @@
     <Content Include="packages\kris\Frontdesk\composer.json" />
     <Content Include="public\assets\css\floorview.css" />
     <Content Include="public\assets\css\frontdesk.css" />
+    <Content Include="public\assets\css\health_center.css" />
     <Content Include="public\assets\css\print-doc.css" />
     <Content Include="public\assets\images\Contact-Lock.png" />
     <Content Include="public\assets\images\fo-bg-1.jpg" />

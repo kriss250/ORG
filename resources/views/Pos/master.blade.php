@@ -13,8 +13,10 @@
          {!! HTML::style('assets/js/vendor/datepicker/css/bootstrap-datepicker3.standalone.min.css') !!}
         {!! HTML::style('assets/css/vendor/jquery-ui.min.css') !!}
         {!! HTML::style('assets/js/vendor/datetimepicker/css/bootstrap-datetimepicker.min.css') !!}
-        {!! HTML::style('assets/css/POS.css') !!}
-
+        {!!HTML::style('assets/css/POS.css') !!}
+    
+        {!!HTML::style('assets/css/'.(\Session::get("pos.mode")).'.css')!!}
+   
     <!-- SCRIPTS -->
         {!! HTML::script('assets/js/vendor/jquery/jquery-1.11.2.min.js') !!}
         {!! HTML::script('assets/js/vendor/bootstrap/bootstrap.min.js') !!}
@@ -30,7 +32,7 @@
         {!! HTML::script('assets/js/POS.js') !!}
 
     
-    <title>ORG POS</title>
+    <title>ORG POS </title>
 </head>
 <body class="noselect"> <div class="print_container"></div>
 

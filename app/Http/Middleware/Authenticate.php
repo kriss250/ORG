@@ -22,6 +22,7 @@ class Authenticate
      */
     public function __construct(Guard $auth)
     {
+
         $this->auth = $auth;
     }
 
@@ -34,12 +35,15 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
+
         if ($this->auth->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
                 \Session::put('url.intended',\Request::url());
-                
+                if(isset($_GET['mode'])){
+                    \Session::put('pos.mode',$_GET['mode']);
+                }
                 return redirect()->route('login');
             }
         }

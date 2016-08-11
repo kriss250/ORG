@@ -62,7 +62,7 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
 
 		<div class="input-group waiterg">
 		   <select id="waiter" class="thechosen flat">
-		   	<option value="0">Choose Waiter</option>
+		   	<option value="0">{{(\Session::get("pos.mode") == "health_center") ? "Serviced by" : "Choose Waiter"}}</option>
 		   	<?php 
 		   	
 		   	$waiters = DB::select("select idwaiter,waiter_name from waiters where is_active=1");

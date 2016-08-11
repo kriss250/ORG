@@ -7,7 +7,6 @@
 	<meta name="author" content="Hakizimana Christian">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
         {!! HTML::style('assets/css/vendor/font-awesome.min.css') !!}
-
 </head>
 <style type="text/css">
 body {
@@ -94,9 +93,9 @@ border-radius: 15px;
 <h1>ORG Software Suite </h1>
 <p style="margin-bottom: 45px;">KLAXYCOM</p>
 <a style="display:none" href="?frontdesk"><span>ORG <i class="fa fa-male"></i></span> Frontdesk </a>
-<a href="{{ route('pos') }}"><span>ORG <i class="fa fa-cutlery"></i></span> POS </a>
+<a href="{{ route('pos') }}?mode=default"><span>ORG <i class="fa fa-cutlery"></i></span> POS </a>
 <a style="" href="/frontdesk/standard"><span>ORG <i class="fa fa-file-text"></i> </span> Frontdesk</a>
-<a href="{{ route('pos') }}">Health Center </a>
+<a href="{{ route('pos') }}?mode=health_center">Health Center </a>
 <a href="/stock/index.php"><span>ORG <i class="fa fa-archive"></i></span> Stock </a>
 <a style="color:red;" href="{{ route('backoffice') }}"><span>ORG <i class="fa fa-file-text"></i> </span> Back Office</a>
 

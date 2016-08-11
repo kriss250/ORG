@@ -26,7 +26,6 @@ class AuthController extends Controller
      */
     public function create()
     {
-        //echo  \Session::get('url.intended');
         return \View::make("Pos.Login");
     }
 
