@@ -155,7 +155,7 @@ class POSCreditController extends Controller
         $fo_data= \DB::connection("mysql_book")->select("select idreservation,concat_ws(' ',firstname,lastname)as guest,payer,companies.name,paid_amount,due_amount,(due_amount-paid_amount) as dues from reservations
             join guest on guest.id_guest = guest_in
             left join companies on companies.idcompanies = company_id
-            where status=6 and due_amount > balance_amount and date(checked_out) between ? and  ? group by idreservation
+            where status=6 and due_amount > paid_amount and date(checked_out) between ? and  ? group by idreservation
             ",$range_fo);
 
         return \View::make("Backoffice.CreditView",["data"=>$pos_data,"fo_data"=>$fo_data]);
