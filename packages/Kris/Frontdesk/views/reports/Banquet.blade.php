@@ -20,7 +20,7 @@
           $hallsCounter = 0;
     ?>
 
-    <table class="table table-stripped table-bordered table-condensed">
+    <table class="table table-striped table-bordered table-condensed">
         <thead>
             <tr>
                 <td>Date</td>
