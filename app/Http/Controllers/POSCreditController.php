@@ -152,7 +152,7 @@ class POSCreditController extends Controller
 
         $pos_data = \DB::select("select idbills,bill_total,customer,amount_paid,bills.date,username from bills join users on users.id=user_id where deleted=0 and export_credit=0 and date(bills.date) between ? and ? and (status =?)",$range);
 
-        $fo_data= \DB::connection("mysql_book")->select("select idreservation,concat_ws(' ',firstname,lastname)as guest,payer,companies.name,balance_amount,due_amount,(due_amount-paid_amount) as dues from reservations
+        $fo_data= \DB::connection("mysql_book")->select("select idreservation,concat_ws(' ',firstname,lastname)as guest,payer,companies.name,paid_amount,due_amount,(due_amount-paid_amount) as dues from reservations
             join guest on guest.id_guest = guest_in
             left join companies on companies.idcompanies = company_id
             where status=6 and due_amount > balance_amount and date(checked_out) between ? and  ? group by idreservation
