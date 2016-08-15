@@ -76,13 +76,13 @@ class BookingViewController extends Controller
         $new_date = new \DateTime($date);
         $enddate = $new_date->add(new \DateInterval("P{$days}D"))->format("Y-m-d");
 
-        $data = \DB::connection("mysql_book")->select("select reservation_id,concat_ws(' ',firstname,lastname)as guest,room_number,room_id,reservation_status.status_name,reservation_id,greatest('{$_date->format("Y-m-d")}',
+        $data = \DB::connection("mysql_book")->select("select idreservation as reservation_id,concat_ws(' ',firstname,lastname)as guest,room_number,room_id,reservation_status.status_name,greatest('{$_date->format("Y-m-d")}',
 date_format(checkin,'%Y-%m-%d'))  as checkin,date_format(checkout,'%d_%m') as checkout,datediff(date(checkout),greatest('{$_date->format("Y-m-d")}',
-date_format(checkin,'%Y-%m-%d')))-(1) as days from reserved_rooms
-            join reservations on reservations.idreservation = reservation_id
+date_format(checkin,'%Y-%m-%d')))-(1) as days from reservations
+
             join rooms on rooms.idrooms = room_id
 join reservation_status on reservation_status.idreservation_status = reservations.status
-join guest on guest.id_guest = guest_in
+join guest on guest.id_guest = guest_id
             where reservations.status not in (2,3,4) and date(checkin) <= ? and date(checkout) >=?  order by reservations.status desc ",[$enddate,$date]);
 
         return json_encode($data);

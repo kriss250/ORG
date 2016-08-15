@@ -25,11 +25,12 @@ class BillsController extends Controller
     private $splitPay = false;
     private $errors = array();
     private $billDate;
-
+    private $restrictedStores = "";
     public function __contruct()
     {
-
         $this->billDate = \ORG\Dates::$RESTODT;
+        $this->restrictedStores =  \Session::get("restricted_stores");
+        
     }
 
     /**
@@ -534,16 +535,17 @@ class BillsController extends Controller
             $the_bill = DB::select($bill_total_sql,[$data['BillID']]);
 
 
-            $v = DB::connection("mysql_book")->select("select idrooms,idreservation as reservation_id,concat_ws(' ',firstname,lastname) as guest from reservations
+            $v = DB::connection("mysql_book")->select("select idrooms,companies.name as company,idreservation as reservation_id,concat_ws(' ',firstname,lastname) as guest from reservations
                 join rooms on rooms.idrooms = room_id
                 join guest on guest.id_guest = guest_id
+                left join companies on companies.idcompanies = company_id
                 where checked_in is not null and checked_out is null and room_number =?",[$data['Room']]);
             //bar = 1
             if($v){
                $res= $v[0]->reservation_id;
                $customer_name = $v[0]->guest;
                $room_id = $v[0]->idrooms;
-
+               $cp = $v[0]->company;
                foreach($the_bill as $bill){
 
                    $ins = DB::connection("mysql_book")->insert("insert into room_charges (room_id,reservation_id,charge,amount,motif,date,user_id,user,pos) values (?,?,?,?,?,?,?,?,?)",
@@ -570,7 +572,7 @@ class BillsController extends Controller
 
                if($ins)
                {
-                   if(DB::update("update bills set  last_updated_by=?,last_updated_at=?,customer=?,status=?,room=? where idbills=?",[\Auth::user()->id,\ORG\Dates::$RESTODT,$customer_name,$status['assigned'],$data['Room'],$data['BillID']])){
+                   if(DB::update("update bills set  company=?,last_updated_by=?,last_updated_at=?,customer=?,status=?,room=? where idbills=?",[$cp,\Auth::user()->id,\ORG\Dates::$RESTODT,$customer_name,$status['assigned'],$data['Room'],$data['BillID']])){
                        DB::commit();
                        return "1";
                    }

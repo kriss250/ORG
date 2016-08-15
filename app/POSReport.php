@@ -31,7 +31,7 @@ class POSReport extends Model
             array_push($date, $store);
         }
 
-        $sql = "select idbills,customer,room,sum(qty*unit_price) as bill_total,(amount_paid-change_returned) as paid from bills
+        $sql = "select idbills,customer,company,room,sum(qty*unit_price) as bill_total,(amount_paid-change_returned) as paid from bills
                 join bill_items on bill_items.bill_id=idbills
                 join products on products.id = bill_items.product_id
                 join categories on categories.id=products.category_id
@@ -74,7 +74,7 @@ class POSReport extends Model
             array_push($date, $store);
         }
 
-        $sql= "select idbills,customer,room, sum(qty*unit_price) as bill_total,bill_total as total_amount,(amount_paid-change_returned) as paid from bills
+        $sql= "select idbills,company,customer,room, sum(qty*unit_price) as bill_total,bill_total as total_amount,(amount_paid-change_returned) as paid from bills
         join bill_items on bill_items.bill_id=idbills
 
             $store_join
@@ -152,7 +152,7 @@ class POSReport extends Model
              where status <> 4 and  date(bills.date) between ? and ? and bills.deleted=0 $cashier_str $store_str
             group by idbills order by idbills",$date);
 
-        $bills = \DB::select("select sum(bill_total) as total,status from bill_status left join bills on bills.status=status_code where date(bills.date) between ? and ?  and status in (1,2,3,5) and deleted=0 $cashier_str group by status order by status desc",$date);
+        $bills = \DB::select("select sum(bill_total) as total,company,status from bill_status left join bills on bills.status=status_code where date(bills.date) between ? and ?  and status in (1,2,3,5) and deleted=0 $cashier_str group by status order by status desc",$date);
 
         $pays = \DB::select("select bill_id,sum(bank_card) as bank_card,sum(cash) as cash,sum(check_amount) as check_amount from payments where void=0 and (date(date) between ? and ?) $cashier_str group by bill_id",$date);
 
@@ -238,6 +238,38 @@ class POSReport extends Model
 		$data = \DB::select($sql,$date);
 
 		return ["data"=>$data,"credits"=>""];
+    }
+
+
+    public static function WaiterSales($date,$waiter=0)
+    {
+    	$sql = "SELECT waiters.waiter_name,waiter_id, product_name,count(product_id) as qty FROM bills
+                join bill_items on bill_items.bill_id = idbills
+                left join waiters on waiters.idwaiter = waiter_id
+                join products on products.id = product_id
+                where date(bills.date) between ? and ? and bills.status not in(?) and deleted = 0 ".($waiter > 0 ? " and waiter_id=?" : "")."
+                group by waiter_id,product_id";
+
+        $date[] = \ORG\Bill::SUSPENDED;
+        if($waiter > 0){
+            $date[] = $waiter;
+        }
+		$data = \DB::select($sql,$date);
+        $waiters = [];
+
+        foreach($data as $key=>$val)
+        {
+            if(!isset($waiters[$val->waiter_name]))
+            {
+                $waiters[$val->waiter_name] = array();
+            }
+            
+                array_push($waiters[$val->waiter_name],
+                    ["item_name"=>$val->product_name,"qty"=>$val->qty]);
+            
+        }
+
+		return ["data"=>$waiters];
     }
 
     public static function CashierBills($date)

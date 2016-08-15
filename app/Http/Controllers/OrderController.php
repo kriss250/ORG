@@ -104,7 +104,7 @@ class AuthController extends Controller
     public function destroy()
     {
         Auth::logout();
-        \Session::remove("restricted_stores");
+
         return redirect()->route('login');
     }
 }

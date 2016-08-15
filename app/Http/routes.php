@@ -70,7 +70,7 @@ Route::get("/POS/login/",['uses'=>"AuthController@create","as"=>"login"]);
 Route::post("/POS/login/","AuthController@store");
 Route::get("/POS/logout/",['uses'=>"AuthController@destroy",'as'=>'logout']);
 
-Route::resource("/ORGFrontdesk/Invoice","InvoiceController");
+
 
 
 Route::group(['middleware' => 'auth'],function(){
@@ -78,7 +78,8 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get("/POS",["as"=>"pos",function(){
 		return View::make("Pos/Home");
 	}]);
-
+    Route::resource("/Backoffice/PO","OrderController");
+    Route::resource("/Backoffice/Invoice","InvoiceController");
 
 	Route::get("POS/NewDay",['as'=>'newday','uses'=>'SettingsController@newDay']);
 

@@ -13,6 +13,13 @@ class ProductsController extends Controller
 {
     private $data;
     private $saved = false;
+    private $restrictedStores = "";
+
+    public function __construct()
+    {
+        $this->restrictedStores =  \Session::get("restricted_stores");
+    }
+
     /**
      * Display a listing of the resource.
      * Product list - (Page)
@@ -223,10 +230,12 @@ class ProductsController extends Controller
         }
         $favo = (isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " and favorite=1":"";
 
+        //Default : no filter
         $sql = "SELECT products.id,product_name,category_name,price,stock_id FROM products
         join categories on categories.id = category_id
-        join product_price on price_id = product_price.id ".((isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " where favorite=1":"")." order by product_name asc limit 70";
+        join product_price on price_id = product_price.id ".((isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " where favorite=1":"")." ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")." order by product_name asc limit 70";
 
+        //Filter by cate & store
         if(isset($_GET['store']) && $_GET['store']>0 ){
             $sql2 = "SELECT products.id,product_name,category_name,price,stock_id FROM products
             join categories on categories.id = category_id
@@ -254,7 +263,7 @@ class ProductsController extends Controller
 
         return json_encode(DB::select("SELECT products.id,product_name,category_name,price,stock_id FROM products
         join categories on categories.id = category_id
-        join product_price on price_id = product_price.id where product_name LIKE ? and user_created=0  order by favorite desc  limit 30",[$q]));
+        join product_price on price_id = product_price.id where product_name LIKE ? and user_created=0 ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")."  order by favorite desc  limit 30",[$q]));
     }
 
     public function CreateCustomProduct(Request $req)
@@ -320,7 +329,7 @@ class ProductsController extends Controller
          join bill_items on bill_items.bill_id=idbills
          join products on products.id = product_id
          where stock_id > 0 and date(bills.date)=?  and status<>? and deleted=0",[\ORG\Dates::$RESTODATE,\ORG\Bill::SUSPENDED])[0]->total;
-            
+
             $sale_id = \DB::connection("mysql_stock")->table("sales")->insertGetId([
                     "warehouse_id"=> $warehouse_id,
                     "biller_id"=>"1",

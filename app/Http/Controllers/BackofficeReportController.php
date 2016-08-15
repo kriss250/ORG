@@ -49,6 +49,9 @@ class BackofficeReportController extends Controller
             case "reprintedBills":
                 $info = POSReport::ReprintedBills($range);
                 return \View::make("Backoffice.Reports.POS.ReprintedBills",$info);
+            case "waiterSalesCount":
+                $info = POSReport::WaiterSales($range,(isset($_GET['waiter']) ? $_GET['waiter']  : 0));
+                return \View::make("Backoffice.Reports.POS.WaiterSales",$info);
             case "fullDay":
                 $cashier_id = isset($_GET['cashier']) ? $_GET['cashier'] : 0;
                 $sales = POSReport::Sales($range,$cashier_id);

@@ -13,8 +13,6 @@ use Illuminate\Support\Str;
 class InvoiceController extends Controller
 {
 
-    private $sql ="";
-    private $data;
     /**
      * Display a listing of the resource.
      *
@@ -32,21 +30,7 @@ class InvoiceController extends Controller
      */
     public function create($id=0)
     {
-        
-        $banks = DB::connection("mysql")->select("SELECT bank_name,account_code FROM bank_accounts join banks on idbanks=bank_id");
-        $hotel = DB::connection("mysql")->select("SELECT hotel_name,country,city,email1,phone1,phone2,TIN,VAT,moto,logo,address_line1 FROM orgdb2.hotel");
-        
-        $invoice_data =  array();
-
-        if($id > 0){
-
-            $invoice  = DB::connection("mysql")->select("select * from invoices where idinvoices=".$id);
-            $items = DB::connection("mysql")->select("select * from invoice_items where invoice_id=".$id);
-
-            $invoice_data =array($invoice,$items);
-        }
-
-        return \View::make("/ORGFrontdesk/Invoice/NewInvoice")->with(["hotelInfo"=>$hotel,"banks"=>$banks,"invoice_data"=>$invoice_data]);
+        return \View::make("Backoffice.CreateInvoice");
     }
 
     /**
@@ -56,63 +40,50 @@ class InvoiceController extends Controller
      */
     public function store(Request $req)
     {
-        $this->data = $req->all();
+        $data = \Request::all();
 
-        $db_vals = array();
-        $q = "";
-        foreach ($this->data as $key => $value) {
-            if($value ==""){continue;}
-            
+        $invoice = \App\Invoice::create([
+            "user_id"=> \Auth::user()->id,
+            "due_date"=>$data['due_date'],
+            "institution"=>$data['company'],
+            "address"=>$data['address']
+            ]);
 
-            if(Str::startsWith($key,"qty")){
-                $q ="(:inv,'".$value."',";
+        unset($data['due_date']);
+        unset($data['_token']);
+        unset($data['company']);
+        unset($data['address']);
+
+        $i= 1;
+
+        $rows = count($data)/4;
+   
+        for($i=1;$i<=$rows;$i++)
+        {
+            if(!isset($data["desc_{$i}"]))
+            {
+                break;
+            }
+
+
+            if(strlen($data["desc_{$i}"]) < 1 && strlen($data["price_{$i}"]) < 1)
+            {
+               continue;
             }else {
-                $q .="'".$value."',";
+
+                $item = array(
+                "description"=>htmlentities(nl2br($data["desc_{$i}"])),
+                "unit_price"=>$data["price_{$i}"],
+                "qty"=>$data["qty_{$i}"],
+                "date"=>$data["date_{$i}"]
+                );
+               
+                $invoice->items()->create($item);
             }
-
-            if(Str::startsWith($key,"itemtotal")){
-                $q = trim($q,',');
-                $q .=")";
-             array_push($db_vals, $q);
-
-            }
-
+           ;
         }
 
-        $items = implode(',', $db_vals);
-       
-
-        $this->sql = "insert into invoice_items (invoice_id,quantity,description,uprice,row_total) values ".$items;
-
-        
-
-        $res = DB::connection("mysql")->transaction(function () {
-
-            
-            $id = DB::connection("mysql")->table("invoices")->insertGetId(
-                [
-                    "date"=>\ORG\Dates::WORKINGDATE(true),
-                    "company_name"=>$this->data['company_name'],
-                    "city"=>$this->data['city'],
-                    "phone"=>$this->data['phone'],
-                    "country"=> $this->data['country'],
-                    "address_line"=>$this->data['address1'],
-                    "user_id"=>$_GET['user'],
-                    "invoice_type"=>$this->data['invoice_type'],
-                    "sub_total"=>str_replace(',', '', $this->data['subtotal']),
-                    "total" =>str_replace(',', '', $this->data['total']),
-                    "tax"=>$this->data['tax']
-                ]
-            );
-
-             DB::connection("mysql")->insert(str_replace(':inv', $id, $this->sql));
-
-             return $id;
-
-         
-        });
-
-        return "$res";
+      return redirect()->back()->with("msg","Invoice saved successfuly");
     }
 
     /**
@@ -123,7 +94,6 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
-        return $this->create($id);
     }
 
     /**

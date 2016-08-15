@@ -242,8 +242,27 @@
                         </li>
 
                         <!--<li><a href="{{action("PaymentsController@index") }}"><i class="fa fa-money"></i> Payments</a></li>-->
-                        <li><a  href="{{ action("BookingViewController@indexv2") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-tasks"></i> R. Booking</a></li>
-                        <li><a  href="{{ action("CustomerController@index") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-database"></i> Customer DB. <span style="font-size:11px;color:rgb(222, 68, 68)">(New !)</span></a></li>
+                        <li><a href="{{ action("BookingViewController@indexv2") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-tasks"></i> R. Booking</a></li>
+                        <li>
+                            <a class="dropdown-btn" href="{{action("InvoiceController@create") }}"><i class="fa fa-file-o"></i>Debtors <i class="fa fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a  href="{{action("InvoiceController@create") }}">Create Invoice</a>
+                                    <a href="">Saved Invoices</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="dropdown-btn" href="{{action("OrderController@create") }}"><i class="fa fa-file-o"></i>Creditors <i class="fa fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="">New Order</a>
+                                    <a href="">Orders</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li><a href="{{ action("CustomerController@index") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-database"></i> Customer DB. <span style="font-size:11px;color:rgb(222, 68, 68)">(New !)</span></a></li>
 
                         <li class="report-btn">
                             <a class="dropdown-btn" href=""><i class="fa fa-cutlery"></i> POS Reports <i class="fa fa-chevron-down"></i></a>
@@ -279,10 +298,6 @@
                         </li>
                         @endif
                         <!-- <li><a href=""><i class="fa fa-cog"></i> Settings</a></li> -->
-                    </ul>
-                    <ul class="menu2">
-                        <li><a href="{{ url('POS', $parameters = array(), true) }}">POS</a></li>
-                        <li><a href="{{ url('stock1', $parameters = array(), $secure = false) }}">Stock</a></li>
                     </ul>
 
                 </div>

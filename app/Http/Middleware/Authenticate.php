@@ -46,6 +46,12 @@ class Authenticate
                 }
                 return redirect()->route('login');
             }
+        }else {
+           ///Authenticated
+        }
+
+        if(isset($_GET['mode'])){
+            \Session::put('pos.mode',$_GET['mode']);
         }
 
         return $next($request);

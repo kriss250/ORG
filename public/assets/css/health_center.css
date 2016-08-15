@@ -35,16 +35,22 @@
 }
 
 .prod_filter ul li .chosen-single {
-    background: #40495a;
+    background: rgba(52, 73, 94, 0.47);
     color: #fff;
     border-radius: 5px;
     box-shadow: none;
     font-size: 13px;
+    color:#e5edf5;;
     border: none;
 }
 
     .prod_filter ul li a {
         border-radius:6px;
+        font-size:11px !important;
+        font-family:Roboto;
+        color:#e5edf5;
+        text-transform:uppercase;
+        background-color:rgba(52, 73, 94, 0.47)
     }
 
     .contents {
@@ -121,4 +127,22 @@ border-right: 1px solid #63997d
     border-style: none solid none none;
     border-color: -moz-use-text-color rgb(156, 200, 179) -moz-use-text-color -moz-use-text-color;
     border-image: none;
+}
+
+.pos_products {
+    background:rgb(44, 142, 207)
+}
+
+.pos_products p.text-center {
+    color:#fff;
+}
+
+.sidebar .dropdown_menu {
+    background: #233747;
+    border-top:1px solid #141414
+}
+
+.sidebar .dropdown_menu li {
+    border-bottom: 1px solid #171717;
+    display: block;
 }

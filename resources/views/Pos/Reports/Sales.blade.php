@@ -144,6 +144,7 @@
         <tr>
             <th>Order No</th>
             <th>Customer</th>
+            <th>Company</th>
             <th>Room</th>
             <th>Amount</th>
             <th>Paid</th>
@@ -154,6 +155,7 @@
     <tr>
             <td>{{ $_room->idbills }}</td>
             <td>{{ $_room->customer }}</td>
+            <td>{{$_room->company}}</td>
             <td>{{ $_room->room}}</td>
             <td>{{ number_format($_room->bill_total) }}</td>
             <td>{{ number_format($_room->paid)}}</td>

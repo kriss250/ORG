@@ -13,13 +13,13 @@ class FX extends Model
         $tsp=strtotime($date);
         return date("d/m/Y",$tsp);
     }
-    
+
     public static function Time($time)
     {
         $tsp=strtotime($time);
         return date("H:i:s",$tsp);
     }
-    
+
     /*
      * Date and Time
      * */
@@ -45,7 +45,7 @@ class FX extends Model
 
     public static function RowIsGrouped($identifier)
     {
-        
+
     }
 
     public static function RowSpanner($identifier)
@@ -64,12 +64,17 @@ class FX extends Model
             }
         }else {$span=1;}
 
-       
+
         return $span;
     }
 
     public static function GetCashiers()
     {
        return \DB::select("select id,username from users where level < 7 and is_active=1");
+    }
+
+    public static function GetWaiters()
+    {
+        return \DB::select("select idwaiter,waiter_name from waiters where is_active=1");
     }
 }

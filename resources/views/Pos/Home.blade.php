@@ -14,7 +14,7 @@
     </script>
 <div class="pos_box row">
 <div class="pos_title">
-<b>POS</b>
+<b>POS {{\Session::get("pos.mode",0)=="health_center" ? "Health Club" : "" }}</b>
 
 <button class="suspendedbills_btn">
 Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
