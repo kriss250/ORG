@@ -77,7 +77,7 @@
         </tr>
     </table>
     @else
-    <h4>No Data available</h4>
+    <h5>No Data found from date {{isset($_GET['startdate']) ? $_GET['startdate'] : \ORG\Dates::$RESTODATE }} to {{isset($_GET['startdate']) ? $_GET['enddate'] : \ORG\Dates::$RESTODATE }}</h5>
 
     @endif
 </div>
