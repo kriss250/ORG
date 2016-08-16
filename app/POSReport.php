@@ -243,7 +243,7 @@ class POSReport extends Model
 
     public static function WaiterSales($date,$waiter=0)
     {
-    	$sql = "SELECT waiters.waiter_name,waiter_id, product_name,count(product_id) as qty FROM bills
+    	$sql = "SELECT waiters.waiter_name,waiter_id, product_name,sum(qty) as qty FROM bills
                 join bill_items on bill_items.bill_id = idbills
                 left join waiters on waiters.idwaiter = waiter_id
                 join products on products.id = product_id
