@@ -55,8 +55,7 @@ class StatementController extends Controller
 (select coalesce(sum(room_charges.amount),0) from room_charges where reservation_id=idreservation and date(room_charges.date) between ? and ?) as services,
 ( select coalesce(sum(acco_charges.amount),0) from acco_charges where reservation_id=idreservation and date(acco_charges.date) between ? and ? ) as acco,
 concat_ws(' ',firstname,lastname) as guest,checkin,checkout from reservations
-join reserved_rooms on reserved_rooms.reservation_id = idreservation
-join guest on guest.id_guest = guest_in
+join guest on guest.id_guest = guest_id
 join rooms on rooms.idrooms =room_id
 where ".($company=='null' ? 'id_guest=?' : "company_id=?")." and date(checkin) between ? and ?
 group by idreservation";
