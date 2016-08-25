@@ -273,6 +273,7 @@ countSales();
        </ul>
      </nav>
 
+    @if(\Session::get("pos.mode")=="default")
     <div class="notification_box" style="margin-bottom: 15px;">
     <p class="text-center">CASH COUNT <i class="fa fa-money"></i></p>
       <span class="text-center sales_counter" style="color:#2095B4;font-size:18px;"><b>0</b> <i style='font-size:10px;font-style:normal'>RWF</i></span>
@@ -290,7 +291,7 @@ countSales();
     <p class="text-center">CARDS & CASH </p>
       <span class="text-center total_sales_counter" style="color:#2095B4;font-size:18px;"><b>0</b> <i style='font-size:10px;font-style:normal'>RWF</i></span>
     </div>
-
+    @endif
     </div>
 
     <div class="contents col-md-9 col-lg-9">

@@ -4,17 +4,26 @@
 <style>
     .invoice-items-table .form-control {
         border-color: transparent;
-        height: 30px;
+        height: 28px;
         font-size: 13px;
     }
 
     .invoice-items-table textarea.form-control {
-        
+        height:27px;
+        resize:none;
         font-size: 13px;
     }
 </style>
 <div class="page-contents">
     <h2>Create Invoice</h2>
+    @if(\Session::has("msg"))
+    <div class="alert alert-success">
+        <button data-toggle="dismiss" class="btn alert-dismiss">
+            <i class="fa fa-times"></i>
+        </button>
+        {{\Session::get("msg")}}
+    </div>
+    @endif
     <form method="post" action="{{action("InvoiceController@store")}}">
     <input type="hidden" value="{{csrf_token()}}" name="_token" />
         <div class="row">
@@ -53,7 +62,7 @@
                     <textarea name="desc_{{$i}}" rows="1" class="form-control" placeholder="Description Item {{$i}}"></textarea>
                 </td>
                 <td>
-                    <input name="qty_{{$i}}" type="number" class="form-control" />
+                    <input min="1" name="qty_{{$i}}" type="number" class="form-control" />
                 </td>
                 <td>
                     <input name="price_{{$i}}" class="form-control" type="text" placeholder="Price #" />

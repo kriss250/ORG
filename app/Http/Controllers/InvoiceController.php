@@ -20,7 +20,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        return \View::make("Backoffice.InvoiceList");
     }
 
     /**
@@ -57,7 +57,7 @@ class InvoiceController extends Controller
         $i= 1;
 
         $rows = count($data)/4;
-   
+
         for($i=1;$i<=$rows;$i++)
         {
             if(!isset($data["desc_{$i}"]))
@@ -77,7 +77,7 @@ class InvoiceController extends Controller
                 "qty"=>$data["qty_{$i}"],
                 "date"=>$data["date_{$i}"]
                 );
-               
+
                 $invoice->items()->create($item);
             }
            ;
@@ -94,6 +94,8 @@ class InvoiceController extends Controller
      */
     public function show($id)
     {
+        $hotel = \DB::connection("mysql_book")->table("hotel")->first() ;
+        return \View::make("Backoffice.viewInvoice",["invoice"=>0,"hotel"=>$hotel]);
     }
 
     /**

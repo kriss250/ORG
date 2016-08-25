@@ -76,7 +76,12 @@ Route::get("/POS/logout/",['uses'=>"AuthController@destroy",'as'=>'logout']);
 Route::group(['middleware' => 'auth'],function(){
 	// POS Routes
 	Route::get("/POS",["as"=>"pos",function(){
-		return View::make("Pos/Home");
+		if(\Session::get("pos.mode")=="default")
+        {
+            return View::make("Pos/Home");
+        }else {
+            return View::make("Pos/Homev2");
+        }
 	}]);
     Route::resource("/Backoffice/PO","OrderController");
     Route::resource("/Backoffice/Invoice","InvoiceController");

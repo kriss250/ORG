@@ -598,6 +598,7 @@
     <Compile Include="resources\lang\en\passwords.php" />
     <Compile Include="resources\lang\en\validation.php" />
     <Compile Include="resources\views\Backoffice\addAnnouncement.blade.php" />
+    <Compile Include="resources\views\Backoffice\InvoiceList.blade.php" />
     <Compile Include="resources\views\Backoffice\CreateInvoice.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\WaiterSales.blade.php" />
     <Compile Include="resources\views\Backoffice\ViewReservation.blade.php" />
