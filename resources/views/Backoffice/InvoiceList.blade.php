@@ -40,18 +40,18 @@
                 <td>{{$invoice->user->username}}</td>
                 <td>
                     <button onclick="window.open('{{action("InvoiceController@show",$invoice->idinvoices)}}','_blank')" class="btn btn-xs"><i class="fa fa-eye"></i></button>
-                    <button class="btn btn-xs">
+                    <a href="{{action('InvoiceController@edit',$invoice->idinvoices)}}" class="btn btn-xs">
                         <i class="fa fa-pencil"></i>
-                    </button>
-                    <button class="btn btn-xs btn-danger">
+                    </a>
+                    <a href="{{action('InvoiceController@delete',$invoice->idinvoices)}}" class="btn btn-xs btn-danger">
                         <i class="fa fa-trash"></i>
-                    </button>
+                    </a>
                 </td>
             </tr>
             @endforeach
-          
+
         </table>
 
 </div>
-      
+
 @stop

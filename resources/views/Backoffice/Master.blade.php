@@ -30,7 +30,7 @@
         {!! HTML::script('assets/js/vendor/bootbox/bootbox.min.js') !!}
         {!! HTML::script('assets/js/backoffice.js') !!}
 
-    
+
     <title>Backoffice | ORG Systems</title>
 
 </head>
@@ -249,6 +249,8 @@
                                 <li>
                                     <a  href="{{action("InvoiceController@create") }}">Create Invoice</a>
                                     <a href="{{action("InvoiceController@index") }}">Saved Invoices</a>
+                                    <a href="{{action("InvoiceController@index") }}">New Payment</a>
+                                    <a href="{{action("InvoiceController@index") }}">Payments</a>
                                 </li>
                             </ul>
                         </li>

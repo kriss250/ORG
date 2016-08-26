@@ -15,7 +15,7 @@
         {!! HTML::script('assets/js/vendor/daterangepicker/daterangepicker.js') !!}
         {!! HTML::script('assets/js/vendor/datepicker/js/bootstrap-datepicker.min.js') !!}
 
-    
+
     <title></title>
 
 </head>
@@ -26,9 +26,10 @@
             background:#1f1f1f
         }
     </style>
-    <div style="max-width:1100px;margin:auto;background:#fff;">
+    <button class="btn btn-primary">Print</button>
+    <div style="max-width:1000px;margin:auto;background:#fff;">
         @yield("contents")
     </div>
-    
+
 </body>
 </html>

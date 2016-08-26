@@ -46,13 +46,15 @@ class InvoiceController extends Controller
             "user_id"=> \Auth::user()->id,
             "due_date"=>$data['due_date'],
             "institution"=>$data['company'],
-            "address"=>$data['address']
+            "address"=>$data['address'],
+            "description"=>$data['description']
             ]);
 
         unset($data['due_date']);
         unset($data['_token']);
         unset($data['company']);
         unset($data['address']);
+        unset($data['description']);
 
         $i= 1;
 
@@ -95,7 +97,8 @@ class InvoiceController extends Controller
     public function show($id)
     {
         $hotel = \DB::connection("mysql_book")->table("hotel")->first() ;
-        return \View::make("Backoffice.viewInvoice",["invoice"=>0,"hotel"=>$hotel]);
+        $invoice = \App\Invoice::find($id);
+        return \View::make("Backoffice.viewInvoice",["invoice"=>$invoice,"hotel"=>$hotel]);
     }
 
     /**
@@ -106,7 +109,8 @@ class InvoiceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $invoice = \App\Invoice::find($id);
+        return \View::make("Backoffice.EditInvoice",["invoice"=>$invoice]);
     }
 
     /**
@@ -128,6 +132,12 @@ class InvoiceController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+    }
+
+    public function delete($id)
+    {
+      \App\Invoice::find($id)->delete();
+      return redirect()->back();
     }
 }

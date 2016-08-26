@@ -85,15 +85,15 @@ Route::group(['middleware' => 'auth'],function(){
 	}]);
     Route::resource("/Backoffice/PO","OrderController");
     Route::resource("/Backoffice/Invoice","InvoiceController");
-
+  Route::get("/Backoffice/Invoice/delete/{x}",["uses"=>"InvoiceController@delete"]);
 	Route::get("POS/NewDay",['as'=>'newday','uses'=>'SettingsController@newDay']);
 
 	Route::get("/POS/Products/search/","ProductsController@searchProduct");
 	Route::post("/POS/Bills/assignBill/","BillsController@assignBill");
-    Route::post("/POS/Bills/paySuspended/","BillsController@paySuspendedBill");
-    Route::post("/POS/Bills/updateBill/","BillsController@updateBill");
-    Route::post("/POS/Bills/suspend/","BillsController@suspend");
-    Route::post("/POS/Bills/pay/","BillsController@pay");
+  Route::post("/POS/Bills/paySuspended/","BillsController@paySuspendedBill");
+  Route::post("/POS/Bills/updateBill/","BillsController@updateBill");
+  Route::post("/POS/Bills/suspend/","BillsController@suspend");
+  Route::post("/POS/Bills/pay/","BillsController@pay");
 	Route::get("/POS/Bills/shareBill/","BillsController@shareBill");
 	Route::get("/POS/Bills/assignedBills/","BillsController@assignedList");
 	Route::post("/POS/Bills/assignBill/pay","BillsController@payAssignedBill");
