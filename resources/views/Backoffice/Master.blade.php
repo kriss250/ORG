@@ -258,8 +258,10 @@
                             <a class="dropdown-btn" href="{{action("OrderController@create") }}"><i class="fa fa-file-o"></i>Creditors <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="">New Order</a>
-                                    <a href="">Orders</a>
+                                    <a href="{{action("CreditsController@create")}}">New Order</a>
+                                    <a href="{{action("CreditsController@index")}}">Orders</a>
+                                    <a href="{{action("CreditsController@listCreditors")}}">Creditors</a>
+                                    <a href="{{action("CreditsController@newPayment")}}">New Payment</a>
                                 </li>
                             </ul>
                         </li>

@@ -126,7 +126,7 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::get("POS/Reports/{name}",['uses'=>"POSReportController@index","as"=>"POSReports"]);
 	Route::post("POS/Reports/{name}",['uses'=>"POSReportController@getData","as"=>"POSReportsPOST"]);
 
-    Route::get("POS/Products/jsonSubCats",['uses'=>'ProductsSubCategoryController@ajaxGetSubCategories']);
+  Route::get("POS/Products/jsonSubCats",['uses'=>'ProductsSubCategoryController@ajaxGetSubCategories']);
 	Route::resource("POS/Products/SubCategories","ProductsSubCategoryController");
 	Route::get("POS/Products/json","ProductsController@jsonReq");
 	Route::get("POS/Bills/suspendedBills","BillsController@getSuspendedBills");
@@ -139,7 +139,7 @@ Route::group(['middleware' => 'auth'],function(){
 });
 
 
-Route::group(['middleware' => 'auth'],function(){ 
+Route::group(['middleware' => 'auth'],function(){
 
     Route::resource("/Backoffice/users","UniversalUsersController");
     Route::get("/Backoffice",["as"=>"backoffice","uses"=>"BackofficeController@index"]);
@@ -151,6 +151,9 @@ Route::group(['middleware' => 'auth'],function(){
     Route::resource("/Backoffice/cashbook/transaction","CashbookTransactionController");
     Route::get("/Backoffice/Reports/POS/{name}","BackofficeReportController@index");
     Route::resource("/Backoffice/InvoicePayment","InvoicePaymentController");
+    Route::get("/Backoffice/Credit/listCreditors",["uses"=>"CreditsController@listCreditors"]);
+    Route::get("/Backoffice/Credit/paymentForm",["uses"=>"CreditsController@newPayment"]);
+
     Route::get("/Backoffice/Search/{query}/",['uses'=>'BackofficeController@search','as'=>'BackofficeSearch']);
      Route::get("/Backoffice/itemPreview/",function(){
          return \View::make("Backoffice.ItemPreview");
