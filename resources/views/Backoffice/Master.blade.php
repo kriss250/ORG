@@ -29,6 +29,7 @@
         {!! HTML::script('assets/js/vendor/datepicker/js/bootstrap-datepicker.min.js') !!}
         {!! HTML::script('assets/js/vendor/bootbox/bootbox.min.js') !!}
         {!! HTML::script('assets/js/backoffice.js') !!}
+        {!! HTML::script('assets/js/fx.js') !!}
 
 
     <title>Backoffice | ORG Systems</title>
@@ -249,8 +250,7 @@
                                 <li>
                                     <a  href="{{action("InvoiceController@create") }}">Create Invoice</a>
                                     <a href="{{action("InvoiceController@index") }}">Saved Invoices</a>
-                                    <a href="{{action("InvoiceController@index") }}">New Payment</a>
-                                    <a href="{{action("InvoiceController@index") }}">Payments</a>
+                                    <a href="{{action("InvoicePaymentController@create") }}">New Payment</a>
                                 </li>
                             </ul>
                         </li>

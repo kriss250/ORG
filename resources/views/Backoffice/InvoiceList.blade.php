@@ -23,6 +23,7 @@
                     <th>N<sup>0</sup></th>
                     <th>Date</th>
                     <th>Company</th>
+                    <th>Description</th>
                     <th>Due Date</th>
                     <th width="18%">Amount</th>
                     <th>User</th>
@@ -30,15 +31,23 @@
                 </tr>
             </thead>
 
-            @foreach(\App\Invoice::all() as $invoice)
+            @foreach(\App\Invoice::select(\DB::raw("idinvoices,invoices.created_at,institution,invoices.description,due_date,username,sum(unit_price*qty) as invoice_total"))
+              ->leftJoin("invoice_items","invoice_items.invoice_id","=","idinvoices")
+              ->join("org_pos.users","user_id","=","users.id")
+              ->groupBy("idinvoices")
+              ->get() as $invoice)
             <tr>
                 <td>{{$invoice->idinvoices < 10 ? "00".$invoice->idinvoices : $invoice->idinvoices }}/{{ (new \Carbon\Carbon($invoice->created_at))->format("Y")}}</td>
                 <td>{{$invoice->created_at}}</td>
                 <td>{{$invoice->institution}}</td>
+                <td>{{$invoice->description}}</td>
                 <td>{{$invoice->due_date}}</td>
-                <td widtd="18%">{{$invoice->items->sum(\DB::raw("unit_price*qty"))}}</td>
-                <td>{{$invoice->user->username}}</td>
+                <td widtd="18%">{{$invoice->invoice_total}}</td>
+                <td>{{$invoice->username}}</td>
                 <td>
+                  <a href="{{action('InvoiceController@edit',$invoice->idinvoices)}}" class="btn btn-xs">
+                      <i class="fa fa-money"></i>
+                  </a>
                     <button onclick="window.open('{{action("InvoiceController@show",$invoice->idinvoices)}}','_blank')" class="btn btn-xs"><i class="fa fa-eye"></i></button>
                     <a href="{{action('InvoiceController@edit',$invoice->idinvoices)}}" class="btn btn-xs">
                         <i class="fa fa-pencil"></i>

@@ -149,7 +149,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::resource("/Backoffice/payments","PaymentsController");
     Route::resource("/Backoffice/cashbook/transaction","CashbookTransactionController");
     Route::get("/Backoffice/Reports/POS/{name}","BackofficeReportController@index");
-
+    Route::resource("/Backoffice/InvoicePayment","InvoicePaymentController");
     Route::get("/Backoffice/Search/{query}/",['uses'=>'BackofficeController@search','as'=>'BackofficeSearch']);
      Route::get("/Backoffice/itemPreview/",function(){
          return \View::make("Backoffice.ItemPreview");
