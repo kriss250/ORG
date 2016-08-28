@@ -139,12 +139,13 @@ Route::group(['middleware' => 'auth'],function(){
 });
 
 
-Route::group(['middleware' => 'auth'],function(){
+Route::group(['middleware' => 'auth'],function(){ 
 
     Route::resource("/Backoffice/users","UniversalUsersController");
     Route::get("/Backoffice",["as"=>"backoffice","uses"=>"BackofficeController@index"]);
     Route::get("/Backoffice/OccupiedRooms",["as"=>"backofficeOccupiedRooms","uses"=>"BackofficeController@OccupiedRooms"]);
     Route::resource("/Backoffice/cashbook","CashbookController");
+    Route::resource("Backoffice/credits","CreditsController");
     Route::resource("/Backoffice/announcement","AnnouncementController");
     Route::resource("/Backoffice/payments","PaymentsController");
     Route::resource("/Backoffice/cashbook/transaction","CashbookTransactionController");
