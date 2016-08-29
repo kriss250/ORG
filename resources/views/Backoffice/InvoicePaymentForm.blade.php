@@ -74,13 +74,11 @@
 
 <div class="clearfix"></div>
 
-
 <label>
   Description
 </label>
 
-  <textarea name="name" class="form-control" rows="3" cols="40"></textarea>
-
+<textarea name="name" class="form-control" rows="3" cols="40"></textarea>
 
 <p>&nbsp;</p>
 <input type="submit" class="btn btn-primary" value="Save Payment" />
