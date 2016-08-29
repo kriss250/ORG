@@ -68,8 +68,8 @@
             <span class="input-group-addon"><input type="checkbox"></span>
             <input class="form-control" readonly disabled type="text" placeholder="WHT" />
         </div>
-
       </div>
+
 </div>
 
 <div class="clearfix"></div>
