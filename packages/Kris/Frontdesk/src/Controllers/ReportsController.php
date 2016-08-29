@@ -93,10 +93,10 @@ class ReportsController extends Controller
             case "receptionist":
                 $data = $frontdesk->receptionist($range,0);
                 $_data = [];
-
+                $pay = null;
+                $sale = null;
                 foreach($data["payments"] as $pay)
                 {
-
                     $_data[$pay->username]["payments"][] = $pay;
                 }
 

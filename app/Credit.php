@@ -19,4 +19,14 @@ class Credit extends Model
     protected $table = "credit";
     public $primaryKey = "id";
     protected $guarded = [];
+
+    public function creditor()
+    {
+      return $this->hasOne("\App\Creditor","idcreditors","creditor_id");
+    }
+
+    public function payment()
+    {
+      return $this->hasMany("\App\CreditPayment","credit_id","id");
+    }
 }

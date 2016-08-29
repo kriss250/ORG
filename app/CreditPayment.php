@@ -12,10 +12,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Creditor extends Model
+class CreditPayment extends Model
 {
     protected $connection = "mysql_backoffice";
-    protected $table = "creditors";
-    public $primaryKey = "idcreditors";
+    protected $table = "credit_payment";
     protected $guarded = [];
 }

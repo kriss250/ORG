@@ -61,7 +61,9 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
-
+      $(".suggest-input").suggest({
+        url : '{{action("SuggestionsController@index")}}'
+      });
         //printing report
         $(".report-print-btn").click(function (e) {
             e.preventDefault();
@@ -143,6 +145,28 @@
     </div>
 
     @endif
+
+
+    @if(\Session::has("msg"))
+    <div class="alert alert-success">
+        <button data-toggle="dismiss" data-dismiss="alert" aria-label="close"  class="btn alert-dismiss close">
+            <i class="fa fa-times"></i>
+        </button>
+        {{\Session::get("msg")}}
+    </div>
+
+    @endif
+
+    @if(\Session::has("errors"))
+    <div class="alert alert-danger">
+        <button data-toggle="dismiss" data-dismiss="alert" aria-label="close"  class="btn alert-dismiss close" class="btn alert-dismiss">
+            <i class="fa fa-times"></i>
+        </button>
+        {{\Session::get("errors")->first()}}
+    </div>
+
+    @endif
+
     <header id="header">
         <div class="grid container-fluid">
             <div class="col-md-1 col-xs-3 logo">
@@ -259,8 +283,7 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="{{action("CreditsController@create")}}">New Order</a>
-                                    <a href="{{action("CreditsController@index")}}">Orders</a>
-                                    <a href="{{action("CreditsController@listCreditors")}}">Creditors</a>
+                                    <a href="{{action("CreditsController@index")}}">Saved Orders</a>
                                     <a href="{{action("CreditsController@newPayment")}}">New Payment</a>
                                 </li>
                             </ul>
@@ -291,6 +314,16 @@
 
                             </ul>
                         </li>
+
+
+                        <li class="report-btn">
+                            <a class="dropdown-btn" href="#"> <i class="fa fa-archive"></i> Creditors & Debtors <i class="fa fa-chevron-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ action("BackofficeReportController@index",'stockOverview') }}">Creditors</a> </li>
+                                <li><a href="{{ action("BackofficeReportController@index",'purchases') }}">Debtors</a> </li>
+                            </ul>
+                        </li>
+
                         @if(\Auth::user()->level > 9)
                         <li>
                             <a class="dropdown-btn" href=""><i class="fa fa-user"></i> User Management <i class="fa fa-chevron-down"></i></a>

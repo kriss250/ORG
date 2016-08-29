@@ -1,4 +1,5 @@
-﻿body.site {
+@import url(Roboto-font.css);
+body.site {
     background: #ebf2f2;
     padding: 0 !important;
     overflow: hidden;
@@ -7,11 +8,11 @@
 
 body {
       -webkit-touch-callout: none;
-  -webkit-user-select: none; 
+  -webkit-user-select: none;
   -khtml-user-select: none;
-  -moz-user-select: none; 
+  -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;   
+  user-select: none;
 }
 .room_rate_input {
   background: rgba(255,255,255,.8);
@@ -287,7 +288,7 @@ padding: 50px
 
 .rooms-table.table.table-bordered td {
     border-left:1px solid rgb(222, 222, 222) !important;
-    
+
 }
 
 .rooms-table.table.table-bordered td:last-child {
@@ -468,7 +469,7 @@ border-top: 1px solid rgb(222, 210, 210)
 }
 
 .main-menu .menu-1 > ul > li {
-    
+
     position:relative;
     margin-right: 11px;
     font-weight: normal;
@@ -562,7 +563,7 @@ border: medium none;
     }
 
     .main-menu .menu-2 a:active,
-    .main-menu .menu-2 a:hover 
+    .main-menu .menu-2 a:hover
      {
         background:rgb(235, 239, 242);
         outline:none;
@@ -602,7 +603,7 @@ border: medium none;
     border:1px solid transparent;
 }
 .main-menu .menu-1 .nav-tabs li > a:focus {
-    
+
 border-color: transparent !important;
 
 }
@@ -623,7 +624,7 @@ border-radius: 3px 3px 0px 0px;
 margin-left: -10px;
 }
 li.menu-group {
- 
+
     border-right: 1px solid rgba(200, 217, 228, 0.57);
     margin-right: 10px;
     padding-right: 5px;
@@ -820,7 +821,7 @@ fieldset label{
   width:13.85%;
   position: relative;
   font-size:11px;
-  font-family:Lato;
+  font-family:Lato,Roboto;
   float: left;
   color:#fff;
   padding: 10px 18px;
@@ -965,7 +966,7 @@ color: #686868
 }
 
 .room-av-container {
-    
+
 }
 
 .sidebar-widget {
@@ -979,18 +980,20 @@ color: #686868
 }
 
 .departure-widget span {
-    border:1px solid #efd4f5;
-    padding:8px;
-    text-align:center;
-    display:block;
-    margin-bottom:5px;
-    float:left;
-    margin-right:3px;
-    color:#989898;
-    font-size:11px;
-    width:31.53%;
-    background:#fff;
-    overflow:hidden
+  border: 1px solid #efd4f5;
+padding: 8px;
+text-align: center;
+display: block;
+margin-bottom: 5px;
+float: left;
+margin-right: 3px;
+color: #989898;
+font-size: 11px;
+width: 30.4%;
+background: #fff;
+overflow: hidden;
+max-height: 50px;
+box-sizing: padding-box;
 
 }
 
@@ -1008,7 +1011,7 @@ color: #686868
   font-family: Roboto;
 }
 
-            
+
 
             .booking-view-sidebar-label {
                 background: rgb(252, 246, 175) none repeat scroll 0% 0%;
@@ -1062,7 +1065,7 @@ color: #686868
 .room-status-table th {
     font-size:11px;
     text-align:center;
-    
+
 }
 
 
@@ -1149,7 +1152,7 @@ border-bottom: 1px solid #dedede;
 .walkin-room-table tr:nth-child(even) td
 {
     background:#fafeff;
-   
+
 }
 .walkin-room-table td {
     border-color: rgb(206, 226, 233);
@@ -1401,7 +1404,7 @@ color: #9255ae
     background:#d4eeff
 }
 
-footer.m-footer{ 
+footer.m-footer{
     position: static;
 margin-left: -10px;
 margin-right: -12px;
@@ -1525,7 +1528,7 @@ right: 0px;
 
 .list-wrapper-title {
    padding: 5px;
-  
+
 margin-left: -2px;
 text-align:center;
 margin-right: -2px;

@@ -77,7 +77,7 @@
         font-size: 11px;
         text-transform: capitalize;
         font-weight: bold;
-        font-family: 'Open Sans';
+        font-family: 'Open Sans','Segoe UI';
         background-size: 11px 22px !important;
     }
 

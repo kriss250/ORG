@@ -108,6 +108,8 @@ Route::group(['middleware' => 'auth'],function(){
 		return \View::make("Pos.ChangePassword");
 	});
 
+
+
 	Route::post("/POS/Settings/newPassword",['uses'=>"SettingsController@newPassword"]);
 
 	Route::resource("POS/Settings","SettingsController");
@@ -146,6 +148,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get("/Backoffice/OccupiedRooms",["as"=>"backofficeOccupiedRooms","uses"=>"BackofficeController@OccupiedRooms"]);
     Route::resource("/Backoffice/cashbook","CashbookController");
     Route::resource("Backoffice/credits","CreditsController");
+    Route::post("Backoffice/payCredit",["uses"=>"CreditsController@addPayment"]);
     Route::resource("/Backoffice/announcement","AnnouncementController");
     Route::resource("/Backoffice/payments","PaymentsController");
     Route::resource("/Backoffice/cashbook/transaction","CashbookTransactionController");
@@ -153,9 +156,9 @@ Route::group(['middleware' => 'auth'],function(){
     Route::resource("/Backoffice/InvoicePayment","InvoicePaymentController");
     Route::get("/Backoffice/Credit/listCreditors",["uses"=>"CreditsController@listCreditors"]);
     Route::get("/Backoffice/Credit/paymentForm",["uses"=>"CreditsController@newPayment"]);
-
+    Route::get("/Backoffice/InputSuggestions",["uses"=>"SuggestionsController@index"]);
     Route::get("/Backoffice/Search/{query}/",['uses'=>'BackofficeController@search','as'=>'BackofficeSearch']);
-     Route::get("/Backoffice/itemPreview/",function(){
+    Route::get("/Backoffice/itemPreview/",function(){
          return \View::make("Backoffice.ItemPreview");
      });
     Route::get("/Backoffice/Reports/Header",function(){

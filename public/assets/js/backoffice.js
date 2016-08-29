@@ -12,6 +12,11 @@ $(document).ready(function () {
         JSObj.ToolStripColor(35,35, 35);
     }
 
+    $(".alert.success").delay(3800).slideUp(200, function() {
+        $(this).alert('close');
+    });
+
+
     $("body").on("submit", ".ajax-form", function (e) {
         var form = $(this);
         e.preventDefault();
@@ -54,7 +59,7 @@ $(document).ready(function () {
             }
         }).done(function () {
             $(form).find("button[type='submit']").html("Submit").removeAttr("disabled");
-        })
+        });
 
     });
 
@@ -65,7 +70,7 @@ $(document).ready(function () {
                 format: 'YYYY-MM-DD'
             }
         });
-    })
+    });
 
     $('.date-picker').datepicker({
         format: "yyyy-mm-dd",
@@ -95,8 +100,8 @@ $(document).ready(function () {
             error: function () {
                 ualert.error("Error Deleting Bill");
             }
-        })
-    })
+        });
+    });
 
     $("body").on("click", ".delete-trans-btn", function (e) {
         e.preventDefault();
@@ -136,7 +141,7 @@ $(document).ready(function () {
 
     });
 
-   
+
 
     function closeModal() {
         $(".modal-window").fadeOut(300).remove();
@@ -237,7 +242,7 @@ $(document).ready(function () {
         url = url.replace('%7Bquery%7D', q);
 
         var previewUrl = $("option:selected", "#master-search-location").attr("data-preview-url");
-        
+
         setTimeout(function () {
             $.ajax({
                 url: url,

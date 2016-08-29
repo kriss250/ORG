@@ -43,6 +43,8 @@ class Authenticate
                 \Session::put('url.intended',\Request::url());
                 if(isset($_GET['mode'])){
                     \Session::put('pos.mode',$_GET['mode']);
+                }else {
+                  \Session::put('pos.mode',"default");
                 }
                 return redirect()->route('login');
             }
@@ -52,6 +54,8 @@ class Authenticate
 
         if(isset($_GET['mode'])){
             \Session::put('pos.mode',$_GET['mode']);
+        }else {
+            \Session::put('pos.mode',"default");
         }
 
         return $next($request);

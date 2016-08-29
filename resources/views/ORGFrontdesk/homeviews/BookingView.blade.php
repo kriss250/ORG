@@ -87,7 +87,7 @@
         text-transform: capitalize;
         font-weight: bold;
         max-height:21px;
-        font-family: 'Open Sans';
+        font-family: 'Open Sans','Segoe UI';
         background-size:11px 22px !important
     }
 
@@ -243,7 +243,7 @@ for($i=1;$i<=$days;$i++){
     <div class="report-filter">
         <form name="filter-form" class="row form-inline">
             <!--<div class="col-md-6">
-              
+
                 <label>Start Date</label>
                 <input name="startdate" style="width:90px;" class="form-control date-picker" value="{{$_GET['startdate']}}" />
                 Period <select class="form-control" name="days">

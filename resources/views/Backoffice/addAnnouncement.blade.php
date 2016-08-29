@@ -5,9 +5,10 @@
     <input required="" name="title" type="text" class="form-control" />
     <label>Message</label>
     <textarea name="message" class="form-control">
- 
+
     </textarea>
 
     <br />
+
     <input type="submit" class="btn btn-success" value="Send" />
 </form>

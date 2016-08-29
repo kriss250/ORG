@@ -21,7 +21,7 @@
         <label>Invoice N<sup>0</sup></label>
       <div style="max-width:200px;" class="input-group">
 
-      <input type="text" class="form-control" />
+      <input data-table="org_backoffice.invoices" data-field="idinvoices" type="text" class="form-control suggest-input" />
       <span class="input-group-addon"><i class="fa fa-check"></i></span>
     </div>
     </div>
@@ -30,7 +30,7 @@
     <p>Invoice of</p>
 
       <label>Date of Payment</label>
-      <input style="width:200px !important" value="{{(new \Carbon\Carbon())->format("Y-m-d")}}" type="text" class="date-picker form-control" placeholder="Date"/>
+      <input name="date" style="width:160px !important;max-width:200px !important;" value="{{(new \Carbon\Carbon())->format("Y-m-d")}}" type="text" class="date-picker form-control" placeholder="Date"/>
     </div>
   </div>
 
@@ -39,13 +39,16 @@
   <div class="row">
     <div class="col-xs-3">
       <label>Amount Paid</label>
-      <input style="max-width:180px" placeholder="Enter amount" type="text" name="name" class='form-control' value="">
+      <input style="max-width:180px" placeholder="Enter amount" type="text" name="amount" class='form-control' value="">
     </div>
 
     <div class="col-xs-3">
       <label>Mode of Payment</label>
-      <select class="form-control">
-        <option>Choose</option>
+      <select name="mode" required class="form-control">
+        <option value="">Choose</option>
+        @foreach(\App\PayMode::all() as $mode)
+          <option value="{{$mode->idpay_method}}">{{$mode->method_name}}</option>
+        @endforeach
       </select>
     </div>
 
