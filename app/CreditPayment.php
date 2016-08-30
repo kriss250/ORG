@@ -16,5 +16,6 @@ class CreditPayment extends Model
 {
     protected $connection = "mysql_backoffice";
     protected $table = "credit_payment";
+    protected $primaryKey = "idpayment";
     protected $guarded = [];
 }

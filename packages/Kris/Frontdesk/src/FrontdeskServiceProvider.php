@@ -34,7 +34,7 @@ class FrontdeskServiceProvider extends ServiceProvider
     public function boot()
     {
         require __DIR__."/Http/routes.php";
-        $this->loadViewsFrom("/var/www/html/ORG/packages/Kris/Frontdesk/views","Frontdesk");
+        $this->loadViewsFrom(__DIR__."/../views/","Frontdesk");
     }
 
     public function provides()

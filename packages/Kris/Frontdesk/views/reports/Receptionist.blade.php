@@ -9,9 +9,11 @@
     @include("Frontdesk::reports.report-print-header")
 
     <p class="report-title">Shift Report</p>
-    <?php $cash = 0;$bank = 0;$check = 0;$cc = 0; $credit = 0; $refund=0; ?>
+
 
     @foreach($users as $key=>$user)
+    <?php $cash = 0;$bank = 0;$check = 0;$cc = 0; $credit = 0; $refund=0; ?>
+
     <?php $userTotal = ["cash"=>0,"cc"=>0,"check"=>0,"bank"=>0,"refund"=>0,"credit"=>0]; ?>
     <h4 class="text-success text-capitalize">{{$key}}</h4>
     <table class="table table-bordered table-striped">
@@ -68,7 +70,7 @@
 
 
         </tr>
-        
+
         <?php $cash = 0;$bank = 0;$check = 0;$cc = 0; $credit = 0; $refund=0; ?>
         @if(isset($user["sales"]))
         @foreach($user["sales"] as $sale)
@@ -107,7 +109,7 @@
             <td>{{$credit}}</td>
             <td>-</td>
         </tr>
-        
+
         <tr class="text-bold">
             <td>TOTAL</td>
             <td>{{number_format($userTotal['cash'])}}</td>
@@ -125,4 +127,3 @@
 </div>
 
 @stop
-

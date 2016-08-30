@@ -140,4 +140,11 @@ class InvoiceController extends Controller
       \App\Invoice::find($id)->delete();
       return redirect()->back();
     }
+
+
+    public function showPayments($id)
+    {
+      $invoice = \App\Invoice::find($id);
+      return \View::make("Backoffice.InvoicePayments",["invoice"=>$invoice]);
+    }
 }

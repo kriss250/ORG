@@ -252,6 +252,24 @@ class BackofficeReportController extends Controller
                 }
                 $logs= $frontdesk->logs($range,$cashier);
                 return \View::make("Backoffice.Reports.Frontdesk.Logs",["logs"=>$logs]);
+            case "creditors":
+                if(!isset($_GET['creditor']) || $_GET['creditor']==""){
+                  $data = \App\Credit::select(\DB::raw("creditors.name,voucher,credit.description,sum(amount) as amount,sum(credit.paid_amount) as paid_amount"))->join("creditors","creditors.idcreditors","=","creditor_id")->whereRaw("date(credit.created_at) between ? and ?")->setBindings($range)->groupBy("creditors.name")->limit(50)->get() ;
+                }else {
+                  $range[] = $_GET['creditor'];
+                  $data = \App\Credit::select(\DB::raw("creditors.name,voucher,credit.description,sum(amount) as amount,sum(credit.paid_amount) as paid_amount"))->join("creditors","creditors.idcreditors","=","creditor_id")->whereRaw("date(credit.created_at) between ? and ?")->where("creditors.name","?")->setBindings($range)->groupBy("credit.id")->limit(50)->get() ;
+
+                }
+                  return \View::make("Backoffice.Reports.misc.Creditors",["data"=>$data,"range"=>$range]);
+            case "debtors":
+                if(isset($_GET['customer'])&& $_GET['customer'] != "")
+                {
+                  $range[] = $_GET['customer'];
+                  $data = \App\Invoice::select(\DB::raw("institution,idinvoices,due_date,created_at,invoices.description,sum(unit_price*qty) as amount"))->join("invoice_items","invoice_id","=","idinvoices")->whereRaw("date(invoices.created_at) between ? and ?")->where("institution","?")->setBindings($range)->groupBy("idinvoices")->get();
+                }else {
+                  $data = \App\Invoice::select(\DB::raw("institution,idinvoices,due_date,created_at,invoices.description,sum(unit_price*qty) as amount"))->join("invoice_items","invoice_id","=","idinvoices")->whereRaw("date(invoices.created_at) between ? and ?")->setBindings($range)->groupBy("institution")->get();
+                }
+                return \View::make("Backoffice.Reports.misc.Debtors",["data"=>$data,"range"=>$range]);
             default:
                 abort(404);
                 break;

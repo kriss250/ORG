@@ -45,7 +45,7 @@
                 <td widtd="18%">{{$invoice->invoice_total}}</td>
                 <td>{{$invoice->username}}</td>
                 <td>
-                  <a href="{{action('InvoiceController@edit',$invoice->idinvoices)}}" class="btn btn-xs">
+                  <a href="{{action('InvoiceController@showPayments',$invoice->idinvoices)}}" class="btn btn-xs">
                       <i class="fa fa-money"></i>
                   </a>
                     <button onclick="window.open('{{action("InvoiceController@show",$invoice->idinvoices)}}','_blank')" class="btn btn-xs"><i class="fa fa-eye"></i></button>

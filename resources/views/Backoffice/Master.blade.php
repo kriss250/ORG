@@ -319,8 +319,8 @@
                         <li class="report-btn">
                             <a class="dropdown-btn" href="#"> <i class="fa fa-archive"></i> Creditors & Debtors <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ action("BackofficeReportController@index",'stockOverview') }}">Creditors</a> </li>
-                                <li><a href="{{ action("BackofficeReportController@index",'purchases') }}">Debtors</a> </li>
+                                <li><a href="{{ action("BackofficeReportController@index",'creditors') }}">Creditors</a> </li>
+                                <li><a href="{{ action("BackofficeReportController@index",'debtors') }}">Debtors</a> </li>
                             </ul>
                         </li>
 

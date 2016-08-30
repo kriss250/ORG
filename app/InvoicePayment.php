@@ -18,6 +18,7 @@ class InvoicePayment extends Model
     protected $connection = "mysql_backoffice";
     protected $table = "invoice_payments";
     protected $guarded = [];
+    public $primaryKey = "idpayment";
 
     public function invoice()
     {

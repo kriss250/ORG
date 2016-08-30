@@ -83,9 +83,12 @@ Route::group(['middleware' => 'auth'],function(){
             return View::make("Pos/Homev2");
         }
 	}]);
-    Route::resource("/Backoffice/PO","OrderController");
-    Route::resource("/Backoffice/Invoice","InvoiceController");
+
+  Route::resource("/Backoffice/PO","OrderController");
+  Route::resource("/Backoffice/Invoice","InvoiceController");
   Route::get("/Backoffice/Invoice/delete/{x}",["uses"=>"InvoiceController@delete"]);
+  Route::get("/Backoffice/Invoice/payment/delete/{x}",["uses"=>"InvoicePaymentController@delete"]);
+  Route::get("/Backoffice/Invoice/showPayments/{x}",["uses"=>"InvoiceController@showPayments"]);
 	Route::get("POS/NewDay",['as'=>'newday','uses'=>'SettingsController@newDay']);
 
 	Route::get("/POS/Products/search/","ProductsController@searchProduct");
