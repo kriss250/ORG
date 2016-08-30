@@ -18,8 +18,7 @@
     {!!HTML::script("assets/js/vendor/jquery-ui/jquery-ui.min.js") !!}
     {!!HTML::script("assets/js/vendor/bsdatepicker/js/bootstrap-datepicker.min.js") !!}
     {!!HTML::script("assets/js/vendor/slimscroll/jquery.slimscroll.min.js") !!}
-    {!! HTML::script('assets/js/vendor/highcharts/highcharts.js') !!}
-   
+    {!!HTML::script('assets/js/fx.js') !!}
     {!!HTML::script("assets/js/fo-main.js")!!}
     <title>Frontoffice</title>
 </head>
@@ -37,9 +36,12 @@
             uri = uri.replace("__id__", reservationid);
             window.openDialog(uri, 'Room', 'width=800,height=590,resizable=no', src);
         }
-        $(document).ready(function () {
-            
 
+        $(document).ready(function () {
+
+          $(".suggest-input").suggest({
+            url : '{{action("SuggestionsController@index")}}'
+          });
             $(".charges-table-wrapper").slimscroll({
                 height: "182px",
                 alwaysVisible: false,

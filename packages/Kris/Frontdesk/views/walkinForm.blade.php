@@ -7,7 +7,7 @@
     <p class="desc">Guest without reservation</p>
 </div>
 <style>
-     body 
+     body
     {
         overflow:hidden;
         height:550px;
@@ -133,7 +133,7 @@
 
             <fieldset>
                 <label>Company</label>
-                <input type="text" autocomplete="off" name="company" placeholder="Company / Organisation" />
+                <input class="suggest-input" data-table="orgdb2.companies" data-field="name" type="text" autocomplete="off" name="company" placeholder="Company / Organisation" />
             </fieldset>
 
             <fieldset>
@@ -215,9 +215,9 @@
                 <input autocomplete="off" type="text" name="rate" placeholder="#" />
             </fieldset>
 
-           
+
             <div class="clearfix"></div>
-           
+
             <fieldset>
                 <label>Mode Of Payment</label>
                 <span>Credit</span> <input name="mode" value="1" type="radio" /> <span>Payment</span> <input value="0" name="mode" checked type="radio" />
