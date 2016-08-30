@@ -26,7 +26,7 @@
             background:#1f1f1f
         }
     </style>
-    <button class="btn btn-primary">Print</button>
+    <button onclick="window.print()" style="margin:15px auto;display:block" class="btn btn-primary">Print</button>
     <div style="max-width:1000px;margin:auto;background:#fff;">
         @yield("contents")
     </div>

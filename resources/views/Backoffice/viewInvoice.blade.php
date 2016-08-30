@@ -29,6 +29,10 @@
       float: left;
     }
 
+    .invoice-address p {
+      margin-bottom: 1px
+    }
+
     .logo-text {
       float: left;
       padding-left: 10px;
@@ -44,6 +48,24 @@
       margin-bottom: 2px;
       margin-top: 0
     }
+
+    .invoice-table-wrapper {
+  margin: 0 !important;
+  border: 1px solid rgb(200,200,200);
+  display: block;
+  padding: 0px;
+  min-height: 560px;
+}
+
+.invoice-table-wrapper td {
+  border:none
+}
+
+.invoice-address {
+  border:1px solid;
+  margin-bottom: 10px;
+  padding: 15px;
+}
 </style>
 
 <div class="page-contents" style="padding:25px">
@@ -70,8 +92,8 @@
 
     <h2 class="text-center"><strong>INVOICE</strong></h2>
 
-<div class="row">
-  <div style='font-weight:bold' class="col-xs-6">
+<div class="container-fluid">
+  <div class="invoice-address col-xs-5" style='font-weight:bold'>
     To
     <p> </p>
     <p>{{$invoice->institution}}</p>
@@ -84,12 +106,14 @@
 
 </div>
 
-<table class="table table-striped table-bordered">
+<div class="invoice-table-wrapper">
+
+<table class="table table-condensed">
 
 <thead>
   <tr>
     <th>Date</th>
-    <th>description</th>
+    <th>Description</th>
     <th>Unit Price</th>
     <th>Quantity</th>
     <th>Total</th>
@@ -115,6 +139,13 @@
 {{number_format($VAT)}}
 {{number_format($total-$VAT)}}
 {{number_format($total)}}
+<?php
+$spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+?>
+</div>
+<p style="text-transform:capitalize">
+  {{$spell->format($total)}}
+</p>
 </div>
 
 @stop

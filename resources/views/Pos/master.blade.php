@@ -14,9 +14,9 @@
         {!! HTML::style('assets/css/vendor/jquery-ui.min.css') !!}
         {!! HTML::style('assets/js/vendor/datetimepicker/css/bootstrap-datetimepicker.min.css') !!}
         {!!HTML::style('assets/css/POS.css') !!}
-    
+
         {!!HTML::style('assets/css/'.(\Session::get("pos.mode")).'.css')!!}
-   
+
     <!-- SCRIPTS -->
         {!! HTML::script('assets/js/vendor/jquery/jquery-1.11.2.min.js') !!}
         {!! HTML::script('assets/js/vendor/bootstrap/bootstrap.min.js') !!}
@@ -31,7 +31,7 @@
         {!! HTML::script('assets/js/pos.jquery.js') !!}
         {!! HTML::script('assets/js/POS.js') !!}
 
-    
+
     <title>ORG POS </title>
 </head>
 <body class="noselect"> <div class="print_container"></div>
@@ -39,7 +39,7 @@
 
 @if(isset($errors) && count($errors) > 0)
         <div style="background: rgb(192, 57, 43) none repeat scroll 0% 0%; color: rgb(0, 0, 0);" class="ualert ui-draggable ui-draggable-handle"><i class="fa fa-exclamation-triangle"></i><div class="inner_content">
-        
+
         {{  $errors->first() }}
         </div><button class="ok-btn ht_close">OK</button></div>
 @endif
@@ -151,7 +151,7 @@ countSales();
         </div>
 
         <div class="col-md-9 col-xs-9 header-right">
-          
+
           <ul>
           <li>
           <span class="theme-switch-wrapper">
@@ -175,7 +175,7 @@ countSales();
 
 <span class="clock"><i class="fa fa-clock-o"></i> {{ date('l d, m Y',strtotime(\ORG\Dates::$RESTODT)) }} <i class="time">{{ date('H:i') }}</i></span>
 </li>
-                
+
 <li>
                 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle login-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -218,7 +218,7 @@ countSales();
          <li class="list-group-item"><a href="{{ route('pos') }}"><i class="fa fa-home"></i> Home</a></li>
 
          @if(Auth::user()->level ==10)
-         <li class="list-group-item dropdown"><a href=""> <i class="fa fa-archive"></i> Products </a> 
+         <li class="list-group-item dropdown"><a href=""> <i class="fa fa-archive"></i> Products </a>
          <span><i class="fa fa-angle-down"></i></span>
             <ul class="dropdown_menu">
             <li><a href="{{ action('StoreController@create') }}">New Store</a></li>
@@ -246,7 +246,7 @@ countSales();
                     <li><a href="{{ action('WaiterController@index') }}">Waiter List</a></li>
                  </ul>
              </li>
-         
+
 
 
          <li class="list-group-item dropdown"> <a href="#"><i class="fa fa-cog"></i> Settings</a>
@@ -263,11 +263,12 @@ countSales();
          <span><i class="fa fa-angle-down"></i></span>
              <ul class="dropdown_menu">
                 <li><a href="{{ route('POSReports','summaryDay') }}">Sales Report</a></li>
+                <li><a href="{{ route('POSReports','DailySalesMix') }}">Sales Report V2</a></li>
                  <li><a href="{{ route('POSReports','RoomPost') }}">Room Posts</a></li>
                  <li><a href="{{ route('POSReports','Credits') }}">Credit</a></li>
                   <li><a href="{{ route("POSReports",'Cashier') }}">Cashier Report</a></li>
                  <li><a href="{{route('POSReports','CashierShift') }}">Shift Report</a></li>
-                 
+
               </ul>
          </li>
        </ul>
@@ -298,7 +299,7 @@ countSales();
         @yield("printHeader")
         @yield("contents")
 
-      
+
     </div>
 </div>
 </div>
@@ -306,7 +307,7 @@ countSales();
 
 <div class="grid footer">
     <p class="text-center" style="margin-bottom:0px">
-      ORG Point of Sale part of ORG Software Suite 
+      ORG Point of Sale part of ORG Software Suite
     </p>
     <p class="text-center">&copy; 2015 KLAXYCOM </p>
 </div>
