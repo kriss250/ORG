@@ -19,6 +19,7 @@
  </script>
 
 <div class="report-filter">
+
 <table style="width:100%">
     <tr>
         <td><h3>Sales Report V2</h3> </td>
@@ -50,7 +51,7 @@
 
     <p class="report-desc"><i class="fa fa-information"></i>Summarized report of sold and paid bills, as well as room post and credits</p>
 </div>
-<h5>PAID BILLS <i></i></h5>
+<h4>ALL BILLS <i></i></h4>
 <table class="table table-bordered table-striped bills-table table-condensed">
 
 <?php
@@ -74,7 +75,11 @@
                 <td>'.$item->unit_price.'</td>
                 <td>'.number_format($item->unit_price*$item->qty).'</td></tr>
                 ';
-                $billGT += $item->qty * $item->unit_price;
+
+                if($bill->status != \ORG\Bill::OFFTARIFF)
+                {
+                  $billGT += $item->qty * $item->unit_price;
+                }
         }
 
         $_cash_percent = (($bill->cash * 100) / $bill->bill_total)/100;
@@ -215,7 +220,7 @@
     </tr>
 </thead>
     <tr>
-        <td>{{ number_format($totals['bill']+$total_credit+$total_roompost) }}</td>
+        <td>{{ number_format($totals['bill']) }}</td>
         <td>{{number_format($total_credit) }}</td>
         <td>{{ number_format($total_roompost) }}</td>
         <td>{{ number_format($totals['cash'])}} </td>

@@ -61,7 +61,7 @@ class POSReportController extends Controller
 
                 $data  = ["bills"=>$bills,"room"=>$room,"credits"=>$credit];
 
-             return \View::make("Pos.Reports.Sales",$data);
+             return \View::make("Pos.Reports.SalesMix",$data);
 
                return dd("Report Requested does not exist");
                break;
