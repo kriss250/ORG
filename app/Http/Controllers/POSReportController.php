@@ -53,7 +53,7 @@ class POSReportController extends Controller
                 $store_id = isset($_GET['store']) ? $_GET['store'] : 0;
                 $cashier =  isset($_GET['cashier']) ?  isset($_GET['cashier']) : 0;
 
-                $bills = POSReport::Bills($range,$store_id,$cashier,[\ORG\Bill::PAID,\ORG\Bill::SUSPENDED,\ORG\Bill::CREDIT,\ORG\Bill::OFFTARIFF]);
+                $bills = POSReport::Bills($range,$store_id,$cashier,[\ORG\Bill::PAID,\ORG\Bill::SUSPENDED,\ORG\Bill::CREDIT,\ORG\Bill::OFFTARIFF,\ORG\Bill::ASSIGNED]);
 
                 $room = POSReport::RoomPostsSummary($range,$store_id);
 
