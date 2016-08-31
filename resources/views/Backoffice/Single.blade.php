@@ -25,9 +25,24 @@
         body {
             background:#1f1f1f
         }
+
+        @media print {
+          .print-btn {
+            display: none !important
+          }
+
+          .table {
+            -webkit-print-color-adjust: exact;
+          }
+
+          .invoice-no {
+            -webkit-print-color-adjust: exact;
+            color:rgb(150,150,150) !important;
+          }
+        }
     </style>
-    <button onclick="window.print()" style="margin:15px auto;display:block" class="btn btn-primary">Print</button>
-    <div style="max-width:1000px;margin:auto;background:#fff;">
+    <button onclick="window.print()" style="margin:15px auto;display:block" class="print-btn btn btn-primary">Print</button>
+    <div style="max-width:940px;margin:auto;background:#fff;">
         @yield("contents")
     </div>
 

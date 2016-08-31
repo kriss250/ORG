@@ -57,7 +57,7 @@
                   <a href="{{action('InvoiceController@showPayments',$invoice->idinvoices)}}" class="btn btn-xs">
                       <i class="fa fa-money"></i>
                   </a>
-                    <button onclick="window.open('{{action("InvoiceController@show",$invoice->idinvoices)}}','_blank')" class="btn btn-xs"><i class="fa fa-eye"></i></button>
+                    <button onclick="window.open('{{action("InvoiceController@show",$invoice->idinvoices)}}','_blank','fullscreen=yes,width=990,height=620')" class="btn btn-xs"><i class="fa fa-eye"></i></button>
                     <a href="{{action('InvoiceController@edit',$invoice->idinvoices)}}" class="btn btn-xs">
                         <i class="fa fa-pencil"></i>
                     </a>
