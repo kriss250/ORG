@@ -9,14 +9,14 @@ $.fn.suggest = function(options) {
     var input  ="";
 
     $(".suggestions-wrapper").on("click",".dropdown-menu li",function(){
-      $(elem).val($(this).html());
+      $(this).parent().parent().find(".suggest-input").val($(this).html());
       $(elem).parent().removeClass("open");
     });
 
-    $("body").on("keyup", elem, function() {
-
-      input =  $(elem).val();
-
+    $(elem).on("keyup", function() {
+      input =  $(this).val();
+      var eventSrc = $(this);
+      $(ul).html("");
       if(input.length===0)
       {
         return;
@@ -31,15 +31,12 @@ $.fn.suggest = function(options) {
                   $.each(data,function(x,y){
                       var item = "<li>"+y.name+"</li>";
                       $(ul).append(item);
-                      $(item).click(function(e){
-                        alert("DD");
-                      });
                   });
 
-                $(elem).parent().addClass("open").append(ul);
+                $(eventSrc).parent().addClass("open").remove(".dropdown-menu").append(ul);
               }
           });
-        },100);
+        },80);
     });
 
 

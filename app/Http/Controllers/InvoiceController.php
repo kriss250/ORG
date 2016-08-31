@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use DB;
+use App\InvoiceItem;
 use \ORG;
 use Illuminate\Support\Str;
 
@@ -77,7 +78,8 @@ class InvoiceController extends Controller
                 "description"=>htmlentities(nl2br($data["desc_{$i}"])),
                 "unit_price"=>$data["price_{$i}"],
                 "qty"=>$data["qty_{$i}"],
-                "date"=>$data["date_{$i}"]
+                "date"=>$data["date_{$i}"],
+                "days"=>$data["days_{$i}"]
                 );
 
                 $invoice->items()->create($item);
@@ -121,7 +123,56 @@ class InvoiceController extends Controller
      */
     public function update($id)
     {
-        //
+        $data = \Request::all();
+        $invoice  = \App\Invoice::find($id);
+        $invoice->institution = $data['company'];
+        $invoice->due_date = $data['due_date'];
+        $invoice->address = $data['address'];
+        $invoice->description = $data['description'];
+        $invoice->sent_date = $data['delivery_date'];
+        $invoice->save();
+
+        \App\InvoiceItem::where("invoice_id",$invoice->idinvoices)->delete();
+
+
+        unset($data['due_date']);
+        unset($data['_token']);
+        unset($data['company']);
+        unset($data['address']);
+        unset($data['description']);
+        unset($data['delivery_date']);
+
+        $i= 1;
+
+        $rows = count($data)/4;
+
+        for($i=1;$i<=$rows;$i++)
+        {
+            if(!isset($data["desc_{$i}"]))
+            {
+                break;
+            }
+
+
+            if(strlen($data["desc_{$i}"]) < 1 && strlen($data["price_{$i}"]) < 1)
+            {
+               continue;
+            }else {
+
+                $item = array(
+                "description"=>htmlentities(nl2br($data["desc_{$i}"])),
+                "unit_price"=>$data["price_{$i}"],
+                "qty"=>$data["qty_{$i}"],
+                "date"=>$data["date_{$i}"],
+                "days"=>$data["days_{$i}"]
+                );
+
+                $invoice->items()->create($item);
+            }
+
+        }
+
+        return redirect()->back()->with("msg","Invoice saved successfuly");
     }
 
     /**

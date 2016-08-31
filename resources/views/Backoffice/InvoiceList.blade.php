@@ -3,16 +3,12 @@
 @section("contents")
 
 <div class="page-contents">
-    <h2>Create Invoice</h2>
-    @if(\Session::has("msg"))
-    <div class="alert alert-success">
-        <button data-toggle="dismiss" class="btn alert-dismiss">
-            <i class="fa fa-times"></i>
-        </button>
-        {{\Session::get("msg")}}
-    </div>
-    @endif
-
+    <h2>Saved Invoices</h2>
+    <p>Search Invoice</p>
+    <form class="form-inline" action="" method="get">
+      <input class="form-control" name="invoice" placeholder="Invoice Number # 12 or 12/2016" />
+      <input type="submit" value="Search" class="btn btn-danger" />
+    </form>
     <input type="hidden" value="{{csrf_token()}}" name="_token" />
 
         <hr />
@@ -30,12 +26,25 @@
                     <th>Action</th>
                 </tr>
             </thead>
+            <?php
 
-            @foreach(\App\Invoice::select(\DB::raw("idinvoices,invoices.created_at,institution,invoices.description,due_date,username,sum(unit_price*qty) as invoice_total"))
+            $invoices = \App\Invoice::select(\DB::raw("idinvoices,invoices.created_at,institution,invoices.description,due_date,username,sum(unit_price*qty*days) as invoice_total"))
               ->leftJoin("invoice_items","invoice_items.invoice_id","=","idinvoices")
               ->join("org_pos.users","user_id","=","users.id")
               ->groupBy("idinvoices")
-              ->get() as $invoice)
+              ->orderBy("created_at","desc")
+              ->limit("100");
+
+              if(isset($_GET['invoice']) && $_GET['invoice'] !== "")
+              {
+                $id = strpos($_GET['invoice'],"/") > 0 ? explode("/", $_GET['invoice'])[0] : $_GET['invoice'];
+                $invoices = $invoices->where('idinvoices', $id)->get();
+              }else {
+                $invoices = $invoices->get();
+              }
+
+              ?>
+            @foreach($invoices as $invoice)
             <tr>
                 <td>{{$invoice->idinvoices < 10 ? "00".$invoice->idinvoices : $invoice->idinvoices }}/{{ (new \Carbon\Carbon($invoice->created_at))->format("Y")}}</td>
                 <td>{{$invoice->created_at}}</td>
