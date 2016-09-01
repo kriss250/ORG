@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use \Carbon\Carbon;
 class POSReport extends Model
 {
     public static function RoomPosts($date,$store=0,$cashier=0)
@@ -263,10 +263,10 @@ class POSReport extends Model
             {
                 $waiters[$val->waiter_name] = array();
             }
-            
+
                 array_push($waiters[$val->waiter_name],
                     ["item_name"=>$val->product_name,"qty"=>$val->qty]);
-            
+
         }
 
 		return ["data"=>$waiters];
@@ -349,5 +349,33 @@ class POSReport extends Model
             $cashier_str = " and user_id=?";
         }
     	return \DB::select("SELECT concat(firstname,' ',lastname)as user,type,action,logs.date FROM logs join users on users.id = user_id where date(logs.date) between ? and ? {$cashier_str}",$date);
+    }
+
+
+    public static function turnover($date)
+    {
+      $amount = \DB::select("select sum(bill_total-change_returned) as amount from bills where deleted=0 and status not in ('".\ORG\Bill::OFFTARIFF."','".\ORG\Bill::SUSPENDED."') and date(date) between ? and ?",$date);
+      return count($amount) > 0 ? $amount[0]->amount : 0;
+    }
+
+    public static function prev_turnover($date)
+    {
+      $d1 = new Carbon($date[0]);
+      $d2 = new Carbon($date[1]);
+      $days = $d1->diff($d2)->days+1;
+      $rangex  = $date;
+      $rangex[1] = (new Carbon($rangex[0]))->addDays(-1)->format("Y-m-d");
+      $rangex[0] = (new Carbon($rangex[0]))->addDays(-$days)->format("Y-m-d");
+      $amount = \DB::select("select sum(bill_total-change_returned) as amount from bills where deleted=0 and status not in ('".\ORG\Bill::OFFTARIFF."','".\ORG\Bill::SUSPENDED."') and date(date) between ? and ?",$rangex);
+      return count($amount) > 0 ? $amount[0]->amount : 0;
+    }
+
+    public static function storesSales($date)
+    {
+      $stores_sales = \DB::select("select sum(unit_price*qty) as amount,store_name from bills join bill_items on bill_items.bill_id=idbills join products on products.id=bill_items.product_id join categories on categories.id = products.category_id join store on store.idstore = categories.store_id where deleted=0 and status not in ('".\ORG\Bill::OFFTARIFF."','".\ORG\Bill::SUSPENDED."') and date(bills.date) between ? and ? group by store_id",$date);
+      $stores =\DB::select("select idstore,store_name from store");
+      $stores_data = ["stores"=>$stores,"sales"=>$stores_sales];
+      return count($stores_data) > 0 ? $stores_data : [];
+
     }
 }

@@ -296,7 +296,25 @@ class BackofficeReportController extends Controller
            $cashbooks =null ;
            $room_status_chart = $frontdesk->RoomStatusChartJson();
 
-           return \View::make("Backoffice.Reports.FlashActivity",["room_status_chart"=>$room_status_chart,"range"=>$range]);
+           $foturnover = $frontdesk->turnover($range);
+           $foprvturnover = $frontdesk->prevTurnover($range);
+           $foturnover_rate =$foturnover > 0 ?  ($foturnover-$foprvturnover)*100/($foturnover+$foprvturnover) :0;
+           $avg  = $frontdesk->avg_rate($range);
+           $prev_avg = $frontdesk->prev_avg_rate($range);
+
+           $data['avg_rate'] = $avg;
+           $data['avg_rate_rate'] =$avg > 0 ? ($avg-$prev_avg)*100/($avg+$prev_avg) : 0;
+           $data['fo_turnover']=  $foturnover;
+           $data['fo_turnover_rate'] = $foturnover_rate;
+           $data['room_status_chart'] = $room_status_chart;
+           $data['range'] = $range;
+           $data['pos_turnover']  = POSReport::turnover($range);
+           $data['prev_pos_turnover']  = POSReport::prev_turnover($range);
+
+           $data['pos_turnover_rate'] = ($data['pos_turnover']+$data['prev_pos_turnover'] > 0) ? ($data['pos_turnover']-$data['prev_pos_turnover'])*100/($data['pos_turnover']+$data['prev_pos_turnover'])  : 0;
+
+           $data['pos_stores'] = POSReport::storesSales($range);
+           return \View::make("Backoffice.Reports.FlashActivity",$data);
 
             default:
                 abort(404);

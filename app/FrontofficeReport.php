@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class FrontofficeReport extends Model
 {
@@ -33,6 +34,7 @@ class FrontofficeReport extends Model
             join cashdeposit_dpt on iddpt = cash_deposit.dpt
             where date(date) between ? and ?",$range)];
     }
+
     public function ServiceSales($range)
     {
         return ["data"=>self::$db->select("SELECT type_name,room_number,concat_ws(' ',firstname,lastname) as guest,room_charges.date,motif,amount,user FROM room_charges
@@ -240,6 +242,49 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
         $sales = \DB::connection("mysql_book")->select("SELECT sum(amount) as amount,username,pay_mode,is_credit FROM misc_sales join users on users.idusers=user_id  where date(misc_sales.date) between ? and  ? and user_id ".($id>0?"=":">")." ? group by user_id,pay_mode order by user_id",$range);
 
         return ["payments"=>$pays,"sales"=>$sales];
+    }
+
+
+    public function prevTurnover(Array $range)
+    {
+      $d1 = new Carbon($range[0]);
+      $d2 = new Carbon($range[1]);
+      $days = $d1->diff($d2)->days+1;
+      $rangex  = $range;
+      $rangex[1] = (new Carbon($rangex[0]))->addDays(-1)->format("Y-m-d");
+      $rangex[0] = (new Carbon($rangex[0]))->addDays(-$days)->format("Y-m-d");
+
+      $roomsto = self::$db->select("select sum(amount) as amount from acco_charges where date between ? and ?",$rangex);
+      $chargesto = self::$db->select("select sum(amount) as amount from room_charges where pos = 0 and( date between ? and ?)",$rangex);
+      $total = (count($roomsto) > 0 ? $roomsto[0]->amount : 0) + (count($chargesto) > 0 ? $chargesto[0]->amount : 0);
+      return $total;
+    }
+
+    public function turnover(Array $range)
+    {
+      $roomsto = self::$db->select("select sum(amount) as amount from acco_charges where date between ? and ?",$range);
+      $chargesto = self::$db->select("select sum(amount) as amount from room_charges where pos = 0 and( date between ? and ?)",$range);
+      $total = (count($roomsto) > 0 ? $roomsto[0]->amount : 0) + (count($chargesto) > 0 ? $chargesto[0]->amount : 0);
+      return $total;
+    }
+
+    public function avg_rate(Array $range)
+    {
+      $avg = self::$db->select("select avg(amount) as amount from acco_charges where date between ? and ?",$range);
+      return count($avg) > 0 ? $avg[0]->amount : 0;
+    }
+
+    public function prev_avg_rate(Array $range)
+    {
+      $d1 = new Carbon($range[0]);
+      $d2 = new Carbon($range[1]);
+      $days = $d1->diff($d2)->days+1;
+      $rangex  = $range;
+      $rangex[1] = (new Carbon($rangex[0]))->addDays(-1)->format("Y-m-d");
+      $rangex[0] = (new Carbon($rangex[0]))->addDays(-$days)->format("Y-m-d");
+
+      $avg = self::$db->select("select avg(amount) as amount from acco_charges where date between ? and ?",$rangex);
+      return count($avg) > 0 ? $avg[0]->amount : 0;
     }
 
 }
