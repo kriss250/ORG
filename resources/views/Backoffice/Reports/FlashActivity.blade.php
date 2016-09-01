@@ -2,7 +2,13 @@
 
 @section("contents")
 <div class="page-contents">
-
+<style>
+@media print {
+  .summary-block div {
+    border:1px solid #000 !important;
+  }
+}
+</style>
 <div class="report-filter">
 <table style="width:100%">
     <tr>
@@ -104,6 +110,7 @@ $(function () {
       font-size: 16px;
       background: rgb(250,250,250)
     }
+
 </style>
 <p class="text-center">
   <h3 class="text-center">Summary</h3>
@@ -116,7 +123,7 @@ $(function () {
     Frontdesk turnover
     <p>
      {{number_format($fo_turnover)}}
-      <sup class="text-{{$fo_turnover_rate  > 0 ? "success" :'danger'}}">{{$fo_turnover_rate > 0 ? "+" : "-"}}{{number_format($fo_turnover_rate)}}%</sup>
+      <sup class="text-{{$fo_turnover_rate  > 0 ? "success" :'danger'}}">{{$fo_turnover_rate > 0 ? "+" : "-"}}{{number_format($fo_turnover_rate,1)}}%</sup>
     </p>
   </div>
 
@@ -124,7 +131,7 @@ $(function () {
     POS turnover
     <p>
       {{number_format($pos_turnover)}}
-      <sup class="text-{{$pos_turnover_rate > 0 ? "success" : "danger"}}">{{$pos_turnover_rate > 0 ? "+" : ""}}{{number_format($pos_turnover_rate)}}%</sup>
+      <sup class="text-{{$pos_turnover_rate > 0 ? "success" : "danger"}}">{{$pos_turnover_rate > 0 ? "+" : ""}}{{number_format($pos_turnover_rate,1)}}%</sup>
     </p>
   </div>
 
@@ -132,12 +139,14 @@ $(function () {
     Average Room Rate
     <p>
       {{number_format($avg_rate)}}
-      <sup class="text-{{$avg_rate_rate  > 0 ? "success" :'danger'}}">{{$avg_rate_rate > 0 ? "+" : ""}}{{number_format($avg_rate_rate)}}%</sup>
+      <sup class="text-{{$avg_rate_rate  > 0 ? "success" :'danger'}}">{{$avg_rate_rate > 0 ? "+" : ""}}{{number_format($avg_rate_rate,1)}}%</sup>
     </p>
   </div>
 </div>
 <hr />
 <h3>POS Sales Summary</h3>
+<span style="margin-top:-10px;display:block;margin-bottom:15px">Sales</span>
+
 <table class="table table-striped table-bordered table-condensed">
 
   <thead>
@@ -175,7 +184,7 @@ $(function () {
   </tr>
 </table>
 <h3>Overall Payment</h3>
-<span>Payments receive (Frontdesk,POS)</span>
+<span style="margin-top:-10px;display:block;margin-bottom:15px">Payments receive (Frontdesk,POS,Invoices)</span>
 
 <table class="table table-striped table-bordered table-condensed">
   <thead>

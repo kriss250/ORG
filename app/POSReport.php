@@ -354,7 +354,7 @@ class POSReport extends Model
 
     public static function turnover($date)
     {
-      $amount = \DB::select("select sum(bill_total-change_returned) as amount from bills where deleted=0 and status not in ('".\ORG\Bill::OFFTARIFF."','".\ORG\Bill::SUSPENDED."') and date(date) between ? and ?",$date);
+      $amount = \DB::select("select sum(bill_total) as amount from bills where deleted=0 and status not in ('".\ORG\Bill::OFFTARIFF."','".\ORG\Bill::SUSPENDED."') and date(date) between ? and ?",$date);
       return count($amount) > 0 ? $amount[0]->amount : 0;
     }
 
@@ -366,7 +366,7 @@ class POSReport extends Model
       $rangex  = $date;
       $rangex[1] = (new Carbon($rangex[0]))->addDays(-1)->format("Y-m-d");
       $rangex[0] = (new Carbon($rangex[0]))->addDays(-$days)->format("Y-m-d");
-      $amount = \DB::select("select sum(bill_total-change_returned) as amount from bills where deleted=0 and status not in ('".\ORG\Bill::OFFTARIFF."','".\ORG\Bill::SUSPENDED."') and date(date) between ? and ?",$rangex);
+      $amount = \DB::select("select sum(bill_total) as amount from bills where deleted=0 and status not in ('".\ORG\Bill::OFFTARIFF."','".\ORG\Bill::SUSPENDED."') and date(date) between ? and ?",$rangex);
       return count($amount) > 0 ? $amount[0]->amount : 0;
     }
 
