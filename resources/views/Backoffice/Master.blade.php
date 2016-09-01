@@ -288,8 +288,8 @@
                                 </li>
                             </ul>
                         </li>
-
-                        <li><a href="{{ action("CustomerController@index") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-database"></i> Customer DB. <span style="font-size:11px;color:rgb(222, 68, 68)">(New !)</span></a></li>
+                        <li><a style="background:rgb(255, 249, 228)" href="{{ action("BackofficeReportController@index",'flashActivity') }}"><i style="color:rgb(228, 186, 6)" class="fa fa-flash"></i> Flash Activity Report</a></li>
+                        <li><a href="{{ action("CustomerController@index") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-database"></i> Customer DB.</a></li>
 
                         <li class="report-btn">
                             <a class="dropdown-btn" href=""><i class="fa fa-cutlery"></i> POS Reports <i class="fa fa-chevron-down"></i></a>

@@ -270,6 +270,34 @@ class BackofficeReportController extends Controller
                   $data = \App\Invoice::select(\DB::raw("institution,idinvoices,due_date,created_at,invoices.description,sum(unit_price*qty*days) as amount"))->join("invoice_items","invoice_id","=","idinvoices")->whereRaw("date(invoices.created_at) between ? and ?")->setBindings($range)->groupBy("institution")->get();
                 }
                 return \View::make("Backoffice.Reports.misc.Debtors",["data"=>$data,"range"=>$range]);
+
+            case "receptionist":
+              $data = $frontdesk->receptionist($range);
+              $data = $frontdesk->receptionist($range,0);
+              $_data = [];
+              $pay = null;
+              $sale = null;
+              foreach($data["payments"] as $pay)
+              {
+                  $_data[$pay->username]["payments"][] = $pay;
+              }
+
+              foreach ($data["sales"]  as $sale)
+              {
+                  $_data[$sale->username]["sales"][] = $sale;
+              }
+
+              return \View::make("Backoffice.Reports.Frontdesk.Receptionist",["users"=>$_data,"range"=>$range]);
+
+           case "flashActivity":
+
+           $pos = null ;
+           $fo = null ;
+           $cashbooks =null ;
+           $room_status_chart = $frontdesk->RoomStatusChartJson();
+
+           return \View::make("Backoffice.Reports.FlashActivity",["room_status_chart"=>$room_status_chart,"range"=>$range]);
+
             default:
                 abort(404);
                 break;

@@ -242,5 +242,4 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
         return ["payments"=>$pays,"sales"=>$sales];
     }
 
-
 }
