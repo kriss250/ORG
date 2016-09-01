@@ -144,13 +144,16 @@ $(function () {
   </div>
 </div>
 <hr />
-<h3>POS Sales Summary</h3>
+<h3>Overall Turnover</h3>
 <span style="margin-top:-10px;display:block;margin-bottom:15px">Sales</span>
 
 <table class="table table-striped table-bordered table-condensed">
 
   <thead>
     <tr>
+      <th>
+        Accomodation
+      </th>
       @foreach($pos_stores["stores"] as $store)
         <th>
           {{$store->store_name}}
@@ -160,6 +163,9 @@ $(function () {
   </thead>
 
   <tr>
+    <td>
+      {{number_format($fo_turnover)}}
+    </td>
     <?php $counter = 0;$total_pos_amount= 0; $stores_count = count($pos_stores["stores"]); ?>
     @foreach($pos_stores["stores"] as $store)
 
@@ -178,8 +184,8 @@ $(function () {
   </tr>
 
   <tr>
-  <td colspan="{{$stores_count}}" class="text-center">
-     <h4>GT : {{number_format($total_pos_amount)}}</h4>
+  <td colspan="{{$stores_count+1}}" class="text-center">
+     <h4>GT : {{number_format($total_pos_amount+$fo_turnover)}}</h4>
   </td>
   </tr>
 </table>
