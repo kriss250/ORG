@@ -1,5 +1,5 @@
 @extends("Backoffice.Master")
- <?php  $visa = 0; $cash = 0; $check_amount=0; $credit = 0;$paidbills_total =0; $room_post = 0;$paidbill_total=0; $bill_totals = 0;$total= 0; $total_paid=0;$total_credit=0;$total_roompost= 0; 
+ <?php  $visa = 0; $cash = 0; $check_amount=0; $credit = 0;$paidbills_total =0; $room_post = 0;$paidbill_total=0; $bill_totals = 0;$total= 0; $total_paid=0;$total_credit=0;$total_roompost= 0;
 
  $_visa = 0;
  $_cash = 0;
@@ -26,23 +26,23 @@
         <td><h3>Day Summary <span class="title_dsc"></span></h3> </td>
         <td>
            <form style="float:right" action="" class="form-inline" method="get">
-                <label>Date</label> 
-                <input name="startdate" type="text" value="{{ \ORG\Dates::$RESTODATE }}" class="date-picker form-control"> - 
+                <label>Date</label>
+                <input name="startdate" type="text" value="{{ \ORG\Dates::$RESTODATE }}" class="date-picker form-control"> -
                 <input name="enddate" type="text" value="{{ \ORG\Dates::$RESTODATE }}" class="date-picker form-control">
-                   <label>Store</label> 
+                   <label>Store</label>
                 <select name="store" class="form-control"><option value="0">All Stores</option>
-                    <?php 
+                    <?php
                     $stores = \DB::select("select * from store");
                     ?>
-                    
+
                     @foreach($stores as $store)
                     <option value="{{ $store->idstore}}">{{ $store->store_name }}</option>
                     @endforeach
                 </select>
-            
+
                 <input type="submit" class="btn btn-success btn-sm" value="Go">
                 <button type="button" data-dates="{{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }} - {{ isset($_GET['enddate']) ? $_GET['enddate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }}" data-title="Day Summary" class="btn btn-default report-print-btn">Print</button>
-           </form> 
+           </form>
         </td>
     </tr>
 
@@ -56,8 +56,8 @@
 
 <table class="table table-bordered table-striped">
     <thead>
-    <tr> 
-        <th class="text-center" colspan="9">SALES (PAID)</th>   
+    <tr>
+        <th class="text-center" colspan="9">SALES (PAID)</th>
     </tr>
         <tr>
             <th>Order No</th>
@@ -79,8 +79,8 @@
             <td>{{ $sale->customer }}</td>
             <td>{{ $sale->room }}</td>
             <td class="diff">{{ number_format($sale->bill_total) }}</td>
-            <?php 
-             $percent = $sale->bill_total/100; 
+            <?php
+             $percent = $sale->bill_total/100;
              $_v = (100 * $sales['pays'][$sale->idbills]->bank_card / $sale->total_amount) * $percent;
              $_c = (100 * $sales['pays'][$sale->idbills]->cash / $sale->total_amount) * $percent;
              $_ck = 100 * $sales['pays'][$sale->idbills]->check_amount / $sale->total_amount * $percent;
@@ -96,9 +96,9 @@
             <?php $balance = $sale->bill_total-$sale->paid; ?>
             <td>{{ $balance > 0 ? number_format($balance) : "-" }}</td>
         </tr>
-        <?php 
+        <?php
 
-            $visa +=$_v; 
+            $visa +=$_v;
             $cash += $_c;
 
             $check_amount +=$_ck;
@@ -109,7 +109,7 @@
         ?>
     @endforeach
 
-    <tr>    
+    <tr>
             <td colspan="3">TOTAL</td>
             <td class="diff">{{ number_format($bill_totals) }}</td>
             <td>{{ number_format($cash) }}</td>
@@ -167,7 +167,7 @@
             <th>Paid</th>
         </tr>
     </thead>
-    
+
 @foreach($credits  as $_credit)
     <tr>
             <td>{{ $_credit->idbills }}</td>
@@ -197,7 +197,7 @@
         <th>PAID</th>
     </tr>
 </thead>
-    <tr>    
+    <tr>
         <td>{{ number_format($paidbills_total+$total_credit+$total_roompost) }}</td>
         <td>{{number_format($total_credit) }}</td>
         <td>{{ number_format($total_roompost) }}</td>

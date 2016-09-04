@@ -1,4 +1,9 @@
 @import url(Roboto-font.css);
+
+table.table tr td, table.table tr th {
+        page-break-inside: avoid;
+    }
+
 body {
     background: #ebf2f2;
     font-size: 13px;

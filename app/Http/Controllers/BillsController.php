@@ -30,7 +30,7 @@ class BillsController extends Controller
     {
         $this->billDate = \ORG\Dates::$RESTODT;
         $this->restrictedStores =  \Session::get("restricted_stores");
-        
+
     }
 
     /**
@@ -71,6 +71,7 @@ class BillsController extends Controller
         $items_to_update = $items->toUpdate;
         $items_to_delete = $items->toDelete;
         $new_items  = $items->newItems;
+        $prvBill = \App\Bill::find($id);
 
         try {
             if(strlen($customer)>0)
@@ -78,6 +79,7 @@ class BillsController extends Controller
                 $updated = DB::update("update bills set customer=?,last_updated_by=?,last_updated_at=? where idbills=?",
                         [$customer,\Auth::user()->id,\ORG\Dates::$RESTODT,$id]
                     );
+
             }
 
             if((count($new_items)+count($items_to_delete)+count($items_to_update))==0){return $updated;}
@@ -87,6 +89,7 @@ class BillsController extends Controller
                 DB::update("update bill_items set unit_price=?,qty=? where bill_id=? and product_id=?",
                     [$item->price,$item->qty,$id,$item->id]
                 );
+
             }
 
             //Delete
@@ -109,14 +112,13 @@ class BillsController extends Controller
                 \Auth::user()->id,\ORG\Dates::$RESTODT,$req->input('billTotal'),$req->input('taxTotal'),$id
             ]);
 
-            \ORG\POS::Log("Update suspended bill #".$id,"default");
+            \ORG\POS::Log("Update suspended bill #".$id." PRV AMT : {$prvBill->bill_total} New AMT : ".$req->input('billTotal').", Printed : {$prvBill->print_count}","default");
 
             return $updated;
 
         }
         catch(\Exception $ex)
         {
-
             return 0;
         }
 
@@ -862,4 +864,3 @@ class BillsController extends Controller
         }
     }
 }
-

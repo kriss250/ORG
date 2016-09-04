@@ -12,6 +12,7 @@
         {!! HTML::style('assets/js/vendor/datepicker/css/bootstrap-datepicker3.standalone.min.css') !!}
         {!! HTML::style('assets/js/vendor/daterangepicker/daterangepicker.css') !!}
         {!! HTML::style('assets/css/Backoffice.css') !!}
+        {!! HTML::style('assets/css/print-fix.css') !!}
 
     <!-- SCRIPTS -->
         {!! HTML::script('assets/js/vendor/jquery/jquery-1.11.2.min.js') !!}
@@ -105,8 +106,6 @@
         })
 
         //End report printing
-
-
 
 })
 
