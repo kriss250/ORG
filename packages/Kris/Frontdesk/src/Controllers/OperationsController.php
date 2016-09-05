@@ -123,9 +123,19 @@ class OperationsController extends Controller
 
     public function guestDB()
     {
-        if(isset($_GET['company_name']))
+        if(isset($_GET['guest_name']))
         {
-            $guests= \Kris\Frontdesk\Company::where('firstname', 'LIKE', '?')->where('lastname', 'LIKE', '?')->setBindings(["%".$_GET['company_name']."%"])->get();
+
+            $guestNames = explode(" ",$_GET['guest_name']);
+
+            $firstname = isset($guestNames[0])  ? $guestNames[0] : "";
+            $lastname = isset($guestNames[1])  ? $guestNames[1] : "";
+
+            $firstname = "%".$firstname."%";
+            $lastname = "%".$lastname."%";
+            $names = [$firstname,$lastname,$firstname,$lastname];
+
+            $guests= \Kris\Frontdesk\Guest::whereRaw("(firstname like ? and lastname like ?) or (lastname like ? and firstname like ?)")->setBindings($names)->get();
             return \View::make("Frontdesk::guestList",["guests"=>$guests]);
         }
 

@@ -13,7 +13,7 @@
 
         <input type="submit" value="Find" class="btn btn-success btn-xs" />
     </form>
-   
+
     <div class="clearfix"></div>
 </div>
 
@@ -59,7 +59,7 @@ $guests  =  !isset($guests)  || is_null($guests) ? \Kris\Frontdesk\Guest::orderB
             <!--<td>{{$guest->email}}</td>-->
             <td>{{$guest->country}}</td>
 
-            <td>
+            <td style="min-width:50px">
                 <a class="btn btn-xs btn-default" href="{{action('\Kris\Frontdesk\Controllers\GuestController@edit',$guest->id_guest)}}">
                     <i class="fa fa-edit"></i>
                 </a>
