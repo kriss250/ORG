@@ -215,7 +215,7 @@ $(function () {
   <tfoot>
     <tr>
       <th class="text-center" style="font-weight:bold;font-size:16px !important" colspan="4">
-        GT : 620,000
+        GT : N/A
       </th>
     </tr>
   </tfoot>
