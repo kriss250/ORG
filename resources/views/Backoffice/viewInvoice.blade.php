@@ -6,7 +6,8 @@
     .page-contents
     {
       padding: 8px;
-      font-size: 13px;
+      font-size: 12px;
+
     }
 
     .invoice-table td {
@@ -48,11 +49,12 @@
 
     .logo-text p {
       margin: 0;
-      font-size: 13px
+      font-size: 10px
     }
 
     .logo-text h3 {
       margin-bottom: 2px;
+      font-size: 16px;
       margin-top: 0
     }
 
@@ -61,10 +63,12 @@
   border-top: none !important;
   border-right: 1px solid;
   border-left: 1px solid;
+  font-size: 10px;
 }
 .invoice-address {
   margin-bottom: 10px;
   padding: 10px;
+  font-size:11px;
   line-height: 1.1
 }
 
@@ -99,7 +103,7 @@
 <div class="page-contents" style="padding:25px">
     <div class="header-print">
         <div class="print-logo-wrapper">
-            <img class="logo" width="100" src="data:image/jpeg;base64,{{base64_encode($hotel->logo)}}" />
+            <img class="logo" width="80" src="data:image/jpeg;base64,{{base64_encode($hotel->logo)}}" />
             <div class="logo-text">
                 <h3>{{$hotel->hotel_name}}</h3>
                 <p>Phone: {{$hotel->phone1}} / {{$hotel->phone2}}</p>
@@ -159,7 +163,7 @@
   <td style="width:50px">{{$item->days}}</td>
   <td style="width:50px">{{$item->qty}}</td>
   <td>{{$item->unit_price}}</td>
-  <td>{{number_format($item->qty*$item->unit_price)}}</td>
+  <td>{{number_format($item->qty*$item->unit_price*$item->days)}}</td>
 </tr>
 <?php $total += $item->qty*$item->unit_price; ?>
 @endforeach
