@@ -137,7 +137,7 @@
             <td>{{number_format($fo->paid_amount)}}</td>
             <td>{{number_format($fo->dues)}}</td>
         </tr>
-        <?php $i++; $amount +=$fo->due_amount; $fo_paid += $fo->balance_amount; $fo_dues += $fo->dues; ?>
+        <?php $i++; $amount +=$fo->due_amount; $fo_paid += $fo->paid_amount; $fo_dues += $fo->dues; ?>
 
         @endforeach
 
