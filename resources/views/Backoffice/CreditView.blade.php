@@ -19,7 +19,7 @@
             $.get("{{url('/Backoffice/Debts/export')}}?posdebt=1&id="+id+"&destination="+destination,function(data){
                 if (data == "1") {
                     location.reload();
-                }else 
+                }else
                 {
                     alert("Error Exporting debt !");
                 }
@@ -34,13 +34,13 @@
         <td><h3>Unexported Debts</h3> </td>
         <td>
            <form style="float:right" action="" class="form-inline" method="get">
-                <label>Date</label> 
+                <label>Date</label>
                 <input name="startdate" type="text" value="{{ \ORG\Dates::$RESTODATE }}" class="date-picker form-control">
                 -<input name="enddate" type="text" value="{{ \ORG\Dates::$RESTODATE }}" class="date-picker form-control">
 
                 <input type="submit" class="btn btn-success btn-sm" value="Go">
                  <button type="button" data-dates="{{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODATE)) }} - {{ isset($_GET['enddate']) ? $_GET['enddate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODATE)) }}" data-title="Credits" class="btn btn-default report-print-btn">Print</button>
-           </form> 
+           </form>
         </td>
     </tr>
         <tr>
@@ -85,7 +85,7 @@
                     <i class="fa fa-exchange"></i>
                 </button>
             </td>
-            <?php 
+            <?php
                     $dues += $bill->bill_total;
                   $paid += $bill->amount_paid;
                   $i++;
@@ -118,7 +118,7 @@
                 <th>Guest</th>
                 <th>Company</th>
                 <th>Payer</th>
-               
+
                 <th>Amount</th>
                 <th>Paid</th>
                 <th>Balance</th>
@@ -130,11 +130,11 @@
             <td>{{$i}}</td>
             <td>{{$fo->idreservation}}</td>
             <td>{{$fo->guest}}</td>
-            
+
             <td>{{$fo->name}}</td>
             <td>{{$fo->payer}}</td>
             <td>{{number_format($fo->due_amount)}}</td>
-            <td>{{number_format($fo->balance_amount)}}</td>
+            <td>{{number_format($fo->paid_amount)}}</td>
             <td>{{number_format($fo->dues)}}</td>
         </tr>
         <?php $i++; $amount +=$fo->due_amount; $fo_paid += $fo->balance_amount; $fo_dues += $fo->dues; ?>
@@ -161,7 +161,7 @@
             <tr style="font-size:16px">
                 <td>
                     {{number_format($amount+$dues)}}
-                   
+
                 </td>
 
                 <td>
@@ -175,5 +175,5 @@
         </thead>
     </table>
 </div>
-      
+
 @stop

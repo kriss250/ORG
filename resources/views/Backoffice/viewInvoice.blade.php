@@ -6,8 +6,7 @@
     .page-contents
     {
       padding: 8px;
-      font-size: 12px;
-
+      font-size: 12px
     }
 
     .invoice-table td {
@@ -19,7 +18,7 @@
     }
 
     .invoice-table {
-      color:rgb(10,10,10)
+      color:rgb(10,10,10);
     }
 
     .invoice-items-table textarea.form-control {
