@@ -3,11 +3,12 @@
 
 @section("contents")
 <div class="page-contents">
-
-
-
+<style>
+    .add-item-table td {
+        padding:0 6px;
+    }
+</style>
 <div class="content-container">
-
 
 <table class="tabl" style="width:100%">
 	<tr>
@@ -39,90 +40,103 @@
         <div class="clearfix"></div>
         <form class="form-inline"  action="{{ action("CashbookTransactionController@store") }}" method="post">
         <input type="hidden" name="_token" value="{{csrf_token() }}">
-       
-        <label>Amount</label>
             <input type="hidden" name="prev_balance" value="{{$cashbook->balance}}" />
-        <input required="" type="text" class="form-control" name="amount">
-             <label>Motif</label>
-                 <input required="" type="text" class="form-control" style="width:30%" name="motif">
-         
-        <input style="width:100px;font-size:12px" class="form-control date-picker" type="text" name="date" value="{{ \ORG\Dates::$RESTODATE }}" />
-          
-        <input type="hidden" name="cashbook" value=" {{ $cashbook->cashbookid }}" />
-        
+            <input type="hidden" name="cashbook" value="{{ $cashbook->cashbookid }}" />
+        <table class="add-item-table" style="display:block;width:100%">
 
-           <label>Type</label>
-        <select required="" name="type" class="form-control">
-	        <option value="">Choose</option>
-	        <option value="IN">IN</option>
-	        <option value="OUT">OUT</option>
-        </select>
-   
-        <input class="btn btn-danger" type="submit" name="submit" value="Save">
+            <tr>
+                <td><label>Amount</label></td><td><label>Motif</label></td><td>
+    <label>Received By</label>
+</td><td><label>Date</label></td><td><label>Type</label></td><td></td>
+            </tr>
+
+            <tr>
+                <td><input required="" placeholder="0.0" type="text" class="form-control" name="amount"></td>
+                <td><input required="required" type="text" class="form-control" placeholder="Transaction Reason" name="motif"></td>
+                <td>
+                    <input type="text" required value="" name="receiver" placeholder="Full Name" class="form-control" />
+                </td>
+                <td><input style="width:100px;font-size:12px" class="form-control date-picker" type="text" name="date" value="{{\ORG\Dates::$RESTODATE }}" /></td>
+           
+                <td>
+                    <select required="" name="type" class="form-control">
+                        <option value="">Choose</option>
+                        <option value="IN">IN</option>
+                        <option value="OUT">OUT</option>
+                    </select>
+                </td>
+
+                <td>
+                    <input class="btn btn-danger" type="submit" name="submit" value="Save">
+                </td>
+            </tr>
+        </table>
+       
+       
         </form>
     </div>
-<table style="background:whitesmoke" class="table table-bordered table-stripped">
- 	<thead>
- 		<tr>
- 		  <th>ID</th>
- 		  <th>Date</th>
- 		  <th>Motif(Reason)</th>
- 		  <th>User</th>
- 		  
- 		  <th>IN</th>
- 		  <th>OUT</th>
- 		  <th>Balance</th>
- 		  <th>Action</th>
- 		</tr>
- 	</thead>
+    <table style="background:whitesmoke" class="table table-bordered table-stripped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Motif(Reason)</th>
+                <th>Receiver</th>
+                <th>User</th>
+                <th>IN</th>
+                <th>OUT</th>
+                <th>Balance</th>
+                <th>Action</th>
+            </tr>
+        </thead>
 
-    <tr style="font-weight:bold">
-        <td colspan="6">Initial Balance</td> <td> {{ number_format($initial) }}</td>
-    </tr>
- 	<?php
+        <tr style="font-weight:bold">
+            <td colspan="6">Opening Balance</td>
+            <td> {{ number_format($initial) }}</td>
+        </tr>
+        <?php
  	$INs = 0;
-	$OUTs =0; 
+	$OUTs =0;
     $new_b = $initial;
-    
- 	?>
-	@foreach($transactions as $transaction)
-		<tr>
-            
-			<td>{{ $transaction->transactionid }} </td>
-			<td> {{ \App\FX::DT($transaction->date) }} </td>
-			<?php 
-				$IN = $transaction->type=="IN" ? $transaction->amount : 0; 
-				$OUT= $transaction->type=="OUT" ? $transaction->amount : 0; 
+        ?>
+        @foreach($transactions as $transaction)
+        <tr>
+
+            <td>{{ $transaction->transactionid }} </td>
+            <td> {{ \App\FX::DT($transaction->date) }} </td>
+            <?php
+				$IN = $transaction->type=="IN" ? $transaction->amount : 0;
+				$OUT= $transaction->type=="OUT" ? $transaction->amount : 0;
 				$INs += $IN;
-				$OUTs +=$OUT;  
-			?>
-			
-			<td> {{ $transaction->motif }} </td>
-			<td> {{ $transaction->username }} </td>
-			
-			<td>{{ number_format($IN) }} </td>
-			<td>{{ number_format($OUT) }}</td>
-			<td>
+				$OUTs +=$OUT;
+            ?>
+
+            <td> {{ $transaction->motif }} </td>
+            <td>{{$transaction->receiver}}</td>
+            <td> {{ $transaction->username }} </td>
+            
+            <td>{{ number_format($IN) }} </td>
+            <td>{{ number_format($OUT) }}</td>
+            <td>
 
                 <?php
-                        $new_b +=($IN-$OUT); 
-                        echo number_format($new_b);
+                    $new_b +=($IN-$OUT);
+                    echo number_format($new_b);
                 ?>
-			</td>
-			<td>
-				<button data-refresh-url="{{ action('CashbookController@show',$cashbook->cashbookid)}}" data-url="{{ action("CashbookTransactionController@update",$transaction->transactionid) }}/?type={{ $transaction->type }}&cashbook={{ $cashbook->cashbookid }}&amount={{ $transaction->amount }}" style="background: none;font-size: 14px;color:red" class="delete-trans-btn btn btn-sm"><i class="fa fa-trash-o"></i></button>
-			</td>
-		</tr>
+            </td>
+            <td>
+                <button data-refresh-url="{{ action('CashbookController@show',$cashbook->cashbookid)}}" data-url="{{ action("CashbookTransactionController@update",$transaction->transactionid) }}/?type={{ $transaction->type }}&cashbook={{ $cashbook->cashbookid }}&amount={{ $transaction->amount }}" style="background: none;font-size: 14px;color:red" class="delete-trans-btn btn btn-sm"><i class="fa fa-trash-o"></i></button>
+            </td>
+        </tr>
 
-    
-	@endforeach
-	<tr>
-	<td style="font-weight: bold;" colspan="4">CLOSING BALANCE</td>
-	<td><b>{{ number_format($INs) }}</b></td>
-	<td><b>{{ number_format($OUTs) }}</b></td>
-     <td><b>{{ number_format($new_b) }}</b></td>
-	</tr>
-</table>
+        @endforeach
+        <tr>
+            <td style="font-weight: bold;" colspan="5">CLOSING BALANCE</td>
+            <td><b>{{ number_format($INs) }}</b></td>
+            <td><b>{{ number_format($OUTs) }}</b></td>
+            <td><b>{{ number_format($new_b) }}</b></td>
+        </tr>
+    </table>
 </div>
 
 

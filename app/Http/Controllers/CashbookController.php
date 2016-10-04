@@ -103,7 +103,7 @@ class CashbookController extends Controller
 
         $initial = $in-$out;
 
-        $transactions = \DB::connection("mysql_backoffice")->select("select transactionid,new_balance,type,amount,motif,username,cashbook_transactions.date from cashbook_transactions join org_pos.users on org_pos.users.id = user_id where cancelled=0 and cashbook_id=? and deleted=0 $where order by transactionid asc",$params);
+        $transactions = \DB::connection("mysql_backoffice")->select("select transactionid,new_balance,type,amount,motif,username,receiver,cashbook_transactions.date from cashbook_transactions join org_pos.users on org_pos.users.id = user_id where cancelled=0 and cashbook_id=? and deleted=0 $where order by transactionid asc",$params);
 
         return \View::make("Backoffice.openCashbook",['cashbook'=>$cashbook,"transactions"=>$transactions,"initial"=>$initial]);
     }

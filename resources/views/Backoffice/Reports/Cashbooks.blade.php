@@ -8,7 +8,7 @@
     <tr>
         <td><h3>Cashbook ({{ $book_name }})</h3> </td>
         <td>
-           <form style="float:right" action="" class="form-inline" method="get">
+           <form action="" class="form-inline pull-right" method="get">
                 <label>Date</label> 
                 <input name="startdate" type="text" value="{{ \ORG\Dates::$RESTODATE }}" class="date-picker form-control"> - 
                 <input name="enddate" type="text" value="{{ \ORG\Dates::$RESTODATE }}" class="date-picker form-control">
@@ -47,6 +47,7 @@
  		  <th>ID</th>
  		  <th>Date</th>
  		  <th>Motif(Reason)</th>
+          <th>Received by</th>
  		  <th>User</th>
  		  
  		  <th>IN</th>
@@ -56,7 +57,7 @@
  	</thead>
 
     <tr style="font-weight:bold">
-        <td colspan="6">Initial Balance</td> <td>{{ number_format($initial) }}</td>
+        <td colspan="6">Opening Balance</td> <td>{{ number_format($initial) }}</td>
     </tr>
  	<?php
  	$INs = 0;
@@ -76,6 +77,7 @@
 			?>
 			
 			<td> {{ $transaction->motif }} </td>
+            <td>{{$transaction->receiver}}</td>
 			<td> {{ $transaction->username }} </td>
 			
 			<td>{{ number_format($IN) }} </td>

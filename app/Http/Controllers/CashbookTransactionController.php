@@ -48,13 +48,13 @@ class CashbookTransactionController extends Controller
 
             $trans = \DB::connection("mysql_backoffice")->select("(select new_balance as amt from cashbook_transactions where cashbook_id=? and deleted=0 and date(date)<=? order by transactionid desc limit 1)",[$request->input("cashbook"),$date]);
 
-
             $amt = ($trans) ? $trans[0]->amt : 0;
 
             if($sign=="+")
             {
                 $amt += $request->input("amount",0);
-            }else {
+            }else
+            {
                 $amt -= $request->input("amount",0);
             }
 
@@ -62,8 +62,6 @@ class CashbookTransactionController extends Controller
             $real_date_dt= explode(" ",$real_date)[0];
 
             $in_past = strtotime($date_dt) < strtotime($real_date_dt);
-
-
 
             if($in_past)
             {
@@ -78,7 +76,7 @@ class CashbookTransactionController extends Controller
                 }
             }
 
-            \DB::connection("mysql_backoffice")->insert("insert into cashbook_transactions (type,amount,user_id,motif,cashbook_id,date,add_date,new_balance) values (?,?,?,?,?,?,?,?)",[ $request->input("type"), $request->input("amount"),\Auth::user()->id, $request->input("motif"),$request->input("cashbook"),$date." ".date("H:i:s"),$real_date,$amt]);
+            \DB::connection("mysql_backoffice")->insert("insert into cashbook_transactions (type,receiver,amount,user_id,motif,cashbook_id,date,add_date,new_balance) values (?,?,?,?,?,?,?,?,?)",[ $request->input("type"),$request->input("receiver"), $request->input("amount"),\Auth::user()->id, $request->input("motif"),$request->input("cashbook"),$date." ".date("H:i:s"),$real_date,$amt]);
 
             $up = \DB::connection("mysql_backoffice")->update("update cash_book set balance=balance$sign? where cashbookid=?",[$request->input("amount"), $request->input("cashbook")]);
 

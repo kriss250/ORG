@@ -186,7 +186,7 @@ class BackofficeReportController extends Controller
 
 
 
-                $transactions = \DB::connection("mysql_backoffice")->select("select transactionid,new_balance,type,amount,motif,username,cashbook_transactions.date from cashbook_transactions join org_pos.users on org_pos.users.id = user_id where cancelled=0 and cashbook_id=? and deleted=0 $where order by transactionid asc",$params);
+                $transactions = \DB::connection("mysql_backoffice")->select("select transactionid,receiver,new_balance,type,amount,motif,username,cashbook_transactions.date from cashbook_transactions join org_pos.users on org_pos.users.id = user_id where cancelled=0 and cashbook_id=? and deleted=0 $where order by transactionid asc",$params);
 
                 return \View::make("Backoffice.Reports.Cashbooks",["book_name"=> $cashbook_name,"transactions"=>$transactions,"initial"=>$initial]);
 
