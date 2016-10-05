@@ -91,7 +91,7 @@
         </thead>
 
         <tr style="font-weight:bold">
-            <td colspan="6">Opening Balance</td>
+            <td colspan="7">Opening Balance</td>
             <td> {{ number_format($initial) }}</td>
         </tr>
         <?php
