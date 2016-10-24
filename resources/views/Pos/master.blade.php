@@ -10,7 +10,7 @@
         {!! HTML::style('assets/js/vendor/chosen/chosen.css') !!}
         {!! HTML::style('assets/js/vendor/datatables/css/jquery.dataTables.min.css') !!}
         {!! HTML::style('assets/js/vendor/datatables/extensions/TableTools/css/dataTables.tableTools.min.css') !!}
-         {!! HTML::style('assets/js/vendor/datepicker/css/bootstrap-datepicker3.standalone.min.css') !!}
+        {!! HTML::style('assets/js/vendor/datepicker/css/bootstrap-datepicker3.standalone.min.css') !!}
         {!! HTML::style('assets/css/vendor/jquery-ui.min.css') !!}
         {!! HTML::style('assets/js/vendor/datetimepicker/css/bootstrap-datetimepicker.min.css') !!}
         {!!HTML::style('assets/css/POS.css') !!}
@@ -260,14 +260,16 @@ countSales();
 
          <li class="list-group-item"> <a style="color:#C81313" onclick="confirmNewDay(this);" data-destination="<?php echo action("SettingsController@newDay"); ?>"><i class="fa fa-calendar"></i> New Day</a></li>
          <li class="list-group-item dropdown"> <a href=""><i class="fa fa-files-o"></i> Reports</a>
+
          <span><i class="fa fa-angle-down"></i></span>
              <ul class="dropdown_menu">
-                <li><a href="{{ route('POSReports','summaryDay') }}">Sales Report</a></li>
-                <li><a href="{{ route('POSReports','DailySalesMix') }}">Sales Report V2</a></li>
+                <!--<li><a href="{{ route('POSReports','summaryDay') }}">Sales Report</a></li>-->
+                 <li><a href="{{route('POSReports','MyShiftReport') }}">My Shift Report</a></li>
+                <li><a href="{{ route('POSReports','DailySalesMx') }}">Sales Report V2</a></li>
                  <li><a href="{{ route('POSReports','RoomPost') }}">Room Posts</a></li>
                  <li><a href="{{ route('POSReports','Credits') }}">Credit</a></li>
                   <li><a href="{{ route("POSReports",'Cashier') }}">Cashier Report</a></li>
-                 <li><a href="{{route('POSReports','CashierShift') }}">Shift Report</a></li>
+                 <li><a href="{{route('POSReports','CashierShift') }}">Shift Report(Summary)</a></li>
 
               </ul>
          </li>

@@ -160,6 +160,7 @@ class BillsController extends Controller
                     "customer"=>$data['customer'],
                     "user_id"=> \Auth::user()->id,
                     "date"=>$this->billDate,
+                    "last_updated_by"=>\Auth::user()->id,
                     "status"=>$this->bill_status,
                     //if The bill is at the same time paid
                     "amount_paid"=> isset($data['paid_amount']) ? $data['paid_amount'] : 0 ,
@@ -483,7 +484,7 @@ class BillsController extends Controller
             return "0";
         }
 
-        $sql = "SELECT idbills,format(bill_total,0) as bill_total,format(tax_total,0) as tax_total,amount_paid,change_returned,pay_date,date_format(bills.date,'%d/%m/%Y %T') as date,bills.status,waiter_name,username,product_name,qty,unit_price,(qty*unit_price) as product_total,EBM,customer,status FROM bills
+        $sql = "SELECT idbills,format(bill_total,0) as bill_total,format(tax_total,0) as tax_total,amount_paid,change_returned,pay_date,date_format(bills.date,'%d/%m/%Y %T') as date,bills.status,waiter_name,username,product_name,qty,unit_price,(qty*unit_price) as product_total,product_id,EBM,customer,status FROM bills
                 join bill_items on bill_id = idbills
                 join products on products.id = product_id
                 join waiters on idwaiter = waiter_id

@@ -144,7 +144,7 @@
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
-        <th class="text-center" colspan="5">ROOM POSTS <b></b></th>
+        <th class="text-center" colspan="6">ROOM POSTS <b></b></th>
     </tr>
         <tr>
             <th>Order No</th>
@@ -170,7 +170,7 @@
 
 @endforeach
 <tr>
-    <td colspan="3">TOTAL</td>
+    <td colspan="4">TOTAL</td>
     <td>{{ number_format($total_roompost) }}</td>
     <td>{{ $total_paid }} </td>
 </tr>

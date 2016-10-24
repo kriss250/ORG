@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use \Carbon\Carbon;
+
 class POSReport extends Model
 {
     public static function RoomPosts($date,$store=0,$cashier=0)
@@ -21,29 +22,38 @@ class POSReport extends Model
         return ["rooms"=>$rooms,"items"=>$items];
     }
 
-    public static function RoomPostsSummary($date,$store=0)
+    public static function RoomPostsSummary($date,$store=0,$cashier=0)
     {
         $store_str  = "";
+        $cashier_str = "";
 
         if($store>0)
         {
             $store_str = " and store_id=?";
             array_push($date, $store);
+        }
+
+        if($cashier>0)
+        {
+            $cashier_str = " and (last_updated_by=? or user_id=?)";
+            array_push($date, $cashier);
+            array_push($date, $cashier);
         }
 
         $sql = "select idbills,customer,company,room,sum(qty*unit_price) as bill_total,(amount_paid-change_returned) as paid from bills
                 join bill_items on bill_items.bill_id=idbills
                 join products on products.id = bill_items.product_id
                 join categories on categories.id=products.category_id
-                where deleted=0 and date(bills.date) between ? and ? and status =".\ORG\Bill::ASSIGNED." $store_str group by idbills";
+                where deleted=0 and date(bills.date) between ? and ? and status =".\ORG\Bill::ASSIGNED." {$store_str} {$cashier_str} group by idbills";
 
         $data = \DB::select($sql,$date);
         return $data;
     }
 
-    public static function CreditsSummary($date,$store=0)
+    public static function CreditsSummary($date,$store=0,$cashier=0)
     {
         $store_str  = "";
+        $cashier_str = "";
 
         if($store>0)
         {
@@ -51,11 +61,18 @@ class POSReport extends Model
             array_push($date, $store);
         }
 
+        if($cashier>0)
+        {
+            $cashier_str = " and (last_updated_by=? or user_id=?)";
+            array_push($date, $cashier);
+            array_push($date, $cashier);
+        }
+
         $sql = "select idbills,customer,room,sum(qty*unit_price) as bill_total,(amount_paid-change_returned) as paid from bills
                 join bill_items on bill_items.bill_id=idbills
                 join products on products.id = bill_items.product_id
                 join categories on categories.id=products.category_id
-                where deleted=0 and date(bills.date) between ? and ? and status =".\ORG\Bill::CREDIT." $store_str group by idbills";
+                where deleted=0 and date(bills.date) between ? and ? and status =".\ORG\Bill::CREDIT." {$store_str} {$cashier_str} group by idbills";
 
         $data = \DB::select($sql,$date);
         return $data;
@@ -101,7 +118,7 @@ class POSReport extends Model
         return ['bills'=>$data,'pays'=>$bill_pay];
     }
 
-    public static function Credits(Array $date)
+    public static function Credits(Array $date,$cashier=0)
     {
     	$bills = \DB::select("SELECT idbills,customer,bill_total,amount_paid,username,bills.date FROM bills
             join users on users.id =bills.user_id
@@ -180,7 +197,7 @@ class POSReport extends Model
         }
         if($cashier>0)
         {
-            $where_cashier = " (bills.user_id=$cashier or bills.last_updated_by=$cashier or shared=1) and";
+            $where_cashier = " (bills.user_id=$cashier or bills.last_updated_by=$cashier) and";
         }
 
         if(count($status)>0)
@@ -239,7 +256,6 @@ class POSReport extends Model
 
 		return ["data"=>$data,"credits"=>""];
     }
-
 
     public static function WaiterSales($date,$waiter=0)
     {

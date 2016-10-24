@@ -1,5 +1,5 @@
 @extends("Pos.master")
- <?php  $visa = 0; $cash = 0; $check_amount=0; $credit = 0;$paidbills_total =0; $room_post = 0;$paidbill_total=0; $bill_totals = 0;$total= 0; $total_paid=0;$total_credit=0;$total_roompost= 0; 
+ <?php  $visa = 0; $cash = 0; $check_amount=0; $credit = 0;$paidbills_total =0; $room_post = 0;$paidbill_total=0; $bill_totals = 0;$total= 0; $total_paid=0;$total_credit=0;$total_roompost= 0;
 
  $_visa = 0;
  $_cash = 0;
@@ -19,49 +19,50 @@
  </script>
 
 <div class="report-filter">
+
 <table style="width:100%">
     <tr>
-        <td><h3>Sales Report</h3> </td>
+        <td><h3>POS Shift - {{\Auth::user()->firstname}} {{\Auth::user()->lastname}}({{\Auth::user()->username}})</h3> </td>
         <td>
            <form style="float:right" action="" class="form-inline" method="get">
                <label>Date</label>
                <input class="input-sm form-control date-picker" type="text" value="{{ \ORG\Dates::$RESTODATE }}" name="startdate" /> -
                 <input class="input-sm form-control date-picker" type="text" value="{{ \ORG\Dates::$RESTODATE }}" name="enddate" />
-                
-                 <label>Store</label> 
+
+                 <label>Store</label>
                 <select name="store" class="form-control input-sm"><option value="0">All Stores</option>
-                    <?php 
+                    <?php
                     $stores = \DB::select("select * from store");
                     ?>
-                    
+
                     @foreach($stores as $store)
                     <option value="{{ $store->idstore}}">{{ $store->store_name }}</option>
                     @endforeach
                 </select>
-             
-                    
+
+
                 <input type="submit" class="btn btn-success btn-sm" value="Go">
-                <button type="button" data-dates="{{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }} - {{isset($_GET['enddate']) ? $_GET['enddate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }}" data-title="Sales Report" class="btn btn-default report-print-btn">Print</button>
-           </form> 
-           
+                <button type="button" data-dates="{{ isset($_GET['startdate']) ? $_GET['startdate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }} - {{isset($_GET['enddate']) ? $_GET['enddate'] : date('d/m/Y',strtotime(\ORG\Dates::$RESTODT)) }}" data-title="POS Shift - {{\Auth::user()->firstname}} {{\Auth::user()->lastname}}({{\Auth::user()->username}})" class="btn btn-default report-print-btn">Print</button>
+           </form>
+
         </td>
     </tr>
 </table>
 
     <p class="report-desc"><i class="fa fa-information"></i>Summarized report of sold and paid bills, as well as room post and credits</p>
 </div>
-<h5>PAID BILLS <i></i></h5>
-<table class="splitForPrint table table-bordered table-striped bills-table table-condensed">
- 
+<h4>ALL BILLS <i></i></h4>
+<table class="table table-bordered table-striped bills-table table-condensed">
+
 <?php
     $totals= array("bill"=>"0","cash"=>"0","check"=>"0","card"=>"0");
     $sub_rows ="";
     $tr= "";
-   
+
     foreach($bills as $bill) {
-     
-       $zi = count($bill->items)+1; $sub_row= ""; 
-  
+
+       $zi = count($bill->items)+1; $sub_row= "";
+
        $billGT = 0;
        $_cash_percent = 0;
        $_card_percent = 0;
@@ -74,27 +75,31 @@
                 <td>'.$item->unit_price.'</td>
                 <td>'.number_format($item->unit_price*$item->qty).'</td></tr>
                 ';
-                $billGT += $item->qty * $item->unit_price;
+
+                if($bill->status != \ORG\Bill::OFFTARIFF)
+                {
+                  $billGT += $item->qty * $item->unit_price;
+                }
         }
 
         $_cash_percent = (($bill->cash * 100) / $bill->bill_total)/100;
         $_card_percent = (($bill->card * 100) / $bill->bill_total)/100;
         $_check_percent = (($bill->check_amount * 100) / $bill->bill_total)/100;
-       
+
         if($zi>1){
             $tr .= "<tr".($bill->status == \ORG\Bill::SUSPENDED ? " class='text-danger' ":"").">
                  <td rowspan='$zi'>$bill->idbills ".($bill->status == \ORG\Bill::SUSPENDED ? " <i class='fa fa-question-circle'></i>":"")." ".($bill->last_updated_by>0 && $bill->last_updated_by != $bill->user_id ? "<b style='color:red;font-size:16px'>*</b>" : "" )."</td>
                   <td  rowspan='$zi'>$bill->customer </td>
                   <td  rowspan='$zi'>$bill->username</td>
                   <td  rowspan='$zi'>$bill->waiter_name</td>
-              
+
                   <td class='no-cell' colspan='4'></td>
                   <td  rowspan='$zi'>".number_format($billGT)."</td>
                   <td  class='amt-col' rowspan='$zi'>".number_format($_cash_percent*$billGT)."</td>
                   <td class='amt-col' rowspan='$zi'>".number_format($_card_percent*$billGT)."</td>
                   <td class='amt-col' rowspan='$zi'>".number_format($_check_percent*$billGT)."</td>
-                  <td rowspan='$zi'>".\App\FX::Time($bill->date)."</td> 
-                  
+                  <td rowspan='$zi'>".\App\FX::Time($bill->date)."</td>
+
             </tr>".$sub_rows;
         }
             $totals['cash'] +=$_cash_percent*$billGT;
@@ -102,12 +107,12 @@
             $totals['check']+=$_check_percent*$billGT;
             $totals['bill'] +=$billGT;
             $sub_rows= "";
-   
+
 }
 ?>
 <thead>
     <tr>
-        <th rowspan="2">Order</th> 
+        <th rowspan="2">Order</th>
         <th rowspan="2">Customer</th>
         <th rowspan="2">Cashier</th>
         <th rowspan="2">Waiter</th>
@@ -139,7 +144,7 @@
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
-        <th class="text-center" colspan="5">ROOM POSTS <b></b></th>
+        <th class="text-center" colspan="6">ROOM POSTS <b></b></th>
     </tr>
         <tr>
             <th>Order No</th>
@@ -165,7 +170,7 @@
 
 @endforeach
 <tr>
-    <td colspan="3">TOTAL</td>
+    <td colspan="4">TOTAL</td>
     <td>{{ number_format($total_roompost) }}</td>
     <td>{{ $total_paid }} </td>
 </tr>
@@ -185,7 +190,7 @@
             <th>Paid</th>
         </tr>
     </thead>
-    
+
 @foreach($credits  as $_credit)
     <tr>
             <td>{{ $_credit->idbills }}</td>
@@ -214,8 +219,8 @@
         <th>PAID</th>
     </tr>
 </thead>
-    <tr>    
-        <td>{{ number_format($totals['bill']+$total_credit+$total_roompost) }}</td>
+    <tr>
+        <td>{{ number_format($totals['bill']) }}</td>
         <td>{{number_format($total_credit) }}</td>
         <td>{{ number_format($total_roompost) }}</td>
         <td>{{ number_format($totals['cash'])}} </td>

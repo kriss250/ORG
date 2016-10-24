@@ -164,7 +164,7 @@
   <td>{{$item->unit_price}}</td>
   <td>{{number_format($item->qty*$item->unit_price*$item->days)}}</td>
 </tr>
-<?php $total += $item->qty*$item->unit_price; ?>
+<?php $total += $item->qty*$item->days*$item->unit_price; ?>
 @endforeach
 
 @if($itemsno < $min)
@@ -220,7 +220,8 @@ $spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
       Account Number : BK 0049-0471255-30
     </div>
     <div style="float:right" class="col-xs-4">
-      Done at {{$hotel->city}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},<br />
+        <p>Done at {{$hotel->city}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},</p>
+      {{\Auth::user()->user_title}}<br />
       {{\Auth::user()->firstname}} {{\Auth::user()->lastname}}
 
     </div>

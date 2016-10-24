@@ -57,7 +57,7 @@
  	</thead>
 
     <tr style="font-weight:bold">
-        <td colspan="6">Opening Balance</td> <td>{{ number_format($initial) }}</td>
+        <td colspan="7">Opening Balance</td> <td>{{ number_format($initial) }}</td>
     </tr>
  	<?php
  	$INs = 0;
@@ -92,7 +92,7 @@
 		</tr>
 	@endforeach
 	<tr>
-	<td style="font-weight: bold;" colspan="4">CLOSING BALANCE</td>
+	<td style="font-weight: bold;" colspan="5">CLOSING BALANCE</td>
 	<td><b>{{ number_format($INs) }}</b></td>
 	<td><b>{{ number_format($OUTs) }}</b></td>
      <td><b>{{ number_format($INs+$initial-$OUTs) }}</b></td>

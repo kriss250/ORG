@@ -1,7 +1,14 @@
 @extends('Backoffice.Master')
 
 @section("contents")
-
+<script>
+    function confirmDeletion(src,e)
+    {
+        e.preventDefault();
+        if (!confirm("Are you sure you want to delete this invoice ?")) return;
+        location.href = $(src).attr("href");
+    }
+</script>
 <div class="page-contents">
     <h2>Saved Invoices</h2>
     <p>Search Invoice</p>
@@ -61,7 +68,7 @@
                     <a href="{{action('InvoiceController@edit',$invoice->idinvoices)}}" class="btn btn-xs">
                         <i class="fa fa-pencil"></i>
                     </a>
-                    <a href="{{action('InvoiceController@delete',$invoice->idinvoices)}}" class="btn btn-xs btn-danger">
+                    <a onclick="confirmDeletion(this,event);" href="{{action('InvoiceController@delete',$invoice->idinvoices)}}" class="btn btn-xs btn-danger">
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>

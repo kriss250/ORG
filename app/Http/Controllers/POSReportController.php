@@ -47,8 +47,6 @@ class POSReportController extends Controller
 
              return \View::make("Pos.Reports.Sales",$data);
 
-            default:
-
             case "DailySalesMix":
                 $store_id = isset($_GET['store']) ? $_GET['store'] : 0;
                 $cashier =  isset($_GET['cashier']) ?  isset($_GET['cashier']) : 0;
@@ -63,8 +61,21 @@ class POSReportController extends Controller
 
              return \View::make("Pos.Reports.SalesMix",$data);
 
-               return dd("Report Requested does not exist");
-               break;
+            case "MyShiftReport" : 
+                $store_id = isset($_GET['store']) ? $_GET['store'] : 0;
+                $cashier =  \Auth::user()->id;
+
+                $bills = POSReport::Bills($range,$store_id,$cashier,[\ORG\Bill::PAID,\ORG\Bill::SUSPENDED,\ORG\Bill::CREDIT,\ORG\Bill::OFFTARIFF,\ORG\Bill::ASSIGNED]);
+                $room = POSReport::RoomPostsSummary($range,$store_id,$cashier);
+                $credit = POSReport::CreditsSummary($range,$store_id,$cashier);
+
+                $data  = ["bills"=>$bills,"room"=>$room,"credits"=>$credit];
+
+                return \View::make("Pos.Reports.CashierSalesMix",$data);
+
+            default:
+                return dd("Report Requested does not exist");
+
        }
     }
 
