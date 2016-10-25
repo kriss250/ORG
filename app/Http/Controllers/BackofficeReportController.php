@@ -53,12 +53,16 @@ class BackofficeReportController extends Controller
                 $info = POSReport::WaiterSales($range,(isset($_GET['waiter']) ? $_GET['waiter']  : 0));
                 return \View::make("Backoffice.Reports.POS.WaiterSales",$info);
             case "fullDay":
-                $cashier_id = isset($_GET['cashier']) ? $_GET['cashier'] : 0;
-                $sales = POSReport::Sales($range,$cashier_id);
-                $roomposts = POSReport::RoomPosts($range);
-                $credits = POSReport::Credits($range);
+                $store_id = isset($_GET['store']) ? $_GET['store'] : 0;
+                $cashier =  isset($_GET['cashier']) ?  isset($_GET['cashier']) : 0;
 
-                return \View::make("Backoffice.Reports.POS.FullDay",["sales"=>$sales,"room_posts"=> $roomposts,"credits"=> $credits]);
+                $bills = POSReport::Bills($range,$store_id,$cashier,[\ORG\Bill::PAID,\ORG\Bill::SUSPENDED,\ORG\Bill::CREDIT,\ORG\Bill::OFFTARIFF,\ORG\Bill::ASSIGNED]);
+                $room = POSReport::RoomPostsSummary($range,$store_id);
+                $credit = POSReport::CreditsSummary($range,$store_id);
+
+                $data  = ["bills"=>$bills,"room"=>$room,"credits"=>$credit];
+
+                return \View::make("Backoffice.Reports.POS.SalesMix",$data);
             case "summaryDay":
                 $store_id = isset($_GET['store']) ? $_GET['store'] : 0;
                 $sales = \App\POSReport::SalesSummary($range,$store_id);
