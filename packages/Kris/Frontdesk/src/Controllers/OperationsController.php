@@ -59,38 +59,38 @@ class OperationsController extends Controller
 
     public function newDay()
     {
-           if(\Request::isMethod("post"))
-           {
-               $date = \Kris\Frontdesk\Env::WD();
+        if(\Request::isMethod("post"))
+        {
+            $date = \Kris\Frontdesk\Env::WD();
 
-                 $toCheckout = \Kris\Frontdesk\Reservation::whereNotNull("checked_in")->whereNull("checked_out")->where(\DB::raw("date(checkout)"),"=",$date->format("Y-m-d"))->get()->count();
-                 $toCheckin = \Kris\Frontdesk\Reservation::whereNull("checked_out")->whereNull("checked_in")->whereNotIn("status",[\Kris\Frontdesk\Reservation::CANCELLED,\Kris\Frontdesk\Reservation::NOSHOW])->where(\DB::raw("date(checkin)"),"=",$date->format("Y-m-d"))->get()->count();
+            $toCheckout = \Kris\Frontdesk\Reservation::whereNotNull("checked_in")->whereNull("checked_out")->where(\DB::raw("date(checkout)"),"=",$date->format("Y-m-d"))->get()->count();
+            $toCheckin = \Kris\Frontdesk\Reservation::whereNull("checked_out")->whereNull("checked_in")->whereNotIn("status",[\Kris\Frontdesk\Reservation::CANCELLED,\Kris\Frontdesk\Reservation::NOSHOW])->where(\DB::raw("date(checkin)"),"=",$date->format("Y-m-d"))->get()->count();
 
 
-                 if($toCheckout > 0 || $toCheckin > 0)
-                 {
-                     return redirect()->back()->withErrors(["There are guests that need to be checked in or out , to make a new day"]);
+            if($toCheckout > 0 || $toCheckin > 0)
+            {
+                return redirect()->back()->withErrors(["There are guests that need to be checked in or out , to make a new day"]);
 
-                 }
-               $sql1 = "insert into night_audit (working_date,user_id,new_date) values ('" .($date->format("Y-m-d")). "',".(\Kris\Frontdesk\User::me()->idusers).",'" .($date->addDay()->format("Y-m-d")). "');";
-               $sql2 = "insert ignore into acco_charges (reservation_id,room_id,room_number,amount,date) select idreservation,reservations.room_id,rooms.room_number,night_rate,'".($date)."'
+            }
+            $sql1 = "insert into night_audit (working_date,user_id,new_date) values ('" .($date->format("Y-m-d")). "',".(\Kris\Frontdesk\User::me()->idusers).",'" .($date->addDay()->format("Y-m-d")). "');";
+            $sql2 = "insert ignore into acco_charges (reservation_id,room_id,room_number,amount,date) select idreservation,reservations.room_id,rooms.room_number,night_rate,'".($date)."'
                  from reservations
                 join rooms on rooms.idrooms = reservations.room_id
                 where checked_out is null and checked_in is not null
                 and reservations.status=".(\Kris\Frontdesk\Reservation::CHECKEDIN).";";
 
-               $sql3 = "update rooms
+            $sql3 = "update rooms
                 join reservations on reservations.room_id = idrooms and checked_in is null and checked_out is null
                 set rooms.status =".(\Kris\Frontdesk\RoomStatus::RESERVED)." where reservations.status not in (2,3,4,5) and rooms.status <>".(\Kris\Frontdesk\RoomStatus::OCCUPIED)." and date(checkin)='".(\Kris\Frontdesk\Env::WD()->format("Y-m-d"))."'";
 
-               \DB::connection("mysql_book")->insert($sql1);
-               \DB::connection("mysql_book")->insert($sql2);
-               \DB::connection("mysql_book")->update($sql3);
-               \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->whereNotNull("checked_in")->whereNull("checked_out")->update(["due_amount"=>\DB::raw("due_amount+night_rate")]);
-               return redirect()->back()->with(["msg"=>"New day Set","refresh"=>1]);
-           }
+            \DB::connection("mysql_book")->insert($sql1);
+            \DB::connection("mysql_book")->insert($sql2);
+            \DB::connection("mysql_book")->update($sql3);
+            \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->whereNotNull("checked_in")->whereNull("checked_out")->update(["due_amount"=>\DB::raw("due_amount+night_rate")]);
+            return redirect()->back()->with(["msg"=>"New day Set","refresh"=>1]);
+        }
 
-       return view("Frontdesk::newDay");
+        return view("Frontdesk::newDay");
     }
 
     public function expectedDeparture()
@@ -201,7 +201,7 @@ class OperationsController extends Controller
                         join floors on rooms.floors_id = idfloors
                         join room_status on status_code = rooms.status
 
-                        left join reservations on reservations.room_id= rooms.idrooms and checked_out is null and rooms.status in (" . \Kris\Frontdesk\RoomStatus::RESERVED.",".\Kris\Frontdesk\RoomStatus::OCCUPIED.") and reservations.status IN(" .\Kris\Frontdesk\Reservation::ACTIVE . ",".\Kris\Frontdesk\Reservation::CHECKEDIN .") ".
+                        left join reservations on date(checkin)<='".(\Kris\Frontdesk\Env::WD()->format('Y-m-d')). "' and  reservations.room_id= rooms.idrooms and checked_out is null and rooms.status in (" . \Kris\Frontdesk\RoomStatus::RESERVED.",".\Kris\Frontdesk\RoomStatus::OCCUPIED.") and reservations.status IN(" .\Kris\Frontdesk\Reservation::ACTIVE . ",".\Kris\Frontdesk\Reservation::CHECKEDIN .") ".
                         "left join guest on guest.id_guest = reservations.guest_id
                         left join companies on company_id = idcompanies
                         left join reservation_group on reservation_group.groupid = reservations.group_id
@@ -219,7 +219,7 @@ class OperationsController extends Controller
         join room_status on status_code = rooms.status
         join floors on rooms.floors_id = idfloors
 
-        left join reservations on (room_id= idrooms and checked_out is null) and reservations.status in(1,5)
+        left join reservations on date(checkin)<='".(\Kris\Frontdesk\Env::WD()->format('Y-m-d')). "' and (room_id= idrooms and checked_out is null) and reservations.status in(1,5)
         left join guest on guest.id_guest = reservations.guest_id
         group by idrooms
         order by idfloors");
@@ -305,13 +305,13 @@ left join reservation_group on reservation_group.groupid = reservations.group_id
 
             if(count($errors)>0)
             {
-               return redirect()->back()->withInput()->withErrors($errors);
+                return redirect()->back()->withInput()->withErrors($errors);
             }else
             {
                 $id = \Kris\Frontdesk\User::me()->idusers;
 
                 \DB::connection("mysql_book")->insert($q,[$data['names'],$data['receipt'],$data['service'],$data['desc'],$data['amount'],$data['pay_method'],$data['mode'],\Kris\Frontdesk\Env::WD()->format("Y-m-d"),$id]);
-               return redirect()->back()->with("msg","Sale saved !");
+                return redirect()->back()->with("msg","Sale saved !");
             }
 
         }else {
@@ -423,26 +423,26 @@ left join reservation_group on reservation_group.groupid = reservations.group_id
 
             if($room !=null)
             {
-                 $res = \Kris\Frontdesk\Reservation::where("room_id",$room->idrooms)->where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->get()->first();
-                 if($res !=null){
-                     if((new \Kris\Frontdesk\Charge)->addCharge($data['amount'],4,"Laundry ".$data['ref'],$res->idreservation))
-                     {
-                         \DB::connection("mysql_book")->insert("insert into laundry (amount,room_id,reservation_id,user_id,items,reference,date) values(?,?,?,?,?,?,?)",
-                             [
-                             $data['amount'],
-                             $room->idrooms,
-                             $res->idreservation,
-                             \Kris\Frontdesk\User::me()->idusers,
-                             $data['items'],
-                             $data['ref'],
-                             \Kris\Frontdesk\Env::WD()->format("Y-m-d")
-                             ]);
-                         \FO::log("Added laundry order".$res->idreservation);
-                         return redirect()->back()->with("msg","Order posted to room ".$data['room']);
-                     }else {
-                         return redirect()->back()->withInput()->withErrors(["Posting to room ".$data['room']." failed"]);
-                     }
-                 }
+                $res = \Kris\Frontdesk\Reservation::where("room_id",$room->idrooms)->where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->get()->first();
+                if($res !=null){
+                    if((new \Kris\Frontdesk\Charge)->addCharge($data['amount'],4,"Laundry ".$data['ref'],$res->idreservation))
+                    {
+                        \DB::connection("mysql_book")->insert("insert into laundry (amount,room_id,reservation_id,user_id,items,reference,date) values(?,?,?,?,?,?,?)",
+                            [
+                            $data['amount'],
+                            $room->idrooms,
+                            $res->idreservation,
+                            \Kris\Frontdesk\User::me()->idusers,
+                            $data['items'],
+                            $data['ref'],
+                            \Kris\Frontdesk\Env::WD()->format("Y-m-d")
+                            ]);
+                        \FO::log("Added laundry order".$res->idreservation);
+                        return redirect()->back()->with("msg","Order posted to room ".$data['room']);
+                    }else {
+                        return redirect()->back()->withInput()->withErrors(["Posting to room ".$data['room']." failed"]);
+                    }
+                }
 
             }else {
                 return redirect()->back()->withInput()->withErrors(["invalid room"]);
@@ -471,5 +471,26 @@ left join reservation_group on reservation_group.groupid = reservations.group_id
     {
         $room_chart  = \Kris\Frontdesk\Controllers\ReportsController::RoomStatusChartJson();
         return \View::make("Frontdesk::reports.OccupancyChart",["data"=>$room_chart]);
+    }
+
+    public function removePayment($id)
+    {
+        $payment = \Kris\Frontdesk\Payment::find($id);
+
+        if($payment->reservation->status == \Kris\Frontdesk\Reservation::CHECKEDOUT || ((new \Carbon\Carbon($payment->date))->format("Y-m-d") != \Kris\Frontdesk\Env::WD()->format("Y-m-d"))) return redirect()->back()->withErrors("You can only delete payments made today and currently checkedin guest");
+
+        $amount_credit = -$payment->credit;
+        $amount_debit = +$payment->debit;
+        $deleted  = $payment->delete();
+        $updated = $payment->reservation->update(["paid_amount"=> \DB::raw("paid_amount+".$amount_credit+$amount_debit)]);
+
+        if($updated && $deleted) {
+            \FO::log("Delete payment ".$id);
+            return redirect()->back()->with(['msg'=>"Payment Deleted"]);
+        }else {
+            redirect()->back()->withErrors("Payment Deletion failed");
+        }
+
+        return redirect()->back();
     }
 }

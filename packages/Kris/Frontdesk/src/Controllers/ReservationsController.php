@@ -681,6 +681,7 @@ class ReservationsController extends Controller
                     ]);
                 $cp->save();
                 $res->company_id = $cp->idcompanies;
+                $res->payer = $data['company'];
             }else {
                 $res->payer = "SELF";
             }
