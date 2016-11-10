@@ -234,7 +234,7 @@ class POSReport extends Model
             array_push($date,$store);
 		}
 
-		$sql = "select product_name,category_id,user_created,sum(unit_price) as unit_price,sum(qty) as qty,store_name from bill_items join bills on idbills=bill_id  join products on id=product_id left join categories on categories.id = products.category_id left join store on store.idstore = store_id where deleted=0 and (date(bills.date) between ? and ?) $store_str group by products.id order by store_id";
+		$sql = "select product_name,category_id,user_created,unit_price as unit_price,sum(qty) as qty,store_name from bill_items join bills on idbills=bill_id  join products on id=product_id left join categories on categories.id = products.category_id left join store on store.idstore = store_id where deleted=0 and (date(bills.date) between ? and ?) $store_str group by products.id,unit_price order by store_id";
 		$data= \DB::select($sql,$date);
 
 		$free = \DB::select("select sum(qty*unit_price) as free from bills join bill_items on bill_id=idbills where (date(date) between ? and ?) and deleted=0 and status =".\ORG\Bill::OFFTARIFF."",$date);
