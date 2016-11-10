@@ -52,7 +52,7 @@
     <td> {{$row->product_name}} <span style="font-size:26px" class="text-danger">{{$row->user_created == 1 ? "*" : "" }}</span> </td>
     <td> {{$row->unit_price }} </td>
     <td> {{$row->qty }}</td>
-    <td> {{ ($row->qty * $row->unit_price) }} </td>
+    <td> {{ number_format($row->qty * $row->unit_price) }} </td>
     <?php $GT +=($row->qty * $row->unit_price); ?>
     <td> {{ $row->store_name }} </td>
     </tr>
