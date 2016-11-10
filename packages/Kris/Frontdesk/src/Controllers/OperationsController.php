@@ -81,7 +81,7 @@ class OperationsController extends Controller
 
             $sql3 = "update rooms
                 join reservations on reservations.room_id = idrooms and checked_in is null and checked_out is null
-                set rooms.status =".(\Kris\Frontdesk\RoomStatus::RESERVED)." where reservations.status not in (2,3,4,5) and rooms.status <>".(\Kris\Frontdesk\RoomStatus::OCCUPIED)." and date(checkin)='".(\Kris\Frontdesk\Env::WD()->format("Y-m-d"))."'";
+                set rooms.status =".(\Kris\Frontdesk\RoomStatus::RESERVED)." where reservations.status not in (2,3,4,5) and rooms.status <>".(\Kris\Frontdesk\RoomStatus::OCCUPIED)." and date(checkin)='".($date->format("Y-m-d"))."'";
 
             \DB::connection("mysql_book")->insert($sql1);
             \DB::connection("mysql_book")->insert($sql2);
@@ -492,5 +492,10 @@ left join reservation_group on reservation_group.groupid = reservations.group_id
         }
 
         return redirect()->back();
+    }
+
+    public function exRates()
+    {
+        return \View::make("Frontdesk::exRates");
     }
 }
