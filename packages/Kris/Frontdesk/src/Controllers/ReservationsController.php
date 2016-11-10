@@ -627,7 +627,7 @@ class ReservationsController extends Controller
         $names = explode(" ",trim($data['names']),2);
 
         //guest
-        if($res->guest !=null)
+        if($res->guest !=null && !($res->guest->firstname != $names[0] && $res->guest->lastname !=$names[1] ))
         {
             $res->guest->firstname = $names[0];
             $res->guest->lastname = $names[1];
