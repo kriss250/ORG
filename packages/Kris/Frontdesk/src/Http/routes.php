@@ -19,14 +19,15 @@ namespace Kris\Frontdesk;
     \Route::get("fo/ajax/bookingdata",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@getBookingData"]);
     \Route::get("fo/ajax/form/{form}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@forms"]);
 
-    \Route::get("fo/print/{doc}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@_print"]);
+    \Route::get("frontdesk/_payments/delete/{x}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@removePayment"]);
 
+    \Route::get("fo/print/{doc}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@_print"]);
 
     \Route::post("fo/reservation/refund/{id}",["uses"=>"Kris\Frontdesk\Controllers\ReservationsController@addRefund"]);
     \Route::get("fo/ajax/list/{list}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@lists"]);
     \Route::get("fo/guest/edit/{id}",["uses"=>"Kris\Frontdesk\Controllers\GuestController@edit"]);
-    \Route::get("fo/section/frame/{name}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@frame"]);
-    \Route::post("fo/section/frame/{name}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@frame"]);
+    \Route::get("fo/section/frame/{name}/{id?}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@frame"]);
+    \Route::post("fo/section/frame/{name}/{id?}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@frame"]);
 
     \Route::get("fo/roomView/{id}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@roomView"]);
 

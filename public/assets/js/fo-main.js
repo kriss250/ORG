@@ -116,6 +116,12 @@ $(document).ready(function () {
         if (confirm(typeof $(this).attr("data-msg") != "undefined" ? $(this).attr("data-msg") : "Are you sure you want to continue ?")) location.href = $(this).attr("href");
     });
 
+
+    $(".confirm-form-submit").click(function (e) {
+        e.preventDefault();
+        if (confirm(typeof $(this).attr("data-msg") != "undefined" ? $(this).attr("data-msg") : "Are you sure you want to continue ?")) $(this).submit();
+    });
+
     $(".pop-toggle").popover({
         animation: true, content: function () {
             return $(this).parent().find(".dropdown-menu").html()

@@ -201,6 +201,7 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
 			searchUrl:"<?php echo action("ProductsController@searchProduct"); ?>",
 			assignBillUrl:"<?php echo action("BillsController@assignBill"); ?>",
 			shareBillUrl:"{{ action('BillsController@shareBill') }}",
+            checkRoomUrl : "{{ action("BillsController@checkRoom") }}",
 			taxPercent : 18
 		});
 

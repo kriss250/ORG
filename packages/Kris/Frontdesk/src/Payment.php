@@ -32,4 +32,9 @@ class Payment extends Model
     {
         return $this->belongsTo("\Kris\Frontdesk\Reservation","reservation_id","idreservation");
     }
+
+    public function currency()
+    {
+        return $this->hasOne("\Kris\Frontdesk\Currency","idcurrency","currency_id");
+    }
 }

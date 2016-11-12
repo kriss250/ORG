@@ -698,20 +698,25 @@ class ReservationsController extends Controller
         $errors =\Validator::make($data, [
             'pay_method' => 'required',
             'amount' => 'required|numeric',
+            'currency'=>"required"
          ]);
+
+        $currency = \Kris\Frontdesk\Currency::find($data['currency']);
 
         if(count($errors->errors()) ==0)
         {
              \Kris\Frontdesk\Payment::create([
-                "credit"=>$data["amount"],
+                "credit"=>$data["amount"]*$currency->rate,
                 "motif"=>$data["motif"],
                 "paymethod"=>$data["pay_method"],
                 "user_id"=>\Kris\Frontdesk\User::me()->idusers,
                 "reservation_id"=>$id,
+                "original_amount"=>$data['amount'],
+                "currency_id"=>$currency->idcurrency,
                 "date"=>\Kris\Frontdesk\Env::WD()->format("Y-m-d")." ".date("H:i:s"),
                 ]);
 
-            $up = \Kris\Frontdesk\Reservation::find($id)->update(["paid_amount"=> \DB::raw("paid_amount+".$data["amount"])]);
+             $up = \Kris\Frontdesk\Reservation::find($id)->update(["paid_amount"=> \DB::raw("paid_amount+".($data["amount"]*$currency->rate) )]);
             if($up)
             {
                 //\FO::log("Added payment");

@@ -41,9 +41,9 @@ class OperationsController extends Controller
         return view("Frontdesk::billDoc");
     }
 
-    public function frame($form)
+    public function frame($form,$ID=null)
     {
-        return call_user_func([$this,"{$form}"]);
+        return call_user_func([$this,"{$form}"],$ID);
     }
 
     public function expectedArrival()
@@ -485,7 +485,7 @@ left join reservation_group on reservation_group.groupid = reservations.group_id
         $updated = $payment->reservation->update(["paid_amount"=> \DB::raw("paid_amount+".$amount_credit+$amount_debit)]);
 
         if($updated && $deleted) {
-            \FO::log("Delete payment ".$id);
+            \FO::log("Delete payment ".$id." of ".($amount_credit+$amount_debit));
             return redirect()->back()->with(['msg'=>"Payment Deleted"]);
         }else {
             redirect()->back()->withErrors("Payment Deletion failed");
@@ -496,6 +496,61 @@ left join reservation_group on reservation_group.groupid = reservations.group_id
 
     public function exRates()
     {
-        return \View::make("Frontdesk::exRates");
+        if(\Request::isMethod("post"))
+        {
+            //Update
+            $data = \Request::all();
+            $keys = array_keys($data);
+            try {
+                for($i =0;$i<count($keys);$i++)
+                {
+                    if($i%2==0)
+                    {
+                        continue;
+                    }
+
+                    $cr = \Kris\Frontdesk\Currency::find(explode("_", $keys[$i])[1]);
+                    $cr->alias = $data[$keys[$i]];
+                    $cr->rate = $data[$keys[$i+1]];
+                    $cr->save();
+                }
+
+                return redirect()->back()->with("msg","Rates saved successfully");
+            }catch(\Exception $x)
+            {
+                return redirect()->back()->withErrors(["Error saving the rates"]);
+            }
+        }else {
+            return \View::make("Frontdesk::exRates");
+        }
+    }
+
+    function addCurrency()
+    {
+        if(\Request::isMethod("post"))
+        {
+            //save
+            $currency= \Kris\Frontdesk\Currency::create([
+                "name"=>\Request::input("name"),
+                "alias"=>\Request::input("alias"),
+                "rate"=>\Request::input("rate")
+                ]);
+            if($currency != null)
+            {
+                return redirect()->back()->with("msg","Currency Created");
+            }else {
+                return redirect()->back()->withErrors(["Currency Creation failed"]);
+            }
+        }else {
+            return \View::make("Frontdesk::addCurrency");
+        }
+
+    }
+
+
+    function printReceipt($id)
+    {
+        $pay = \Kris\Frontdesk\Payment::find($id);
+        return \View::make("Frontdesk::printReceipt",["payment"=>$pay]);
     }
 }

@@ -16,6 +16,7 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\Bill.php" />
     <Compile Include="app\Classes\ORG.php" />
     <Compile Include="app\Classes\POSSettings.php" />
     <Compile Include="app\Classes\POSSettings.tmpl" />
@@ -67,14 +68,18 @@
     <Compile Include="app\InvoiceItem.php" />
     <Compile Include="app\Invoice.php" />
     <Compile Include="packages\kris\Frontdesk\src\Controllers\StatementsController.php" />
+    <Compile Include="packages\kris\Frontdesk\src\Currency.php" />
     <Compile Include="packages\kris\Frontdesk\src\Housekeeping.php" />
     <Compile Include="packages\kris\Frontdesk\src\Laundry.php" />
     <Compile Include="packages\kris\Frontdesk\src\FOFacade.php" />
     <Compile Include="packages\kris\Frontdesk\src\Helpers.php" />
     <Compile Include="packages\kris\Frontdesk\src\Maid.php" />
     <Compile Include="packages\kris\Frontdesk\src\Log.php" />
+    <Compile Include="packages\kris\Frontdesk\views\exRates.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\companyList.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\groupViewer.blade.php" />
+    <Compile Include="packages\Kris\Frontdesk\views\printReceipt.blade.php" />
+    <Compile Include="packages\Kris\Frontdesk\views\receipt-print-header.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\refundForm.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\lostAndFound.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\housekeeping\laundryOrders.blade.php" />
@@ -117,7 +122,6 @@
     <Compile Include="app\Http\Middleware\RedirectIfAuthenticated.php" />
     <Compile Include="app\Http\Middleware\VerifyCsrfToken.php" />
     <Compile Include="app\Http\Requests\Request.php" />
-    <Compile Include="app\Http\code.snippet" />
     <Compile Include="app\Http\Kernel.php" />
     <Compile Include="app\Http\routes.php" />
     <Compile Include="app\Jobs\Job.php" />
@@ -598,9 +602,12 @@
     <Compile Include="resources\lang\en\passwords.php" />
     <Compile Include="resources\lang\en\validation.php" />
     <Compile Include="resources\views\Backoffice\addAnnouncement.blade.php" />
+    <Compile Include="resources\views\Backoffice\EditInvoice.blade.php" />
     <Compile Include="resources\views\Backoffice\InvoiceList.blade.php" />
     <Compile Include="resources\views\Backoffice\CreateInvoice.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\POS\SalesMix.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\WaiterSales.blade.php" />
+    <Compile Include="resources\views\Backoffice\viewInvoice.blade.php" />
     <Compile Include="resources\views\Backoffice\ViewReservation.blade.php" />
     <Compile Include="resources\views\Backoffice\FOStatement.blade.php" />
     <Compile Include="resources\views\Backoffice\POSStatement.blade.php" />
@@ -707,6 +714,8 @@
     <Compile Include="resources\views\Pos\Reports\ProductsReport.blade.php" />
     <Compile Include="resources\views\Pos\Reports\RoomPosts.blade.php" />
     <Compile Include="resources\views\Pos\Reports\Sales.blade.php" />
+    <Compile Include="resources\views\Pos\Reports\CashierSalesMix.blade.php" />
+    <Compile Include="resources\views\Pos\Reports\SalesMix.blade.php" />
     <Compile Include="resources\views\Pos\Settings.blade.php" />
     <Compile Include="resources\views\Pos\SubCategoryList.blade.php" />
     <Compile Include="resources\views\Pos\UsersList.blade.php" />
@@ -757,6 +766,7 @@
     <Folder Include="public\assets\css\vendor\images" />
     <Folder Include="public\assets\css\vendor" />
     <Folder Include="public\assets\css" />
+    <Folder Include="public\assets\fonts\OpenSans\" />
     <Folder Include="public\assets\fonts\Roboto" />
     <Folder Include="public\assets\fonts" />
     <Folder Include="public\assets\images" />
@@ -995,7 +1005,15 @@
     <Content Include="public\assets\css\floorview.css" />
     <Content Include="public\assets\css\frontdesk.css" />
     <Content Include="public\assets\css\health_center.css" />
+    <Content Include="public\assets\css\OpenSans-font.css" />
     <Content Include="public\assets\css\print-doc.css" />
+    <Content Include="public\assets\fonts\OpenSans\59ZRklaO5bWGqF5A9baEERJtnKITppOI_IvcXXDNrsc.woff2" />
+    <Content Include="public\assets\fonts\OpenSans\cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2" />
+    <Content Include="public\assets\fonts\OpenSans\K88pR3goAWT7BTt32Z01mxJtnKITppOI_IvcXXDNrsc.woff2" />
+    <Content Include="public\assets\fonts\OpenSans\LWCjsQkB6EMdfHrEVqA1KRJtnKITppOI_IvcXXDNrsc.woff2" />
+    <Content Include="public\assets\fonts\OpenSans\RjgO7rYTmqiVp7vzi-Q5URJtnKITppOI_IvcXXDNrsc.woff2" />
+    <Content Include="public\assets\fonts\OpenSans\u-WUoqrET9fUeobQW7jkRRJtnKITppOI_IvcXXDNrsc.woff2" />
+    <Content Include="public\assets\fonts\OpenSans\xozscpT2726on7jbcb_pAhJtnKITppOI_IvcXXDNrsc.woff2" />
     <Content Include="public\assets\images\Contact-Lock.png" />
     <Content Include="public\assets\images\fo-bg-1.jpg" />
     <Content Include="public\assets\images\fo-bg-2.jpg" />

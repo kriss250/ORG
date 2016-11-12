@@ -125,7 +125,8 @@
                 ?>
             </td>
             <td>
-                <button data-refresh-url="{{ action('CashbookController@show',$cashbook->cashbookid)}}" data-url="{{ action("CashbookTransactionController@update",$transaction->transactionid) }}/?type={{ $transaction->type }}&cashbook={{ $cashbook->cashbookid }}&amount={{ $transaction->amount }}" style="background: none;font-size: 14px;color:red" class="delete-trans-btn btn btn-sm"><i class="fa fa-trash-o"></i></button>
+                <button data-refresh-url="{{ action('CashbookController@show',$cashbook->cashbookid)}}" data-url="{{ action("CashbookTransactionController@update",$transaction->transactionid) }}/?type={{ $transaction->type }}&cashbook={{ $cashbook->cashbookid }}&amount={{    $transaction->amount }}" style="background: none;font-size: 14px;color:red;display:inline" class="delete-trans-btn btn btn-sm"><i class="fa fa-trash-o"></i></button>
+                <button data-refresh-url="{{ action('CashbookController@show',$cashbook->cashbookid)}}" data-url="{{ action("CashbookTransactionController@update",$transaction->transactionid) }}/?type={{ $transaction->type }}&cashbook={{ $cashbook->cashbookid }}&amount={{ $transaction->amount }}" style="background: none;font-size: 14px;color:#1d5b03;display:inline" class="btn btn-sm"><i class="fa fa-print"></i></button>
             </td>
         </tr>
 

@@ -76,8 +76,10 @@
                     $sub_total = $qty * $price;
                     $room_sub_total +=$sub_total;
                     $bill_sub_total += $sub_total;
+                    
                     $items_count+=1;
                     $tr .="<tr>
+                         
                             <td>$item_name</td>
                             <td>$qty</td>
                             <td>$price</td> 
@@ -97,8 +99,8 @@
 
     ?>
     <tr class="room_end">
-         @if(isset($guest))
-             <td rowspan="{{ $items_count+1}}">{{ $guest[$room->room][0]->guest }} <p style="font-size:12px;">({{$guest[$room->room][0]->Account}})</p> </td>
+        @if(isset($room->customer))
+             <td rowspan="{{ $items_count+1}}">{{ $room->customer }}</td>
         @endif
         <td rowspan="{{ $items_count+1}}">{{ $room->room}}</td>
         <td style="padding: 0"  colspan="4"> </td>

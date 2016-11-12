@@ -115,7 +115,7 @@
     }
 </script>
 
-<div style="padding:6px 10px" class="row">
+<div style="padding:6px 10px" class="row walkin-form-body">
 
     <form id="walkin-form" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@reserveGroup")}}" method="post">
         <div class="col-xs-5">

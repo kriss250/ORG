@@ -74,6 +74,11 @@ class BillsController extends Controller
         $prvBill = \App\Bill::find($id);
 
         try {
+
+            $the_bill = \App\Bill::find($id);
+
+            if($the_bill->print_count > 0) return 0;
+
             if(strlen($customer)>0)
             {
                 $updated = DB::update("update bills set customer=?,last_updated_by=?,last_updated_at=? where idbills=?",
@@ -863,5 +868,19 @@ class BillsController extends Controller
             }
 
         }
+    }
+
+    public function checkRoom()
+    {
+         if(isset($_GET['room']))
+         {
+             $data = \DB::connection("mysql_book")->select("select  concat_ws(' ', firstname,lastname) as guest,package_name from rooms join reservations
+                on reservations.room_id = idrooms
+                join guest on guest.id_guest = guest_id
+                where reservations.status = 5 and room_number=? and checked_out is null and checked_in is not null limit 1",[$_GET['room']]);
+
+             echo json_encode($data);
+
+         }
     }
 }

@@ -8,7 +8,7 @@
 
     $(document).ready(function () {
         initSelectBoxes();
-       
+       $("[data-toggle='tooltip']").tooltip();
         $(".update-btn").click(function(e){
             e.preventDefault();
             $(this).append("...");
@@ -17,7 +17,6 @@
 
         $(".guest-info-dropdown").click(function(e){
             
-
             if(e.target.className.split(' ')[0]=="select-wrapper")
             {
                 $(e.target).parent().find(".dropdown-menu").toggleClass("open");
@@ -43,7 +42,7 @@ background: rgb(240, 255, 230) none repeat scroll 0% 0%
     }
 
     body {
-        background:rgb(242, 242, 242);
+        background:#e6eeff !important;
     }
 
     hr {
@@ -55,13 +54,13 @@ background: rgb(240, 255, 230) none repeat scroll 0% 0%
         overflow:visible !important
     }
 </style>
-
+<?php if(!isset($res)) echo die("<center><h1 class='text-center'>ERROR !</h1></center>"); ?>
 <div class="panel-desc">
     <p class="title">Room View : {{$res->room->room_number}} - Rent ID # {{$res->idreservation}}</p>
     <p class="desc"></p>
 </div>
 
-<div style="padding-top:5px;">
+<div style="padding-top:5px;" class="room-view-form">
     <ul class="nav nav-tabs">
         <li class="active">
             <a href="#1" data-toggle="tab">General</a>
@@ -253,6 +252,7 @@ display: block;">
                             break;
                     }
                     $paymodes = Kris\Frontdesk\PayMethod::all();
+                    $currencies = Kris\Frontdesk\Currency::all();
                         ?>
                         <div class="room-st text-center {{strtolower($status_text)}}">
                             <h4>{{$status_text}}</h4>
@@ -290,6 +290,7 @@ display: block;">
                                         <tr>
                                             <th>Charge</th>
                                             <th>Amount</th>
+                                           
                                         </tr>
                                     </thead>
                                     <?php $min = count($res->charge) > 8 ? count($res->charge) : 8; ?>
@@ -297,6 +298,7 @@ display: block;">
                                 <tr>
                                     <td>{{isset($res->charge{$i}) ?  $res->charge{$i}->motif : ""}}</td>
                                     <td>{{isset($res->charge{$i}) ? number_format($res->charge{$i}->amount):""}}</td>
+                                 
                                 </tr>
                                 @endfor
                                 </table>
@@ -324,14 +326,14 @@ display: block;">
         <div class="tab-pane" id="2">
             <div class="new-pay-panel">
                 <div class="row light-fieldsets" style="border-left:none;border-right:none;margin-top:-5px;border-radius:0">
-                    <div class="col-xs-10 inline-fieldsets">
+                    <div class="col-xs-12 inline-fieldsets">
                         <label>New Payment</label>
                        
                         <br />
                         <form method="post" action="{{action('\Kris\Frontdesk\Controllers\ReservationsController@addPayment',$res->idreservation)}}">
                             <input type="hidden" name="_token" value="{{csrf_token()}}" />
 
-                            <fieldset style="width:26.4%;">
+                            <fieldset style="width:20.4%;">
                                 <label>Mode Of Payment</label>
                                 <div class="clearfix"></div>
 
@@ -348,34 +350,59 @@ display: block;">
                                 </div>
                             </fieldset>
 
-                            <fieldset class="bordered" style="width:19%">
-                                <label>Amount #</label>
-                                <input value="" type="text" name="amount" placeholder="#" />
+                            <fieldset style="width:18%;">
+                                <label>Currency <i class="fa fa-usd"></i></label>
+                                <div class="clearfix"></div>
+
+                                <div class="select-wrapper">
+                                    <i class="fa fa-angle-down"></i>
+                                    <select required name="currency">
+                                        <option value="">Currency </option>
+                                        @foreach($currencies as $currency)
+                                        <option value="{{$currency->idcurrency}}">
+                                            {{$currency->alias}}
+                                        </option>
+                                        @endforeach
+                                    
+                                    </select>
+                                </div>
                             </fieldset>
 
-                            <fieldset style="width:40%;">
+                            <fieldset class="bordered" style="width:16%">
+                                <label>Amount #</label>
+                                <input required value="" type="text" name="amount" placeholder="#" />
+                            </fieldset>
+
+                            <fieldset style="width:41.5%;">
                                 <label>Description</label>
                                 <input style="margin-top:6px;padding:4px 5px !important;border-top:1px dashed rgb(215, 215, 215) !important" value="" type="text" name="motif" placeholder="Specify reason for the payment" />
                             </fieldset>
+<br />
+                            <div class="row">
+                                <div class="col-xs-6">
 
-                            <button style="margin-top: 26px;
-padding: 3px 13px;
-font-size: 11px;
+                                    <button style="padding: 3px 13px;font-size: 11px;text-transform: uppercase;font-weight: bold" class="btn btn-success">
+                                        <i class="fa fa-plus"></i> Add Payment
+                                    </button>
+
+                                </div>
+
+                                <div class="col-xs-6 text-right">
+                                    <button type="button" onclick="window.open('{{action("\Kris\Frontdesk\Controllers\OperationsController@forms","makeRefund")}}?id={{$res->idreservation}}','','width=400,height=280')" style="margin-right: 12px;
+border: none;
+background: none;
+color: #d43f3a;
+text-decoration: underline;
 text-transform: uppercase;
-font-weight: bold" class="btn btn-success">
-                                Add
-                            </button>
+font-size: 11px;" class="btn-danger btn-xs"><i class="fa fa-ban"></i> Refund</button>
 
+                                </div>
+                            </div>
                         </form>
+
                     </div>
 
-                    <div style="padding-left:0" class="col-xs-2 inline-fieldsets">
-                        <label style="display:block;">Refund</label>
-                        <div class="text-center" style="padding: 8px;margin-top:15px;
-background: rgb(245, 245, 245) none repeat scroll 0% 0%;
-border: 1px solid rgb(236, 236, 236);border-radius:6px;"><button onclick="window.open('{{action("\Kris\Frontdesk\Controllers\OperationsController@forms","makeRefund")}}?id={{$res->idreservation}}','','width=400,height=280')" class="btn btn-danger btn-xs">Make a refund</button></div>
-                        
-                    </div>
+             
                 </div>
 
                 <div style="max-height:250px;overflow-y:auto">
@@ -387,6 +414,7 @@ border: 1px solid rgb(236, 236, 236);border-radius:6px;"><button onclick="window
                                 <th>Description</th>
                                 <th>Mode</th>
                                 <th>User</th>
+                                <th><i class="fa fa-trash"></i></th>
                             </tr>
                         </thead>
 
@@ -406,16 +434,20 @@ border: 1px solid rgb(236, 236, 236);border-radius:6px;"><button onclick="window
                                 @endif
 
                                 @if($payment->credit > 0 && $payment->debit==0)
-                                {{$payment->credit}}
+                                {{number_format($payment->credit)}} <span style="font-size:11px">{{$payment->currency->rate != 1 ? "({$payment->original_amount} {$payment->currency->alias})" :""}} </span>
                                 @endif
 
                                 @if($payment->credit < 0 && $payment->debit==0)
                                 {{$payment->credit}}
                                 @endif
                             </td>
-                            <td width="50%">{{$payment->motif}}</td>
+                            <td width="45%">{{$payment->motif}}</td>
                             <td>{{$payment->debit > 0 ? "-" : $payment->mode->method_name}}</td>
                             <td>{{$payment->user->username}}</td>
+                            <td style="font-size:14px">
+                                <a title="Delete Payment" class="confirm-btn" data-toggle="tooltip" style="color:#d43f3a;margin-right:6px" href="{{action("\Kris\Frontdesk\Controllers\OperationsController@removePayment",$payment->id_folio)}}"><i class="fa fa-trash"></i></a>
+                                <a title="Print" data-toggle="tooltip" onclick="openWindow('printReceipt/{{$payment->id_folio}}',this,'Print Receipt',970,580);" href="#"><i class="fa fa-print"></i></a>
+                            </td>
                         </tr>
                         <?php $i++; ?>
                         @endif
@@ -423,7 +455,7 @@ border: 1px solid rgb(236, 236, 236);border-radius:6px;"><button onclick="window
                         <?php
                             if($i<8)
                             {
-                                echo str_repeat("<tr><td>.</td> <td></td> <td></td> <td></td> <td></td> </tr>",8-$i);
+                                echo str_repeat("<tr><td>.</td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>",8-$i);
                             }
                         ?>
                         @endif
@@ -495,7 +527,7 @@ border: 1px solid rgb(219, 242, 242)">
             <form class="form-btn" method="get" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@checkin",[$res->idreservation,$res->room_id])}}">
                 <button type="submit" {{$res->status==\Kris\Frontdesk\Reservation::ACTIVE ? "" : "disabled"}} class="btn btn-success">Checkin</button>
             </form>
-            <form class="form-btn" method="get" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@checkout",[$res->idreservation,$res->room_id])}}">
+            <form class="form-btn confirm-form-submit" data-msg="Are you sure you want to check out this guest ?"  method="get" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@checkout",[$res->idreservation,$res->room_id])}}">
                 <button {{$res->status==\Kris\Frontdesk\Reservation::CHECKEDIN ? "" : "disabled"}} class="btn btn-danger">Checkout</button>
              </form>
                 @if($res->status==\Kris\Frontdesk\Reservation::ACTIVE  || $res->status==\Kris\Frontdesk\Reservation::CHECKEDIN)

@@ -23,13 +23,14 @@ for($i=0;$i<$rooms_no;$i++)
     $current_floor= $data[$i]->floors_id;
     $next_floor = isset($data[$i+1]->floors_id) ?  $data[$i+1]->floors_id : 0;
     $url = action("\Kris\Frontdesk\Controllers\OperationsController@roomView",$data[$i]->idreservation);
-   
-   
-    $floor .= "<div data-placement='top' data-toggle='tooltip' title='Guest : {$data[$i]->guest}' ".((strtolower($data[$i]->status_name) =='occupied' || strtolower($data[$i]->status_name) =='reserved') ?  "onclick=\"window.openDialog('{$url}','Room','width=800,height=590,resizable=no',this)" :  '')."\" class='black-tooltip room_item ".strtolower($data[$i]->status_name).($space_init == 5 ?  ' room_space' : '' )."'>
+
+   $show_names = strtolower($data[$i]->status_name) =='occupied' || strtolower($data[$i]->status_name) =='reserved';
+
+   $floor .= "<div data-placement='top' data-toggle='tooltip' ".($show_names ? "title='GUEST : {$data[$i]->guest}'" : "")."".($show_names ?  "onclick=\"window.openDialog('{$url}','Room','width=800,height=590,resizable=no',this)" :  '')."\" class='black-tooltip room_item ".strtolower($data[$i]->status_name).($space_init == 5 ?  ' room_space' : '' )."'>
                          <p>".$data[$i]->room_number."</p>
                          <span> ".substr($data[$i]->type_name,0,9)." </span>
                      </div>";
-    
+
     if($next_floor!=$current_floor){
         $floors_li .="<li><a data-floor='".$data[$i]->floors_id."' class='floor-nav-item' href='#'>".$data[$i]->floor_name."</a></li>";
         $all_floors .="<li class='floor-li floor_".$data[$i]->floors_id."'>".$floor."</li>";

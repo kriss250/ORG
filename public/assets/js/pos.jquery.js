@@ -608,7 +608,11 @@
 			var payPrintBtn = $("<button data-print='1' class='pay_print'>Pay & Print</button>");
 
 			var advancedBox = $("<div class='advancedBox'>");
-			$(advancedBox).append("<label>Pay. Method / Pay. Mode</label>").append("<select id='pay_method' name='method'><option>Cash</option><option>Bank Card</option><option>Check</option></select>").append("<select id='pay_mode' name='pay_mode'><option>Debit</option><option>Credit</option><option value='0'>Off-Tariff</option>").append("<label>Comment</label>").append("<input id='pay_comment' name='comment' type='text'>");
+			$(advancedBox).append("<label>Pay. Method / Pay. Mode</label>")
+                .append("<select id='pay_method' name='method'><option>Cash</option><option>Bank Card</option><option>Check</option></select>")
+                .append("<select id='pay_mode' name='pay_mode'><option>Debit</option><option>Credit</option><option value='0'>Off-Tariff</option>")
+                .append("<label>Comment</label>")
+                .append("<input id='pay_comment' name='comment' type='text'>");
 			
 			var innerPayBox = $("<div>").append("<a class='bill_transfer_btn' href='#'><i class='fa fa-bed'></i></a>").append("<a class='more_options_btn' href='#'><i style='font-size:22px' class='fa fa-cc-visa'></i></a>").append(advancedBox)
 			.append("<br/><label>Amount Paid</label>")
@@ -675,7 +679,8 @@
 
 		$(".pay_box").on("click",'.bill_transfer_btn',function(e){
 			e.preventDefault();
-			box = $("<div class='room_transfer_box'>").append("<label>Room Number</label><input type='text' placeholder='Room' id='transfer_bill_toroom' /><button id='bill_transfer_btn'>Assign</button>");
+			box = $("<div class='room_transfer_box'>")
+                .append("<label>Room Number</label><input type='text' placeholder='Room' id='transfer_bill_toroom' /><label class='guest_in_room_label'>N/A</label><button class='btn btn-primary check_room_btn'>Check room</button> <button id='bill_transfer_btn'>Assign</button>");
 			if($(".room_transfer_box").length ==0 ){
 				$(".pay_box").append(box);
 			}else {
@@ -730,6 +735,29 @@
 					}
 				}
 			});;
+		});
+
+
+		$(".pay_box").on("click", ".check_room_btn", function (e) {
+		    e.preventDefault();
+		    $.ajax({
+		        url: options.checkRoomUrl,
+		        type: "get",
+                dataType : "json",
+		        data:"room="+$("#transfer_bill_toroom").val(),
+		        success: function (data) {
+		            if (data.length < 1) {
+		                $(".guest_in_room_label").css("visibility", "visible").html("Not found!" + ' <i style="color:red" class="fa fa-cross-circle"><i>')
+		            } else {
+		                $(".guest_in_room_label").css("visibility", "visible").html(data[0].guest + " " + "(" + data[0].package_name + ")" + ' <i style="color:#1ace1a" class="fa fa-check-circle"><i>')
+		            }
+		        },
+		        error : function(er,v)
+		        {
+		            ualert.error("Error : "+v);
+		        }
+		    });
+
 		});
 
 		//Split Payment
@@ -1121,7 +1149,7 @@
 		    			}
 		    			$(customerField).attr("value", $(customerField).val() );
 					}else {
-						alert("There was an error updating the bill !");
+						ualert.error("There was an error updating the bill, Make sure the bill has not been previously printed !");
 					}
 				},
 				statusCode: {

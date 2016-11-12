@@ -1508,15 +1508,17 @@ border-top: 3px solid #3DB5E4
 }
 
 .room_transfer_box {
-	position: absolute;
-top: 0;
-left: -100%;
-background: #fff;
-box-shadow: 0 0 8px #2F2F2F;
-text-align: left;
-max-width: 215px;
-border-top: 3px solid rgba(18, 225, 21, 0.91);
+    position: absolute;
+    top: 0;
+    left: -100%;
+    background: #fff;
+    box-shadow: 0 0 8px #2F2F2F;
+    text-align: left;
+    max-width: 215px;
+    border-top: 3px solid rgba(18, 225, 21, 0.91);
 }
+
+
 
 .room_transfer_box input {
 	text-align: left;
@@ -1524,9 +1526,26 @@ border-top: 3px solid rgba(18, 225, 21, 0.91);
 
 .room_transfer_box button {
  	background: #2DD565;
-padding: 6px 14px !important;
+padding: 4px 10px !important;
 width: auto;
+font-size:11px;
 height: auto;
+margin-top:3px;
+display:inline-block;
+}
+
+.room_transfer_box .check_room_btn {
+    background:#2980b9;
+}
+
+
+.room_transfer_box .guest_in_room_label {
+    display:block;
+    visibility:hidden;
+    font-size:12px;
+    margin:0 2px 0 0;
+    padding:0;
+    transition: visibility .3s;
 }
 
 .custom_prod_btn {

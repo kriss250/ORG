@@ -123,7 +123,7 @@
     }
 </script>
 
-<div style="padding:6px 10px;padding-bottom:0" class="row">
+<div style="padding:6px 10px;" class="row walkin-form-body ">
  
     <form id="walkin-form" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@reserve")}}" method="post">
         <div class="col-xs-4">

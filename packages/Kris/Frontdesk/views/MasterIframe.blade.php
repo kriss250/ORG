@@ -17,6 +17,7 @@
     {!!HTML::script("assets/js/vendor/chosen/chosen.jquery.min.js")!!}
     {!!HTML::script("assets/js/vendor/jquery-ui/jquery-ui.min.js") !!}
     {!!HTML::script("assets/js/vendor/bsdatepicker/js/bootstrap-datepicker.min.js") !!}
+    {!!HTML::script('assets/js/vendor/highcharts/highcharts.js') !!}
     {!!HTML::script("assets/js/vendor/slimscroll/jquery.slimscroll.min.js") !!}
     {!!HTML::script('assets/js/fx.js') !!}
     {!!HTML::script("assets/js/fo-main.js")!!}
@@ -35,6 +36,22 @@
             var uri = '{{action("\Kris\Frontdesk\Controllers\OperationsController@roomView","__id__")}}';
             uri = uri.replace("__id__", reservationid);
             window.openDialog(uri, 'Room', 'width=800,height=590,resizable=no', src);
+        }
+
+
+        function openWindow(name,_title,src,_width,_height)
+        {
+            var url  = '{{action("\Kris\Frontdesk\Controllers\OperationsController@frame",'__name__')}}';
+            url = url.replace("__name__",name);
+            var width = 800;
+            var height=590;
+            var title = "";
+
+            width =  typeof _width == "undefined" ? width : _width;
+            height =  typeof _height == "undefined" ? height : _height;
+            title = typeof _title == "undefined" ? title : _title;
+
+            openDialog(url,title,'width='+width+',height='+height,src);
         }
 
         $(document).ready(function () {

@@ -90,6 +90,18 @@ Floors View</a> </li>
                     </ul>
                 </li>
 
+            <li>
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <i class="fa fa-cogs"></i> Settings
+                    
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a onclick="openWindow('exRates','Exchange rates',this,600,400)" href="#">Currencies & exchange rates</a>
+                    </li>
+                </ul>
+            </li>
+
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="$">Charts <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu">
@@ -112,7 +124,7 @@ border-radius: 3px;
 color: rgb(43, 92, 134);
 margin-right: 8px;">
                         <i class="fa fa-sun-o"></i>
-                        {{\Kris\Frontdesk\Env::WD(true)}}
+                       {{\Kris\Frontdesk\Env::WD()->format("l")}}, {{\Kris\Frontdesk\Env::WD(true)}}
                     </span>
                     Arrival
                     <span class="text-center circle-badge" style=" background:#e74c3c;">{{\Kris\Frontdesk\Reservation::where("status",5)->where(\DB::raw("date(checked_in)"),$wdate->format("Y-m-d"))->count() }}</span>
@@ -227,7 +239,7 @@ margin-right: 8px;">
                         <li class="menu-group">
                             <ul>
                                 <li>
-                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Reservations" data-toggle="modal" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@frame","guestdb")}}','Reservation','width=850,height=590,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-desc="Use this window to browse reservations , based on status and arrival dates" class="dlg-btn" title="Guests" data-toggle="modal" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\OperationsController@frame","guestdb")}}','Reservation','width=900,height=590,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/books-2.svg" />
                                         Guest Info.
                                     </a>

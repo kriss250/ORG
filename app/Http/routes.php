@@ -99,6 +99,7 @@ Route::group(['middleware' => 'auth'],function(){
   Route::post("/POS/Bills/pay/","BillsController@pay");
 	Route::get("/POS/Bills/shareBill/","BillsController@shareBill");
 	Route::get("/POS/Bills/assignedBills/","BillsController@assignedList");
+    Route::get("/POS/Bills/checkRoom/","BillsController@checkRoom");
 	Route::post("/POS/Bills/assignBill/pay","BillsController@payAssignedBill");
 	Route::post("/POS/Bills/creditBill/pay","BillsController@payCreditBill");
 
