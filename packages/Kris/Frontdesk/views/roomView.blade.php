@@ -440,6 +440,7 @@ font-size: 11px;" class="btn-danger btn-xs"><i class="fa fa-ban"></i> Refund</bu
                                 @if($payment->credit < 0 && $payment->debit==0)
                                 {{$payment->credit}}
                                 @endif
+
                             </td>
                             <td width="45%">{{$payment->motif}}</td>
                             <td>{{$payment->debit > 0 ? "-" : $payment->mode->method_name}}</td>
@@ -448,6 +449,7 @@ font-size: 11px;" class="btn-danger btn-xs"><i class="fa fa-ban"></i> Refund</bu
                                 <a title="Delete Payment" class="confirm-btn" data-toggle="tooltip" style="color:#d43f3a;margin-right:6px" href="{{action("\Kris\Frontdesk\Controllers\OperationsController@removePayment",$payment->id_folio)}}"><i class="fa fa-trash"></i></a>
                                 <a title="Print" data-toggle="tooltip" onclick="openWindow('printReceipt/{{$payment->id_folio}}',this,'Print Receipt',970,580);" href="#"><i class="fa fa-print"></i></a>
                             </td>
+
                         </tr>
                         <?php $i++; ?>
                         @endif
