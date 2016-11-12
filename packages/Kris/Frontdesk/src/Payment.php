@@ -20,12 +20,12 @@ class Payment extends Model
     protected $guarded = [];
     public function user()
     {
-        return $this->belongsTo("Kris\Frontdesk\User","user_id","idusers");
+        return $this->belongsTo("\Kris\Frontdesk\User","user_id","idusers");
     }
 
     public function mode()
     {
-        return $this->hasOne("Kris\Frontdesk\PayMethod","idpay_method","paymethod");
+        return $this->hasOne("\Kris\Frontdesk\PayMethod","idpay_method","paymethod");
     }
 
     public function reservation()
