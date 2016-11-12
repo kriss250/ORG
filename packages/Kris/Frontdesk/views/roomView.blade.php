@@ -388,14 +388,7 @@ display: block;">
                                 </div>
 
                                 <div class="col-xs-6 text-right">
-                                    <button type="button" onclick="window.open('{{action("\Kris\Frontdesk\Controllers\OperationsController@forms","makeRefund")}}?id={{$res->idreservation}}','','width=400,height=280')" style="margin-right: 12px;
-border: none;
-background: none;
-color: #d43f3a;
-text-decoration: underline;
-text-transform: uppercase;
-font-size: 11px;" class="btn-danger btn-xs"><i class="fa fa-ban"></i> Refund</button>
-
+                                    <button type="button" onclick="window.open('{{action("\Kris\Frontdesk\Controllers\OperationsController@forms","makeRefund")}}?id={{$res->idreservation}}','','width=400,height=280')" style="margin-right: 12px;border: none;background: none;color: #d43f3a;text-decoration: underline;text-transform: uppercase;font-size: 11px;" class="btn-danger btn-xs"><i class="fa fa-ban"></i> Refund</button>
                                 </div>
                             </div>
                         </form>

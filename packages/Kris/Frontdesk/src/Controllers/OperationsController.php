@@ -482,7 +482,7 @@ left join reservation_group on reservation_group.groupid = reservations.group_id
         $amount_credit = -$payment->credit;
         $amount_debit = +$payment->debit;
         $deleted  = $payment->delete();
-        $updated = $payment->reservation->update(["paid_amount"=> \DB::raw("paid_amount+".$amount_credit+$amount_debit)]);
+        $updated = $payment->reservation->update(["paid_amount"=> $payment->reservation->paid_amount+$amount_credit+$amount_debit]);
 
         if($updated && $deleted) {
             \FO::log("Delete payment ".$id." of ".($amount_credit+$amount_debit));
