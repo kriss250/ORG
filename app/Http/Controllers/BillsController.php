@@ -72,12 +72,10 @@ class BillsController extends Controller
         $items_to_delete = $items->toDelete;
         $new_items  = $items->newItems;
         $prvBill = \App\Bill::find($id);
-
+        $updated= 0;
         try {
 
             $the_bill = \App\Bill::find($id);
-
-            if($the_bill->print_count > 0) return 0;
 
             if(strlen($customer)>0)
             {
@@ -86,6 +84,8 @@ class BillsController extends Controller
                     );
 
             }
+
+            if($the_bill->print_count > 0) return $updated;
 
             if((count($new_items)+count($items_to_delete)+count($items_to_update))==0){return $updated;}
 

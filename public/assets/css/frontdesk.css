@@ -275,7 +275,7 @@ padding: 50px
 
 .tape.checkedin {
     background: url("/images/tape-limit.png") right no-repeat #db6060;
-    color: rgba(255, 255, 255, 0.91);
+    color: rgba(255, 255, 255, .9);
 }
 
 .tape.continuing {
