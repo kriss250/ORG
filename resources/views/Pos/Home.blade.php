@@ -135,7 +135,7 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
 <option>All Stores</option>
    			<?php 
 		   	
-			   	$stores = DB::select("select idstore,store_name from store");
+               $stores = \App\Store::all();
 			   	foreach ($stores as $store):
 		
 		   	?>

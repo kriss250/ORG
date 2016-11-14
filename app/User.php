@@ -34,4 +34,5 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 
     public static $Systems = ['frontdesk','stock','pos','healthcenter','backoffice'];
+
 }

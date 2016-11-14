@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Invoice short summary.
+ * Bill short summary.
  *
  * Invoice description.
  *

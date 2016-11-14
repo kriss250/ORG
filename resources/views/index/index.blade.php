@@ -95,7 +95,7 @@ border-radius: 15px;
 <a style="display:none" href="?frontdesk"><span>ORG <i class="fa fa-male"></i></span> Frontdesk </a>
 <a href="{{ route('pos') }}?mode=default"><span>ORG <i class="fa fa-cutlery"></i></span> POS </a>
 <a style="" href="/frontdesk/standard"><span>ORG <i class="fa fa-file-text"></i> </span> Frontdesk</a>
-<a href="{{ route('pos') }}?mode=health_center">Health Center </a>
+    <a href="{{route('pos') }}?mode=health_center&store_switch={{\App\Store::where("store_name","=","health club")->first()->idstore }}">Health Center </a>
 <a href="/stock/index.php"><span>ORG <i class="fa fa-archive"></i></span> Stock </a>
 <a style="color:red;" href="{{ route('backoffice') }}"><span>ORG <i class="fa fa-file-text"></i> </span> Back Office</a>
 

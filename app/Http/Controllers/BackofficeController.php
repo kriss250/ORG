@@ -29,7 +29,7 @@ class BackofficeController extends Controller
         $data = DB::connection("mysql_backoffice")->select("select buying,selling,currency,date(date) as date from exchange_rate order by id desc limit 2");
         $sales = ["pos_sales"=>0,"fo_sales"=>0,"pos_credit"=>0,"fo_credit"=>0,"total_paid"=>0];
         //if not updated
-        if($data[0]->date !=date("Y-m-d"))
+        if(isset($data[0]) && $data[0]->date !=date("Y-m-d"))
         {
             try {
                 $d = $this->retreiveExchangeRates();
@@ -67,11 +67,11 @@ class BackofficeController extends Controller
        // $fo_sales = \DB::connection("mysql_book")->select()
         $pos_sales = \DB::select("select status,coalesce(sum(bill_total),0) as amount from bills where status not in (".\ORG\Bill::SUSPENDED.",".\ORG\Bill::OFFTARIFF.") and date(date)=? group by status",[$date]);
         $pos_payments = \DB::select("SELECT coalesce(sum(bank_card+cash+check_amount),0) as amount FROM payments where date(date)=? and void=0",[$date]);
-        
+
         $fo_payments = \DB::connection("mysql_book")->select("SELECT coalesce(sum(credit),0) as amount FROM folio where void=0 and date(date)=?",[$date]);
-        
+
         $fo_sales = \DB::connection("mysql_book")->select("select coalesce(sum(night_rate*DATEDIFF(date(checkout),date(checkin))),0) as  amount,pay_by_credit from reservations
-            
+
         where status=5 and date(reservations.date)=? group by pay_by_credit",[$date]);
 
 

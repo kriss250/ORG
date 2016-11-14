@@ -378,7 +378,7 @@ $days="";
                     @endforeach
                 </tr>
             </table>
-            <p style="font-size:11px;color:#ccc;margin-top:5px;margin-bottom:-5px" class="text-center">{{$exchangerates[0]->date }}</p>
+            <p style="font-size:11px;color:#ccc;margin-top:5px;margin-bottom:-5px" class="text-center">{{isset($exchangerates[0]) ? $exchangerates[0]->date :"" }}</p>
 
         </div>
     </div>

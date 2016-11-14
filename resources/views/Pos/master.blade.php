@@ -35,7 +35,15 @@
     <title>ORG POS </title>
 </head>
 <body class="noselect"> <div class="print_container"></div>
+<?php 
 
+if(isset($_GET['store_switch']))
+{
+    \Auth::user()->wstore = $_GET['store_switch'];
+    \Auth::user()->save();
+}
+
+?>
 
 @if(isset($errors) && count($errors) > 0)
         <div style="background: rgb(192, 57, 43) none repeat scroll 0% 0%; color: rgb(0, 0, 0);" class="ualert ui-draggable ui-draggable-handle"><i class="fa fa-exclamation-triangle"></i><div class="inner_content">
@@ -141,6 +149,11 @@ var countSales  = function()
 }
 
 countSales();
+
+function switchStore(src)
+{
+        $(src).parent("form").submit();
+}
 </script>
 
 <div class="header">
@@ -155,6 +168,20 @@ countSales();
           <ul>
           <li>
           <span class="theme-switch-wrapper">
+              <form method="get" action="">
+                  <select onchange="switchStore(this);" name="store_switch" class="store-switch">
+                      <option value="0">All Stores</option>
+                      @foreach (\App\Store::all() as $store)
+                      <option {{\Auth::user()->wstore == $store->idstore ? "selected " : ""  }} value="{{$store->idstore}}">{{$store->store_name}}</option>
+                      @endforeach
+                  </select>
+                  <i class="fa fa-angle-down"></i>
+              </form>
+          </span>
+          </li>
+
+                   <li>
+          <span class="theme-switch-wrapper">
               <select class="theme-switch">
                   <option value="">Default</option>
                   <option value='{!! HTML::style('assets/css/dark_violet-theme.css',["id"=>"theme"]) !!}'>Dark Violet</option>
@@ -163,6 +190,7 @@ countSales();
             <i class="fa fa-angle-down"></i>
           </span>
           </li>
+
           <li>
  <a href="#" class="btn btn-xs btn-success fullscreen-switch"><i class="fa fa-arrows-alt"></i>
 </a></li>

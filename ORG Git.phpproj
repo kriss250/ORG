@@ -67,6 +67,7 @@
     <Compile Include="app\InvoicePayment.php" />
     <Compile Include="app\InvoiceItem.php" />
     <Compile Include="app\Invoice.php" />
+    <Compile Include="app\Store.php" />
     <Compile Include="packages\kris\Frontdesk\src\Controllers\StatementsController.php" />
     <Compile Include="packages\kris\Frontdesk\src\Currency.php" />
     <Compile Include="packages\kris\Frontdesk\src\Housekeeping.php" />

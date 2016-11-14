@@ -233,7 +233,7 @@ class ProductsController extends Controller
         //Default : no filter
         $sql = "SELECT products.id,product_name,category_name,price,stock_id FROM products
         join categories on categories.id = category_id
-        join product_price on price_id = product_price.id ".((isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " where favorite=1":"")." ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")." order by product_name asc limit 70";
+        join product_price on price_id = product_price.id ".((isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " where favorite=1":"")." ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")." ".(is_numeric(\Auth::user()->wstore) &&  \Auth::user()->wstore > 0 ? " and (store_id=".(\Auth::user()->wstore).")" :"" )." order by product_name asc limit 70";
 
         //Filter by cate & store
         if(isset($_GET['store']) && $_GET['store']>0 ){
@@ -260,10 +260,9 @@ class ProductsController extends Controller
     public function searchProduct()
     {
         $q =  "%".$_GET['q']."%";
-
         return json_encode(DB::select("SELECT products.id,product_name,category_name,price,stock_id FROM products
         join categories on categories.id = category_id
-        join product_price on price_id = product_price.id where product_name LIKE ? and user_created=0 ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")."  order by favorite desc  limit 30",[$q]));
+        join product_price on price_id = product_price.id where product_name LIKE ? and user_created=0 ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")." ".(is_numeric(\Auth::user()->wstore) &&  \Auth::user()->wstore > 0 ? " and ( store_id=".(\Auth::user()->wstore).")" :"" )."  order by favorite desc  limit 30",[$q]));
     }
 
     public function CreateCustomProduct(Request $req)
