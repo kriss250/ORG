@@ -82,9 +82,13 @@
                 }
         }
 
-        $_cash_percent = (($bill->cash * 100) / $bill->bill_total)/100;
-        $_card_percent = (($bill->card * 100) / $bill->bill_total)/100;
-        $_check_percent = (($bill->check_amount * 100) / $bill->bill_total)/100;
+        try{
+            $_cash_percent = (($bill->cash * 100) / $bill->bill_total)/100;
+            $_card_percent = (($bill->card * 100) / $bill->bill_total)/100;
+            $_check_percent = (($bill->check_amount * 100) / $bill->bill_total)/100;
+        }catch(\Exception $ex){
+            
+        }
 
         if($zi>1){
             $tr .= "<tr".($bill->status == \ORG\Bill::SUSPENDED ? " class='text-danger' ":"").">
