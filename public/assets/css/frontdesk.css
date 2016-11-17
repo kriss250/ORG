@@ -1659,4 +1659,20 @@ color: #272727;
     body,html,.the_content {
         background:rgb(232, 243, 249)
     }
+
+    .room-view-wrapper {
+        max-width:95%;
+    }
+
+    .room_item {
+        padding: 14px;
+        margin-bottom: 12px;
+        position: relative;
+        margin-right: 14px;
+        width: 5.2%;
+    }
+
+    .all-floors {
+        padding:30px;
+    }
 }
