@@ -6,7 +6,7 @@
 $ExpectedCheckout = [];
 ?>
 <div class="container-fluid page">
-    <div class="col-md-2">
+    <div class="col-md-2 main-sidebar">
         <br />
         <p class="widget-title">Room Availability</p>
         <div class="sidebar-widget room-av-container">

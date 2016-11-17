@@ -1616,3 +1616,47 @@ color: #272727;
 .room-view-form {
     background:#e6eeff
 }
+
+
+@media screen and (min-width : 1450px)
+{
+    .main-menu {
+        transform: scale(1.1);
+        transform-origin: 5% 5%
+    }
+
+    .main-sidebar {
+        max-width:270px;
+        margin-top:4px;
+    }
+
+    .status-list li {
+        padding:15px 18px
+    }
+    .page {
+        max-width:93%;
+    }
+    .grid {
+        max-width:92%;
+        margin:auto;
+        width:92%;
+    }
+
+    .main-menu .menu-2 li {
+        margin-right:5px;
+    }
+
+    .main-menu .menu-1 {
+        width:95%;
+    }
+    .main-contents {
+        margin-top:10px
+    }
+
+    .booking-view-sidebar-label {
+        border-left:1px solid rgb(248, 213, 130)
+    }
+    body,html,.the_content {
+        background:rgb(232, 243, 249)
+    }
+}

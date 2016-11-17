@@ -29,7 +29,7 @@
     }
 </style>
 <div class="container-fluid page">
-    <div class="col-md-2">
+    <div class="col-md-2 main-sidebar ">
 
         <div  class="booking-view-sidebar-label">
             <p><i class="fa fa-info-circle"></i> Showing</p>
