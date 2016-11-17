@@ -11,6 +11,7 @@
 <style type="text/css">
 body {
 	background: url('/assets/images/main_bg.jpg');
+    background-size:cover
 }
 
 .thebox {
