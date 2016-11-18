@@ -410,7 +410,7 @@ display: block;">
                                 <th><i class="fa fa-trash"></i></th>
                             </tr>
                         </thead>
-                        @try {
+                       
                         @if($res->payments == null)
                         <tr>
                             <td colspan="5">No Payments made yet !</td>
@@ -454,9 +454,6 @@ display: block;">
                             }
                         ?>
                         @endif
-                        @catch(\Exception $ex)
-
-                        @endtry
                     </table>
                 </div>
             </div>
