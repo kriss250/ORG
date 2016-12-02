@@ -382,7 +382,7 @@ class ProductsController extends Controller
 
     public function productPrice()
     {
-        return \View::make("Pos.ProductPrice",["products"=>\App\Product::all()]);
+        return \View::make("Pos.ProductPrice",["products"=>\App\Product::where("user_created","=","0")->get()]);
     }
 
     public function productPriceUpdate()
