@@ -379,5 +379,25 @@ class ProductsController extends Controller
         }
 
     }
+
+    public function productPrice()
+    {
+        return \View::make("Pos.ProductPrice",["products"=>\App\Product::all()]);
+    }
+
+    public function productPriceUpdate()
+    {
+        $data = \Request::all();
+        array_pop($data);
+
+        foreach($data as $key=>$item)
+        {
+            $p = \App\ProductPrice::find(explode("_",$key)[1]);
+            $p->price = $item;
+            $p->save();
+        }
+
+        return redirect()->back();
+    }
 }
 

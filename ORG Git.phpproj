@@ -16,6 +16,8 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\ProductPrice.php" />
+    <Compile Include="app\Product.php" />
     <Compile Include="app\Bill.php" />
     <Compile Include="app\Classes\ORG.php" />
     <Compile Include="app\Classes\POSSettings.php" />
@@ -699,6 +701,7 @@
     <Compile Include="resources\views\Pos\Home.blade.php" />
     <Compile Include="resources\views\Pos\Login.blade.php" />
     <Compile Include="resources\views\Pos\master.blade.php" />
+    <Compile Include="resources\views\Pos\ProductPrice.blade.php" />
     <Compile Include="resources\views\Pos\NewCategory.blade.php" />
     <Compile Include="resources\views\Pos\NewCustomer.blade.php" />
     <Compile Include="resources\views\Pos\NewProduct.blade.php" />

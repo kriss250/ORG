@@ -112,9 +112,9 @@ Route::group(['middleware' => 'auth'],function(){
 		return \View::make("Pos.ChangePassword");
 	});
 
-
-
 	Route::post("/POS/Settings/newPassword",['uses'=>"SettingsController@newPassword"]);
+    Route::get("/POS/productPrice",["uses"=>"ProductsController@productPrice"]);
+    Route::post("/POS/productPrice/update",["uses"=>"ProductsController@productPriceUpdate"]);
 
 	Route::resource("POS/Settings","SettingsController");
 
