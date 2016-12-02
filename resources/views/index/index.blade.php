@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="author" content="Hakizimana Christian">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-        {!! HTML::style('assets/css/vendor/font-awesome.min.css') !!}
+        {!!HTML::style('assets/css/vendor/font-awesome.min.css') !!}
 </head>
 <style type="text/css">
 body {

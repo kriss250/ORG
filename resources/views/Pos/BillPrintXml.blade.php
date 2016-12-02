@@ -1,11 +1,13 @@
 @if(count($bill)>0)
   
-    <?php print '<?xml version="1.0" encoding="UTF-8"?>';?>
+    <?php $resto = \App\Resto::get()->first(); print '<?xml version="1.0" encoding="UTF-8"?>';?>
 <Bill offtariff="{{ $bill[0]->status == \ORG\Bill::OFFTARIFF ? 1 : 0 }}" id="{{ $bill[0]->idbills }}">
     <header>
         <logo>{{ \ORG\Settings::$LOGO }}</logo>
-        <email>{{ \ORG\Settings::$EMAIL }}</email>
-        <phone>{{ \ORG\Settings::$PHONES }}</phone>
+        <email>{{$resto->resto_email }}</email>
+        <phone>{{$resto->resto_phone }}</phone>
+        <tin>{{$resto->tin}}</tin>
+        <website>{{$resto->website}}</website>
     </header>
 
     <customer>{{ $bill[0]->customer }}</customer>
