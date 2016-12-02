@@ -1,3 +1,4 @@
+<?php $prop = \App\Resto::get()->first(); ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -169,11 +170,11 @@
     <header id="header">
         <div class="grid container-fluid">
             <div class="col-md-1 col-xs-3 logo">
-                <img src="/assets/images/backoffice_logo.png" width="45" />
+                <img src="/uploads/images/{{$prop->logo_image}}" width="45" />
             </div>
 
             <div style="padding-left:5px;" class="col-md-5 col-xs-6">
-                <h4 style="font-family:Lato;margin-bottom:0;margin-top:5px;">Classic Hotel</h4>
+                <h4 style="font-family:Lato;margin-bottom:0;margin-top:5px;">{{$prop->resto_name}}</h4>
                 <p style="color:rgb(182, 179, 179)">Backoffice | ORG Systems</p>
             </div>
 

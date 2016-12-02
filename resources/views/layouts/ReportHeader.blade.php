@@ -1,8 +1,10 @@
 <?php
-//logo 
+//logo
 //site name
-//contacts 
+//contacts
 //email
+
+$resto = \App\Resto::get()->first();
 ?>
 <style>
     .report_header {
@@ -41,16 +43,16 @@
             <img width="100" src="{{ \ORG\Settings::$LOGO }}" />
         </div>
         <div class="col-md-10 header_desc">
-            <p><b>Classic Hotel Restaurant</b></p>
-            <p>{{ \ORG\Settings::$EMAIL }}</p>
-            <p>{{\ORG\Settings::$PHONES}}</p>
+            <p><b>{{$resto->resto_name}}</b></p>
+            <p>{{$resto->resto_email }}</p>
+            <p>{{$resto->resto_phone}}</p>
             <p>POS Report - {{ \ORG\Dates::$RESTODATE }}</p>
         </div>
     </div>
 
     <div class="col-md-3">
         <p style="margin:0" class="text-right">ORG System</p>
-        <p class="text-right"><a href="">{{ \ORG\Settings::$WEBSITE }}</a></p>
-        <p class="text-right">User : {{  Auth::user()->username }}</p>
+        <p class="text-right"><a href="">{{ $resto->website }}</a></p>
+        <p class="text-right">User : {{Auth::user()->username }}</p>
     </div>
 </div>

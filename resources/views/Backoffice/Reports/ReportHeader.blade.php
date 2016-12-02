@@ -1,12 +1,13 @@
+<?php $prop = \App\Resto::get()->first(); ?>
 <table style="width:100%">
 <tr>
-    <td style="width:85px">
-        <img src="/assets/images/backoffice_logo.png" width="80" />
+    <td style="width:85px;padding-right:15px">
+        <img src="/uploads/images/{{$prop->logo_image}}" width="100" />
     </td>
     <td>
         <h4 style="margin-bottom:0">Report</h4>
-        Classic Hotel Kigali<br />
-        Sonatubes
+        {{$prop->resto_name}}<br />
+        {{$prop->website}}
     </td>
 
     <td class="text-right">
