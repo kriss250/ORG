@@ -534,11 +534,11 @@ class BillsController extends Controller
 
             DB::beginTransaction();
 
-            $bill_total_sql = "select sum(qty*unit_price) as amount,store_id from bill_items
+            $bill_total_sql = "select sum(qty*unit_price) as amount,bill_items.store_id from bill_items
             join products on products.id = product_id
             join categories on category_id = categories.id
             where bill_id =?
-            group by store_id";
+            group by bill_items.store_id";
 
             $the_bill = DB::select($bill_total_sql,[$data['BillID']]);
 
