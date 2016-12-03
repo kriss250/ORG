@@ -51,7 +51,6 @@ class ProductsController extends Controller
 
             return Datatables\SSP::simple( $_GET, "products", "products.id", $columns,$join );
 
-
         }
 
         return \View::make("/Pos/ProductList");
@@ -231,23 +230,25 @@ class ProductsController extends Controller
         $favo = (isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " and favorite=1":"";
 
         //Default : no filter
-        $sql = "SELECT products.id,product_name,category_name,price,stock_id FROM products
+        $sql = "SELECT products.id,product_name,category_name,price,stock_id,categories.store_id as idstore FROM products
         join categories on categories.id = category_id
+        join category_store on category_store.category_id = categories.id
         join product_price on price_id = product_price.id ".((isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " where favorite=1":"")." ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")." ".(is_numeric(\Auth::user()->wstore) &&  \Auth::user()->wstore > 0 ? " and (store_id=".(\Auth::user()->wstore).")" :"" )." order by product_name asc limit 70";
 
         //Filter by cate & store
         if(isset($_GET['store']) && $_GET['store']>0 ){
-            $sql2 = "SELECT products.id,product_name,category_name,price,stock_id FROM products
+            $sql2 = "SELECT products.id,product_name,category_name,price,stock_id,categories.store_id as idstore FROM products
             join categories on categories.id = category_id
-            join store on idstore = store_id
+            join category_store on category_store.category_id = categories.id
             join product_price on price_id = product_price.id where idstore=? $favo order by product_name asc limit 70";
 
             return json_encode(DB::select($sql2,[$_GET['store']]));
         }
 
         if($id>0){
-            $sql = "SELECT products.id,product_name,category_name,price,stock_id FROM products
+            $sql = "SELECT products.id,product_name,category_name,price,categories.stock_id FROM products
             join categories on categories.id = category_id
+            join category_store on category_store.category_id = categories.id
             join product_price on price_id = product_price.id where category_id=? $favo order by product_name asc limit 70";
 
             return json_encode(DB::select($sql,[$id]));
@@ -260,8 +261,9 @@ class ProductsController extends Controller
     public function searchProduct()
     {
         $q =  "%".$_GET['q']."%";
-        return json_encode(DB::select("SELECT products.id,product_name,category_name,price,stock_id FROM products
+        return json_encode(DB::select("SELECT products.id,product_name,category_name,price,stock_id,categories.store_id as idstore FROM products
         join categories on categories.id = category_id
+        join category_store on category_store.category_id = categories.id
         join product_price on price_id = product_price.id where product_name LIKE ? and user_created=0 ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")." ".(is_numeric(\Auth::user()->wstore) &&  \Auth::user()->wstore > 0 ? " and ( store_id=".(\Auth::user()->wstore).")" :"" )."  order by favorite desc  limit 30",[$q]));
     }
 

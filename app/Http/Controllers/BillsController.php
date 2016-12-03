@@ -106,8 +106,8 @@ class BillsController extends Controller
 
             //insert
             foreach ($new_items as $item) {
-                DB::insert("insert into bill_items (bill_id,product_id,unit_price,qty) values(?,?,?,?)",
-                    [$id,$item->id,$item->price,$item->qty]
+                DB::insert("insert into bill_items (bill_id,product_id,unit_price,qty,store_id) values(?,?,?,?,?)",
+                    [$id,$item->id,$item->price,$item->qty,$item->idstore]
                 );
             }
 
@@ -149,7 +149,7 @@ class BillsController extends Controller
         $this->billDate = \ORG\Dates::$RESTODT;
         $data = $req->all();
         $items =  json_decode($data['data']);
-
+        
         $this->bill_status = $pay ? \ORG\Bill::PAID : \ORG\Bill::SUSPENDED;
         if($data['waiter_id'] < 1)
         {
@@ -183,7 +183,7 @@ class BillsController extends Controller
                 continue;
             }
 
-            array_push($billItems,["bill_id"=>$billid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty]);
+            array_push($billItems,["bill_id"=>$billid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty,"store_id"=>$item->idstore]);
         }
 
         $_ins = DB::table("bill_items")->insert($billItems);

@@ -51,7 +51,8 @@
 		                $(prodItem).attr("data-price",value.price);
 						$(prodItem).attr("data-name",value.product_name);
 						$(prodItem).attr("data-id",value.id);
-						$(prodItem).attr("data-stock_id",value.stock_id);
+						$(prodItem).attr("data-stock_id", value.stock_id);
+						$(prodItem).attr("data-store_id", value.idstore);
 						$(prodItem).html('<i class="fa fa-cutlery"></i>'+value.product_name);
 						$(list).append($(prodItem));
 	                });
@@ -138,7 +139,8 @@
 				name: $(this).attr("data-name"),
 				id : $(this).attr("data-id"),
 				stock_id:$(this).attr("data-stock_id"),
-				qty:newQty,
+				qty: newQty,
+				idstore: $(this).attr("data-store_id"),
 				total: 0
 			};
 
@@ -1194,7 +1196,8 @@
 					  			"data-price" : value.price,
 					  			"data-id": value.id,
 					  			"data-name" : value.product_name,
-					  			"data-stock_id":value.stock_id
+					  			"data-stock_id": value.stock_id,
+                                "data-store_id":value.idstore
 					  		}).addClass('search_prod').html(value.product_name + " <span>(" + value.price + ")</span> <input type='number' min='1' value='1' class='_prod-qty' />");
 
 					  		$(resultsList).append(item);
@@ -1240,7 +1243,8 @@
 				price : parseFloat($(this).attr("data-price")) ,
 				name: $(this).attr("data-name"),
 				id : $(this).attr("data-id"),
-				stock_id:$(this).attr("data-stock_id"),
+				stock_id: $(this).attr("data-stock_id"),
+                idstore:$(this).attr("data-store_id"),
 				qty:_qty,
 				total: 0
 			};
