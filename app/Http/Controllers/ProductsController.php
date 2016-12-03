@@ -399,5 +399,40 @@ class ProductsController extends Controller
 
         return redirect()->back();
     }
+
+    public function categoryStore()
+    {
+        return \View::make("Pos.categoryStore");
+    }
+
+    public function setCategoryStore(){
+
+        if(\Request::input("store")>0 && \Request::input("category") > 0)
+        {
+            \App\CategoryStore::create([
+                "store_id"=>\Request::input("store"),
+                "category_id"=>\Request::input("category")
+                ]);
+        }
+
+        return redirect()->back();
+    }
+
+    public function removeCatStore($cat,$store)
+    {
+    try {
+        $item = \App\CategoryStore::where([
+        "store_id"=>$store,
+        "category_id"=>$cat
+        ])->get()->first();
+
+        if($item !=null)
+        {
+            $item->delete();
+        }
+    }catch(\Exception $e){}
+
+     return redirect()->back();
+    }
 }
 

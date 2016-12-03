@@ -254,6 +254,7 @@ function switchStore(src)
               <li><a href="{{ action('ProductsCategoryController@create') }}">New Category</a></li>
               <li><a href="{{ action('ProductsSubCategoryController@create') }}">New Subcategory</a></li>
               <li><a href="{{ action('ProductsController@index') }}">Product List</a></li>
+                <li><a href="{{ action('ProductsController@categoryStore') }}">Category to Store</a></li>
                 <li><a href="{{ action('ProductsController@productPrice') }}">Product Prices</a></li>
               <li><a href="{{ action('ProductsCategoryController@index') }}">Category List</a></li>
               <li><a href="{{ action('ProductsSubCategoryController@index') }}">SubCategory List</a></li>

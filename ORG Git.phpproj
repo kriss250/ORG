@@ -16,6 +16,7 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\CategoryStore.php" />
     <Compile Include="app\ProductPrice.php" />
     <Compile Include="app\Product.php" />
     <Compile Include="app\Bill.php" />
@@ -70,6 +71,7 @@
     <Compile Include="app\InvoiceItem.php" />
     <Compile Include="app\Invoice.php" />
     <Compile Include="app\Resto.php" />
+    <Compile Include="app\Category.php" />
     <Compile Include="app\Store.php" />
     <Compile Include="packages\kris\Frontdesk\src\Controllers\StatementsController.php" />
     <Compile Include="packages\kris\Frontdesk\src\Currency.php" />
@@ -696,6 +698,7 @@
     <Compile Include="resources\views\Pos\BillList.blade.php" />
     <Compile Include="resources\views\Pos\BillPrint.blade.php" />
     <Compile Include="resources\views\Pos\BillPrintXml.blade.php" />
+    <Compile Include="resources\views\Pos\categoryStore.blade.php" />
     <Compile Include="resources\views\Pos\CategoryList.blade.php" />
     <Compile Include="resources\views\Pos\ChangePassword.blade.php" />
     <Compile Include="resources\views\Pos\Home.blade.php" />

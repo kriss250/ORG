@@ -116,7 +116,11 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get("/POS/productPrice",["uses"=>"ProductsController@productPrice"]);
     Route::post("/POS/productPrice/update",["uses"=>"ProductsController@productPriceUpdate"]);
 
+    Route::get("/POS/productCategory",["uses"=>'ProductsController@categoryStore']);
+    Route::post("/POS/setProductCategory/",["uses"=>'ProductsController@setCategoryStore']);
+    Route::get("/POS/removeCatStore/{cat}/{store}/",["uses"=>'ProductsController@removeCatStore']);
 	Route::resource("POS/Settings","SettingsController");
+
 
 	Route::resource("POS/Store","StoreController");
 	Route::resource("POS/Users","UsersController");
