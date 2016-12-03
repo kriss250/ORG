@@ -230,17 +230,17 @@ class ProductsController extends Controller
         $favo = (isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " and favorite=1":"";
 
         //Default : no filter
-        $sql = "SELECT products.id,product_name,category_name,price,stock_id,categories.store_id as idstore FROM products
+        $sql = "SELECT products.id,product_name,category_name,price,stock_id,store_id as idstore FROM products
         join categories on categories.id = category_id
         join category_store on category_store.category_id = categories.id
-        join product_price on price_id = product_price.id ".((isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " where favorite=1":"")." ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")." ".(is_numeric(\Auth::user()->wstore) &&  \Auth::user()->wstore > 0 ? " and (store_id=".(\Auth::user()->wstore).")" :"" )." order by product_name asc limit 70";
+        join product_price on price_id = product_price.id ".((isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " where user_created = 0 and  favorite=1":"")." ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")." ".(is_numeric(\Auth::user()->wstore) &&  \Auth::user()->wstore > 0 ? " and (store_id=".(\Auth::user()->wstore).")" :"" )." order by product_name asc limit 70";
 
         //Filter by cate & store
         if(isset($_GET['store']) && $_GET['store']>0 ){
-            $sql2 = "SELECT products.id,product_name,category_name,price,stock_id,categories.store_id as idstore FROM products
+            $sql2 = "SELECT products.id,product_name,category_name,price,stock_id,store_id as idstore FROM products
             join categories on categories.id = category_id
             join category_store on category_store.category_id = categories.id
-            join product_price on price_id = product_price.id where idstore=? $favo order by product_name asc limit 70";
+            join product_price on price_id = product_price.id where store_id=? $favo and user_created = 0 order by product_name asc limit 70";
 
             return json_encode(DB::select($sql2,[$_GET['store']]));
         }
@@ -261,7 +261,7 @@ class ProductsController extends Controller
     public function searchProduct()
     {
         $q =  "%".$_GET['q']."%";
-        return json_encode(DB::select("SELECT products.id,product_name,category_name,price,stock_id,categories.store_id as idstore FROM products
+        return json_encode(DB::select("SELECT products.id,product_name,category_name,price,stock_id,store_id as idstore FROM products
         join categories on categories.id = category_id
         join category_store on category_store.category_id = categories.id
         join product_price on price_id = product_price.id where product_name LIKE ? and user_created=0 ".(strlen($this->restrictedStores) > 0 ?  "and store_id not in({$this->restrictedStores})" : "")." ".(is_numeric(\Auth::user()->wstore) &&  \Auth::user()->wstore > 0 ? " and ( store_id=".(\Auth::user()->wstore).")" :"" )."  order by favorite desc  limit 30",[$q]));
@@ -274,10 +274,11 @@ class ProductsController extends Controller
 
         DB::transaction(function() use (&$data,&$prod_id){
 
+                                $cat = explode("-",$data['category'])[0];
             $id = DB::table("products")->insertGetId([
                 "product_name"=>$data['product_name'],
                 "description"=>"Custom Product by:".\Auth::user()->username,
-                "category_id"=>$data['category'],
+                "category_id"=>$cat,
                 "subcategory_id"=>0,
                 "price_id"=>0,
                 "user_created"=>"1",
@@ -288,7 +289,6 @@ class ProductsController extends Controller
 
             $price= DB::table("product_price")->insertGetId([
                 "product_id"=>$id,
-
                 "price"=>$data['product_price'],
                 "tax"=>"18",
                 "date"=> \ORG\Dates::$RESTODT
@@ -301,7 +301,9 @@ class ProductsController extends Controller
             $prod_id = $id;
         });
 
-        return "$prod_id";
+        return json_encode([
+            "id"=>$prod_id,
+            "store"=>\App\CategoryStore::where("category_id",explode("-",$data['category'])[1]) ]);
 
     }
 

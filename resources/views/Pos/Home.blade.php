@@ -92,9 +92,9 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
 	<label>Price</label> <input name="product_price" type="text">
     <label>Category</label> <select style="max-width:150px;display:block" required="" name="category">
                                 <option value="">Category</option>
-                                <?php $cats = \DB::select("SELECT id,category_name,store_name FROM categories join store on store.idstore = store_id"); ?>
+                                <?php $cats = \DB::select("SELECT id,category_name,store_name,store_id FROM categories join category_store on category_store.category_id = categories.id join store on store.idstore = store_id"); ?>
                                 @foreach($cats as $cat)
-                                <option value="{{ $cat->id }}">{{$cat->category_name}} ({{ $cat->store_name }})</option>
+                                <option value="{{ $cat->id }}-{{$cat->store_id}}">{{$cat->category_name}} ({{ $cat->store_name }})</option>
                                 @endforeach
                             </select>
 	<input type="submit" value="Add">

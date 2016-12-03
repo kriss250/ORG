@@ -29,7 +29,7 @@ class POSReport extends Model
 
         if($store>0)
         {
-            $store_str = " and store_id=?";
+            $store_str = " and bill_items.store_id=?";
             array_push($date, $store);
         }
 
@@ -57,7 +57,7 @@ class POSReport extends Model
 
         if($store>0)
         {
-            $store_str = " and store_id=?";
+            $store_str = " and bill_items.store_id=?";
             array_push($date, $store);
         }
 
@@ -84,7 +84,7 @@ class POSReport extends Model
          $store_join = "";
         if($store>0)
         {
-            $store_str = " and store_id=?";
+            $store_str = " and bill_items.store_id=?";
             $store_join = "
             join products on products.id = bill_items.product_id
             join categories on categories.id=products.category_id ";
@@ -157,8 +157,8 @@ class POSReport extends Model
 
         if(isset($store) && $store>0)
         {
-            $store_str = " and store_id=?";
-            $store_join = " join categories on categories.id=category_id join store on store.idstore = categories.store_id ";
+            $store_str = " and bill_items.store_id=?";
+            $store_join = " join categories on categories.id=category_id join store on store.idstore = bill_items.store_id ";
             array_push($date, $store);
         }
 
@@ -213,8 +213,8 @@ class POSReport extends Model
 
            if($store>0)
            {
-             $join_store = " join categories on categories.id=category_id join store on store.idstore = categories.store_id";
-             $where_store = " and store_id=?";
+             $join_store = " join categories on categories.id=category_id join store on store.idstore = bill_items.store_id";
+             $where_store = " and bill_items.store_id=?";
              array_push($params, $store);
            }
 
@@ -230,11 +230,11 @@ class POSReport extends Model
 
 		if($store>0)
 		{
-			$store_str = " and store_id=?";
+			$store_str = " and bill_items.store_id=?";
             array_push($date,$store);
 		}
 
-		$sql = "select product_name,category_id,user_created,unit_price as unit_price,sum(qty) as qty,store_name from bill_items join bills on idbills=bill_id  join products on id=product_id left join categories on categories.id = products.category_id left join store on store.idstore = store_id where deleted=0 and (date(bills.date) between ? and ?) $store_str group by products.id,unit_price order by store_id";
+		$sql = "select product_name,category_id,user_created,unit_price as unit_price,sum(qty) as qty,store_name from bill_items join bills on idbills=bill_id  join products on id=product_id left join categories on categories.id = products.category_id left join store on store.idstore = bill_items.store_id where deleted=0 and (date(bills.date) between ? and ?) $store_str group by products.id,unit_price order by bill_items.store_id";
 		$data= \DB::select($sql,$date);
 
 		$free = \DB::select("select sum(qty*unit_price) as free from bills join bill_items on bill_id=idbills where (date(date) between ? and ?) and deleted=0 and status =".\ORG\Bill::OFFTARIFF."",$date);
@@ -388,7 +388,7 @@ class POSReport extends Model
 
     public static function storesSales($date)
     {
-      $stores_sales = \DB::select("select sum(unit_price*qty) as amount,store_name from bills join bill_items on bill_items.bill_id=idbills join products on products.id=bill_items.product_id join categories on categories.id = products.category_id join store on store.idstore = categories.store_id where deleted=0 and status not in ('".\ORG\Bill::OFFTARIFF."','".\ORG\Bill::SUSPENDED."') and date(bills.date) between ? and ? group by store_id",$date);
+      $stores_sales = \DB::select("select sum(unit_price*qty) as amount,store_name from bills join bill_items on bill_items.bill_id=idbills join products on products.id=bill_items.product_id join categories on categories.id = products.category_id join store on store.idstore = bill_items.store_id where deleted=0 and status not in ('".\ORG\Bill::OFFTARIFF."','".\ORG\Bill::SUSPENDED."') and date(bills.date) between ? and ? group by bill_items.store_id",$date);
       $stores =\DB::select("select idstore,store_name from store");
       $stores_data = ["stores"=>$stores,"sales"=>$stores_sales];
       return count($stores_data) > 0 ? $stores_data : [];

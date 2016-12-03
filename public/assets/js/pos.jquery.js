@@ -1269,7 +1269,7 @@
 			var theForm = $(this);
 			var prod_price = parseFloat($(this).children("input[name='product_price']").val());
 			var prod_name = $(this).children("input[name='product_name']").val();
-
+           
 			if(isNaN(prod_price)){
 				ualert.error("Price must be in number format");
 				return;
@@ -1286,7 +1286,8 @@
 				"type":"post",
 				"data":$(theForm).serialize(),
 				"success":function(data){
-					var id = parseInt(data);
+				    data =JSON.parse(data);
+				    var id = parseInt(data.id);
 
 					if(!isNaN(id)) // If it's a valid number
 					{
@@ -1296,7 +1297,8 @@
 								price : prod_price,
 								name: prod_name,
 								id : id,
-								qty:1,
+								qty: 1,
+								idstore:data.store,
 								total: 0
 							};
 
