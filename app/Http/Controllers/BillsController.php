@@ -182,9 +182,9 @@ class BillsController extends Controller
             {
                 continue;
             }
-            
-          
-            array_push($billItems,["bill_id"=>$billid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty,"store_id"=>$item->idstore->store_id]);
+
+            $xid = typeOf($item->idstore)=="object" ? $item->idstore->store_id : $item->idstore;
+            array_push($billItems,["bill_id"=>$billid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty,"store_id"=>$xid]);
         }
 
         $_ins = DB::table("bill_items")->insert($billItems);

@@ -1286,7 +1286,7 @@
 				"type":"post",
 				"data":$(theForm).serialize(),
 				"success": function (data) {
-				    alert(data); //here
+				     //here
 				    data = JSON.parse(data);
 				    var id = parseInt(data.id);
 
