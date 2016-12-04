@@ -278,6 +278,7 @@
     <div class="widget-text">
         <table style="width:100%;line-height:1.1">
             <tr>
+            @if(count($exchangerates)>0)
             @foreach($exchangerates as $rate)
                 <td style="padding:5px">
                 <i style="font-size:22px" class="fa fa-{{ strtolower($rate->currency) }}"></i> 
@@ -290,7 +291,7 @@
             </tr>
         </table>
         <p style="font-size:11px;color:#ccc;margin-top:5px;margin-bottom:-5px" class="text-center">{{ $exchangerates[0]->date }}</p>
-       
+       @endif
     </div>
     </div>
 
