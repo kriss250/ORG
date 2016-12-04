@@ -149,7 +149,7 @@ class BillsController extends Controller
         $this->billDate = \ORG\Dates::$RESTODT;
         $data = $req->all();
         $items =  json_decode($data['data']);
-        
+
         $this->bill_status = $pay ? \ORG\Bill::PAID : \ORG\Bill::SUSPENDED;
         if($data['waiter_id'] < 1)
         {
@@ -182,8 +182,9 @@ class BillsController extends Controller
             {
                 continue;
             }
-
-            array_push($billItems,["bill_id"=>$billid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty,"store_id"=>$item->idstore]);
+            
+          
+            array_push($billItems,["bill_id"=>$billid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty,"store_id"=>$item->idstore->store_id]);
         }
 
         $_ins = DB::table("bill_items")->insert($billItems);

@@ -1285,8 +1285,9 @@
 				url:$(this).attr("action"),
 				"type":"post",
 				"data":$(theForm).serialize(),
-				"success":function(data){
-				    data =JSON.parse(data);
+				"success": function (data) {
+				    alert(data); //here
+				    data = JSON.parse(data);
 				    var id = parseInt(data.id);
 
 					if(!isNaN(id)) // If it's a valid number

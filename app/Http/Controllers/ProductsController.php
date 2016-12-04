@@ -303,7 +303,7 @@ class ProductsController extends Controller
 
         return json_encode([
             "id"=>$prod_id,
-            "store"=>\App\CategoryStore::where("category_id",explode("-",$data['category'])[1]) ]);
+            "store"=>\App\CategoryStore::where("category_id",explode("-",$data['category'])[1])->get()->first() ]);
 
     }
 
