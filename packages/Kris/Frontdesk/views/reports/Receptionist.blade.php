@@ -10,7 +10,7 @@
 
     <p class="report-title">Shift Report</p>
 
-
+ 
     @foreach($users as $key=>$user)
     <?php $cash = 0;$bank = 0;$check = 0;$cc = 0; $credit = 0; $refund=0; ?>
 

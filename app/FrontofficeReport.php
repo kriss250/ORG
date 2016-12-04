@@ -240,8 +240,11 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
 
         $pays  = \DB::connection("mysql_book")->select($q,$range);
         $sales = \DB::connection("mysql_book")->select("SELECT sum(amount) as amount,username,pay_mode,is_credit FROM misc_sales join users on users.idusers=user_id  where date(misc_sales.date) between ? and  ? and user_id ".($id>0?"=":">")." ? group by user_id,pay_mode order by user_id",$range);
+        $currencies = \DB::connection("mysql_book")->select("SELECT user_id,id_folio,currencies.name,paymethod, reservation_id,sum(original_amount) FROM `folio`
+        JOIN currencies on currencies.idcurrency= folio.currency_id
+        WHERE void=0 and date(folio.date) between ? and  ? and folio.user_id ".($id>0?"=":">")." ? GROUP BY folio.user_id,paymethod,folio.currency_id",$range);
 
-        return ["payments"=>$pays,"sales"=>$sales];
+        return ["payments"=>$pays,"sales"=>$sales,"currencies"=>$currencies];
     }
 
 

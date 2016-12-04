@@ -93,16 +93,19 @@ class ReportsController extends Controller
             case "receptionist":
                 $data = $frontdesk->receptionist($range,0);
                 $_data = [];
+
                 $pay = null;
                 $sale = null;
                 foreach($data["payments"] as $pay)
                 {
                     $_data[$pay->username]["payments"][] = $pay;
+                    $_data[$pay->username]["currencies"][] = $data['currencies'];
                 }
 
                 foreach ($data["sales"]  as $sale)
                 {
                 	  $_data[$sale->username]["sales"][] = $sale;
+                      $_data[$pay->username]["currencies"][] = $data['currencies'];
                 }
 
                 return \View::make("Frontdesk::reports.Receptionist",["users"=>$_data]);
