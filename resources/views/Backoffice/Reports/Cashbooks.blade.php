@@ -57,7 +57,7 @@
  	</thead>
 
     <tr style="font-weight:bold">
-        <td colspan="7">Opening Balance</td> <td>{{ number_format($initial) }}</td>
+        <td colspan="7">Opening Balance</td> <td>{{ number_format($initial,1) }}</td>
     </tr>
  	<?php
  	$INs = 0;
@@ -80,12 +80,12 @@
             <td>{{$transaction->receiver}}</td>
 			<td> {{ $transaction->username }} </td>
 			
-			<td>{{ number_format($IN) }} </td>
-			<td>{{ number_format($OUT) }}</td>
+			<td>{{ number_format($IN,1) }} </td>
+			<td>{{ number_format($OUT,1) }}</td>
 			<td>
                 <?php
                         $new_b +=($IN-$OUT);
-                        echo number_format($new_b);
+                        echo number_format($new_b,1);
                 ?>
             </td>
 			
@@ -93,9 +93,9 @@
 	@endforeach
 	<tr>
 	<td style="font-weight: bold;" colspan="5">CLOSING BALANCE</td>
-	<td><b>{{ number_format($INs) }}</b></td>
-	<td><b>{{ number_format($OUTs) }}</b></td>
-     <td><b>{{ number_format($INs+$initial-$OUTs) }}</b></td>
+	<td><b>{{ number_format($INs,1) }}</b></td>
+	<td><b>{{ number_format($OUTs,1) }}</b></td>
+     <td><b>{{ number_format($INs+$initial-$OUTs,1) }}</b></td>
 	</tr>
 </table>
 

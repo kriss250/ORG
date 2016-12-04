@@ -19,7 +19,7 @@
 		<td>
 			@if(isset($cashbook))
 				<h3> {{ $cashbook->cashbook_name }} </h3>
-				<b style="font-size: 18px;padding:8px 0">Balance: {{ number_format($cashbook->balance) }} </b>
+				<b style="font-size: 18px;padding:8px 0">Balance: {{ number_format($cashbook->balance,1) }} </b>
 			@endif
 		</td>
 
@@ -75,9 +75,9 @@
 			<td> {{ $transaction->motif }} </td>
 			<td> {{ $transaction->username }} </td>
 			
-			<td>{{ number_format($IN) }} </td>
-			<td>{{ number_format($OUT) }}</td>
-			<td>{{ number_format($transaction->new_balance) }}</td>
+			<td>{{ number_format($IN,1) }} </td>
+			<td>{{ number_format($OUT,1) }}</td>
+			<td>{{ number_format($transaction->new_balance,1) }}</td>
 			<td>
 				<button data-refresh-url="{{ action('CashbookController@show',$cashbook->cashbookid)}}" data-url="{{ action("CashbookTransactionController@update",$transaction->transactionid) }}/?type={{ $transaction->type }}&cashbook={{ $cashbook->cashbookid }}&amount={{ $transaction->amount }}" style="background: none;font-size: 14px;color:red" class="delete-trans-btn btn btn-sm"><i class="fa fa-trash-o"></i></button>
 			</td>
@@ -85,9 +85,9 @@
 	@endforeach
 	<tr>
 	<td style="font-weight: bold;" colspan="5">CLOSING BALANCE</td>
-	<td><b>{{ number_format($INs) }}</b></td>
-	<td><b>{{ number_format($OUTs) }}</b></td>
-     <td><b>{{ number_format($INs-$OUTs) }}</b></td>
+	<td><b>{{ number_format($INs,1) }}</b></td>
+	<td><b>{{ number_format($OUTs,1) }}</b></td>
+     <td><b>{{ number_format($INs-$OUTs,1) }}</b></td>
 	</tr>
 </table>
 </div>

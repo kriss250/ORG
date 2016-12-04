@@ -36,10 +36,10 @@
 
         <tr style="font-size:15px">
             <td>{{$payment->reservation->idreservation}}</td>
-            <td>{{number_format($payment->credit)}}</td>
+            <td>{{number_format($payment->credit,1)}}</td>
             <td>{{$payment->mode->method_name}}</td>
-            <td>{{number_format($payment->original_amount)}}</td>
-            <td>{{number_format($payment->credit)}}</td>
+            <td>{{number_format($payment->original_amount,1)}}</td>
+            <td>{{number_format($payment->credit,1)}}</td>
         </tr>
 
     </table>
