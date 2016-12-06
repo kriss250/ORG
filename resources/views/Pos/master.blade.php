@@ -43,6 +43,12 @@ if(isset($_GET['store_switch']))
     \Auth::user()->save();
 }
 
+if(isset($_GET['working_stores']))
+{
+    \Session::put('working_stores',explode(',',$_GET['working_stores']));
+}
+
+
 ?>
 
 @if(isset($errors) && count($errors) > 0)

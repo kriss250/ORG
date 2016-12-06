@@ -352,7 +352,7 @@
 
     <footer class="footer">
         <div class="grid">
-            <p class="text-center">&copy; {{ date('Y') }} Classic Hotel</p>
+            <p class="text-center">&copy; {{ date('Y') }} KLAXYCOM CORP.</p>
             <p class="text-center"> ORG SYSTEMS </p>
         </div>
     </footer>
