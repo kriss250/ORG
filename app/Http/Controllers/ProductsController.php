@@ -19,7 +19,8 @@ class ProductsController extends Controller
     public function __construct()
     {
         $this->restrictedStores =  \Session::get("restricted_stores");
-        $this->workingStores = count(\Session::get("working_stores")) > 0 ?  \Session::get("working_stores") : [];
+        $st = unserialize($_COOKIE['working_stores']);
+        $this->workingStores = count($st) > 0 ?  $st : [];
     }
 
     /**

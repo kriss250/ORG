@@ -46,6 +46,8 @@ if(isset($_GET['store_switch']))
 if(isset($_GET['working_stores']))
 {
     \Session::put('working_stores',explode(',',$_GET['working_stores']));
+    setcookie('working_stores',serialize(explode(',',$_GET['working_stores'])),time()+86400*90);
+
 }
 
 
