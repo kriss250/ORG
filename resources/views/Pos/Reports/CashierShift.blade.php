@@ -85,12 +85,12 @@ foreach($pays as $pay){
 
 	?>
 
-		<tr>
-			<th rowspan="4">{{  $user_bill[0]->username }}</th>
-			<th rowspan="3">Unclassified</th>
-			<th rowspan="3">Credit</th>
-			<th class="text-center" colspan="3">Paid</th>
-			<th rowspan="3">Room Post</th>
+		<tr style="font-weight:bold">
+			<td rowspan="4">{{  $user_bill[0]->username }}</td>
+			<td rowspan="3">Unclassified</td>
+			<td rowspan="3">Credit</td>
+			<td class="text-center" colspan="3">Paid</td>
+			<td rowspan="3">Room Post</td>
 		</tr>
 			<tr>
 				<td>Cash</td><td>Cards</td><td>Check</td>

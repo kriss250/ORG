@@ -114,26 +114,24 @@
 
 }
 ?>
-<thead>
-    <tr>
-        <th rowspan="2">Order</th>
-        <th rowspan="2">Customer</th>
-        <th rowspan="2">Cashier</th>
-        <th rowspan="2">Waiter</th>
-        <th class="text-center" colspan="4">Bill Items</th>
-        <th rowspan="2">Total</th>
-        <th rowspan="2">Cash</th>
-        <th rowspan="2">Card</th>
-        <th rowspan="2">Check</th>
-        <th rowspan="2">Time</th>
+    <tr style="font-weight:bold">
+        <td rowspan="2">Order</td>
+        <td rowspan="2">Customer</td>
+        <td rowspan="2">Cashier</td>
+        <td rowspan="2">Waiter</td>
+        <td class="text-center" colspan="4">Bill Items</td>
+        <td rowspan="2">Total</td>
+        <td rowspan="2">Cash</td>
+        <td rowspan="2">Card</td>
+        <td rowspan="2">Check</td>
+        <td rowspan="2">Time</td>
     </tr>
     <tr>
-        <th>Item</th>
-        <th>Qty</th>
-        <th>U.P</th>
-        <th>T.P</th>
+        <td>Item</td>
+        <td>Qty</td>
+        <td>U.P</td>
+        <td>T.P</td>
     </tr>
-</thead>
     {!!$tr!!}
 
         <tr>
