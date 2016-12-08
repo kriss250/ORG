@@ -77,9 +77,9 @@
                   $billGT += $item->qty * $item->unit_price;
                 }
         }
-        $_cash_percent = (($bill->cash * 100) / $bill->bill_total)/100;
-        $_card_percent = (($bill->card * 100) / $bill->bill_total)/100;
-        $_check_percent = (($bill->check_amount * 100) / $bill->bill_total)/100;
+        $_cash_percent = $bill->bill_total ==0 ? 0 : (($bill->cash * 100) / $bill->bill_total)/100;
+        $_card_percent = $bill->bill_total ==0 ? 0 : (($bill->card * 100) / $bill->bill_total)/100;
+        $_check_percent = $bill->bill_total ==0 ? 0 : (($bill->check_amount * 100) / $bill->bill_total)/100;
         if($zi>1){
             $tr .= "<tr".($bill->status == \ORG\Bill::SUSPENDED ? " class='text-danger' ":"").">
                  <td rowspan='$zi'>$bill->idbills ".($bill->status == \ORG\Bill::SUSPENDED ? " <i class='fa fa-question-circle'></i>":"")." ".($bill->last_updated_by>0 && $bill->last_updated_by != $bill->user_id ? "<b style='color:red;font-size:16px'>*</b>" : "" )."</td>
