@@ -22,7 +22,7 @@ class Bill extends Model
                 group by room_id,amount
                 ";
 
-        $charge_types ="1,2,3,4,5";
+        $charge_types ="1,2,3,4,5,6,7,8,9,10";
 
         if(\Request::has("charge_filter"))
         {
