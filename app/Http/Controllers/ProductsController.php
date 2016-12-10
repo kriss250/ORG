@@ -318,7 +318,7 @@ class ProductsController extends Controller
 
     public static function removeProductsFromStock()
     {
-        $warehouse_id = 11;
+        $warehouse_id = 1;
         \DB::beginTransaction();
 
         try {
