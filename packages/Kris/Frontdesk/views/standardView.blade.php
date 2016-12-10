@@ -169,7 +169,10 @@ $ExpectedCheckout = [];
                 </thead>
 
                 @foreach($data as $room)
-                <tr onclick="openRoom({{$room->idreservation}},this)" data-iframe="yes" data-desc="" class="{{strtolower($room->status_name)}} dlg-bn" title="Room : {{$room->room_number}} Status : {{$room->status_name}}" data-toggle="modal" data-url="{{action("\Kris\Frontdesk\Controllers\OperationsController@roomView",$room->idreservation)}}" data-target=".moda-lg" data-id="{{$room->idreservation}}">
+                <?php $multi_book  = count(explode(',',$room->ids)) >1 ;
+                      $cRes = \Kris\Frontdesk\Reservation::whereIn("idreservation",explode(',',$room->ids))->where("status",\Kris\Frontdesk\Reservation::CHECKEDIN)->get()->first();
+                ?>
+                <tr onclick="openRoom({{$multi_book ? $cRes->idreservation :$room->idreservation }},this)" data-iframe="yes" data-desc="" class="{{strtolower($room->status_name)}} dlg-bn" title="Room : {{$room->room_number}} Status : {{$room->status_name}}" data-toggle="modal" data-url="{{action("\Kris\Frontdesk\Controllers\OperationsController@roomView",$room->idreservation)}}" data-target=".moda-lg" data-id="{{$room->idreservation}}">
                     <td>
                         {{$room->room_number}}
                     </td>
@@ -187,7 +190,11 @@ $ExpectedCheckout = [];
                     </td>
 
                     <td style="width:22%">
+                        @if($multi_book)
+                        {{$cRes->guest->firstname}} {{$cRes->guest->lastname}}
+                        @else
                         {{strlen($room->Guest) < 2 && strlen($room->group_name) > 0 ? $room->group_name : $room->Guest}}
+                        @endif
                     </td>
 
                     <td>

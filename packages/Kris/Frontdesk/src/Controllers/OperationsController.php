@@ -196,7 +196,7 @@ class OperationsController extends Controller
 
     public function standardView()
     {
-        $sql = "select room_number,type_name,floor_name,status_name,concat_ws(' ',firstname,lastname) as Guest,group_name,name,checkin,checkout,phone_ext,status_code,idrooms,idreservation,idroom_types,idfloors from rooms
+        $sql = "select room_number,type_name,floor_name,status_name,concat_ws(' ',firstname,lastname) as Guest,group_name,name,checkin,checkout,phone_ext,status_code,idrooms,idreservation,idroom_types,idfloors,group_concat(idreservation) as ids from rooms
                         join room_types on type_id = idroom_types
                         join floors on rooms.floors_id = idfloors
                         join room_status on status_code = rooms.status
