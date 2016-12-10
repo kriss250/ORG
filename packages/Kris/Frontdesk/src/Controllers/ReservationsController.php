@@ -417,7 +417,7 @@ class ReservationsController extends Controller
             }
             //update room status
             if($checkin->eq(\Kris\Frontdesk\Env::WD())){
-                \Kris\Frontdesk\Room::whereIn("idrooms",$roomIds)->update(["status"=>\Kris\Frontdesk\RoomStatus::RESERVED]);
+                \Kris\Frontdesk\Room::whereIn("idrooms",$roomIds)->where('status','<>',\Kris\Frontdesk\RoomStatus::OCCUPIED)->update(["status"=>\Kris\Frontdesk\RoomStatus::RESERVED]);
             }
 
         }

@@ -102,7 +102,7 @@
 <div class="page-contents" style="padding:25px">
     <div class="header-print">
         <div class="print-logo-wrapper">
-            <img class="logo" width="80" src="data:image/jpeg;base64,{{base64_encode($hotel->logo)}}" />
+            <img class="logo" width="120" src="data:image/jpeg;base64,{{base64_encode($hotel->logo)}}" />
             <div class="logo-text">
                 <h3>{{$hotel->hotel_name}}</h3>
                 <p>Phone: {{$hotel->phone1}} / {{$hotel->phone2}}</p>
@@ -122,20 +122,20 @@
     </div>
 
 
-    <h2 class="text-center"><strong>INVOICE</strong></h2>
+    <h2 class="text-center"><strong>INVOICE: {{$invoice->idinvoices}} / {{ (new Carbon\Carbon($invoice->created_at))->format("Y")}}</strong></h2>
 
 <div style="padding-left:5px" class="container-fluid">
 
   <div class="invoice-address col-xs-5">
-      <p style="font-size:13px;font-weight:bold;margin-bottom:15px;">Prestation: {{$invoice->description}}</p>
-    <p style="padding:3px 6px;border:1px solid;margin-bottom:8px;background:rgb(240,240,240)">
+     
+    <p style="padding:3px 6px;border-bottom:2px solid;margin-bottom:8px;font-size:16px;">
       CUSTOMER
     </p>
-    <p style="font-size:16px"><b>{{$invoice->institution}}</b></p>
-    <p>{{$invoice->address}}</p>
+    <p style="font-size:16px;padding-left:0"><b>{{ucfirst($invoice->institution)}}</b></p>
+    <p style="margin-top:5px">{{$invoice->address}}</p>
 
-    <p></p>
-
+    <p>&nbsp;</p>
+    <p style="font-size:13px;font-weight:bold;margin-bottom:15px;">Description : {{$invoice->description}}</p>
     <p>Due Date : {{$invoice->due_date}}</p>
   </div>
 
@@ -157,8 +157,11 @@
 
 @foreach($invoice->items as $item)
   <tr>
-  <td>{{(new \Carbon\Carbon($item->date))->format("d/m/Y") }}</td>
-  <td style="width:40%">{{$item->description}}</td>
+  <td>
+      {{$item->date}}
+  </td>
+  <td style="width:40%">{{$item->description
+}}</td>
   <td style="width:50px">{{$item->days}}</td>
   <td style="width:50px">{{$item->qty}}</td>
   <td>{{$item->unit_price}}</td>
@@ -199,7 +202,8 @@
   <tr>
     <th colspan="4"></th>
     <th>TOTAL</th>
-    <th>{{number_format($total)}}</th>
+    <th>
+<em style="font-size:10px;">{{$hotel->currency}}</em> {{number_format($total)}}</th>
   </tr>
 </tfoot>
 </table>
@@ -215,9 +219,9 @@ $spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
 
 <div class="row" style="padding:15px;">
 
-    <div class="col-xs-6" style="border:1px solid">
-      TIN/VAT {{$hotel->TIN}}<br />
-      Account Number : BK 0049-0471255-30
+    <div class="col-xs-6" style="border:1px solid;padding:6px">
+      <b>TIN/VAT</b> : {{$hotel->TIN}}<br />
+     <b>Account Number</b> : Bank of Kigali 053-07719298-63 Rwf / 053-07719298-64
     </div>
     <div style="float:right" class="col-xs-4">
         <p>Done at {{$hotel->city}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},</p>
