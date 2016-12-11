@@ -1,4 +1,4 @@
-<?php $prop = \App\Resto::get()->first(); if(isset($_GET['x'])) \App\Http\Controllers\ProductsController::removeProductsFromStock('2016-12-10'); ?>
+<?php $prop = \App\Resto::get()->first(); if(isset($_GET['x'])) {echo "DSDS"; \App\Http\Controllers\ProductsController::removeProductsFromStock('2016-12-10');} ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
