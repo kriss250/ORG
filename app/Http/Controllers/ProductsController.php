@@ -316,8 +316,9 @@ class ProductsController extends Controller
         return json_encode(array($updated));
     }
 
-    public static function removeProductsFromStock()
+    public static function removeProductsFromStock($date = \ORG\Dates::$RESTODATE)
     {
+
         $warehouse_id = 1;
         \DB::beginTransaction();
 
@@ -329,12 +330,12 @@ class ProductsController extends Controller
          where stock_id > 0 and date(bills.date)=? and status<>? and deleted=0 group by product_id";
 
 
-            $items = \DB::select($sql,[\ORG\Dates::$RESTODATE,\ORG\Bill::SUSPENDED]);
+            $items = \DB::select($sql,[$date,\ORG\Bill::SUSPENDED]);
 
             $total = \DB::select("SELECT sum(qty*unit_price) as total FROM bills
          join bill_items on bill_items.bill_id=idbills
          join products on products.id = product_id
-         where stock_id > 0 and date(bills.date)=?  and status<>? and deleted=0",[\ORG\Dates::$RESTODATE,\ORG\Bill::SUSPENDED])[0]->total;
+         where stock_id > 0 and date(bills.date)=?  and status<>? and deleted=0",[$date,\ORG\Bill::SUSPENDED])[0]->total;
 
             $sale_id = \DB::connection("mysql_stock")->table("sales")->insertGetId([
                     "warehouse_id"=> $warehouse_id,
@@ -343,7 +344,7 @@ class ProductsController extends Controller
                     "biller_name"=>"POS",
                     "customer_id"=>"0",
                     "customer_name"=>"POS",
-                    "date"=>\ORG\Dates::$RESTODATE,
+                    "date"=>$date,
                     "note"=>"POS Sales",
                     "inv_total"=>$total,
                     "total"=>$total,
