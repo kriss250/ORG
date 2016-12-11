@@ -340,7 +340,7 @@ class ProductsController extends Controller
             $sale_id = \DB::connection("mysql_stock")->table("sales")->insertGetId([
                     "warehouse_id"=> $warehouse_id,
                     "biller_id"=>"1",
-                    "reference_no"=>"POS",
+                    "reference_no"=>"POS-".(new \Carbon\Carbon($date))->format("d-m"),
                     "biller_name"=>"POS",
                     "customer_id"=>"0",
                     "customer_name"=>"POS",
