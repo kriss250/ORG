@@ -316,9 +316,9 @@ class ProductsController extends Controller
         return json_encode(array($updated));
     }
 
-    public static function removeProductsFromStock($date = \ORG\Dates::$RESTODATE)
+    public static function removeProductsFromStock($date = null)
     {
-
+        $date = $date==null ? \ORG\Dates::$RESTODATE : $date;
         $warehouse_id = 1;
         \DB::beginTransaction();
 
