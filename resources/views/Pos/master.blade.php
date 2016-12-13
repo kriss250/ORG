@@ -1,6 +1,9 @@
 <?php
 
-if(isset($_GET['x'])) \App\Http\Controllers\ProductsController::removeProductsFromStock("2016-12-08");
+if(isset($_GET['x'])) {
+    echo "DD";
+    \App\Http\Controllers\ProductsController::removeProductsFromStock("2016-12-08");
+}
 ?>
 
 <!DOCTYPE html>
