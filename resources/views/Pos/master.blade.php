@@ -1,11 +1,3 @@
-<?php
-
-if(isset($_GET['x'])) {
-    echo "DD";
-    \App\Http\Controllers\ProductsController::removeProductsFromStock("2016-12-08");
-}
-?>
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
