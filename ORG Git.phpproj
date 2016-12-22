@@ -613,6 +613,7 @@
     <Compile Include="resources\views\Backoffice\FoBillView.blade.php" />
     <Compile Include="resources\views\Backoffice\InvoiceList.blade.php" />
     <Compile Include="resources\views\Backoffice\CreateInvoice.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\FlashActivity.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\SalesMix.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\WaiterSales.blade.php" />
     <Compile Include="resources\views\Backoffice\viewInvoice.blade.php" />

@@ -149,39 +149,34 @@ $(function () {
 
 <table class="table table-striped table-bordered table-condensed">
 
-  <thead>
-    <tr>
-      <th>
-        Accomodation
-      </th>
-      @foreach($pos_stores["stores"] as $store)
-        <th>
-          {{$store->store_name}}
-        </th>
-      @endforeach
-    </tr>
-  </thead>
 
   <tr>
-    <td>
-      {{number_format($fo_turnover)}}
-    </td>
-    <?php $counter = 0;$total_pos_amount= 0; $stores_count = count($pos_stores["stores"]); ?>
-    @foreach($pos_stores["stores"] as $store)
 
+      <?php $st_header = ""; $st_td = ""; $counter = 0;$total_pos_amount= 0; $stores_count = count($pos_stores["stores"]); ?>
+    @foreach($pos_stores["stores"] as $store)
+      <?php $st_header .= "<th>
+          {$store->store_name}
+        </th>"; 
+      ?>
       @foreach($pos_stores['sales'] as $sale)
           @if($store->store_name == $sale->store_name)
             <?php $counter++; $total_pos_amount += $sale->amount; ?>
-            <td>
-                {{ number_format($sale->amount) }}
-            </td>
+            <?php $st_td .= "<td>".number_format($sale->amount)."</td>"; ?>
           @endif
       @endforeach
 
     @endforeach
 
-    {!! str_repeat("<td>0</td>", ($stores_count-$counter) )!!}
-  </tr>
+    <tr>
+        <th>Frontdesk</th>
+        {!!$st_header!!}
+    </tr>
+    
+  
+      <tr>
+          <td>{{number_format($fo_turnover)}} </td>
+          {!! $st_td !!}
+      </tr>
 
   <tr>
   <td colspan="{{$stores_count+1}}" class="text-center">
