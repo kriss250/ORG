@@ -129,8 +129,10 @@ class CustomersController extends Controller
                 ->orderBy("idreservation","desc")
                 ->limit("150")->get();
             }else{
-                $bills = \Kris\Frontdesk\Reservation::whereIn("status",[\Kris\Frontdesk\Reservation::CHECKEDOUT,\Kris\Frontdesk\Reservation::CHECKEDIN])->orderBy("idreservation","desc")->limit("20")->get();
-
+                $bills = \Kris\Frontdesk\Reservation::whereIn("status",[\Kris\Frontdesk\Reservation::CHECKEDOUT,\Kris\Frontdesk\Reservation::CHECKEDIN])
+                    ->join("guest","guest_id","=","id_guest")
+                    ->whereBetween("checkin",[$_GET['startdate'],$_GET['enddate']])
+                    ->orderBy("idreservation","desc")->limit("20")->get();
              }
 
 

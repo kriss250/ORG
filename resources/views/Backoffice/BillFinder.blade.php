@@ -11,7 +11,7 @@
 
                     <form style="float:right" action="" class="form-inline" method="get">
                         <label>Firstname</label>
-                        <input size="10" name="firstname" type="text" placeholder="Firstname" value="{{isset($_GET['firstname']) ?$_GET['firstname']:" "}}" class="form-control" />
+                        <input size="10" name="firstname" type="text" placeholder="Firstname" value="{{isset($_GET['firstname']) ?$_GET['firstname']:""}}" class="form-control" />
 
                         <label>Lastname</label>
                         <input size="10" name="lastname" type="text" placeholder="Lastname" value="{{isset($_GET['lastname'])?$_GET['lastname']:""}}" class="form-control" />
@@ -55,7 +55,7 @@
             </td>
             <td>
                 {{
-                $bill->company != null ? $bill->company->name : ""
+                $bill->company != null && $bill->company->name!=null ? $bill->company->name : ""
                 }}
             </td>
             <td>{{$bill->checkin}}</td>
