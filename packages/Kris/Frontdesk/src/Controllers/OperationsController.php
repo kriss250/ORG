@@ -50,7 +50,7 @@ class OperationsController extends Controller
     {
         $reservations = null;
         if(\Request::isMethod('post')){
-            $reservations = \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::ACTIVE)->whereBetween(\DB::raw("date(checkout)"),[\Request::input("fromdate"),\Request::input("todate")])->get();
+            $reservations = \Kris\Frontdesk\Reservation::where("status",\Kris\Frontdesk\Reservation::ACTIVE)->whereBetween(\DB::raw("date(checkin)"),[\Request::input("fromdate"),\Request::input("todate")])->get();
             return view("Frontdesk::expectedArrival")->with(["reservations"=>$reservations]);
         }else {
             return view("Frontdesk::expectedArrival");
