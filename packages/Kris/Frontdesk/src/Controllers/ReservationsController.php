@@ -641,7 +641,7 @@ class ReservationsController extends Controller
 
             //Create the guest
             $guest_uid = md5(trim($data['names']) ." ". trim(strtolower($data['email'])));
-            if(isset($names[0]) && $names[1])
+            if(isset($names[0]) && isset($names[1]))
             {
                 $guest = \Kris\Frontdesk\Guest::create([
                     "firstname"=> $names[0],
