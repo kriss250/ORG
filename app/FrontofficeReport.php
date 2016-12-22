@@ -51,7 +51,7 @@ class FrontofficeReport extends Model
             join room_types on room_types.idroom_types = rooms.type_id
             left join guest on guest.id_guest = guest_id
             left join companies on companies.idcompanies =reservations.company_id
-            where  ".($expected ? "checked_in is null" : "checked_in is not null"). " and (date(checkin) between ? and ?)",$range  )];
+            where  ".($expected ? "checked_in is null and reservations.status='".\Kris\Frontdesk\Reservation::ACTIVE."'" : "checked_in is not null"). " and (date(checkin) between ? and ?)",$range  )];
     }
 
     public function Departure($range,$expected=false)
