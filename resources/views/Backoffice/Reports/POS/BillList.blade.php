@@ -1,6 +1,7 @@
 @extends("Backoffice.Master")
 
 @section("contents")
+
 <div class="page-contents">
 
 <div class="report-filter">
@@ -45,7 +46,7 @@
 <table class="table table-bordered table-striped bills-table">
  
 <?php
-    $totals= array("bill"=>0,"cash"=>0,"check"=>0,"card"=>0);
+    $totals = array("bill"=>0,"cash"=>0,"check"=>0,"card"=>0);
     $sub_rows ="";
     $tr= "";
    
@@ -110,7 +111,7 @@
         <tr>
             <th colspan="8">TOTAL</th>
             <?php try { ?>
-            <th><?php number_format($totals['bill']) ?></th>
+            <th><?php echo number_format($totals['bill']); ?></th>
             <?php }catch(Exception $c) {} ?>
             <th></th>
             <th>{{ $totals['cash']}}</th>
@@ -148,7 +149,6 @@
        </table>
         <div class="clearfix"></div>
     </div>
-    
 </div>
 
 @stop

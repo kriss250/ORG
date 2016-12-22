@@ -59,19 +59,22 @@
         </thead>
         <?php $i =1;$purchases=0;$sales = 0; ?>
         @foreach($data as $item)
-<?php $p = explode("#",$item->stockin); $s = explode("#",$item->stockout); ?>
+<?php $p = explode("#",$item->stockin); $s = explode("#",$item->stockout);
+      $trin = (isset($item->trin) ? $item->trin : 0);
+      $trout = (isset($item->trout) ? $item->trout : 0);
+?>
         <tr>
             <td>{{$i}}</td>
             <td>{{$item->name}}</td>
             <td>{{$item->unit}}</td>
             <!--<td>{{$item->quantity}}</td>-->
             <td>{{$item->opening}}</td>
-            <td>{{$p[0]}}</td>
-            <td>{{$s[0]+ (isset($item->trans) ? $item->trans : 0) }}</td>
+            <td>{{$p[0]+$trin}}</td> <!--IN-->
+            <td>{{$s[0]+$trout}}</td><!--OUT-->
             <td>{{ number_format($p[1]) }}</td>
             <td>{{ number_format($s[1]) }}</td>
             <td>{{$item->damaged}}</td>
-            <td>{{$item->opening-$item->damaged-$item->stockout+$item->stockin-(isset($item->trans) ? $item->trans  : 0)}}</td>
+            <td>{{$item->opening-$item->damaged-$item->stockout+$item->stockin-$trout+$trin}}</td>
         </tr>
         <?php $purchases += $p[1]; $sales +=$s[1]; $i++; ?>
 

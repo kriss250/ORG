@@ -466,17 +466,65 @@ display: block;">
                    <p class="section-title">
                        <span>Room information</span>
                    </p>
-                   <div style="background: rgb(245, 255, 255) none repeat scroll 0% 0%;
-padding: 22px;
-border: 1px solid rgb(219, 242, 242)">
-                       <h4 style="margin-top:0">Room : {{$res->room->room_number}}</h4>
+                   <div style="background: rgb(245, 255, 255) none repeat scroll 0% 0%;padding: 12px;border: 1px solid rgb(219, 242, 242)">
+                       <!--<h4 style="margin-top:0">Room : {{$res->room->room_number}}</h4>
                        <h5>Room Type: {{$res->room->room_number}}</h5>
                        <p>Current Rate : {{$res->night_rate}}</p>
                        <p>Rent ID # : {{$res->idreservation}}</p>
                        <hr />
 
                        <p>Checked in by : {{$res->checkedin_by}}</p>
-                       <p>Checked out by : {{$res->checkedout_by}}</p>
+                       <p>Checked out by : {{$res->checkedout_by}}</p>-->
+                       <p><b>Guests in Room</b> <button onclick="toggleRoomSharingForm();" type="button" class="btn btn-xs btn-default pull-right">Add Guest</button> </p>
+                       <div class="room-sharer-form">
+                           <form method="post">
+                           <label>Names</label>
+                           <input type="text" class="form-control" required placeholder="Firstname Lastname" />
+                           <label>ID/Passport</label>
+                           <input type="text" class="form-control" placeholder="#" required />
+
+                           <label>Checkin & Checkout</label>
+                           <div class="container-flui">
+                               <div class="pull-left input-group col-xs-5">
+                                   <input value="{{date("Y-m-d")}}" class="form-control datepicker input-sm" placeholder="Checkin" />
+                                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                               </div>
+
+                               <div class="pull-right input-group col-xs-5">
+                                   <input class="form-control datepicker input-sm" placeholder="Checkout" />
+                                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                               </div>
+                           </div>
+                               <p class="clearfix"></p>
+                               <br />
+                               <input class="btn btn-sm btn-danger" type="submit" value="Add Guest" />
+                               </form>
+                       </div>
+                       <table style="background:#fff" class="table table-striped table-condensed table-bordered">
+                           <thead>
+                               <tr>
+                                   <th>Guest Names</th>
+                                   <th>Checkin</th>
+                                   <th>Checkout</th>
+                                   <th>#</th>
+                               </tr>
+                           </thead>
+                           <tr>
+                               <td>{{$res->guest !=null  ? $res->guest->firstname : ""}} {{$res->guest !=null  ? $res->guest->lastname : ""}}</td>
+                               <td>{{$checkin}}</td>
+                               <td>{{$checkout}}</td>
+                               <td>-</td>
+                           </tr>
+
+                           @for($i=0;$i<4;$i++)
+                            <tr>
+                               <td>.</td>
+                               <td></td>
+                               <td></td>
+                               <td></td>
+                           </tr>
+                           @endfor
+                       </table>
                    </div>
                </div>
 
@@ -571,7 +619,12 @@ border: 1px solid rgb(219, 242, 242)">
     @elseif(session('errors'))
         error('{{session("errors")->first()}}');
     @endif
+
     });
 
+    function toggleRoomSharingForm()
+    {
+        $(".room-sharer-form").toggle();
+    }
 </script>
 @stop

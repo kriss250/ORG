@@ -303,7 +303,7 @@ function switchStore(src)
              <ul class="dropdown_menu">
                 <!--<li><a href="{{ route('POSReports','summaryDay') }}">Sales Report</a></li>-->
                  <li><a href="{{route('POSReports','MyShiftReport') }}">My Shift Report</a></li>
-                <li><a href="{{ route('POSReports','DailySalesMix') }}">Sales Report</a></li>
+                 <li><a href="{{ route('POSReports','DailySalesMix') }}">Sales Report</a></li>
                  <li><a href="{{ route('POSReports','RoomPost') }}">Room Posts</a></li>
                  <li><a href="{{ route('POSReports','Credits') }}">Credit</a></li>
                   <li><a href="{{ route("POSReports",'Cashier') }}">Cashier Report</a></li>

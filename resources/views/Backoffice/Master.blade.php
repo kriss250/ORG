@@ -290,6 +290,7 @@
                         </li>
                         <li><a style="background:rgb(255, 249, 228)" href="{{ action("BackofficeReportController@index",'flashActivity') }}"><i style="color:rgb(228, 186, 6)" class="fa fa-flash"></i> Flash Activity Report</a></li>
                         <li><a href="{{ action("CustomerController@index") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-database"></i> Customer DB.</a></li>
+                        <li><a href="{{ action("CustomersController@billFinder") }}"><i class="fa fa-flash"></i> F.O Bills</a></li>
 
                         <li class="report-btn">
                             <a class="dropdown-btn" href=""><i class="fa fa-cutlery"></i> POS Reports <i class="fa fa-chevron-down"></i></a>

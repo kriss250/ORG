@@ -1677,3 +1677,15 @@ color: #272727;
         padding:30px;
     }
 }
+
+
+.room-sharer-form {
+    padding: 20px;
+    position: absolute;
+    background: #fff;
+    font-size:12px;
+    display:none;
+    margin-top:15px;
+    box-shadow: 0 0 18px #aeaeae;
+    border-radius: 12px;
+}

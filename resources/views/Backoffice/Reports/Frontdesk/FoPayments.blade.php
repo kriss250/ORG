@@ -4,11 +4,16 @@
 @section("contents")
 
 <?php
-
 $cash=0;
 $check=0;
 $bank=0;
 $cc = 0;
+$cr_totals=[];
+$cash_o=["amt"=>0,"c"=>null];
+$check_o=["amt"=>0,"c"=>null];
+$bank_o=["amt"=>0,"c"=>null];
+$cc_o = ["amt"=>0,"c"=>null];
+
 $i=1;
 
 $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
@@ -68,12 +73,25 @@ $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
         
         @foreach ($data as $pay)
         <?php
+
+        if(!isset($cr_totals[$pay->cur]))
+        {
+            $cr_totals[$pay->cur] = 0;
+        }
+
         switch(strtolower($pay->method_name)){
-            case "cash" : 
+            case "cash" :
                 $cash = $pay->credit;
                 $cc = 0;
                 $bank = 0;
                 $check = 0;
+
+                $cash_o=["amt"=>$pay->original_amount,"c"=>$pay->cur];
+                $check_o=["amt"=>0,"c"=>null];
+                $bank_o=["amt"=>0,"c"=>null];
+                $cc_o = ["amt"=>0,"c"=>null];
+
+                $cr_totals[$pay->cur] += $pay->original_amount;
                 $totals["cash"] +=$pay->credit;
                 break;
             case "credit card" :
@@ -81,6 +99,13 @@ $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
                 $cc = $pay->credit;
                 $bank = 0;
                 $check = 0;
+
+                $cash_o=["amt"=>0,"c"=>null];
+                $check_o=["amt"=>0,"c"=>null];
+                $bank_o=["amt"=>0,"c"=>null];
+                $cr_totals[$pay->cur] += $pay->original_amount;
+                $cc_o = ["amt"=>$pay->original_amount,"c"=>$pay->cur];
+
                 $totals["cc"] +=$pay->credit;
                 break;
             case "check":
@@ -88,14 +113,27 @@ $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
                 $cc = 0;
                 $bank = 0;
                 $check = $pay->credit;
+
+                $cash_o=["amt"=>0,"c"=>null];
+                $check_o=["amt"=>$pay->original_amount,"c"=>$pay->cur];
+                $bank_o=["amt"=>0,"c"=>null];
+                $cc_o = ["amt"=>0,"c"=>null];
+
                 $totals["check"] +=$pay->credit;
+                $cr_totals[$pay->cur] += $pay->original_amount;
                 break;
-            case "bank op" : 
+            case "bank op" :
                 $cash = 0;
                 $cc = 0;
                 $bank = $pay->credit;
                 $check = 0;
+
+                $cash_o=["amt"=>0,"c"=>null];
+                $check_o=["amt"=>0,"c"=>null];
+                $bank_o=["amt"=>$pay->original_amount,"c"=>$pay->cur];
+                $cc_o = ["amt"=>0,"c"=>null];
                 $totals["bank"] +=$pay->credit;
+                $cr_totals[$pay->cur] += $pay->original_amount;
                 break;
         }
 
@@ -106,10 +144,10 @@ $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
                 <td>{{$pay->guest}}</td>
                 <td>{{$pay->company}}</td>
                 <td>{{$pay->room_number}}</td>
-                <td>{{$cash}}</td>
-                <td>{{$cc}}</td>
-                <td>{{$check}}</td>
-                <td>{{$bank}}</td>
+                <td>{{$cash}}{{$cash_o["amt"]!=$cash ? " (".$cash_o["c"].$cash_o["amt"].")":""}}</td>
+                <td>{{$cc}} {{$cc_o["amt"]!=$cc ? " (".$cc_o["c"].$cc_o["amt"].")":""}}</td>
+                <td>{{$check}} {{$check_o["amt"]!=$check ? " (".$check_o["c"].$check_o["amt"].")":""}}</td>
+                <td>{{$bank}} {{$bank_o["amt"]!=$bank ? " (".$bank_o["c"].$bank_o["amt"].")":""}}</td>
                 <td>{{$pay->comment}}</td>
                 <td>{{$pay->username}}</td>
                 <td>{{$pay->date}}</td>
@@ -132,7 +170,14 @@ $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
         </tfoot>
     </table>
 
-
+    Currencies
+    <table class="table table-bordered table-condensed">
+        <tr>
+            @foreach($cr_totals as $key=>$val)
+            <th>{{$key}} {{number_format($val)}}</th>
+    @endforeach
+        </tr>
+    </table>
     <div class="text-center print-footer">
         <table style="margin-bottom:85px;width:100%;" class="table">
             <tr>

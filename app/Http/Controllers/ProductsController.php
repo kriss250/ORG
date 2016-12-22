@@ -19,8 +19,8 @@ class ProductsController extends Controller
     public function __construct()
     {
         $this->restrictedStores =  \Session::get("restricted_stores");
-        $st = unserialize($_COOKIE['working_stores']);
-        $this->workingStores = count($st) > 0 ?  $st : [];
+        $st = isset($_COOKIE['working_stores']) ? unserialize($_COOKIE['working_stores']) : [];
+        $this->workingStores = $st;
     }
 
     /**
@@ -69,9 +69,10 @@ class ProductsController extends Controller
         $cats = DB::select("SELECT id,category_name FROM categories");
 
         if(isset($_GET['id'])){
-            $prod = DB::select("SELECT product_name,products.description,category_name,sub_category_name,price,tax,products.category_id,sub_categories.id as sub_cat FROM products
+            $prod = DB::select("SELECT product_name,stock.products.code as code,products.description,category_name,sub_category_name,org_pos.product_price.price,tax,org_pos.products.category_id,sub_categories.id as sub_cat FROM org_pos.products
                 join categories on products.category_id = categories.id join product_price  on product_price.id = price_id
-                left join sub_categories on subcategory_id = sub_categories.id where products.id=?",[$_GET['id']])[0];
+                left join stock.products on stock.products.id = org_pos.products.stock_id
+                left join org_pos.sub_categories on org_pos.products.subcategory_id = sub_categories.id where org_pos.products.id=?",[$_GET['id']])[0];
 
             return \View::make("/Pos/NewProduct",["cats"=>$cats,"prod"=>$prod]);
         }
@@ -107,6 +108,17 @@ class ProductsController extends Controller
         if(count($errors)==0){
             \DB::transaction(function(){
 
+                $stock_id = 0;
+                if(strlen($this->data['stock_code']) > 0)
+                {
+                    $res = \DB::connection("mysql_stock")->select("select id from products where code=?",[$this->data['stock_code']]);
+
+                    if(count($res)>0)
+                    {
+                        $stock_id=$res[0]->id;
+                    }
+                }
+
 
                 $product_id = DB::table('products')->insertGetId([
                     'category_id' => $this->data["category"],
@@ -114,6 +126,7 @@ class ProductsController extends Controller
                     "price_id"=>0,
                     "product_name"=> $this->data['product_name'],
                     "description"=>$this->data['description'],
+                    "stock_id"=>$stock_id,
                     "date"=>date(\ORG\Dates::DBDATEFORMAT)
                     ]
                 );
@@ -176,14 +189,26 @@ class ProductsController extends Controller
         $res->message = "";
 
         $data = $req->all();
-
+        $stock_id = 0;
 
         try {
-            DB::transaction(function() use($id,$data){
+
+            if(strlen($this->data['stock_code']) > 0)
+            {
+                $res = \DB::connection("mysql_stock")->select("select id from products where code=?",[$this->data['stock_code']]);
+
+                if(count($res)>0)
+                {
+                    $stock_id=$res[0]->id;
+                }
+            }
+
+
+            DB::transaction(function() use($id,$data,$stock_id){
                 $sub_catx = isset($data['sub_category']) ? $data['sub_category'] : "0" ;
 
-                 DB::update("update products set product_name=?,category_id=?,subcategory_id=?,description=? where id=?",
-                    [$data['product_name'],$data['category'],$sub_catx,$data['description'],$id]
+                 DB::update("update products set stock_id=?,product_name=?,category_id=?,subcategory_id=?,description=? where id=?",
+                    [$stock_id,$data['product_name'],$data['category'],$sub_catx,$data['description'],$id]
                 );
 
                  if(isset($data['prev_price']) && $data['prev_price'] !=$data['product_price'] ){

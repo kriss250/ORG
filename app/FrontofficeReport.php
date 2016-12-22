@@ -199,11 +199,12 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
 
     public function Payments($range)
     {
-        $sql = "select concat_ws(' ',guest.firstname,guest.lastname) as guest,companies.name as company,username,credit,method_name,room_number,folio.comment, folio.date from folio
+        $sql = "select concat_ws(' ',guest.firstname,guest.lastname) as guest,original_amount,currencies.alias as cur,idcurrency,companies.name as company,username,credit,method_name,room_number,folio.comment, folio.date from folio
             join pay_method on pay_method.idpay_method = folio.paymethod
             join reservations on idreservation = folio.reservation_id
             join rooms on rooms.idrooms = room_id
             join guest on guest.id_guest = reservations.guest_id
+            left join currencies on currencies.idcurrency=folio.currency_id
             left join companies on idcompanies = company_id
             join users on users.idusers = folio.user_id
             where void = 0 and date(folio.date) between ? and  ?  group by folio.id_folio

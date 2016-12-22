@@ -125,6 +125,9 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::resource("POS/Store","StoreController");
 	Route::resource("POS/Users","UsersController");
     Route::resource("POS/Customers","CustomersController");
+    Route::get("POS/Customers/Bill/Finder","CustomersController@billFinder");
+    Route::get("POS/Customers/Bill/Finder/{id}","CustomersController@printBill");
+
     Route::resource("BusinessCustomers","CustomerController");
     Route::get("/Statement/{where}/{id}/{company}/{individual}/","StatementController@ShowStatement");
 	Route::resource("POS/Waiters","WaiterController");

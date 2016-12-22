@@ -108,7 +108,13 @@
                    <tr>
                        <td>{{$res->room->room_number}}</td>
                        <?php $g = $res->guest;?>
-                       <td>{{$g->firstname}} {{$g->lastname}}</td>
+                       <td>
+                           @if($g!=null)
+                           {{$g->firstname}} {{$g->lastname}}
+                           @else 
+                           {{$res->group->group_name}}
+                           @endif
+                       </td>
                    </tr>
                    @endforeach
                </table>

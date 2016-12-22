@@ -12,6 +12,7 @@
     $action  = isset($prod) ? 'ProductsController@update' : 'ProductsController@store';
     $sub_cat = (isset($prod) && isset($prod->sub_cat)) ? $prod->sub_cat  : '-1';
     $the_title = isset($prod) ? "Update Product" :"New Product";
+    $code = isset($prod) && isset($prod->code) ? $prod->code : "";
 ?>
 
 @if(isset($prod))
@@ -34,7 +35,10 @@
     {!! Form::text('product_price', $price,["class"=>"form-control"]) !!}
 
     {!! Form::label('product_label', 'Tax(%)') !!}
-    {!! Form::text('product_tax', $tax,["class"=>"form-control"]) !!}
+    {!!Form::text('product_tax', $tax,["class"=>"form-control"]) !!}
+
+    {!! Form::label('stock_code_label', 'Stock Code') !!}
+    {!! Form::text('stock_code', $code,["class"=>"form-control"]) !!}
 
     {!! Form::label('product_label', 'Category') !!} <br/>
 
