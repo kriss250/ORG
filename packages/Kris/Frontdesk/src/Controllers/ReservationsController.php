@@ -641,18 +641,20 @@ class ReservationsController extends Controller
 
             //Create the guest
             $guest_uid = md5(trim($data['names']) ." ". trim(strtolower($data['email'])));
-
-            $guest = \Kris\Frontdesk\Guest::create([
-                "firstname"=> $names[0],
-                "lastname"=> $names[1],
-                "phone"=>$data['phone'],
-                "email"=>$data['email'],
-                "country"=>$data["country"],
-                "guest_uid"=>$guest_uid,
-                "id_doc"=>$data['id_doc'],
-                "city"=>$data['city']
-                ]);
-            $res->guest_id = $guest->id_guest;
+            if(isset($names[0]) && $names[1])
+            {
+                $guest = \Kris\Frontdesk\Guest::create([
+                    "firstname"=> $names[0],
+                    "lastname"=> $names[1],
+                    "phone"=>$data['phone'],
+                    "email"=>$data['email'],
+                    "country"=>$data["country"],
+                    "guest_uid"=>$guest_uid,
+                    "id_doc"=>$data['id_doc'],
+                    "city"=>$data['city']
+                    ]);
+                $res->guest_id = $guest->id_guest;
+            }
         }
 
         //Update existing company

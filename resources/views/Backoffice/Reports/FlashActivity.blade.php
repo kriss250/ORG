@@ -149,7 +149,7 @@ $(function () {
 
 <table class="table table-striped table-bordered table-condensed">
 
-      <?php $st_header = ""; $st_td = "<td>".number_format($fo_turnover)."</td>"; $counter = 0;$total_pos_amount= 0; $stores_count = count($pos_stores["stores"]); ?>
+      <?php $st_header = ""; $st_td = "<td><b>Frontdesk</b> : ".number_format($fo_turnover)."</td>"; $counter = 0;$total_pos_amount= 0; $stores_count = count($pos_stores["stores"]); ?>
 
 @foreach(\App\Store::all() as $store)
       <?php $st_header .= "<th>{$store->store_name}</th>"; 
@@ -157,17 +157,13 @@ $(function () {
      {
          if($sl->store_name==$store->store_name)
          {
-             $st_td .= "<td>".number_format($sl->amount)."</td>";
-         }else {
-             $st_td .= "<td></td>";
+             $st_td .= "<td><b>{$store->store_name}</b> : ".number_format($sl->amount)."</td>";
          }
      }
       ?>
 
 @endforeach
-  <tr><th>Frontdesk</th>
-      {!!$st_header!!}
- </tr>
+
  <tr>
  {!!$st_td !!}
      </tr>
