@@ -226,7 +226,7 @@ $spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
     <div style="float:right" class="col-xs-4">
         <p>Done at {{$hotel->city}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},</p>
      General Manager (Signature)<br />
-      {{\Auth::user()->firstname}} {{\Auth::user()->lastname}}
+      <!--{{\Auth::user()->firstname}} {{\Auth::user()->lastname}}-->
 
     </div>
 </div>
