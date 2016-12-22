@@ -105,7 +105,7 @@
             <img class="logo" width="120" src="data:image/jpeg;base64,{{base64_encode($hotel->logo)}}" />
             <div class="logo-text">
                 <h3>{{$hotel->hotel_name}}</h3>
-                <p>Phone: {{$hotel->phone1}} / {{$hotel->phone2}}</p>
+                <p>Phone: {{$hotel->phone1}} / {{$hotel->phone3}}</p>
                 <p>Email: {{$hotel->email1}}</p>
                 <p>Address:{{$hotel->address_line1}}</p>
                 <p>TIN : {{$hotel->TIN}}</p>
@@ -136,7 +136,7 @@
 
     <p>&nbsp;</p>
     <p style="font-size:13px;font-weight:bold;margin-bottom:15px;">Description : {{$invoice->description}}</p>
-    <p>Due Date : {{$invoice->due_date}}</p>
+    <p>Due Date : {{ (new \Carbon\Carbon($invoice->due_date))->format("d/m/Y")}}</p>
   </div>
 
 </div>
@@ -221,11 +221,11 @@ $spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
 
     <div class="col-xs-6" style="border:1px solid;padding:6px">
       <b>TIN/VAT</b> : {{$hotel->TIN}}<br />
-     <b>Account Number</b> : Bank of Kigali 053-07719298-63 Rwf / 053-07719298-64
+     <b>Account Number</b> : Bank of Kigali 053-07719298-63 Rwf / 053-07719299-64
     </div>
     <div style="float:right" class="col-xs-4">
         <p>Done at {{$hotel->city}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},</p>
-      {{\Auth::user()->user_title}}<br />
+     General Manager (Signature)<br />
       {{\Auth::user()->firstname}} {{\Auth::user()->lastname}}
 
     </div>
