@@ -49,7 +49,7 @@ class FrontofficeReport extends Model
         return ["data"=>self::$db->select("select concat_ws(' ',firstname,lastname) as guest,room_number,companies.name,type_name ,guest.country,date(checkin) as checkin,coalesce(date(checked_out), date(checkout)) as checkout,night_rate,payer from reservations
             join rooms on rooms.idrooms = reservations.room_id
             join room_types on room_types.idroom_types = rooms.type_id
-            join guest on guest.id_guest = guest_id
+            left join guest on guest.id_guest = guest_id
             left join companies on companies.idcompanies =reservations.company_id
             where  ".($expected ? "checked_in is null" : "checked_in is not null"). " and (date(checkin) between ? and ?)",$range  )];
     }
