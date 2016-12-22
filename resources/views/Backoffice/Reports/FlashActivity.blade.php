@@ -164,7 +164,7 @@ $(function () {
 
 @endforeach
 
- <tr>
+ <tr style="font-size:18px;">
  {!!$st_td !!}
      </tr>
   <td colspan="{{$stores_count+1}}" class="text-center">

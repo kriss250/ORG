@@ -30,8 +30,11 @@
       <td>{{$order->description}}</td>
       <td>{{number_format($order->amount)}}</td>
       <td>{{$order->paid_amount}}</td>
-      <td>{{number_format($order->amount-$order->paid_amount)}}</td>
-      <td><a class="btn btn-primary btn-xs" href=""><i class="fa fa-money"></i></a></td>
+      <td>{{    number_format($order->amount-$order->paid_amount)}}</td>
+        <td>
+            <a class="btn btn-primary btn-xs" href="{{action("CreditsController@showPayments",$order->id)}}"><i class="fa fa-money"></i></a>
+            <a class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this Order ?')" href="{{action("CreditsController@deleteCredit",$order->id)}}"><i class="fa fa-trash"></i></a>
+        </td>
     </tr>
   @endforeach
 </table>

@@ -159,6 +159,9 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get("/Backoffice/OccupiedRooms",["as"=>"backofficeOccupiedRooms","uses"=>"BackofficeController@OccupiedRooms"]);
     Route::resource("/Backoffice/cashbook","CashbookController");
     Route::resource("Backoffice/credits","CreditsController");
+    Route::get("Backoffice/credits/delete/{id}","CreditsController@deleteCredit");
+    Route::get("Backoffice/credits/show/payments/{id}","CreditsController@showPayments");
+    Route::get("Backoffice/credits/delete/payments/{id}","CreditsController@deletePayment");
     Route::post("Backoffice/payCredit",["uses"=>"CreditsController@addPayment"]);
     Route::resource("/Backoffice/announcement","AnnouncementController");
     Route::resource("/Backoffice/payments","PaymentsController");

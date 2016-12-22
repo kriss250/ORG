@@ -17,6 +17,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app\CategoryStore.php" />
+    <Compile Include="app\Credit.php" />
+    <Compile Include="app\Creditor.php" />
+    <Compile Include="app\CreditPayment.php" />
+    <Compile Include="app\Http\Controllers\CreditsController.php" />
     <Compile Include="app\ProductPrice.php" />
     <Compile Include="app\Product.php" />
     <Compile Include="app\Bill.php" />
@@ -609,8 +613,10 @@
     <Compile Include="resources\lang\en\validation.php" />
     <Compile Include="resources\views\Backoffice\addAnnouncement.blade.php" />
     <Compile Include="resources\views\Backoffice\BillFinder.blade.php" />
+    <Compile Include="resources\views\Backoffice\CreditOrdersList.blade.php" />
     <Compile Include="resources\views\Backoffice\EditInvoice.blade.php" />
     <Compile Include="resources\views\Backoffice\FoBillView.blade.php" />
+    <Compile Include="resources\views\Backoffice\CreditPaymentsList.blade.php" />
     <Compile Include="resources\views\Backoffice\InvoiceList.blade.php" />
     <Compile Include="resources\views\Backoffice\CreateInvoice.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\FlashActivity.blade.php" />

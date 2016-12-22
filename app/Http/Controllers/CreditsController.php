@@ -155,4 +155,29 @@ class CreditsController extends Controller
         }
       }
     }
+
+
+    public function deleteCredit($id)
+    {
+        \App\Credit::find($id)->delete();
+        \App\CreditPayment::where(["credit_id"=>$id])->delete();
+        return redirect()->back();
+    }
+
+    public function showPayments($id)
+    {
+        $pays = \App\CreditPayment::where(["credit_id"=>$id])->get();
+        return \View::make("Backoffice.CreditPaymentsList",["pays"=>$pays,"credit"=>\App\Credit::find($id)]);
+    }
+
+    public function deletePayment($id)
+    {
+        $cp = \App\CreditPayment::find($id);
+
+        $c = \App\Credit::find($cp->credit_id);
+        $c->paid_amount = $c->paid_amount-$cp->amount;
+        $c->save();
+        $cp->delete();
+        return redirect()->back();
+    }
 }
