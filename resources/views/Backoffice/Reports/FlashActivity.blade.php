@@ -149,41 +149,34 @@ $(function () {
 
 <table class="table table-striped table-bordered table-condensed">
 
+      <?php $st_header = ""; $st_td = "<td>".number_format($fo_turnover)."</td>"; $counter = 0;$total_pos_amount= 0; $stores_count = count($pos_stores["stores"]); ?>
 
-  <tr>
-
-      <?php $st_header = ""; $st_td = ""; $counter = 0;$total_pos_amount= 0; $stores_count = count($pos_stores["stores"]); ?>
-    @foreach($pos_stores["stores"] as $store)
-      <?php $st_header .= "<th>
-          {$store->store_name}
-        </th>"; 
+@foreach(\App\Store::all() as $store)
+      <?php $st_header .= "<th>{$store->store_name}</th>"; 
+     foreach($pos_stores['sales'] as $sl)
+     {
+         if($sl->store_name==$store->store_name)
+         {
+             $st_td .= "<td>".number_format($sl->amount)."</td>";
+         }else {
+             $st_td .= "<td></td>";
+         }
+     }
       ?>
-      @foreach($pos_stores['sales'] as $sale)
-          @if($store->store_name == $sale->store_name)
-            <?php $counter++; $total_pos_amount += $sale->amount; ?>
-            <?php $st_td .= "<td>".number_format($sale->amount)."</td>"; ?>
-          @endif
-      @endforeach
 
-    @endforeach
-
-    <tr>
-        <th>Frontdesk</th>
-        {!!$st_header!!}
-    </tr>
-    
-  
-      <tr>
-          <td>{{number_format($fo_turnover)}} </td>
-          {!! $st_td !!}
-      </tr>
-
-  <tr>
+@endforeach
+  <tr><th>Frontdesk</th>
+      {!!$st_header!!}
+ </tr>
+ <tr>
+ {!!$st_td !!}
+     </tr>
   <td colspan="{{$stores_count+1}}" class="text-center">
      <h4>GT : {{number_format($total_pos_amount+$fo_turnover)}}</h4>
   </td>
   </tr>
 </table>
+
 <h3>Overall Payment</h3>
 <span style="margin-top:-10px;display:block;margin-bottom:15px">Payments receive (Frontdesk,POS,Invoices)</span>
 
@@ -243,10 +236,6 @@ $(function () {
        </table>
         <div class="clearfix"></div>
     </div>
-
-
-
-
     </div>
 
 
