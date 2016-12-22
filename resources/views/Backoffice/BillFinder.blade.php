@@ -54,9 +54,7 @@
                 {{$bill->guest != null ? $bill->guest->firstname." ".$bill->guest->lastname : ""}}
             </td>
             <td>
-                {{
-                $bill->company != null && $bill->company->name!=null ? $bill->company->name : ""
-                }}
+               
             </td>
             <td>{{$bill->checkin}}</td>
             <td>{{$bill->checkout}}</td>

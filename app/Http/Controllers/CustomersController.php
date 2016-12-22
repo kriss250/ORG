@@ -160,7 +160,9 @@ class CustomersController extends Controller
 
 
         }else {
-            $bills = \Kris\Frontdesk\Reservation::whereIn("status",[\Kris\Frontdesk\Reservation::CHECKEDOUT,\Kris\Frontdesk\Reservation::CHECKEDIN])->orderBy("idreservation","desc")->limit("20")->get();
+            $bills = \Kris\Frontdesk\Reservation::whereIn("status",[\Kris\Frontdesk\Reservation::CHECKEDOUT,\Kris\Frontdesk\Reservation::CHECKEDIN])
+                ->join("guest","guest_id","=","id_guest")
+                ->orderBy("idreservation","desc")->limit("20")->get();
         }
 
         return \View::make("Backoffice.BillFinder",["customer"=>"","bills"=>$bills]);
