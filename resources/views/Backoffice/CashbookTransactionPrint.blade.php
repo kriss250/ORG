@@ -3,7 +3,8 @@
 
 <style>
     body {
-    font-family:"Georgia"
+    font-family:"Georgia";
+    font-size:13px;
     }
 
     .btn {
@@ -43,12 +44,12 @@
 
 <p>&nbsp;</p>
 
-<h1 style="text-align:center;border:1px solid;display:table;margin:auto;padding:20px;">
+<h2 style="text-align:center;border:1px solid;display:table;margin:auto;padding:20px;">
     Voucher #
 {{
 $tr[0]->transactionid
 }}
-</h1>
+</h2>
 <br />
 <?php
 $c = new \NumberFormatter("en",NumberFormatter::SPELLOUT);
@@ -58,7 +59,7 @@ $c2 = new \NumberFormatter("en",NumberFormatter::DECIMAL);
 <table style="width:100%">
     <tr>
         <td>
-            <div style="border:1px solid;padding:15px;display:table;font-size:23px;">
+            <div style="border:1px solid;padding:15px;display:table;font-size:18px;">
                 {{$c2->format($tr[0]->amount)}} {{$tr[0]->cashbook_name}}
             </div>
         </td>
@@ -93,6 +94,12 @@ Received By : {{$tr[0]->receiver}}
             <br />
             <p>__________________</p>
 
+        </td>
+
+        <td>
+            Verification (Name and Signature)
+            <br />
+            <p>__________________</p>
         </td>
 
         <td style="text-align:right">
