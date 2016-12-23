@@ -3,11 +3,14 @@
 
 <style>
     body {
-    padding:25px;
+    padding:25px 35px;
     font-family:"Georgia";
     font-size:13px;
     }
 
+    p {
+    margin-bottom:5px;
+    }
     .btn {
         margin: auto;
         display: table;
@@ -45,7 +48,7 @@
 
 <p>&nbsp;</p>
 
-<h2 style="text-align:center;border:1px solid;display:table;margin:auto;padding:20px;">
+<h2 style="text-align:center;border:1px solid;display:table;margin:auto;padding:15px;">
     Voucher #
 {{
 $tr[0]->transactionid
@@ -60,12 +63,12 @@ $c2 = new \NumberFormatter("en",NumberFormatter::DECIMAL);
 <table style="width:100%">
     <tr>
         <td>
-            <div style="border:1px solid;padding:15px;display:table;font-size:18px;">
+            <div style="border:1px solid;padding:10px;display:table;font-size:18px;">
                 {{$c2->format($tr[0]->amount)}} {{$tr[0]->cashbook_name}}
             </div>
         </td>
         <td>
-            <div style="border:1px dotted;padding:15px;display:table;font-size:18px;">
+            <div style="border:1px dotted;padding:10px;display:table;font-size:18px;">
                 {{$tr[0]->type}}
             </div>
         </td>
@@ -84,7 +87,7 @@ $c2 = new \NumberFormatter("en",NumberFormatter::DECIMAL);
 Received By : {{$tr[0]->receiver}}
 <br />
 <br />
-<hr />
+<p>&nbsp;</p>
 
 <table style="width:100%">
     <tr>
@@ -97,18 +100,46 @@ Received By : {{$tr[0]->receiver}}
 
         </td>
 
-        <td>
-            Verification (Name and Signature)
-            <br />
-            <p>__________________</p>
-        </td>
-
         <td style="text-align:right">
             User Signature
             <br />
             {{$tr[0]->firstname}} {{$tr[0]->lastname}}
             <br />
             <p>__________________</p>
+        </td>
+    </tr>
+</table>
+
+<p>
+<b style="border-bottom:1px solid">Verification</b></p>
+<br />
+<table style="width:100%;font-size:12px">
+    <tr>
+        <td>
+            Accountant
+<p>&nbsp;</p>
+            __________________________
+        </td>
+
+        <td style="text-align:right">
+            Controller
+            <p>&nbsp;</p>
+            __________________________
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <p>&nbsp;</p>
+           DAF <p>&nbsp;</p>
+            __________________________
+
+        </td>
+
+        <td style="text-align:right">
+            <p>&nbsp;</p>
+            G. Manager <p>&nbsp;</p>
+            __________________________
         </td>
     </tr>
 </table>
