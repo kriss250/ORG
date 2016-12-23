@@ -1,7 +1,25 @@
 <?php $prop = \App\Resto::get()->first(); ?>
+<button onclick="print()" class="btn btn-primary hidden-print">PRINT</button>
+
 <style>
     body {
     font-family:"Georgia"
+    }
+
+    .btn {
+        margin: auto;
+        display: table;
+        background: #00b417;
+        color:#fff;
+        padding:10px 15px;
+        border: 1px solid #00a015;
+        border-radius: 8px;
+    }
+
+    @media print {
+        .btn {
+            display:none !important
+        }
     }
 </style>
 <table style="width:100%">
