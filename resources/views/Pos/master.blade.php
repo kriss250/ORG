@@ -253,7 +253,7 @@ function switchStore(src)
        <ul>
          <li class="list-group-item"><a href="{{ route('pos') }}"><i class="fa fa-home"></i> Home</a></li>
 
-         @if(Auth::user()->level ==10)
+         @if(Auth::user()->level >7)
          <li class="list-group-item dropdown"><a href=""> <i class="fa fa-archive"></i> Products </a>
          <span><i class="fa fa-angle-down"></i></span>
             <ul class="dropdown_menu">

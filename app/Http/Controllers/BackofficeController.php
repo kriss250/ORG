@@ -285,4 +285,11 @@ class BackofficeController extends Controller
        }
 
     }
+
+    public function dashboard2()
+    {
+        $cashbooks = \DB::connection("mysql_backoffice")->select("select * from cash_book");
+        return \View::make("/Backoffice/cashbooksView",["cashbooks"=>$cashbooks]);
+    }
+
 }

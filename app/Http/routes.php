@@ -75,20 +75,22 @@ Route::get("/POS/logout/",['uses'=>"AuthController@destroy",'as'=>'logout']);
 
 Route::group(['middleware' => 'auth'],function(){
 	// POS Routes
-	Route::get("/POS",["as"=>"pos",function(){
-		if(\Session::get("pos.mode")=="default")
+    Route::get("/POS",["as"=>"pos",function(){
+	    if(\Session::get("pos.mode")=="default")
         {
             return View::make("Pos/Home");
         }else {
             return View::make("Pos/Homev2");
         }
-	}]);
+    }]);
 
-  Route::resource("/Backoffice/PO","OrderController");
-  Route::resource("/Backoffice/Invoice","InvoiceController");
-  Route::get("/Backoffice/Invoice/delete/{x}",["uses"=>"InvoiceController@delete"]);
-  Route::get("/Backoffice/Invoice/payment/delete/{x}",["uses"=>"InvoicePaymentController@delete"]);
-  Route::get("/Backoffice/Invoice/showPayments/{x}",["uses"=>"InvoiceController@showPayments"]);
+    Route::get("/Backoffice/dasboard2","BackofficeController@dashboard2");
+
+    Route::resource("/Backoffice/PO","OrderController");
+    Route::resource("/Backoffice/Invoice","InvoiceController");
+    Route::get("/Backoffice/Invoice/delete/{x}",["uses"=>"InvoiceController@delete"]);
+    Route::get("/Backoffice/Invoice/payment/delete/{x}",["uses"=>"InvoicePaymentController@delete"]);
+    Route::get("/Backoffice/Invoice/showPayments/{x}",["uses"=>"InvoiceController@showPayments"]);
 	Route::get("POS/NewDay",['as'=>'newday','uses'=>'SettingsController@newDay']);
 
 	Route::get("/POS/Products/search/","ProductsController@searchProduct");
@@ -166,6 +168,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::resource("/Backoffice/announcement","AnnouncementController");
     Route::resource("/Backoffice/payments","PaymentsController");
     Route::resource("/Backoffice/cashbook/transaction","CashbookTransactionController");
+    Route::get("/Backoffice/cashbook/transaction/print/{id}","CashbookTransactionController@printTrans");
     Route::get("/Backoffice/Reports/POS/{name}","BackofficeReportController@index");
     Route::resource("/Backoffice/InvoicePayment","InvoicePaymentController");
     Route::get("/Backoffice/Credit/listCreditors",["uses"=>"CreditsController@listCreditors"]);

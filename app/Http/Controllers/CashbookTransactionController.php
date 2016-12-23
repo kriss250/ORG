@@ -134,4 +134,11 @@ class CashbookTransactionController extends Controller
     {
         //
     }
+
+    public function printTrans($id)
+    {
+        $tr = \DB::connection("mysql_backoffice")->select("select cashbook_transactions.*,users.firstname,users.lastname,cash_book.cashbook_name
+from cashbook_transactions join org_pos.users on users.id=cashbook_transactions.user_id join cash_book on cash_book.cashbookid=cashbook_id where transactionid=?",[$id]);
+        return \View::make("Backoffice.CashbookTransactionPrint",["tr"=>$tr]);
+    }
 }

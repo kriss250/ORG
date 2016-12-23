@@ -265,8 +265,9 @@
                                 <li><a href="{{ action("POSCreditController@internalDebts") }}">Internal Debts</a></li>
                             </ul>
                         </li>
-
-                        <!--<li><a href="{{action("PaymentsController@index") }}"><i class="fa fa-money"></i> Payments</a></li>-->
+                        @if(\Auth::user()->level > 8)
+                        <li><a href="{{action("BackofficeController@dashboard2") }}"><i class="fa fa-money"></i> Cashbooks</a></li>
+                        @endif
                         <li><a href="{{ action("BookingViewController@indexv2") }}?startdate={{\ORG\Dates::$RESTODATE}}&days=14"><i class="fa fa-tasks"></i> R. Booking</a></li>
                         <li>
                             <a class="dropdown-btn" href="{{action("InvoiceController@create") }}"><i class="fa fa-file-o"></i>Debtors <i class="fa fa-chevron-down"></i></a>
