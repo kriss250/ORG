@@ -3,6 +3,7 @@
 
 <style>
     body {
+    padding:25px;
     font-family:"Georgia";
     font-size:13px;
     }
