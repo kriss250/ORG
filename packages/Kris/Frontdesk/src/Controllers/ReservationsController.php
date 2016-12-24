@@ -478,6 +478,7 @@ class ReservationsController extends Controller
             //Early checkin
             if(\Kris\Frontdesk\Env::WD()->lt(new \Carbon\Carbon($res->checkin)))
             {
+                return redirect()->back()->withErrors(["This is an Early checkin, Please update checkin date before checking in the guest !"]);
                 //It's an Early Checkin
                 $res->checkin = \Kris\Frontdesk\Env::WD()->format("Y-m-d");
 
