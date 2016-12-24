@@ -158,6 +158,7 @@ $(function () {
          if($sl->store_name==$store->store_name)
          {
              $st_td .= "<td><b>{$store->store_name}</b> : ".number_format($sl->amount)."</td>";
+             $total_pos_amount += $sl->amount;
          }
      }
       ?>
