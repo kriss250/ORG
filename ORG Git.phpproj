@@ -20,6 +20,7 @@
     <Compile Include="app\Credit.php" />
     <Compile Include="app\Creditor.php" />
     <Compile Include="app\CreditPayment.php" />
+    <Compile Include="app\Settings.php" />
     <Compile Include="app\Http\Controllers\CreditsController.php" />
     <Compile Include="app\ProductPrice.php" />
     <Compile Include="app\Product.php" />
@@ -690,6 +691,7 @@
     <Compile Include="resources\views\Backoffice\Reports\Stock\Sales.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Stock\StockQuantity.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Stock\Transfers.blade.php" />
+    <Compile Include="resources\views\errors\Error.blade.php" />
     <Compile Include="resources\views\errors\503.blade.php" />
     <Compile Include="resources\views\index\index.blade.php" />
     <Compile Include="resources\views\layouts\frontdesk_menu.blade.php" />
