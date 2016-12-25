@@ -27,7 +27,8 @@ class Handler extends ExceptionHandler
     public function report(Exception $e)
     {
         $email = \App\Settings::get("log_email");
-        $msg = $e->getMessage()." on Line # ".$e->getLine()." in ".$e->getFile();
+        $msg = $e->getMessage()." on Line # ".$e->getLine()." in ".$e->getFile()." ({$e->getCode()}) ".$e->getTraceAsString();
+
         \Mail::later(50,[],[], function ($message) use($email,$msg) {
             $message->from("orgsystem250@gmail.com","ORG LOGS");
             $message->to($email->value);
