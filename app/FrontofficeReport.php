@@ -90,6 +90,7 @@ class FrontofficeReport extends Model
     public function OfficeControl($range)
     {
         $date  = $range[0];
+
         return ["data"=>self::$db->select("
             select type_name,package_name,room_number,night_rate,
 (select sum(amount) from room_charges where reservation_id=idreservation and charge=3 and date(date)='$date') as bar,
@@ -101,7 +102,7 @@ class FrontofficeReport extends Model
 
 idreservation,shifted,room_number,paid_amount,COALESCE(checked_in,checkin) as checked_in,COALESCE(checked_out,checkout) as checked_out,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,
 companies.name as Company,concat(adults,'/',children) as pax,
-checkin,checkout,night_rate,due_amount,
+checkin,checkout, ifnull(nullif((select amount from acco_charges where reservation_id=idreservation and date ='$date' ),0),night_rate) as night_rate,due_amount,
 '1' as gsize
 from reservations
 join guest on guest.id_guest = reservations.guest_id
@@ -258,7 +259,8 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
       $rangex[1] = (new Carbon($rangex[0]))->addDays(-1)->format("Y-m-d");
       $rangex[0] = (new Carbon($rangex[0]))->addDays(-$days)->format("Y-m-d");
 
-      $roomsto = self::$db->select("select sum(amount) as amount from acco_charges where date between ? and ?",$rangex);
+      $roomsto = self::$db->select("select sum(amount) as amount from acco_charges where date between ? and ?",$range);
+
       $chargesto = self::$db->select("select sum(amount) as amount from room_charges where pos = 0 and( date between ? and ?)",$rangex);
       $total = (count($roomsto) > 0 ? $roomsto[0]->amount : 0) + (count($chargesto) > 0 ? $chargesto[0]->amount : 0);
       return $total;
@@ -266,7 +268,14 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
 
     public function turnover(Array $range)
     {
-      $roomsto = self::$db->select("select sum(amount) as amount from acco_charges where date between ? and ?",$range);
+      $roomsto = null;
+
+      if($range[0]==date("Y-m-d"))
+      {
+          $roomsto = self::$db->select("select sum(night_rate) as amount from reservations where status=".\Kris\Frontdesk\Reservation::CHECKEDIN);
+      }else {
+          $roomsto = self::$db->select("select sum(amount) as amount from acco_charges where date between ? and ?",$range);
+      }
       $chargesto = self::$db->select("select sum(amount) as amount from room_charges where pos = 0 and( date between ? and ?)",$range);
       $total = (count($roomsto) > 0 ? $roomsto[0]->amount : 0) + (count($chargesto) > 0 ? $chargesto[0]->amount : 0);
       return $total;

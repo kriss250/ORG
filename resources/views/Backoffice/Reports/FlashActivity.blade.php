@@ -34,60 +34,7 @@
 
 </div>
 
-<script type="text/javascript">
-$(function () {
-  Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
-      return {
-          radialGradient: {
-              cx: 0.5,
-              cy: 0.3,
-              r: 0.7
-          },
-          stops: [
-              [0, color],
-              [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-          ]
-      };
-  });
 
-  // Build the chart
-  $('#room-chart').highcharts({
-      chart: {
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: 'pie'
-      },
-      title: {
-          text: 'Room Status '
-      },
-      tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      },
-       credits: {
-          enabled: false
-      },
-      plotOptions: {
-          pie: {
-              allowPointSelect: true,
-              cursor: 'pointer',
-              dataLabels: {
-                  enabled: true,
-                  format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                  style: {
-                      color:'black'
-                  },
-                  connectorColor: 'silver'
-              }
-          }
-      },
-      series: [{
-          name: 'Percentage',
-          data: JSON.parse('{!!$room_status_chart!!}')
-      }]
-  });
-});
-</script>
 
 <style>
   .summary-block p {
