@@ -26,16 +26,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        $email = \App\Settings::get("log_email");
-        $msg = $e->getMessage()." on Line # ".$e->getLine()." in ".$e->getFile()." ({$e->getCode()}) ".$e->getTraceAsString();
-
-        \Mail::later(50,[],[], function ($message) use($email,$msg) {
-            $message->from("orgsystem250@gmail.com","ORG LOGS");
-            $message->to($email->value);
-            $message->setSubject("ORG # Bug Report".rand(0,9));
-            $message->setBody($msg);
-        });
-        return parent::report($e);
+       // return parent::report($e);
     }
 
     /**
@@ -47,7 +38,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($request->ajax()) return new \Illuminate\Http\Response($e->__toString(),500);
+        return response()->view('errors.Error', ["ex"=>$e, "e"=>$e->getMessage()." Line # ".$e->getLine()], 500);
+    }
 
-        return response()->view('errors.Error', ["e"=>$e->getMessage()." Line # ".$e->getLine()], 503);
+    public static function emailLog($_msg)
+    {
+        $email = \App\Settings::get("log_email");
+        $msg = $_msg;
+
+        \Mail::later(10,[],[], function ($message) use($email,$msg) {
+            $message->from("orgsystem250@gmail.com","ORG LOGS");
+            $message->to($email->value);
+            $message->setSubject("ORG # Bug Report".rand(0,9));
+            $message->setBody($msg);
+        });
     }
 }

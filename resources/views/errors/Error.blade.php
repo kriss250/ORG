@@ -48,6 +48,14 @@
         {
             $(".hidden-error").toggle();
         }
+
+        $(document).ready(function () {
+            $.ajaxSetup({ async: true });
+            var msg = `{!!$ex->getMessage()." on Line # ".$ex->getLine()." in ".$ex->getFile()." ({$ex->getCode()})
+                ----------------------------------------------------------------------------------------------------
+                ".$ex->getTraceAsString()!!}`;
+            $.post('{{url("/errors/report")}}', {"msg":msg,'_token':'{{csrf_token()}}'});
+        })
     </script>
 
 </body>

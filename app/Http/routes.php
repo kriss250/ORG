@@ -14,6 +14,10 @@ Route::get("/",function(){
     return view("index/index");
 });
 
+Route::post("/errors/report",function(){
+    \App\Exceptions\Handler::emailLog(\Request::input("msg"));
+});
+
 Route::get("/Frontdesk/Reports",function(){
 return view("ORGFrontdesk/Reports/index");
 });
