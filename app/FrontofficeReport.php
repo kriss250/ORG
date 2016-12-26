@@ -269,12 +269,14 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
     public function turnover(Array $range)
     {
       $roomsto = null;
+      $datexx = (new Carbon($range[0]))->addDays(-1)->format("Y-m-d");
 
       if($range[0]== \ORG\Dates::$RESTODATE)
       {
-          $roomsto = self::$db->select("select sum(night_rate) as amount from reservations where status=".\Kris\Frontdesk\Reservation::CHECKEDIN." and date(checkout)<>?",[$range[0]]);
+          $roomsto = self::$db->select("select sum(night_rate) as amount from reservations where status=".\Kris\Frontdesk\Reservation::CHECKEDIN." and date(checkout)>?",[$range[0]]);
       }else {
-          $roomsto = self::$db->select("select sum(amount) as amount from acco_charges where date between ? and ?",$range);
+          //Past dates
+          $roomsto = self::$db->select("select sum(amount) as amount from acco_charges where date=?",[$datexx]);
       }
       $chargesto = self::$db->select("select sum(amount) as amount from room_charges where pos = 0 and( date between ? and ?)",$range);
       $total = (count($roomsto) > 0 ? $roomsto[0]->amount : 0) + (count($chargesto) > 0 ? $chargesto[0]->amount : 0);
