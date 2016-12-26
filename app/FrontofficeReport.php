@@ -270,9 +270,9 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
     {
       $roomsto = null;
 
-      if($range[0]==date("Y-m-d"))
+      if($range[0]== \ORG\Dates::$RESTODATE)
       {
-          $roomsto = self::$db->select("select sum(night_rate) as amount from reservations where status=".\Kris\Frontdesk\Reservation::CHECKEDIN);
+          $roomsto = self::$db->select("select sum(night_rate) as amount from reservations where status=".\Kris\Frontdesk\Reservation::CHECKEDIN." and date(checkout)<>?",[$range[0]]);
       }else {
           $roomsto = self::$db->select("select sum(amount) as amount from acco_charges where date between ? and ?",$range);
       }

@@ -15,4 +15,22 @@ class Settings extends Model
     {
         return self::where("name",$setting)->get()->first();
     }
+
+    public static function set($name,$value)
+    {
+        if(is_array($value))
+        {
+            self::create([
+                "name"=>$name,
+                "value"=>serialize($value),
+                "serialized"=>"1"
+                ]);
+        }else {
+            self::create([
+               "name"=>$name,
+               "value"=>$value,
+               "serialized"=>"0"
+               ]);
+        }
+    }
 }
