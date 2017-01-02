@@ -739,6 +739,7 @@
     <Compile Include="resources\views\Pos\SubCategoryList.blade.php" />
     <Compile Include="resources\views\Pos\UsersList.blade.php" />
     <Compile Include="resources\views\Pos\WaitersList.blade.php" />
+    <Compile Include="resources\views\Setup.blade.php" />
     <Compile Include="tests\ExampleTest.php" />
     <Compile Include="tests\TestCase.php" />
   </ItemGroup>
@@ -1027,6 +1028,7 @@
     <Content Include="public\assets\css\frontdesk.css" />
     <Content Include="public\assets\css\health_center.css" />
     <Content Include="public\assets\css\OpenSans-font.css" />
+    <Content Include="public\assets\css\setup.css" />
     <Content Include="public\assets\css\print-doc.css" />
     <Content Include="public\assets\fonts\OpenSans\59ZRklaO5bWGqF5A9baEERJtnKITppOI_IvcXXDNrsc.woff2" />
     <Content Include="public\assets\fonts\OpenSans\cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2" />

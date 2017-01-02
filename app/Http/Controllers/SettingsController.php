@@ -186,4 +186,9 @@ class SettingsController extends Controller
 
 
     }
+
+    public function AppSetup()
+    {
+        return \View::make("Setup");
+    }
 }

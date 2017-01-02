@@ -13,20 +13,28 @@ class Settings extends Model
 
     public static function get($setting)
     {
-        return self::where("name",$setting)->get()->first();
+        $item =self::where("name",$setting)->get()->first();
+        if($item != null)
+        {
+            //Arrays & Single Values
+            return isset($item[0]) && (!is_null($item)) && $item->serialized == "1"  ? unserialize($item->value) : $item->value;;
+        }else {
+            return null;
+        }
+
     }
 
     public static function set($name,$value)
     {
         if(is_array($value))
         {
-            self::create([
+            self::updateOrCreate([
                 "name"=>$name,
                 "value"=>serialize($value),
                 "serialized"=>"1"
                 ]);
         }else {
-            self::create([
+            self::updateOrCreate([
                "name"=>$name,
                "value"=>$value,
                "serialized"=>"0"

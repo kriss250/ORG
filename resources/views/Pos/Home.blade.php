@@ -83,7 +83,7 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
 		  <span class="input-group-addon" id="basic-addon1">Product <i class="fa fa-search"></i></span>
 		  <input type="text" id="product_search" class="form-control" placeholder="Product name / Code" aria-describedby="basic-addon1">
 </div>
-<!--<button class="custom_prod_btn"><i class="fa fa-plus"></i> Custom Product</button>-->
+<button class="custom_prod_btn"><i class="fa fa-plus"></i> Custom Product</button>
 <div class="clearfix"></div>
 <div class="new_prod">
 <form id="custom_product_form" action="{{ action('ProductsController@CreateCustomProduct') }}" method="post">

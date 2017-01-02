@@ -1,3 +1,9 @@
+<?php
+
+\App\Settings::set("emails",["info@kris.rw","info@klaxycom.com"]);
+
+?>
+
 <!doctype html>
 <html>
 <head>
