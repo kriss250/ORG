@@ -234,6 +234,7 @@ padding: 50px
     font-weight: bold;
     max-height: 21px;
     font-family: 'Open Sans';
+    
     background-size: 11px 22px !important;
 }
 
@@ -255,6 +256,7 @@ padding: 50px
 .tape.active {
     background: url("/images/tape-limit.png") right no-repeat rgb(99, 188, 224) !important;
     color: rgba(255, 255, 255, 0.91);
+    background-size:contain !important;
 }
 
 .tape.houseuse {

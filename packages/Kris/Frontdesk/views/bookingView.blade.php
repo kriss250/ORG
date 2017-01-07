@@ -45,7 +45,7 @@
 
                 <fieldset style="width:60px;display:table;float:left;margin-left:8px;">
                     <label>Days</label>
-                    <input step="7" name="days" style="margin-top:10px;" type="number" value="{{$_GET['days']}}" placeholder="#" />
+                    <input step="5" name="days" style="margin-top:10px;" type="number" value="{{$_GET['days']}}" placeholder="#" />
                 </fieldset>
 
                 <button style="width:20px;margin-top:15px;border-radius:50%; height:20px;margin-left:3px" type="submit" class="btn btn-xs btn-default">
@@ -167,7 +167,8 @@
                     guest =  x.guest.toLowerCase().substr(0,15);
                     var tapeContents  = guest.length > 1 ? guest : x.group_name;
                     var cellWidth = $(".booking_table td").width();
-                    tapeContents  = tapeContents.substr(0,cellWidth-32);
+                    
+                    tapeContents  = tapeContents.substr(0,Math.floor(cellWidth*(spanSize>0?spanSize:1)/10));
                     $(cell).html(tapeContents);
                     $(cell).addClass("tape "+(x.status_name.replace("_","")));
                     var url = '{{action("\Kris\Frontdesk\Controllers\OperationsController@roomView",'_id_')}}';

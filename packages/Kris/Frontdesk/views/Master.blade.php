@@ -72,7 +72,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","standard")}}"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Standard View</a> </li>
-                        <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","booking")}}?startdate={{\Kris\Frontdesk\Env::WD()->format('Y-m-d')}}&days=20"><i class="fa fa-tasks"></i> Booking View</a> </li>
+                        <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","booking")}}?startdate={{\Kris\Frontdesk\Env::WD()->format('Y-m-d')}}&days=16"><i class="fa fa-tasks"></i> Booking View</a> </li>
                         <li><a href="{{action("\Kris\Frontdesk\Controllers\OperationsController@home","floor")}}"><i class="fa fa-braille" aria-hidden="true"></i>
 Floors View</a> </li>
                     </ul>
