@@ -159,7 +159,7 @@
                     var location = $(cell).index();
                     var spanSize = 1;
 
-                    spanSize = (x.days + location -1 > shownDays ? shownDays-location+0 : x.days);
+                    spanSize = (x.days + location -1 > shownDays ? shownDays-location+1 : x.days);
 
                     $(cell).attr("colspan",spanSize );
 
