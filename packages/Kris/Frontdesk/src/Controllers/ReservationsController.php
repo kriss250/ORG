@@ -586,7 +586,7 @@ class ReservationsController extends Controller
     {
         $res = \Kris\Frontdesk\Reservation::find(\Request::input("_id"));
         $data = \Request::all();
-
+        $updateRoom = false;
         $checkin=null;
         $checkout=$data['checkout'];
 
@@ -602,6 +602,29 @@ class ReservationsController extends Controller
             $checkin = $data["checkin"];
         }else {
             $checkin = $res->checkin;
+        }
+
+        //Disable Reservation injection
+        if((new \Carbon\Carbon($checkin))->lt(\Kris\Frontdesk\Env::WD()))
+        {
+            $checkin = \Kris\Frontdesk\Env::WD()->format("Y-m-d");
+        }
+
+
+        if($currentCheckin->ne($newCheckin))
+        {
+            if( \Kris\Frontdesk\Env::WD()->eq((new \Carbon\Carbon($checkin)) )){
+                //set as reserved
+                if($res->room->status== \Kris\Frontdesk\RoomStatus::VACANT || $res->room->status== \Kris\Frontdesk\RoomStatus::CHECKEDOUT){
+                    $res->room->status = \Kris\Frontdesk\RoomStatus::RESERVED;
+                    $updateRoom = true;
+                }
+            }else {
+                if($res->room->status== \Kris\Frontdesk\RoomStatus::RESERVED) {
+                    $updateRoom = true;
+                    $res->room->status = \Kris\Frontdesk\RoomStatus::VACANT;
+                }
+            }
         }
 
         if(!$newCheckin->eq($currentCheckin) || !$newCheckout->eq($currentCheckout) )
@@ -691,6 +714,9 @@ class ReservationsController extends Controller
         }
 
         $res->save();
+        if($updateRoom){
+            $res->room->save();
+        }
         \FO::log("Updated reservation ".$res->idreservation);
         return redirect()->back()->with("refresh","1");
     }
