@@ -221,7 +221,7 @@ $spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
 
     <div class="col-xs-6" style="border:1px solid;padding:6px">
       <b>TIN/VAT</b> : {{$hotel->TIN}}<br />
-     <b>Account Number</b> : Bank of Kigali 053-07719298-63 Rwf / 053-07719299-64
+     <b>Account Number</b> : Bank of Kigali 053-07719298-63 Rwf / 053-07719299-64 USD
     </div>
     <div style="float:right" class="col-xs-4">
         <p>Done at {{$hotel->city}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},</p>

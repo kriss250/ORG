@@ -164,8 +164,11 @@
                     $(cell).attr("colspan",spanSize );
 
                     $(cell).addClass(x.days + location - 1 > shownDays ? "continuing" : "");
-                    guest =  x.guest.toLowerCase().substr(0,8);
-                    $(cell).html(guest.length > 1 ? guest : x.group_name);
+                    guest =  x.guest.toLowerCase().substr(0,15);
+                    var tapeContents  = guest.length > 1 ? guest : x.group_name;
+                    var cellWidth = $(".booking_table td").width();
+                    tapeContents  = tapeContents.substr(0,cellWidth-32);
+                    $(cell).html(tapeContents);
                     $(cell).addClass("tape "+(x.status_name.replace("_","")));
                     var url = '{{action("\Kris\Frontdesk\Controllers\OperationsController@roomView",'_id_')}}';
                     url = url.replace('_id_',x.reservation_id);
