@@ -260,12 +260,15 @@ class OperationsController extends Controller
 
         $data = \DB::connection("mysql_book")->select("select concat_ws(' ',firstname,lastname)as guest,group_name,room_number,room_id,reservation_status.status_name,idreservation as reservation_id,greatest('{$_date->format("Y-m-d")}',
 date_format(checkin,'%Y-%m-%d'))  as checkin,date_format(checkout,'%d_%m') as checkout,datediff(date(checkout),greatest('{$_date->format("Y-m-d")}',
-date_format(checkin,'%Y-%m-%d')))-(1) as days from reservations
+date_format(checkin,'%Y-%m-%d')))-(1) as days,reservations.status as reservation_status from reservations
             join rooms on rooms.idrooms = room_id
 join reservation_status on reservation_status.idreservation_status = reservations.status
 left join guest on guest.id_guest = guest_id
 left join reservation_group on reservation_group.groupid = reservations.group_id
-            where reservations.status not in (2,3,4) and date(checkin) <= ? and date(checkout) >=?  order by reservations.status desc ",[$enddate,$date]);
+            where reservations.status not in (2,3,4) and date(checkin) <= ? and date(checkout) >=?  and
+datediff(date(checkout),greatest('{$_date->format("Y-m-d")}',date_format(checkin,'%Y-%m-%d')))>=0 
+
+order by reservations.status desc ",[$enddate,$date]);
 
         return json_encode($data);
     }
