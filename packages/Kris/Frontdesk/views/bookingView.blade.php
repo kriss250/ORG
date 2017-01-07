@@ -170,21 +170,33 @@
 
                     tapeContents  = tapeContents.substr(0,Math.floor(cellWidth*(spanSize>0?spanSize:1)/10));
                     $(cell).html(tapeContents);
-                    $(cell).addClass("tape "+(x.status_name.replace("_","")));
+
+                    /** Do not override active and checkedin status **/
+                    if(!$(cell).hasClass("tape")) {
+                        $(cell).addClass("tape");
+                        $(cell).addClass(x.status_name.replace("_",""));
+                    }else if(x.reservation_status==5) {
+                          $(cell).addClass("checkedin");
+                          $(cell).removeClass("empty_room");
+                    }
+
                     var url = '{{action("\Kris\Frontdesk\Controllers\OperationsController@roomView",'_id_')}}';
                     url = url.replace('_id_',x.reservation_id);
 
                     if(x.days<=0)
                     {
-                       /** Due out **/ 
-                       $(cell).addClass("due_out_room");
+                       /** Due out **/
+                       if(!$(cell).hasClass("checkedin") ){
+                            $(cell).addClass("due_out_room");
+                            $(cell).addClass("empty_room");
+                       }else {$(cell).removeClass("empty_room");}
                     }else {
                         if(typeof x.reservation_id != "undefined"){
                             $(cell).attr("title","Room :"+x.room_number).attr("onclick","window.openDialog('"+url+"','room','width=800,height=590,resizable=no',this)" );
-                        }        
+                        }
                     }
 
-                    
+
 
                     if(location > -1)
                     {
