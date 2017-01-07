@@ -31,7 +31,7 @@
 <div class="container-fluid page">
     <div class="col-md-2 main-sidebar ">
 
-        <div  class="booking-view-sidebar-label">
+        <div class="booking-view-sidebar-label">
             <p><i class="fa fa-info-circle"></i> Showing</p>
             Starting Date : {{$_GET['startdate']}}
         </div>
@@ -57,7 +57,6 @@
         <div class="clearfix"></div>
         <p style="font-size:12px">Room Info</p>
         <?php
-        
         $room_status = \Kris\Frontdesk\RoomStatus::select(\DB::raw("room_number,idrooms,status_name,count(status) as qty"))->leftJoin("rooms","status_code","=","status")->groupBy("status_code")->get();
         $_qty = 0;
         ?>
@@ -84,9 +83,9 @@
         </table>
         <p class="widget-title">Room Availability</p>
         <div class="sidebar-widget room-av-container">
-          
+
             <form>
-               
+
                 <fieldset>
                     <label>Checkin</label>
                     <input type="text" value="" placeholder="YYYY-MM-DD" />
@@ -100,8 +99,10 @@
                     <label>Quantity</label>
                     <input style="width:100%" type="number" value="" placeholder="#" />
                 </fieldset>
-                <button class="btn btn-success" style="margin-left:15px;margin-top:10px; display:table;float:left; padding:5px 15px;font-size:11px;font-weight:bold !important">Check 
-<i class="fa fa-question-circle"></i></button>
+                <button class="btn btn-success" style="margin-left:15px;margin-top:10px; display:table;float:left; padding:5px 15px;font-size:11px;font-weight:bold !important">
+                    Check
+                    <i class="fa fa-question-circle"></i>
+                </button>
                 <div class="clearfix"></div>
             </form>
         </div>
@@ -109,7 +110,7 @@
         <p class="widget-title">Expected Checkout</p>
         <div class="sidebar-widget departure-widget container-fluid">
 
-           
+
         </div>
     </div>
 
@@ -122,8 +123,6 @@
         $html_days ="";
         $html_booking_td="";
         $html_date_td ="";
-
-
         for($i=1;$i<=$days;$i++){
             if($i==1)
             {
@@ -158,25 +157,34 @@
                     var cell = $(".room_" + x.room_id + " .room_date_" + x.checkin);
                     var location = $(cell).index();
                     var spanSize = 1;
-
+                    /** When The size of the tape cannot fit the selected date range - Continues past the table **/
                     spanSize = (x.days + location -1 > shownDays ? shownDays-location+1 : x.days);
-                   
+
                     $(cell).attr("colspan",spanSize );
 
                     $(cell).addClass(x.days + location - 1 > shownDays ? "continuing" : "");
+
                     guest =  x.guest.toLowerCase().substr(0,15);
                     var tapeContents  = guest.length > 1 ? guest : x.group_name;
                     var cellWidth = $(".booking_table td").width();
-                    
+
                     tapeContents  = tapeContents.substr(0,Math.floor(cellWidth*(spanSize>0?spanSize:1)/10));
                     $(cell).html(tapeContents);
                     $(cell).addClass("tape "+(x.status_name.replace("_","")));
                     var url = '{{action("\Kris\Frontdesk\Controllers\OperationsController@roomView",'_id_')}}';
                     url = url.replace('_id_',x.reservation_id);
 
-                    if(typeof x.reservation_id != "undefined"){
-                        $(cell).attr("title","Room :"+x.room_number).attr("onclick","window.openDialog('"+url+"','room','width=800,height=590,resizable=no',this)" );
+                    if(x.days<=0)
+                    {
+                       /** Due out **/ 
+                       $(cell).addClass("due_out_room");
+                    }else {
+                        if(typeof x.reservation_id != "undefined"){
+                            $(cell).attr("title","Room :"+x.room_number).attr("onclick","window.openDialog('"+url+"','room','width=800,height=590,resizable=no',this)" );
+                        }        
                     }
+
+                    
 
                     if(location > -1)
                     {
@@ -206,26 +214,25 @@
             <div class="report-filter">
                 <form name="filter-form" class="row form-inline">
                     <!--<div class="col-md-6">
-              
-                <label>Start Date</label>
-                <input name="startdate" style="width:90px;" class="form-control date-picker" value="{{$_GET['startdate']}}" />
-                Period <select class="form-control" name="days">
-                    <option {{$_GET['days']== 7 ? " selected " : ""}} value="7">1 Week</option>
-                <option {{$_GET['days']== 14 ? " selected " : ""}} value="14">2 Weeks</option>
-                <option {{$_GET['days']== 21 ? " selected " : ""}} value="21">3 Weeks</option>
-                <option {{$_GET['days']== 28 ? " selected " : ""}} value="28">4 Weeks</option>
-                </select>
-            </div>-->
 
+                        <label>Start Date</label>
+                        <input name="startdate" style="width:90px;" class="form-control date-picker" value="{{$_GET['startdate']}}" />
+                        Period <select class="form-control" name="days">
+                            <option {{$_GET['days']== 7 ? " selected " : ""}} value="7">1 Week</option>
+                        <option {{$_GET['days']== 14 ? " selected " : ""}} value="14">2 Weeks</option>
+                        <option {{$_GET['days']== 21 ? " selected " : ""}} value="21">3 Weeks</option>
+                        <option {{$_GET['days']== 28 ? " selected " : ""}} value="28">4 Weeks</option>
+                        </select>
+                    </div>-->
                     <!--<div class="col-md-6">
-                <p style="margin-bottom:-10px;margin-top:10px;">Color Map</p>
-                <br />
-                <span style="width:10px;height:10px;background:#db4a4a;display:inline-block;"></span> Occupied
-                <span style="width:10px;height:10px;background: rgb(109, 202, 239);display:inline-block;"></span> Reserved
-                <span style="width:10px;height:10px;background:#be48bf;display:inline-block;"></span> Checkedout
-                <span style="width:10px;height:10px;background:#ff7d3b;display:inline-block;"></span> House Use
-                <span style="width:10px;height:10px;background:#2b2b2b;display:inline-block;"></span> Blocked
-            </div>-->
+                        <p style="margin-bottom:-10px;margin-top:10px;">Color Map</p>
+                        <br />
+                        <span style="width:10px;height:10px;background:#db4a4a;display:inline-block;"></span> Occupied
+                        <span style="width:10px;height:10px;background: rgb(109, 202, 239);display:inline-block;"></span> Reserved
+                        <span style="width:10px;height:10px;background:#be48bf;display:inline-block;"></span> Checkedout
+                        <span style="width:10px;height:10px;background:#ff7d3b;display:inline-block;"></span> House Use
+                        <span style="width:10px;height:10px;background:#2b2b2b;display:inline-block;"></span> Blocked
+                    </div>-->
                 </form>
             </div>
             <img style="position:absolute;top:100px;left:40%" src="/assets/images/small-loader.gif" />
@@ -267,7 +274,7 @@
                 @endforeach
 
 
-        @endforeach
+                @endforeach
             </table>
         </div>
     </div>

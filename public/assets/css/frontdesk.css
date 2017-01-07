@@ -248,6 +248,13 @@ padding: 50px
     color: rgba(255, 255, 255, 0.91);
 }
 
+.tape.checkedout.due_out_room:not(.checkedin),
+.tape.checkedout.due_out_room:not(.active) {
+    background:none !important;
+    color: rgba(255, 255, 255, 0.91);
+    text-indent:-999999px;
+}
+
 .tape.blocked {
     background: #1e1e1e;
     color: rgba(255, 255, 255, 0.91);
