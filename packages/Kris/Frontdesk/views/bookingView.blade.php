@@ -189,7 +189,10 @@
                        if(!$(cell).hasClass("checkedin") ){
                             $(cell).addClass("due_out_room");
                             $(cell).addClass("empty_room");
-                       }else {$(cell).removeClass("empty_room");}
+                       }else {
+                         $(cell).removeClass("empty_room");
+                            $(cell).attr("title","Room :"+x.room_number).attr("onclick","window.openDialog('"+url+"','room','width=800,height=590,resizable=no',this)" );
+                         }
                     }else {
                         if(typeof x.reservation_id != "undefined"){
                             $(cell).attr("title","Room :"+x.room_number).attr("onclick","window.openDialog('"+url+"','room','width=800,height=590,resizable=no',this)" );
