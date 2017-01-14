@@ -605,7 +605,7 @@ class ReservationsController extends Controller
         }
 
         //Disable Reservation injection
-        if((new \Carbon\Carbon($checkin))->lt(\Kris\Frontdesk\Env::WD()))
+        if($res->status == \Kris\Frontdesk\Reservation::ACTIVE && (new \Carbon\Carbon($checkin))->lt(\Kris\Frontdesk\Env::WD()))
         {
             $checkin = \Kris\Frontdesk\Env::WD()->format("Y-m-d");
         }
