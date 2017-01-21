@@ -133,6 +133,7 @@ color: #ccc;
 
 .main-container {
    padding:0 15px;
+   margin-top:80px !important;
 }
 .clock .time {
 	    font-size: 16px;
@@ -195,7 +196,12 @@ font-size:12px;
 	background: #21303F;
 	color:#fff;
 	padding: 2px;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
 	height: 55px;
+    z-index:60;
 	margin-bottom: 25px;
 }
 
