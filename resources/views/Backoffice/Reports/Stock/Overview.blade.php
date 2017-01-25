@@ -81,10 +81,10 @@
         @endforeach
 <tfoot>
     <tr>
-        <th colspan="7">Total</th>
+        <th colspan="6">Total</th>
         <th>{{ number_format($purchases) }}</th>
         <th>{{ number_format($sales) }}</th>
-        <th colspan="2"></th>
+        <th colspan="3"></th>
     </tr>
     </tfoot>
     </table>
