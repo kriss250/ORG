@@ -149,7 +149,13 @@ class StockReport extends Model
 
         #region SQL2
         $sql2 = "select products.name,unit,warehouses_products.quantity,warehouses.name as warehouse,
-        (select concat(COALESCE(sum(purchase_items.quantity),0),'#',COALESCE(sum(purchase_items.gross_total),0))  from purchases
+        (select concat(COALESCE(sum(purchase_items.quantity),0),'#',COALESCE(sum(purchase_items.gross_total),0)
++(select COALESCE(sum(transfer_items.gross_total),0)  from transfers
+        join transfer_items on transfer_items.transfer_id = transfers.id
+        where to_warehouse_id=$stock and product_id = products.id and transfers.date >= '$start_date')
+)
+
+from purchases
         join purchase_items on purchase_items.purchase_id = purchases.id
         where product_id = products.id and purchases.warehouse_id=$stock and purchases.date between '$start_date' and '$end_date') as stockin,
 
