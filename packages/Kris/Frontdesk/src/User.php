@@ -19,7 +19,7 @@ class User extends Model
     protected $table = "users";
     public $primaryKey = "idusers";
     public $timestamps = false;
-
+    public $guarded=[];
     public static function me()
     {
         return \Session::get("fo_user");

@@ -78,6 +78,7 @@
     <Compile Include="app\Resto.php" />
     <Compile Include="app\Category.php" />
     <Compile Include="app\Store.php" />
+    <Compile Include="packages\kris\Frontdesk\src\RoomRate.php" />
     <Compile Include="packages\kris\Frontdesk\src\Controllers\StatementsController.php" />
     <Compile Include="packages\kris\Frontdesk\src\Currency.php" />
     <Compile Include="packages\kris\Frontdesk\src\Housekeeping.php" />
@@ -86,6 +87,7 @@
     <Compile Include="packages\kris\Frontdesk\src\Helpers.php" />
     <Compile Include="packages\kris\Frontdesk\src\Maid.php" />
     <Compile Include="packages\kris\Frontdesk\src\Log.php" />
+    <Compile Include="packages\kris\Frontdesk\src\UserGroup.php" />
     <Compile Include="packages\kris\Frontdesk\views\exRates.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\companyList.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\groupViewer.blade.php" />
@@ -216,6 +218,11 @@
     <Compile Include="packages\kris\Frontdesk\views\groupReservation.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\MasterIframe.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\expectedArrival.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\settings\userList.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\settings\addUser.blade.php" />
+    <Compile Include="packages\kris\Frontdesk\views\settings\setRoomRates.blade.php" />
+    <Compile Include="packages\Kris\Frontdesk\views\settings\createRoom.blade.php" />
+    <Compile Include="packages\Kris\Frontdesk\views\settings\createRoomType.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\standardView.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\Master.blade.php" />
     <Compile Include="packages\kris\Frontdesk\views\home.blade.php" />
@@ -780,6 +787,8 @@
     <Folder Include="packages\kris\Frontdesk\src\" />
     <Folder Include="packages\kris\Frontdesk\src\Controllers\" />
     <Folder Include="packages\kris\Frontdesk\views\frames\" />
+    <Folder Include="packages\Kris\Frontdesk\views\settings\" />
+    <Folder Include="packages\kris\HR\" />
     <Folder Include="public\assets\css\font" />
     <Folder Include="public\assets\css\fonts" />
     <Folder Include="public\assets\css\vendor\fonts" />
@@ -1046,6 +1055,14 @@
     <Content Include="public\assets\js\vendor\bsdatepicker\js\bootstrap-datepicker.min.js" />
     <Content Include="public\assets\js\vendor\datepair\jquery.datepair.js" />
     <Content Include="public\assets\js\vendor\datepair\jquery.datepair.min.js" />
+    <Content Include="public\images\frontdesk\add_room.svg" />
+    <Content Include="public\images\frontdesk\add_user.svg" />
+    <Content Include="public\images\frontdesk\list-scroll.svg" />
+    <Content Include="public\images\frontdesk\list-scroll2.svg" />
+    <Content Include="public\images\frontdesk\organogram.svg" />
+    <Content Include="public\images\frontdesk\tag-percentage.svg" />
+    <Content Include="public\images\frontdesk\tag.svg" />
+    <Content Include="public\images\frontdesk\user_list.svg" />
     <Content Include="public\uploads\images\logo_hillview.png" />
     <Content Include="public\images\frontdesk\arrow-left.svg" />
     <Content Include="public\images\frontdesk\arrow-right.svg" />

@@ -25,7 +25,7 @@ class UsersController extends Controller
         $password  = \Request::input("password");
 
         $user  = \Kris\Frontdesk\User::where("username","=",$username)
-            ->where("password","=",md5($password))->get()->first();
+            ->where("password","=",md5($password))->where("is_active","1")->get()->first();
 
         if(!is_null($user)){
             \Session::put("fo_user",$user);

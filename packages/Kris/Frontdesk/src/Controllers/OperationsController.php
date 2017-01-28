@@ -266,7 +266,7 @@ join reservation_status on reservation_status.idreservation_status = reservation
 left join guest on guest.id_guest = guest_id
 left join reservation_group on reservation_group.groupid = reservations.group_id
             where reservations.status not in (2,3,4) and date(checkin) <= ? and date(checkout) >=?  and
-datediff(date(checkout),greatest('{$_date->format("Y-m-d")}',date_format(checkin,'%Y-%m-%d')))>=0 
+datediff(date(checkout),greatest('{$_date->format("Y-m-d")}',date_format(checkin,'%Y-%m-%d')))>=0
 
 order by reservations.status desc ",[$enddate,$date]);
 
@@ -555,5 +555,155 @@ order by reservations.status desc ",[$enddate,$date]);
     {
         $pay = \Kris\Frontdesk\Payment::find($id);
         return \View::make("Frontdesk::printReceipt",["payment"=>$pay]);
+    }
+
+
+    /** Rooms Mananegment **/
+
+    public function createRoomType()
+    {
+        if(\Request::isMethod("post"))
+        {
+            $data = \Request::all();
+
+            if(strlen($data['name'])<2)
+            {
+                return redirect()->back()->withErrors(["Invalid Room Type name"]);
+            }
+
+            if(strlen($data['name'])<1)
+            {
+                return redirect()->back()->withErrors(["Alias Is Required"]);
+            }
+
+            \Kris\Frontdesk\RoomType::create([
+                "type_name"=>$data["name"],
+                "alias"=>$data["alias"],
+                "date"=>\Kris\Frontdesk\Env::WD()->format("Y-m-d H:i:s")
+                ]);
+
+            return redirect()->back()->with("msg","Room Type created");
+        }
+        return \View::make("Frontdesk::settings.createRoomType");
+    }
+
+
+    public function createRoom()
+    {
+        if(\Request::isMethod("post"))
+        {
+            $data = \Request::all();
+
+            if($data['type']<1)
+            {
+                return redirect()->back()->withErrors(["Please Choose Room Type"]);
+            }
+
+            if($data['floor']<1)
+            {
+                return redirect()->back()->withErrors(["Please Choose a floor"]);
+            }
+
+            if(strlen($data['name'])<2)
+            {
+                return redirect()->back()->withErrors(["Invalid Room Name"]);
+            }
+
+            \Kris\Frontdesk\Room::create([
+                "room_number"=>$data["name"],
+                "phone_ext"=>$data["phone"],
+                "type_id"=>$data["type"],
+                "floors_id"=>$data["floor"],
+                "status"=>"1",
+                "date"=>\Kris\Frontdesk\Env::WD()->format("Y-m-d H:i:s")
+                ]);
+
+            return redirect()->back()->with("msg","Room created");
+        }
+        return \View::make("Frontdesk::settings.createRoom");
+    }
+
+    public function setRoomRates()
+    {
+        if(\Request::isMethod("post"))
+        {
+            $data = \Request::all();
+
+            if($data['type']<1)
+            {
+                return redirect()->back()->withErrors(["Please Choose Room Type"]);
+            }
+
+            if($data['rate_id']<1)
+            {
+                return redirect()->back()->withErrors(["Please Choose Rate Type"]);
+            }
+
+            if(!is_numeric($data['rate']))
+            {
+                return redirect()->back()->withErrors(["Invalid Rate amount"]);
+            }
+
+
+             \DB::connection(\Kris\Frontdesk\RoomRate::$_connection)->insert("insert into room_rates (rate_type_id,room_type_id,rate_amount) values(?,?,?) on duplicate key update rate_amount=?",
+                [$data['rate_id'],$data['type'],$data['rate'],$data['rate']]);
+
+            return redirect()->back()->with("msg","The Rate has been Set !");
+        }
+        return \View::make("Frontdesk::settings.setRoomRates");
+    }
+
+    public function addUser()
+    {
+        if(\Request::isMethod("post"))
+        {
+            $data = \Request::all();
+
+            if(strlen($data['firstname'])<1)
+            {
+                return redirect()->back()->withErrors(["Please Choose Room Type"]);
+            }
+
+
+            if(strlen($data['password'])<6)
+            {
+                return redirect()->back()->withErrors(["Your Password is too short"]);
+            }
+
+
+            if($data['password'] != ($data['password2']))
+            {
+                return redirect()->back()->withErrors(["Your Passwords do not match"]);
+            }
+
+
+            if($data['role']<1)
+            {
+                return redirect()->back()->withErrors(["Please Choose a Role"]);
+            }
+
+
+            if(\Kris\Frontdesk\User::where("username",$data['username'])->get()->first())
+            {
+                return redirect()->back()->withErrors(["User already exist"]);
+            }
+
+            \Kris\Frontdesk\User::create([
+                "username"=>$data['username'],
+                "password"=>md5($data['password']),
+                "firstname"=>$data['firstname'],
+                "lastname"=>$data['lastname'],
+                "is_active"=>"1",
+                "group_id"=>$data['role'],
+                "date"=>date("Y-m-d")
+                ]);
+            return redirect()->back()->with("msg","User Created !");
+        }
+        return \View::make("Frontdesk::settings.addUser");
+    }
+
+    public function userList()
+    {
+        return \View::make("Frontdesk::settings.userList");
     }
 }

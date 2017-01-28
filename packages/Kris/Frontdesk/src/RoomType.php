@@ -18,6 +18,5 @@ class RoomType extends Model
     protected $table = "room_types";
     public $primaryKey = "idroom_types";
     public $timestamps = false;
-
-    
+    public $guarded = [];
 }

@@ -91,15 +91,13 @@ Floors View</a> </li>
                 </li>
 
             <li>
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                    <i class="fa fa-cogs"></i> Settings
-                    
+                <a data-toggle="tab" href="#pane-3">
+                    <i class="fa fa-cogs"></i>Settings
+
                 </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a onclick="openWindow('exRates','Exchange rates',this,600,400)" href="#">Currencies & exchange rates</a>
-                    </li>
-                </ul>
+                <!--<ul class="dropdown-menu">
+                  
+                </ul>-->
             </li>
 
                 <li>
@@ -421,6 +419,85 @@ margin-right: 8px;">
                     </div>
             </div>
 
+            <div class="tab-pane" id="pane-3">
+                <div style="padding-top:8px;" class="grid">
+                <ul class="menu-2">
+                    <!--RATES-->
+                    <li class="menu-group">
+                        <ul>
+                            <li>
+                                <a onclick="openWindow('exRates','Exchange rates',this,600,400)" href="#">
+                                    <img src="/images/frontdesk/scale.svg" />
+                                    Exchange rates
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--ROOMS-->
+                      <li class="menu-group">
+                          <ul>
+                              <li>
+                                  <a onclick="openWindow('createRoom','Create A New Room',this,400,450)" href="#">
+                                      <img src="/images/frontdesk/add_room.svg" />
+                                      Create Room
+                                  </a>
+                              </li>
+
+                              <li>
+                                  <a onclick="openWindow('createRoomType','Create Room Type',this,400,330)" href="#">
+                                      <img src="/images/frontdesk/organogram.svg" />
+                                      Create Room Type
+                                  </a>
+                              </li>
+
+
+                              <li>
+                                  <a onclick="openWindow('setRoomRates','Set Room Rates',this,320,350)" href="#">
+                                      <img src="/images/frontdesk/tag-percentage.svg" />
+                                      Set Room Rates
+                                  </a>
+                              </li>
+
+                              <!--<li>
+                                  <a onclick="openWindow('roomTypeList','Room Types',this,600,400)" href="#">
+                                      <img src="/images/frontdesk/list-scroll2.svg" />
+                                      Room Types List
+                                  </a>
+                              </li>
+
+                              <li>
+                                  <a onclick="openWindow('roomList','Rooms List',this,600,400)" href="#">
+                                      <img src="/images/frontdesk/list-scroll.svg" />
+                                      Rooms List
+                                  </a>
+                              </li>-->
+
+
+                        </ul>
+                    </li>
+                    <!--USERS-->
+                      <li class="menu-group">
+                          <ul>
+                              <li>
+                                  <a onclick="openWindow('addUser','Create User',this,400,500)" href="#">
+                                      <img src="/images/frontdesk/add_user.svg" />
+                                      Create User
+                                  </a>
+                              </li>
+
+                              <li>
+                                  <a onclick="openWindow('userList','List of Users',this,600,400)" href="#">
+                                      <img src="/images/frontdesk/user_list.svg" />
+                                      Users List
+                                  </a>
+                              </li>
+                          </ul>
+                    </li>
+
+
+                </ul>
+                    </div>
+            </div>
             <div class="clearfix"></div>
         </div>
 

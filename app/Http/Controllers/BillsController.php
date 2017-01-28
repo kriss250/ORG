@@ -561,9 +561,9 @@ class BillsController extends Controller
                             [
                                 $room_id,
                                 $res,
-                                $bill->store_id=="1" ? $bar_code :  $resto_code,
+                                $bill->store_id=="1" ||  $bill->store_id=="2" ? $bar_code :  $resto_code,
                                 $bill->amount,
-                                $bill->store_id=="1" ? $bar_motif : $resto_motif,
+                                $bill->store_id=="1" ||  $bill->store_id=="2" ? $bar_motif : $resto_motif,
                                 \ORG\Dates::$RESTODT,
                                 1,
                                 \Auth::user()->username,

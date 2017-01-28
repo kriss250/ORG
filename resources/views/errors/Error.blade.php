@@ -39,7 +39,7 @@
             Please contact your system administrator for further investigation
             <span onclick="showError();" style="cursor:pointer; border-bottom:1px dotted;opacity:.5">#Trace</span>
         </p>
-        <p class="hidden-error text-danger">{{$e}}</p>
+        <p class="hidden-error text-danger">{{$e}} in {{$ex->getFile()}}</p>
         <a href="{{URL::previous()}}" style="margin-top:15px;" class="btn btn-primary">GO BACK</a>
     </div>
 

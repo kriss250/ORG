@@ -49,11 +49,11 @@
 <script>
 
     $(document).ready(function () {
-        $(".date-picker-toggle").click(function () {
+        $(".page-contents").on("click",".date-picker-toggle",function () {
             $(this).parent().children("input.form-control").datepicker({ autoclose: true, forceParse: false }).focus();
         });
 
-        $(".row-del-btn").click(function (e) {
+        $(".page-contents").on("click",".row-del-btn",function (e) {
             e.preventDefault();
             delRow($(this).parent().parent(), typeof $(this).attr("has-data")!="undefined");
         });
@@ -71,30 +71,38 @@
             startRowIndex = $(rowSelectorObj).index()+1; // the next row after the one to be deleted
             rowsToUpdate = rowsInTable - startRowIndex ;
             x = startRowIndex;
+            $(rowSelectorObj).remove();
             for (var i = 1; i <= rowsToUpdate;i++)
             {
-                currentClass = "row_" + (x + 1);
-                currentNode = $($(".invoice-items-table ." + currentClass));
-                currentNode.removeClass(currentClass)
-                .addClass("row_" + x);
+                currentClass = "row_" + (x+1);
+               
+                currentNode = $(".invoice-items-table ." + currentClass);
+                
+                currentNode
+                    .removeClass(currentClass)
+                    .addClass("row_" + x);
 
-                currentNode.find(".date-input").attr("name", "date_" + x);
-                currentNode.find(".desc-input").attr({
+                newNode = $(".invoice-items-table .row_" + (x+1));
+               
+                $(newNode).find(".date-input").attr("name", "date_" + x);
+                newNode.find(".desc-input").attr({
                     "placeholder": "Description Item " + x,
                     "name": "desc_" + x,
                 });
 
-                currentNode.find(".days-input").attr({
+                newNode.find(".days-input").attr({
                     "name": "days_" + x,
                 });
 
-                currentNode.find(".qty-input").attr("name", "qty_" + x);
-                currentNode.find(".price-input").attr("name", "price_" + x);
+                newNode.find(".qty-input").attr("name", "qty_" + x);
+                newNode.find(".price-input").attr("name", "price_" + x);
                 x++;
             }
+
+            
         }
 
-        $(rowSelectorObj).remove();
+       
     };
 
   var addRow = function (ev)
@@ -107,14 +115,19 @@
     var row = $("<tr>");
     var col = $("<td>");
 
+    var dateGroup = $('<div class="input-group">');
+    var dateGroupAddon = $('<span style="font-size:13px;cursor:pointer;padding:5px" class="date-picker-toggle input-group-addon"><i class="fa fa-calendar"></i></span>');
     var dateInput = $('<input name="date_'+nextNo+'" class="form-control date-picker" type="text" placeholder="Y-m-d" />');
     var descInput = $('<input type="text" data-table="org_backoffice.invoice_items" data-field="description" name="desc_'+nextNo+'" rows="1" class="form-control suggest-input" placeholder="Description Item '+nextNo+'" />');
     var qtyInput = $('<input required min="1" name="qty_'+nextNo+'" type="number" class="form-control" />');
     var upInput = $('<input required name="price_'+nextNo+'" class="form-control" type="text" placeholder="Price #" />');
     var daysInput = $('<input required min="1" value="1" name="days_'+nextNo+'" type="number" class="form-control" />')
+    var delBtn = $(' <button type="button" class="row-del-btn btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>');
+
+    $(dateGroup).html(dateInput).append(dateGroupAddon);
 
     $(row).addClass("row_"+nextNo)
-    .append($("<td>").html(dateInput))
+    .append($("<td>").html(dateGroup).prepend(delBtn))
     .append($("<td>").html(descInput))
     .append($("<td>").html(daysInput))
     .append($("<td>").html(qtyInput))
