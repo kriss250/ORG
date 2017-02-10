@@ -1,0 +1,184 @@
+﻿.main-container {
+    background:linear-gradient(to left,rgba(255, 255, 255, 0.05),rgba(255, 255, 255, 0.3),rgba(255, 255, 255, 0.05));
+    border-radius:15px;
+    padding:50px;
+    margin-top:1px !important
+}
+
+body {
+    background:url("../images/order_bg.jpg") repeat;
+    background-attachment:fixed;
+    background-size:cover
+}
+
+.order-menu {
+    list-style:none;
+    text-align:center;
+    padding:50px;
+}
+
+.header-right {
+    padding-top:2px !important
+}
+
+.clock .time {
+    font-size:25px
+}
+
+.order-menu li {
+    margin-right:20px;
+    display:inline-block;
+}
+.order-menu li a {
+    background: linear-gradient(to bottom,#fff,#e5e5e5);
+    border-radius: 15px;
+    font-size: 30px;
+    text-transform:uppercase;
+    padding: 35px;
+    color:#2A2A2A;
+    border: 1px solid #b9b9b9;
+    box-shadow: 0 0 16px #ababab;
+}
+
+
+.contents .pos_biller {
+    background:rgba(234, 234, 234, 0.54);
+    margin-top:39px
+}
+
+
+.product_lists ul {
+    background:rgba(255, 255, 255, 0.72)
+}
+.pos_box .pos_title {
+    background:rgba(255, 255, 255, 0.73);
+    padding: 10px 25px !important;
+    border:none;
+    border-bottom:1px solid #d7d7d7
+}
+
+.pos_box {
+    border:none
+}
+
+.product_lists {
+    max-height:485px;
+}
+
+.product_lists ul li {
+    border:none !important;
+    color:#fff;
+    background:linear-gradient(to bottom,#10c08e,#0f7d95);
+    text-shadow: 0 1px 2px #575757;
+    font-weight:400;
+    border-radius:6px;
+    margin-right:12px;
+}
+.product_lists ul li:active {
+    background:linear-gradient(to top,#10c08e,#0f7d95);
+}
+
+.product_lists ul li:hover {
+    border:none;
+    color: #fff;
+}
+.product_lists ul li i {
+    color:#6fc5af
+}
+.pos_products {
+    background:rgba(169, 199, 225, 0.5);
+    margin-top:55px !important
+}
+
+.grid {
+    max-width:none !important
+}
+
+.pos_biller .summary {
+    max-width:100%;
+    box-sizing:border-box;
+     border:1px solid #6b6b6b;
+     border-top:1px solid #f7f7f7
+}
+
+.pos_biller .input-group input ,.pos_biller .input-group-addon{
+    border:1px solid #6f6f6f
+}
+.summary input {
+    max-width:100%
+}
+
+.pos_biller table {
+    border:1px solid #6b6b6b;
+    border-bottom:1px solid #cacaca;
+    
+}
+
+
+.cat-list li {
+    font-size:14px !important;
+    display:inline;
+    margin-bottom:10px
+}
+
+.cat-list li button {
+    border: none;
+color: #000;
+text-transform: uppercase;
+padding: 10px 15px;
+background: linear-gradient(to bottom,#fff,#ccc);
+border-radius: 4px;
+}
+
+.prod_filter {
+    padding:7px 10px;
+    overflow:hidden;
+    max-height: 65px;
+border-bottom: 1px solid #605f5f;
+background:rgba(27, 23, 22, 0.4)
+}
+
+.customer-row{
+    background:rgba(27, 23, 22, 0.4);
+    padding:10px;
+    margin:0
+}
+
+.product-row {
+background:rgba(179, 206, 229, 0.28);
+padding:10px;
+    margin:0
+}
+
+.customer-row .input-group {
+    margin:0
+}
+.footer {
+    border:none
+}
+
+.alpha-list {
+    list-style:none;
+    padding:0;
+    margin:0;
+    text-align:center
+}
+
+.alpha-list  li {
+    display:inline-block;
+    background:rgba(255, 255, 255, 0.8);
+    border-radius:4px;
+    font-size:16px;
+    padding:3px 6px;
+    margin-right:2px
+}
+.alpha-list  li.active {
+    background:#10c08e
+}
+
+.alpha-list  li:active {
+    background:#fff;
+}
+
+
+

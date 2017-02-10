@@ -1,0 +1,90 @@
+﻿body{
+  font-size: 16px !important
+}
+
+
+h1 {
+    font-size:80px;
+}
+
+.sidebar {
+  display: none;
+}
+
+.pos_box,.contents {
+  width: 100%
+}
+
+.input-group .fa {
+  font-size: 20px
+}
+
+.input-group input,input {
+  font-size: 20px !important;
+  height: 36px !important;
+}
+
+.input-group .input-group-addon {
+  font-size: 18px;
+}
+
+.btn {
+    font-size:18px !important
+}
+
+.chosen-container {
+    font-size:20px;
+}
+.chosen-single {
+    height:auto;
+    padding:8px;
+}
+
+.pos_biller table td {
+    font-size:18px;
+}
+
+.num-field {
+    height:35px;
+ 
+}
+
+.num-field .up-btn {
+    height: 16.4px;
+}
+
+.num-field input {
+    width:45px;
+    max-width:45px;
+}
+.num-field .down-btn {
+    height:16.4px
+}
+
+.num-field button {
+    width:30px;
+}
+
+
+.num-field .fa {
+    font-size:22px;
+}
+
+#purchase_table .delete_btn {
+    font-size:28px;
+}
+
+
+.search_results ul li {
+    font-size:22px
+}
+
+.product_lists ul li {
+    font-size:16px;
+    width:14.8%;
+    height: 100px;
+}
+
+.footer {
+    font-size:18px;
+}

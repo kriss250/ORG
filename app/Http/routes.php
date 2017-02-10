@@ -195,3 +195,16 @@ Route::group(['middleware' => 'auth'],function(){
     	return \View::make("Backoffice.ChangePassword");
     });
 });
+
+
+Route::group([],function(){
+    Route::get("/Order",["as"=>"order",function(){
+	    return View::make("Pos/OrderIndex");
+    }]);
+
+    Route::get("/Order/new",["as"=>"newOrder",function(){
+	    return View::make("Pos/Order");
+    }]);
+
+
+});

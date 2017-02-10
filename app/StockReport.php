@@ -104,6 +104,19 @@ class StockReport extends Model
         return $data;
     }
 
+
+    public static function getCategories()
+    {
+        $data = \DB::connection("mysql_stock")->select("select id,name from categories");
+        return $data;
+    }
+
+    public static function getCategory($id)
+    {
+        $data = \DB::connection("mysql_stock")->select("select id,name from categories where id=?",[$id])[0];
+        return $data;
+    }
+
     public static function getWarehouse($id)
     {
         $data = \DB::connection("mysql_stock")->select("select id,name from warehouses where id=?",[$id])[0];
@@ -115,12 +128,19 @@ class StockReport extends Model
         $start_date = $range[0];
         $end_date = $range[1];
 
+        $wherex = $id > 0 ? " and " : " where ";
+
+        //$id = mysqli_real_escape_string(\DB::connection(),$id);
+        //$stock = mysqli_real_escape_string(null,$stock);
+        $category  =isset($_GET['cat']) ?  $_GET['cat'] : 0;
         #region sql1
         $sql = "select products.name,unit,quantity,
         (select concat(COALESCE(sum(purchase_items.quantity),0),'#',COALESCE(sum(purchase_items.gross_total),0))  from purchases
         join purchase_items on purchase_items.purchase_id = purchases.id
         where product_id = products.id and purchases.date between '$start_date' and '$end_date') as stockin,
 
+(select COALESCE(sum(inventory_items.physical_qty-inventory_items.sys_qty),0) from inventories join inventory_items  on inventory_items.inventory_id=idinventories where inventory_items.product_id=products.id and (date(date) > '$end_date' )) as invy,
+(select COALESCE(sum(inventory_items.physical_qty-inventory_items.sys_qty),0) from inventories join inventory_items  on inventory_items.inventory_id=idinventories where inventory_items.product_id=products.id and (date(inventories.date) between '$start_date' and '$end_date')) as inv,
         (select concat(COALESCE(sum(sale_items.quantity),0),'#',COALESCE(sum(sale_items.gross_total),0))  from sales
         join sale_items on sale_items.sale_id = sales.id
         where product_id = products.id and sales.date between '$start_date' and '$end_date') as stockout,
@@ -143,7 +163,7 @@ class StockReport extends Model
 
         from products
 
-        " .($id>0 ? " where products.id=".$id : "");
+        " .($id>0 ? " where products.id=".$id : "").(isset($_GET['cat'])  && $_GET['cat']>0? $wherex." products.category_id=".$category : "" ) ." order by products.name,products.category_id";
 
         #endregion
 
@@ -152,12 +172,15 @@ class StockReport extends Model
         (select concat(COALESCE(sum(purchase_items.quantity),0),'#',COALESCE(sum(purchase_items.gross_total),0)
 +(select COALESCE(sum(transfer_items.gross_total),0)  from transfers
         join transfer_items on transfer_items.transfer_id = transfers.id
-        where to_warehouse_id=$stock and product_id = products.id and transfers.date >= '$start_date')
+        where to_warehouse_id=$stock and product_id = products.id and (date(transfers.date) between '$start_date' and '$end_date') )
 )
 
 from purchases
         join purchase_items on purchase_items.purchase_id = purchases.id
         where product_id = products.id and purchases.warehouse_id=$stock and purchases.date between '$start_date' and '$end_date') as stockin,
+
+(select COALESCE(sum(inventory_items.physical_qty-inventory_items.sys_qty),0) from inventories join inventory_items  on inventory_items.inventory_id=idinventories where inventory_items.product_id=products.id and inventories.warehouse_id=$stock and (date(date) > '$end_date' )) as invy,
+(select COALESCE(sum(inventory_items.physical_qty-inventory_items.sys_qty),0) from inventories join inventory_items  on inventory_items.inventory_id=idinventories where inventory_items.product_id=products.id and inventories.warehouse_id=$stock and (date(inventories.date) between '$start_date' and '$end_date')) as inv,
 
         (select concat(COALESCE(sum(sale_items.quantity),0),'#',COALESCE(sum(sale_items.gross_total),0))  from sales
         join sale_items on sale_items.sale_id = sales.id
@@ -196,17 +219,31 @@ from purchases
         (warehouses_products.quantity+@damagedp-@stin+@stout-@trsin+@trsout) as opening
 
         from products
-        join warehouses_products on warehouses_products.product_id = products.id join warehouses on warehouses.id = warehouses_products.warehouse_id where warehouses.id=$stock ".($id>0 ? " and products.id=".$id : "");
+        join warehouses_products on warehouses_products.product_id = products.id join warehouses on warehouses.id = warehouses_products.warehouse_id where warehouses.id=$stock ".($id>0 ? " and products.id=".$id : "").(isset($_GET['cat'] ) && $_GET['cat']>0 ? " and products.category_id=".$category : "" )." order by products.name,products.category_id";
         #endregion
 
+        $cat = isset($_GET['cat']) && $_GET['cat']  >0 ? self::getCategory($_GET['cat']) : null;
         if($stock > 0){
             $data = \DB::connection("mysql_stock")->select(\DB::raw($sql2));
-            return ["data"=>$data,"selectedWarehouse"=>self::getWarehouse($stock)];
+            return ["data"=>$data,"selectedWarehouse"=>self::getWarehouse($stock),"selectedCategory"=>$cat];
         }else {
             $data = \DB::connection("mysql_stock")->select(\DB::raw($sql));
-            return ["data"=>$data];
+            return ["data"=>$data,"selectedCategory"=>$cat];
         }
 
 
+    }
+
+    public static function transfersOverview($stock1,$stock2,$range,$id=0)
+    {
+        $start_date = $range[0];
+        $end_date  = $range[1];
+
+        $sql = "SELECT  product_code,product_name,product_unit,sum(gross_total) as amount,sum(transfer_items.quantity) as qty FROM
+                    transfers join  transfer_items on transfer_items.transfer_id=transfers.id
+                     where transfers.date between ? and ? and from_warehouse_id=? and to_warehouse_id=? ".($id>0 ? " and product_id=".$id : "" )." group by product_id,product_code,product_name,product_unit";
+
+        $data = \DB::connection("mysql_stock")->select($sql,[$start_date,$end_date,$stock1,$stock2]);
+        return $data;
     }
 }

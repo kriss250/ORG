@@ -149,6 +149,14 @@ class BackofficeReportController extends Controller
                 $info['warehouses'] = $warehouses;
 
                 return \View::make("Backoffice.Reports.Stock.Overview",$info);
+            case "transfersOverview" :
+                $warehouse1 = isset($_GET['from_warehouse']) ? $_GET['from_warehouse'] : 0;
+                $warehouse2 = isset($_GET['to_warehouse']) ? $_GET['to_warehouse'] : 0;
+
+                $info["data"] = \App\StockReport::transfersOverview($warehouse1,$warehouse2,$range);
+                $info['warehouses'] = \App\StockReport::getWarehouses();
+                
+                return \View::make("Backoffice.Reports.Stock.TransfersOverview",$info);
             case "cashBooks":
                 $cashbook_id = isset($_GET['cashbook']) ? $_GET['cashbook'] : 3 ;
                 $date1 = isset($range[0]) ? $range[0] : date("Y-m-d");

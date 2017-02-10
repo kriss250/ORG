@@ -188,7 +188,7 @@ font-size:12px;
 .header-right {padding: 5px 48px 5px 10px}
 
 .grid {
-	max-width: 1195px;
+	max-width: 1305px;
 	margin:auto;
 }
 
@@ -209,8 +209,8 @@ font-size:12px;
     border-bottom: 1px dotted rgb(186, 186, 186);
     margin-bottom: 16px;
     background: transparent linear-gradient(to right,#fff 0%, rgb(237, 237, 237) 40%, rgb(255, 255, 255) 88%) repeat scroll 0% 0%;
-padding-left: 4px;
-padding-top:10px
+    padding-left: 4px;
+    padding-top: 10px;
 }
 
 .report-filter label {
@@ -562,6 +562,7 @@ border: 1px solid #863CBA
 
 .waiterg > .chosen-container {
 	float: right;
+    max-width:110px;
 }
 
 
@@ -1767,7 +1768,7 @@ background: none;
   bottom: 0px;
   background: linear-gradient(to bottom,#fff,#ccc);
   height: 8.5px;
-  border-top: 1px solid rgb(170, 170, 170)
+  border-top: 1px solid rgb(170, 170, 170);
   padding-top: 5px;
 }
 

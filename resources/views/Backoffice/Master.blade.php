@@ -309,6 +309,7 @@
                             <a class="dropdown-btn" href="#"> <i class="fa fa-archive"></i> Stock Reports <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ action("BackofficeReportController@index",'stockOverview') }}">Stock Overview</a> </li>
+                                 <li><a href="{{ action("BackofficeReportController@index",'transfersOverview') }}">Transfers Overview</a> </li>
                                 <li><a href="{{ action("BackofficeReportController@index",'purchases') }}">Purchases</a> </li>
                                 <li><a href="{{ action("BackofficeReportController@index",'stockSales') }}">Sales</a> </li>
                                 <li><a href="{{ action("BackofficeReportController@index",'stockRequisition') }}">Requisition</a> </li>

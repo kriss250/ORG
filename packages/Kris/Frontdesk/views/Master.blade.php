@@ -436,11 +436,14 @@ margin-right: 8px;">
                     <!--ROOMS-->
                       <li class="menu-group">
                           <ul>
+
                               <li>
                                   <a onclick="openWindow('createRoom','Create A New Room',this,400,450)" href="#">
-                                      <img src="/images/frontdesk/add_room.svg" />
-                                      Create Room
+                                      <img src="/images/frontdesk/layers-arrange back.svg" />
+                                      Create Floor
                                   </a>
+
+
                               </li>
 
                               <li>
@@ -449,6 +452,16 @@ margin-right: 8px;">
                                       Create Room Type
                                   </a>
                               </li>
+
+
+                              <li>
+                                  <a onclick="openWindow('createRoom','Create A New Room',this,400,450)" href="#">
+                                      <img src="/images/frontdesk/add_room.svg" />
+                                      Create Room
+                                  </a>
+                              </li>
+
+                       
 
 
                               <li>
