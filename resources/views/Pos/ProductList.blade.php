@@ -19,6 +19,10 @@ $(document).ready(function(){
         },
 		"processing": true,
 		"serverSide": true,
+		"iDisplayLength": "100",
+		"aoColumns": [
+           { "bSearchable": false }, null, { "bSearchable": false }, { "bSearchable": false }, { "bSearchable": false }, { "bSearchable": false }, { "bSearchable": false }, { "bSearchable": false }, { "bSearchable": false }
+		] ,
 		"ajax": '<?php echo action("ProductsController@index")."?json";  ?>',
 		"columnDefs": [ {
             "targets": -1,
@@ -75,7 +79,7 @@ $(document).ready(function(){
 	        //not a number
 	    } else {
 
-	        var Url = "{{ action('ProductsController@markAsFavorite') }}";
+	        var Url = "{{action('ProductsController@markAsFavorite') }}";
 	        state = "1";
 	        Url = decodeURI(Url);
 	        Url = Url.replace('{Product}', id);
@@ -112,6 +116,7 @@ $(document).ready(function(){
 			<th>Category</th>
 			<th>Sub Category</th>
 			<th>Price</th>
+            <th>Stock Code</th>
 			<th>Description</th>
 			<th>Date</th>
 			<th>Action</th>
@@ -125,8 +130,9 @@ $(document).ready(function(){
 			<th>Category</th>
 			<th>Sub Category</th>
 			<th>Price</th>
-			
+            <th>Stock Code</th>
 			<th>Description</th>
+            
 			<th>Date</th>
 			<th>Action</th>
 		</tr>

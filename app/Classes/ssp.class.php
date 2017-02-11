@@ -38,8 +38,8 @@ class SSP {
 				if ( isset( $column['formatter'] ) ) {
 					$col = "";
 					if(strpos($column['db'] , '.')){
-						
-						$col = explode('.', $column['db'])[1];
+						$colc =  explode('.', $column['db']);
+                        $col = $colc[count($colc)-1];
 					}else {
 
 						$col = $column['db'];
@@ -48,11 +48,11 @@ class SSP {
 					if(isset($column['as'])){
 						$col = $column['as'];
 						$row[ $column['dt'] ] = $column['formatter']( $data[$i][ $col ], $data[$i] );
-						
+
 					}else{
 
 						$row[ $column['dt'] ] = $column['formatter']( $data[$i][ $col ], $data[$i] );
-					   
+
 					}
 
 				}
@@ -62,8 +62,8 @@ class SSP {
 
 
 					if(strpos($columns[$j]['db'] , '.')){
-
-						$col = explode('.', $columns[$j]['db'])[1];
+                        $colc =  explode('.', $columns[$j]['db']);
+                        $col = $colc[count($colc)-1];
 					}else {
 						$col = $columns[$j]['db'];
 					}
@@ -72,11 +72,11 @@ class SSP {
 						$col = $columns[$j]['as'];
 						$row[ $column['dt'] ] = $data[$i][$col];
 					}else{
-						
+
 						$row[ $column['dt'] ] = $data[$i][$col];
 					}
 
-					
+
 				}
 			}
 
@@ -222,8 +222,7 @@ class SSP {
 
 			$str = $requestColumn['search']['value'];
 
-			if ( $requestColumn['searchable'] == 'true' &&
-			 $str != '' ) {
+			if ( $requestColumn['searchable'] == 'true' && $str != '' ) {
 				$binding = self::esc("%".$str."%");
 					if(isset($column['ds'])){
 						$searchCol = $column['ds'];
@@ -273,12 +272,12 @@ class SSP {
 	static function simple ( $request, $table, $primaryKey, $columns,$join,$connection ="mysql_pos", $where2="",$group="" )
 	{
 		$bindings = array();
-       
+
 
 		// Build the SQL query string from the request
 		$limit = self::limit( $request, $columns );
 		$order = self::order( $request, $columns );
-		$where = self::filter( $request, $columns, $bindings );	
+		$where = self::filter( $request, $columns, $bindings );
 
 		if($where2!=""){
 			if($where!=""){
@@ -302,7 +301,7 @@ class SSP {
 			"SELECT FOUND_ROWS() as rows"
 		);
 
-		
+
 		$recordsFiltered = $resFilterLength[0]->rows;
 
 		// Total data set length
@@ -312,7 +311,7 @@ class SSP {
 		);
 
 		$recordsTotal = $resTotalLength[0]->leng;
-      
+
 
 		/*
 		 * Output
@@ -456,7 +455,7 @@ class SSP {
 	 */
 	static function fatal ( $msg )
 	{
-		echo json_encode( array( 
+		echo json_encode( array(
 			"error" => $msg
 		) );
 
@@ -488,7 +487,7 @@ class SSP {
 
 
 	/**
-	 * Pull a particular property from each assoc. array in a numeric array, 
+	 * Pull a particular property from each assoc. array in a numeric array,
 	 * returning and array of the property values from each item.
 	 *
 	 *  @param  array  $a    Array to get data from

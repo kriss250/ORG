@@ -33,26 +33,27 @@ class ProductsController extends Controller
 
         $join = "join categories on category_id = categories.id
                         left join sub_categories on sub_categories.id = subcategory_id
-                        join product_price on price_id = product_price.id";
+                        join product_price on price_id = product_price.id left join stock.products on stock.products.id = org_pos.products.id";
 
 
         if(isset($_GET['json'])){
 
             $columns = array(
-                array( 'db' => 'products.id', 'dt' => 0 ),
-                array( 'db' => 'products.product_name', 'dt' => 1 ),
+                array( 'db' => 'org_pos.products.id',"ds"=>"id", 'dt' => 0 ),
+                array( 'db' => 'products.product_name', "ds"=>"product_name",'dt' => 1 ),
                 array( 'db' => 'category_name',  'dt' => 2 ),
                 array( 'db' => 'sub_category_name',   'dt' => 3 ),
-                array( 'db' => 'price',     'dt' => 4 ),
-                array( 'db' => 'products.description','dt' => 5),
-                array( 'db' => 'products.date','dt' => 6,
+                array( 'db' => 'products.price',"ds"=>"price", 'dt' => 4 ),
+                array( 'db' => 'code', 'dt' => 5 ),
+                array( 'db' => 'products.description',"ds"=>"description",'dt' =>6),
+                array( 'db' => 'products.date',"ds"=>"date",'dt' => 7,
                         'formatter'=>function($d,$row){
                             return date(ORG\Dates::DSPDATEFORMAT,strtotime($d));
                         }
                     )
             );
 
-            return Datatables\SSP::simple( $_GET, "products", "products.id", $columns,$join );
+            return Datatables\SSP::simple( $_GET, "products", "products.id", $columns,$join,"mysql_pos","user_created=0");
 
         }
 
