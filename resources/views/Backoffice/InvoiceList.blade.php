@@ -53,7 +53,7 @@
               ?>
             @foreach($invoices as $invoice)
             <tr>
-                <td>{{$invoice->idinvoices < 10 ? "00".$invoice->idinvoices : $invoice->idinvoices }}/{{ (new \Carbon\Carbon($invoice->created_at))->format("Y")}}</td>
+                <td>{{$invoice->code < 10 ? "00".$invoice->code : $invoice->code }}/{{ (new \Carbon\Carbon($invoice->created_at))->format("Y")}}</td>
                 <td>{{$invoice->created_at}}</td>
                 <td>{{$invoice->institution}}</td>
                 <td>{{$invoice->description}}</td>
