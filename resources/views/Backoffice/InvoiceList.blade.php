@@ -35,7 +35,7 @@
             </thead>
             <?php
 
-            $invoices = \App\Invoice::select(\DB::raw("idinvoices,invoices.created_at,institution,invoices.description,due_date,username,sum(unit_price*qty*days) as invoice_total"))
+            $invoices = \App\Invoice::select(\DB::raw("idinvoices,invoices.created_at,institution,invoices.description,due_date,username,sum(unit_price*qty*days) as invoice_total,code"))
               ->leftJoin("invoice_items","invoice_items.invoice_id","=","idinvoices")
               ->join("org_pos.users","user_id","=","users.id")
               ->groupBy("idinvoices")
