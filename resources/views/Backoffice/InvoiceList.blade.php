@@ -45,7 +45,7 @@
               if(isset($_GET['invoice']) && $_GET['invoice'] !== "")
               {
                 $id = strpos($_GET['invoice'],"/") > 0 ? explode("/", $_GET['invoice'])[0] : $_GET['invoice'];
-                $invoices = $invoices->where('idinvoices', $id)->get();
+                $invoices = $invoices->where('code', $id)->get();
               }else {
                 $invoices = $invoices->get();
               }

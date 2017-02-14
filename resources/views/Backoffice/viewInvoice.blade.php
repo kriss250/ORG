@@ -114,7 +114,7 @@
 
         <div class="print-header-desc text-right">
             <h3 class="invoice-no" style="font-weight:bold;margin-bottom:0px;color:rgb(125, 125, 125)">INVOICE N<sup>o</sup></h3>
-            <h4 style="margin-top:0">{{$invoice->idinvoices}} / {{ (new Carbon\Carbon($invoice->created_at))->format("Y")}}</h4>
+            <h4 style="margin-top:0">{{$invoice->code}} / {{ (new Carbon\Carbon($invoice->created_at))->format("Y")}}</h4>
             <h5 style="border:1px solid rgb(100,100,100);display:inline-block;padding:10px">DATE : {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}}</h5>
         </div>
 
@@ -122,7 +122,7 @@
     </div>
 
 
-    <h2 class="text-center"><strong>INVOICE: {{$invoice->idinvoices}} / {{ (new Carbon\Carbon($invoice->created_at))->format("Y")}}</strong></h2>
+    <h2 class="text-center"><strong>INVOICE: {{$invoice->code}} / {{ (new Carbon\Carbon($invoice->created_at))->format("Y")}}</strong></h2>
 
 <div style="padding-left:5px" class="container-fluid">
 

@@ -43,17 +43,25 @@ class InvoiceController extends Controller
     {
         $data = \Request::all();
 
+        if($this->invoiceCodeExist($data['code']))
+        {
+            redirect()->back()->withErrors(["Invoice Code Already Exist !"]);
+        }
+
+
         $invoice = \App\Invoice::create([
             "user_id"=> \Auth::user()->id,
             "due_date"=>$data['due_date'],
             "institution"=>$data['company'],
             "address"=>$data['address'],
+            "code"=>$data['code'],
             "description"=>$data['description']
             ]);
 
         unset($data['due_date']);
         unset($data['_token']);
         unset($data['company']);
+        unset($data['code']);
         unset($data['address']);
         unset($data['description']);
 
@@ -129,7 +137,13 @@ class InvoiceController extends Controller
         $invoice->due_date = $data['due_date'];
         $invoice->address = $data['address'];
         $invoice->description = $data['description'];
+        $invoice->code = $data['code'];
         $invoice->sent_date = $data['delivery_date'];
+
+        //if($this->invoiceCodeExist($data['code']))
+        //{
+        //    return redirect()->back()->withErrors(["Invoice Code not available"]);
+        //}
         $invoice->save();
 
         \App\InvoiceItem::where("invoice_id",$invoice->idinvoices)->delete();
@@ -140,6 +154,7 @@ class InvoiceController extends Controller
         unset($data['company']);
         unset($data['address']);
         unset($data['description']);
+        unset($data['code']);
         unset($data['delivery_date']);
 
         $i= 1;
@@ -197,5 +212,12 @@ class InvoiceController extends Controller
     {
       $invoice = \App\Invoice::find($id);
       return \View::make("Backoffice.InvoicePayments",["invoice"=>$invoice]);
+    }
+
+
+    public function invoiceCodeExist($code)
+    {
+        $inv = \App\Invoice::where("code","=",$code)->where(\DB::raw("year(created_at)"),"=",date("Y"))->first();
+        return $inv!=null;
     }
 }

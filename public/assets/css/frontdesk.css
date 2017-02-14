@@ -259,9 +259,10 @@ padding: 50px
     color: rgba(255, 255, 255, 0.91);
 }
 
-.tape.active {
+.tape.active,.tape.due_out_room.active {
     background: url("/images/tape-limit.png") right no-repeat rgb(99, 188, 224) !important;
     color: rgba(255, 255, 255, 0.91);
+     text-indent:0;
     background-size:contain !important;
 }
 

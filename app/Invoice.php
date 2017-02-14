@@ -30,6 +30,12 @@ class Invoice extends Model
         return $this->belongsTo("\App\User","user_id","id");
     }
 
+    public static function LastInvoiceID()
+    {
+        $invoice = self::where(\DB::raw("year(invoices.created_at)"),"=",date("Y"))->orderBy("created_at","desc")->first();
+       return $invoice == null || !is_numeric($invoice->code) ? 1 : $invoice->code;
+    }
+
     public function payment()
     {
       return $this->hasMany("\App\InvoicePayment","invoice_id","idinvoices");

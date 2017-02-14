@@ -48,7 +48,7 @@
             </td>
         </tr>
     </thead>
-    <?php $i=1; ?>
+    <?php $i=1; $adults = 0;$children = 0; ?>
     @foreach($data as $item)
 
     <tr>
@@ -59,8 +59,22 @@
             <td>{{ $item->type_name }}</td>
         <td>{{ $item->pax}}</td>
     </tr>
-    <?php $i++; ?>
+    <?php $i++; list($a,$c) = explode("/",$item->pax); $adults += $a; $children +=$c;  ?>
     @endforeach
+
+
+    <tfoot>
+        <tr>
+            <th colspan="5">
+                TOTAL
+            </th>
+            <th>
+                {{$adults}}/{{$children}}
+            </th>
+        </tr>
+    </tfoot>
+
+
 </table>
 
 <div class="text-center print-footer">

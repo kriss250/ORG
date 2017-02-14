@@ -148,10 +148,21 @@ where  date(checked_in) <= '$date' and date(checkout) > '$date' and reservations
         join rooms on rooms.idrooms =reservations.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         join guest on guest.id_guest = guest_id
-         where reservations.status = 5
-         and checked_out is null and breakfast=1 order by idreservation desc";
+         where date(checkout) >=? and checked_in is not null and (breakfast=1 or package_name<>'BO') order by idreservation desc";
 
-        return ["data"=>self::$db->select($sql)];
+        return ["data"=>self::$db->select($sql,[$range[0]])];
+    }
+
+
+    public function Occupancy($range)
+    {
+        $sql = "SELECT concat_ws(' ',firstname,lastname) as guest,country,room_number,type_name,concat(adults,'/',children) as pax FROM reservations
+        join rooms on rooms.idrooms =reservations.room_id
+        join room_types on room_types.idroom_types = rooms.type_id
+        join guest on guest.id_guest = guest_id
+         where date(checkout) between ? and ? and checked_in is not null and (breakfast=1 or package_name<>'BO') order by idreservation desc";
+
+        return ["data"=>self::$db->select($sql,$range)];
     }
 
     public function RoomTransfers($range)

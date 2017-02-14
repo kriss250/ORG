@@ -71,36 +71,36 @@
             startRowIndex = $(rowSelectorObj).index()+1; // the next row after the one to be deleted
             rowsToUpdate = rowsInTable - startRowIndex ;
             x = startRowIndex;
-            $(rowSelectorObj).remove();
+            
+
             for (var i = 1; i <= rowsToUpdate;i++)
             {
                 currentClass = "row_" + (x+1);
-               
                 currentNode = $(".invoice-items-table ." + currentClass);
                 
-                currentNode
-                    .removeClass(currentClass)
-                    .addClass("row_" + x);
-
-                newNode = $(".invoice-items-table .row_" + (x+1));
                
-                $(newNode).find(".date-input").attr("name", "date_" + x);
-                newNode.find(".desc-input").attr({
+                $(currentNode).find(".date-input").attr("name", "date_" + x);
+
+                $(currentNode).find(".form-control.desc-input").attr({
                     "placeholder": "Description Item " + x,
                     "name": "desc_" + x,
                 });
 
-                newNode.find(".days-input").attr({
-                    "name": "days_" + x,
-                });
-
-                newNode.find(".qty-input").attr("name", "qty_" + x);
-                newNode.find(".price-input").attr("name", "price_" + x);
+                $(currentNode).find(".qty-input").attr("name", "qty_" + x);
+                $(currentNode).find(".price-input").attr("name", "price_" + x);
+                $(currentNode).find(".days-input").attr("name", "days_" + x);
+              
+                currentNode.addClass("row_" + x);
+                currentNode.removeClass(currentClass)
                 x++;
             }
 
             
+
+            
         }
+
+        $(rowSelectorObj).remove();
 
        
     };
@@ -117,11 +117,11 @@
 
     var dateGroup = $('<div class="input-group">');
     var dateGroupAddon = $('<span style="font-size:13px;cursor:pointer;padding:5px" class="date-picker-toggle input-group-addon"><i class="fa fa-calendar"></i></span>');
-    var dateInput = $('<input name="date_'+nextNo+'" class="form-control date-picker" type="text" placeholder="Y-m-d" />');
-    var descInput = $('<input type="text" data-table="org_backoffice.invoice_items" data-field="description" name="desc_'+nextNo+'" rows="1" class="form-control suggest-input" placeholder="Description Item '+nextNo+'" />');
-    var qtyInput = $('<input required min="1" name="qty_'+nextNo+'" type="number" class="form-control" />');
-    var upInput = $('<input required name="price_'+nextNo+'" class="form-control" type="text" placeholder="Price #" />');
-    var daysInput = $('<input required min="1" value="1" name="days_'+nextNo+'" type="number" class="form-control" />')
+    var dateInput = $('<input name="date_'+nextNo+'" class="form-control date-input date-picker" type="text" placeholder="Y-m-d" />');
+    var descInput = $('<input type="text" data-table="org_backoffice.invoice_items" data-field="description" name="desc_'+nextNo+'" rows="1" class="desc-inputdesc-input desc-input form-control suggest-input" placeholder="Description Item '+nextNo+'" />');
+    var qtyInput = $('<input required min="1" name="qty_'+nextNo+'" type="number" class="form-control qty-input" />');
+    var upInput = $('<input required name="price_' + nextNo + '" class="form-control price-input" type="text" placeholder="Price #" />');
+    var daysInput = $('<input required min="1" value="1" name="days_' + nextNo + '" type="number" class="form-control days-input" />')
     var delBtn = $(' <button type="button" class="row-del-btn btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>');
 
     $(dateGroup).html(dateInput).append(dateGroupAddon);
@@ -153,6 +153,11 @@
             </div>
 
             <div class="col-xs-5">
+                <label>Code</label>
+                <div style="width:150px" class="input-group">
+                    <input class="form-control" value="{{((1)+\App\Invoice::LastInvoiceID())}}" name="code" />
+                    <span class="input-group-addon">{{date("Y")}}</span>
+                </div>
                 <label>Due Date</label>
                 <input autocomplete="off" required name="due_date" type="text" style="display:block;max-width:105% !important;width:41% !important" class="form-control date-picker" />
 
