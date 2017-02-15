@@ -148,9 +148,9 @@ where  date(checked_in) <= '$date' and date(checkout) > '$date' and reservations
         join rooms on rooms.idrooms =reservations.room_id
         join room_types on room_types.idroom_types = rooms.type_id
         join guest on guest.id_guest = guest_id
-         where date(checkout) >=? and checked_in is not null and (breakfast=1 or package_name<>'BO') order by idreservation desc";
+         where date(checkout) >=? and date(checkin) < ? and checked_in is not null and (breakfast=1 or package_name<>'BO') order by idreservation desc";
 
-        return ["data"=>self::$db->select($sql,[$range[0]])];
+        return ["data"=>self::$db->select($sql,[$range[0],$range[0]])];
     }
 
 
