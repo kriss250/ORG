@@ -71,10 +71,11 @@
                 <th>Code</th>
                 <th>Name</th>
                 <th>Quantity.</th>
+                <th>U.Price</th>
                 <th>Value</th>
             </tr>
         </thead>
-        <?php $i =1;$purchases=0;$sales = 0; ?>
+        <?php $i =1;$purchases=0;$sales = 0; $total =0; ?>
         @foreach($data as $item)
 
         <tr>
@@ -82,12 +83,18 @@
             <td>{{$item->product_code}}</td>
             <td>{{$item->product_name}}</td>
             <td>{{$item->qty}}</td>
+            <td>{{number_format($item->price)}}</td>
             <td>{{$item->amount}}</td>
 
         </tr>
-        <?php $i++; ?>
+        <?php $i++; $total += $item->amount; ?>
         @endforeach
-
+        <tfoot>
+            <tr>
+                <th colspan="5">TOTAL</th>
+                <th>{{number_format($total)}}</th>
+            </tr>
+        </tfoot>
     </table>
 @endif
 

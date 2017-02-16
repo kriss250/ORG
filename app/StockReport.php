@@ -239,7 +239,7 @@ from purchases
         $start_date = $range[0];
         $end_date  = $range[1];
 
-        $sql = "SELECT  product_code,product_name,product_unit,sum(gross_total) as amount,sum(transfer_items.quantity) as qty FROM
+        $sql = "SELECT  product_code,product_name,product_unit,sum(gross_total) as amount,sum(transfer_items.quantity) as qty,avg(unit_price) as price FROM
                     transfers join  transfer_items on transfer_items.transfer_id=transfers.id
                      where transfers.date between ? and ? and from_warehouse_id=? and to_warehouse_id=? ".($id>0 ? " and product_id=".$id : "" )." group by product_id,product_code,product_name,product_unit";
 
