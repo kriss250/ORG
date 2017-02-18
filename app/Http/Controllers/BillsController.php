@@ -503,8 +503,7 @@ class BillsController extends Controller
             \DB::update("update bills set print_count=print_count+1,last_printed_by=? where idbills=?",[Auth::user()->id,$id]);
 
             if(isset($_GET['xml'])){
-
-                $response = \View::make("Pos.BillPrintXml",["bill"=>$bill]);
+                $response = html_entity_decode(trim(\View::make("Pos.BillPrintXml",["bill"=>$bill])));
                 return \Response::make($response)->header("Content-Type","text/plain");
 
             }
