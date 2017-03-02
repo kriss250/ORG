@@ -1,20 +1,22 @@
- 
+var refInterval = (61-(new Date().getSeconds())) * 1000;
  $(document).ready(function(){
      $('.date-picker').datepicker({
          format: "yyyy-mm-dd",
          autoclose: true,
          todayHighlight: true
      });
- 	//Time 
- 	setInterval(function(){
- 		tsp = Date.now();
- 		date = new Date(tsp);
+     //Time 
+     
+     setInterval(function () {
+         refInterval = 60000;
+         tsp = Date.now();
+         date = new Date(tsp);
 
- 		hours = date.getHours() >= 10 ? date.getHours()  : "0"+date.getHours() ;
- 		min = date.getMinutes() >= 10 ? date.getMinutes() : "0"+ date.getMinutes();
- 		$("i.time").html(hours+":"+min);
+         hours = date.getHours() >= 10 ? date.getHours() : "0" + date.getHours();
+         min = date.getMinutes() >= 10 ? date.getMinutes() : "0" + date.getMinutes();
+         $("i.time").html(hours + ":" + min);
 
- 	},60000);
+     }, refInterval);
 
  	$(".thechosen").chosen(); 
     

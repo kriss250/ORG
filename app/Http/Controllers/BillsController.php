@@ -174,6 +174,11 @@ class BillsController extends Controller
 
                 ]);
 
+        $orders = json_decode($data['orderids']);
+        if(count($orders)>0){
+            \App\Order::whereIn("idorders",$orders)->update(["has_bill"=>1,"bill_id"=>$billid]);
+        }
+
         $billItems = array();
 
         foreach($items as $item){

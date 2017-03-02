@@ -16,10 +16,16 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\Http\Controllers\SystemController.php" />
+    <Compile Include="app\OrderItem.php" />
+    <Compile Include="app\SalesMode.php" />
+    <Compile Include="app\Table.php" />
+    <Compile Include="app\Order.php" />
     <Compile Include="app\CategoryStore.php" />
     <Compile Include="app\Credit.php" />
     <Compile Include="app\Creditor.php" />
     <Compile Include="app\CreditPayment.php" />
+    <Compile Include="app\Http\Controllers\OrdersController.php" />
     <Compile Include="app\Settings.php" />
     <Compile Include="app\Http\Controllers\CreditsController.php" />
     <Compile Include="app\ProductPrice.php" />
@@ -78,6 +84,7 @@
     <Compile Include="app\Resto.php" />
     <Compile Include="app\Category.php" />
     <Compile Include="app\Store.php" />
+    <Compile Include="app\Waiter.php" />
     <Compile Include="packages\kris\Frontdesk\src\RoomRate.php" />
     <Compile Include="packages\kris\Frontdesk\src\Controllers\StatementsController.php" />
     <Compile Include="packages\kris\Frontdesk\src\Currency.php" />
@@ -620,6 +627,8 @@
     <Compile Include="resources\lang\en\passwords.php" />
     <Compile Include="resources\lang\en\validation.php" />
     <Compile Include="resources\views\Backoffice\addAnnouncement.blade.php" />
+    <Compile Include="resources\views\Backoffice\Admin\AdminDash.blade.php" />
+    <Compile Include="resources\views\Backoffice\Admin\Master.blade.php" />
     <Compile Include="resources\views\Backoffice\BillFinder.blade.php" />
     <Compile Include="resources\views\Backoffice\CashbookTransactionPrint.blade.php" />
     <Compile Include="resources\views\Backoffice\CreditOrdersList.blade.php" />
@@ -631,6 +640,7 @@
     <Compile Include="resources\views\Backoffice\Reports\FlashActivity.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\SalesMix.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\WaiterSales.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\Stock\TransfersOverview.blade.php" />
     <Compile Include="resources\views\Backoffice\viewInvoice.blade.php" />
     <Compile Include="resources\views\Backoffice\ViewReservation.blade.php" />
     <Compile Include="resources\views\Backoffice\FOStatement.blade.php" />
@@ -716,10 +726,14 @@
     <Compile Include="resources\views\Pos\assignedBills.blade.php" />
     <Compile Include="resources\views\Pos\BillList.blade.php" />
     <Compile Include="resources\views\Pos\BillPrint.blade.php" />
+    <Compile Include="resources\views\Pos\OrderPrintXml.blade.php" />
     <Compile Include="resources\views\Pos\BillPrintXml.blade.php" />
     <Compile Include="resources\views\Pos\categoryStore.blade.php" />
     <Compile Include="resources\views\Pos\CategoryList.blade.php" />
     <Compile Include="resources\views\Pos\ChangePassword.blade.php" />
+    <Compile Include="resources\views\Pos\OrderIndex.blade.php" />
+    <Compile Include="resources\views\Pos\OrderMaster.blade.php" />
+    <Compile Include="resources\views\Pos\Order.blade.php" />
     <Compile Include="resources\views\Pos\Home.blade.php" />
     <Compile Include="resources\views\Pos\Login.blade.php" />
     <Compile Include="resources\views\Pos\master.blade.php" />
@@ -918,6 +932,7 @@
     <Folder Include="resources\lang\en\" />
     <Folder Include="resources\views\" />
     <Folder Include="resources\views\Backoffice\" />
+    <Folder Include="resources\views\Backoffice\Admin\" />
     <Folder Include="resources\views\Backoffice\Reports\" />
     <Folder Include="resources\views\Backoffice\Reports\Frontdesk\" />
     <Folder Include="resources\views\Backoffice\Reports\POS\" />
@@ -1034,11 +1049,22 @@
     <Content Include="composer.json" />
     <Content Include="packages\kris\Frontdesk\composer.json" />
     <Content Include="public\assets\css\floorview.css" />
+    <Content Include="public\assets\css\font-awesome.css" />
+    <Content Include="public\assets\css\font-awesome.min.css" />
     <Content Include="public\assets\css\frontdesk.css" />
     <Content Include="public\assets\css\health_center.css" />
+    <Content Include="public\assets\css\keyboard.css" />
     <Content Include="public\assets\css\OpenSans-font.css" />
     <Content Include="public\assets\css\setup.css" />
     <Content Include="public\assets\css\print-doc.css" />
+    <Content Include="public\assets\css\orders.css" />
+    <Content Include="public\assets\css\touch.css" />
+    <Content Include="public\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="public\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="public\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="public\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="public\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="public\assets\fonts\FontAwesome.otf" />
     <Content Include="public\assets\fonts\OpenSans\59ZRklaO5bWGqF5A9baEERJtnKITppOI_IvcXXDNrsc.woff2" />
     <Content Include="public\assets\fonts\OpenSans\cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2" />
     <Content Include="public\assets\fonts\OpenSans\K88pR3goAWT7BTt32Z01mxJtnKITppOI_IvcXXDNrsc.woff2" />
@@ -1049,14 +1075,18 @@
     <Content Include="public\assets\images\Contact-Lock.png" />
     <Content Include="public\assets\images\fo-bg-1.jpg" />
     <Content Include="public\assets\images\fo-bg-2.jpg" />
+    <Content Include="public\assets\images\order_bg.jpg" />
     <Content Include="public\assets\images\organogram-2.svg" />
+    <Content Include="public\assets\images\touch-icon.svg" />
     <Content Include="public\assets\js\fo-main.js" />
+    <Content Include="public\assets\js\keyboard.js" />
     <Content Include="public\assets\js\vendor\bsdatepicker\css\bootstrap-datepicker.min.css" />
     <Content Include="public\assets\js\vendor\bsdatepicker\js\bootstrap-datepicker.min.js" />
     <Content Include="public\assets\js\vendor\datepair\jquery.datepair.js" />
     <Content Include="public\assets\js\vendor\datepair\jquery.datepair.min.js" />
     <Content Include="public\images\frontdesk\add_room.svg" />
     <Content Include="public\images\frontdesk\add_user.svg" />
+    <Content Include="public\images\frontdesk\layers-arrange back.svg" />
     <Content Include="public\images\frontdesk\list-scroll.svg" />
     <Content Include="public\images\frontdesk\list-scroll2.svg" />
     <Content Include="public\images\frontdesk\organogram.svg" />

@@ -16,7 +16,7 @@ class OrdersController extends Controller
 {
 
     private $orderID,$query,$bill_query;
-  
+
     public function __contruct()
     {
         $this->orderDate = \ORG\Dates::$RESTODT;
@@ -32,15 +32,22 @@ class OrdersController extends Controller
 
         if($data['waiter_id'] < 1)
         {
-            return json_encode(["errors"=>["Unable to save this bill"]]);
+            return json_encode(["errors"=>["Unable to save this order : Invalid Waiter"]]);
         }
+
+        $waiter = \App\Waiter::where("idwaiter",$data['waiter_id'])->where("pin",md5($data['waiter_pin']))->get()->first();
+
+        if($waiter == null)
+        {
+            return json_encode(["errors"=>["Wrong Username/Password "]]);
+        }
+
+        $data['waiter_id'] =  $waiter->idwaiter;
 
         DB::beginTransaction();
 
         $orderid = DB::table('orders')->insertGetId([
                     "waiter_id"=> $data['waiter_id'],
-                    "customer"=>$data['customer'],
-                    "user_id"=> \Auth::user()->id,
                     "table_id"=>$data['table_id'],
                     "stock"=>$data['stock'],
                     "date"=>$this->orderDate,
@@ -55,18 +62,18 @@ class OrdersController extends Controller
                 continue;
             }
 
-            $xid = gettype($item->idstore)=="object" ? $item->idstore->store_id : $item->idstore;
-            array_push($billItems,["order_id"=>$orderid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty,"store_id"=>$xid]);
+            //$xid = gettype($item->idstore)=="object" ? $item->idstore->store_id : $item->idstore;
+            array_push($orderItems,["order_id"=>$orderid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty,"store_id"=>$data['stock']]);
         }
 
-        $_ins = DB::table("bill_items")->insert($orderItems);
+        $_ins = DB::table("order_items")->insert($orderItems);
 
-        if($_ins>0 && $billid>0)
+        if($_ins>0 && $orderid>0)
         {
             DB::commit();
             $res = array(
-                        "message"=> $this->pay ? "Bill Payment Saved" : "Bill Saved" ,
-                        "idbills"=>$billid,
+                        "message"=>"Order Saved" ,
+                        "idorders"=> $orderid,
                         "date"=> date("d/m/Y H:i:s",strtotime($this->orderDate)),
                         "errors"=> array()
                      );
@@ -80,8 +87,6 @@ class OrdersController extends Controller
         }
 
     }
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -157,7 +162,7 @@ class OrdersController extends Controller
     }
 
 
-    public function getOrdItems(Request $req)
+    public function getOrderItems(Request $req)
     {
         $billID = $req->input("billID",0);
 
@@ -168,35 +173,55 @@ class OrdersController extends Controller
 
     public function printOrder($id)
     {
+        $waiter = \App\Waiter::where("idwaiter",$_GET['waiter'])->where("pin",md5($_GET['pin']))->get()->first();
+
+        if($waiter == null)
+        {
+            return 0;
+        }
+
         if(!is_numeric($id))
         {
             return "0";
         }
 
-        $sql = "SELECT idbills,format(bill_total,0) as bill_total,format(tax_total,0) as tax_total,amount_paid,change_returned,pay_date,date_format(bills.date,'%d/%m/%Y %T') as date,bills.status,waiter_name,username,product_name,qty,unit_price,(qty*unit_price) as product_total,product_id,EBM,customer,status FROM bills
-                join bill_items on bill_id = idbills
+        $sql = "SELECT idorders,date_format(orders.date,'%d/%m/%Y %T') as date,waiter_name,product_name,qty,unit_price,(qty*unit_price) as product_total,product_id,store_name,table_name
+                FROM orders
+                join order_items on order_id = idorders
                 join products on products.id = product_id
                 join waiters on idwaiter = waiter_id
-                join users on users.id = user_id
-                where idbills =? and deleted=0 ".((Auth::user()->level<8) ? " and print_count < 1" :"");
+                join tables on tables.idtables = table_id
+                join store on store.idstore = orders.stock
+                where idorders=? and has_bill = 0 ";
 
-        $bill = \DB::select($sql,[$id]);
+        $order = \DB::select($sql,[$id]);
 
-        if($bill){
-            \DB::update("update bills set print_count=print_count+1,last_printed_by=? where idbills=?",[Auth::user()->id,$id]);
+        if($order != null){
 
             if(isset($_GET['xml'])){
 
-                $response = \View::make("Pos.BillPrintXml",["bill"=>$bill]);
+                $response = \View::make("Pos.OrderPrintXml",["order"=>$order]);
                 return \Response::make($response)->header("Content-Type","text/plain");
-
             }
-            return \View::make("Pos.BillPrint",["bill"=>$bill]);
         }else {
             return "";
         }
 
     }
 
-   
+    public function getOrders()
+    {
+        return \App\Order::where("has_bill","0")->where("deleted","0")->where(\DB::raw("date(date)"),\ORG\Dates::$RESTODATE)->get()->load("waiter")->load("table");
+    }
+
+    public function getOrder()
+    {
+        $order = \App\Order::where("idorders",$_GET['id'])->where("has_bill","0")->where("deleted","0")->where(\DB::raw("date(date)"),\ORG\Dates::$RESTODATE)->get()->first()->load("waiter");
+        $data=  ["order"=>$order,
+            "items"=> $order != null ? $order->items->load("product")->all() : []
+            ];
+        return $order;
+    }
+
+
 }

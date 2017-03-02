@@ -19,8 +19,8 @@
         $(".main-container").css("overflow","auto");
 
         $("#purchase_table").css({
-            "height":(screenHeight*0.54)+"px",
-            "max-height":(screenHeight*0.55)+"px"
+            "height":(screenHeight*0.49)+"px",
+            "max-height":(screenHeight*0.53)+"px"
         });
 
         $(".product_lists").css({
@@ -28,6 +28,44 @@
             "max-height":(screenHeight*0.8)+"px"
         });
 
+        $(".waiter-login").css({
+            "height": (screenHeight * 0.85) + "px",
+            "max-height": (screenHeight * 0.85) + "px"
+        });
+
+        $(".waiter-login-list").css({
+            "height": (screenHeight * 0.72) + "px",
+            "max-height": (screenHeight * 0.85) + "px"
+        });
+
+        $(".right-scroll-cat").click(function () {
+            if ($(".cat-list li:last-child").position().left < $(".cat-list-wrapper").width() ) return;
+            var currentMargin = $(".cat-list").css("margin-left");
+            var margin = parseInt(currentMargin);
+            
+            var newMargin = Math.abs(margin)+80;
+            newMargin =  - newMargin;
+            $(".cat-list").animate({ "margin-left": newMargin+"px" }, 100)
+        });
+
+     $(".left-scroll-cat").click(function () {
+            var currentMargin = $(".cat-list").css("margin-left");
+            var margin = parseInt(currentMargin);
+            var newMargin = parseInt(currentMargin)+80;
+            newMargin = margin >= 0 ?  0 :  newMargin;
+
+            $(".cat-list").animate({ "margin-left": newMargin+"px" }, 100)
+     });
+
+     $(".place_order_btn").click(function (e) {
+         e.preventDefault();
+         $(".waiter-login-wrapper").toggleClass("hidden");
+     });
+
+     $(".cancel_login_btn").click(function (e) {
+         e.preventDefault();
+         $(".waiter-login-wrapper").toggleClass("hidden");
+     });
     });
 </script>
 <div class="pos_box row">
@@ -43,29 +81,30 @@
             <input type="hidden" id="local_bill_id" value="-1" />
             <input type="hidden" id="server_bill_id" value="-1" />
 
-            <div class="form-group customer-row">
-                <div class="input-group customerg">
-                    <span class="input-group-addon">Customer <i class="fa fa-user"></i></span>
-                    <input type="text" data-target="customer-list-wrapper" class="form-control" id="customer" value="Walkin" placeholder="Customer Name" aria-describedby="basic-addon1">
-                    <span style="background: rgb(233, 235, 255)" class="input-group-addon">
-                        <button data-target=".customer-list-wrapper" data-toggle="dropdown" class="btn customer-btn"><i class="fa fa-users"></i></button>
-                    </span>
-
-                    <div class="customer-list-wrapper">
-                        <?php
-                    $customers = \DB::select("select customerid,nickname from customers where favorite=1");
-                        ?>
-                        <ul>
-                            @foreach($customers as $customer)
-                            <li><a class="customer-item-btn" data-id="{{ $customer->customerid }}" data-name="{{ $customer->nickname }}" href="#"><i class="fa fa-user"></i>{{ $customer->nickname }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
+            <div class="form-group customer-ro">
+               <?php
+                        $tbs = \App\Table::all();
+                        $sts = \App\Store::all();
+                    ?>
+                <p style="margin-bottom:-4px">&nbsp;</p>
+                <div class="col-xs-6">
+                    <select class="form-control thechosen" id="table" name="table">
+                        <option value="">Choose Table</option>
+                        @foreach($tbs as $tb)
+                        <option value="{{ $tb->idtables }}">{{ $tb->table_name }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
-
-
-            </div>
+                <div class="col-xs-6">
+                    <select class="form-control thechosen" id="store" name="store">
+                        <option value="">Choose Store </option>
+                        @foreach($sts as $st)
+                        <option value="{{ $st->idstore }}">{{    $st->store_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                </div>
 
             <div class="input-group product-row">
                 <span class="input-group-addon" id="basic-addon1">Product <i class="fa fa-search"></i></span>
@@ -73,22 +112,7 @@
             </div>
             <!--<button class="custom_prod_btn"><i class="fa fa-plus"></i> Custom Product</button>-->
             <div class="clearfix"></div>
-            <div class="new_prod">
-                <form id="custom_product_form" action="{{ action('ProductsController@CreateCustomProduct') }}" method="post">
-                    <button class="new_prod_close_btn"><i class='fa fa-times'></i></button>
-                    <label>Name</label> <input name="product_name" type="text">
-                    <label>Price</label> <input name="product_price" type="text">
-                    <label>Category</label> <select style="max-width:150px;display:block" required="" name="category">
-                        <option value="">Category</option>
-                        <?php $cats = \DB::select("SELECT id,category_name,store_name,store_id FROM categories join category_store on category_store.category_id = categories.id join store on store.idstore = store_id"); ?>
-                        @foreach($cats as $cat)
-                        <option value="{{ $cat->id }}-{{$cat->store_id}}">{{$cat->category_name}} ({{ $cat->store_name }})</option>
-                        @endforeach
-                    </select>
-                    <input type="submit" value="Add">
-                    {!! csrf_field() !!}
-                </form>
-            </div>
+       
 
         </div>
         <table id="purchase_table">
@@ -104,18 +128,16 @@
 
         <div class="summary container-fluid">
             <div class="col-md-6">Tax</div>
-            <div class="col-md-6"><input type="text" id="tax" value="0"></div>
+            <div class="col-md-6"><input readonly type="text" id="tax" value="0"></div>
 
             <div class="col-md-6">Total Payable</div>
-            <div class="col-md-6"><input type="text" id="totalPayable" value="0"></div>
+            <div class="col-md-6"><input readonly type="text" id="totalPayable" value="0"></div>
         </div>
 
         <div class="actions">
             <ul>
-                <li><a class="suspend_btn" href=""> <i class="fa fa-pause"></i> Save</a></li>
-                <li><a class="pay_btn" href=""> <i class="fa fa-money"></i> Pay</a></li>
-                <li><a class="print_btn" href=""> <i class="fa fa-print"></i> Print</a></li>
-                <li><a class="cancel_btn" href=""> <i class="fa fa-ban"></i> Reset</a></li>
+                <li><a class="place_order_btn  btn-success" href="#"> <i class="fa fa-disk"></i> Place Order</a></li>
+                <li><a class="order_cancel_btn cancel_btn" href="#"> <i class="fa fa-ban"></i> Reset</a></li>
             </ul>
         </div>
 
@@ -123,44 +145,55 @@
 
     <div class="pos_products col-md-7">
         <div class="prod_filter">
-            <ul class="cat-list">
-                @foreach(\App\Category::all() as $cat)
-                <li>
-                    <button>
-                        <i class="fa fa-sitemap"></i>
-                        {{    $cat->category_name}}
-                    </button>
-                </li>
-                @endforeach
-            </ul>
-        </div>
+            <button class="left-scroll-cat scroll-left-btn col-md-1">
+                <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+            </button>
+            <div class="btn-group col-md-10 cat-list-wrapper" style="overflow:hidden" data-toggle="buttons">
+                <ul class="cat-list">
+
+                     <li>
+                        <label class="btn btn-default active">
+                            <i class="fa fa-sitemap"></i>
+                            <input type="radio" name="cats" value="0" checked id="option0" autocomplete="off"> All
+                        </label>
+                    </li>
+
+                    <?php $x  = 1; ?>
+                    @foreach(\App\Category::all() as $cat)
+                    <li>
+                        <label class="btn btn-default">
+                            <i class="fa fa-sitemap"></i>
+                            <input type="radio" name="cats" value="{{$cat->id}}" id="option{{$x}}" autocomplete="off"> {{$cat->category_name}}
+                        </label>
+                    </li>
+                    <?php $x++; ?>
+                    @endforeach
+                </ul>
+                </div>
+            <button class="right-scroll-cat scroll-right-btn col-md-1">
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            </button>
+            </div>
 
         <p class="text-center" style="margin-top:10px">
-            <ul class="alpha-list">
-                <li class="active">A</li>
-                <li>B</li>
-                <li>C</li>
-                <li>D</li>
-                <li>E</li>
-                <li>F</li>
-                <li>G</li>
-                <li>H</li>
-                <li>I</li>
-                <li>K</li>
-                <li>L</li>
-                <li>M</li>
-                <li>N</li>
-                <li>O</li>
-                <li>P</li>
-                <li>Q</li>
-                <li>R</li>
-                <li>S</li>
-                <li>T</li>
-                <li>V</li>
-                <li>X</li>
-                <li>Y</li>
-                <li>Z</li>
-</ul>
+            <div class="btn-group container-fluid" data-toggle="buttons">
+                <ul class="alpha-list">
+                    <li>
+                        <label class="btn btn-default active">
+                            <input checked type="radio" name="alphas" value="*" id="option_xc" autocomplete="off"> *
+                        </label>
+                    </li>
+
+                    <?php foreach(range('a','z') as $i) :  ?>
+                    <li>
+                        <label class="btn btn-default">
+                            <input type="radio" name="alphas" id="option_{{$i}}" value="{{$i}}" autocomplete="off"> {{$i}}
+                        </label>
+                    </li>
+                    <?php endforeach; ?>
+
+                </ul>
+            </div>
         </p>
 
         <div class="product_lists">
@@ -197,18 +230,35 @@
 
         /** Load Products **/
 
-        $(".product_lists").loadProducts({url:"/POS/Products/json",store_id:0,category_id:0,favorite:true});
+        $(".product_lists").loadProducts({url:"/POS/Products/json",store_id:0,category_id:0,favorite:false,letter:"*"});
         /** Add Product To Purchase List **/
         $(".pos_box").OrderOperation({
-            suspendUrl : "<?php echo action("BillsController@suspend"); ?>",
+            saveOrderUrl : "<?php echo action("OrdersController@saveOrder"); ?>",
             searchUrl:"<?php echo action("ProductsController@searchProduct"); ?>",
 			taxPercent : 18
 		});
 
-		$("#store_list").change(function(){
-			store =  $(this).val();
-			$(".product_lists").loadProducts({url:"/POS/Products/json",store_id:store,category_id:0});
-		})
+        $("#store_list").change(function () {
+            store = $(this).val();
+            $(".product_lists").loadProducts({ url: "/POS/Products/json", store_id: store, category_id: 0 });
+        });
+
+
+        $(".alpha-list li").click(function () {
+            setTimeout(function () {
+                $(".product_lists").loadProducts({
+                    url: "/POS/Products/json", store_id: 0, category_id: $("[name=cats]:checked").val(), favorite: false, "letter": $("[name=alphas]:checked").val()
+                });
+            },100);
+        });
+
+        $(".cat-list li").click(function () {
+            setTimeout(function () {
+                $(".product_lists").loadProducts({
+                    url: "/POS/Products/json", store_id: 0, category_id: $("[name=cats]:checked").val(), favorite: false, "letter": $("[name=alphas]:checked").val()
+                });
+            }, 100);
+        });
 
 		$(".favorite_prod_btn").click(function (e) {
 		    $(".product_lists").loadProducts({ url: "/POS/Products/json", store_id: 0, category_id: 0, favorite: true });

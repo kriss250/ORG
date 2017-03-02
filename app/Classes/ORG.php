@@ -50,8 +50,6 @@ class Reservation
 }
 
 
-
-
 class Dates extends Settings {
     
     const DBDATEFORMAT = "Y-m-d H:i:s";

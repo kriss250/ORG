@@ -1,12 +1,23 @@
 ﻿.main-container {
-    background:linear-gradient(to left,rgba(255, 255, 255, 0.05),rgba(255, 255, 255, 0.3),rgba(255, 255, 255, 0.05));
-    border-radius:15px;
     padding:50px;
     margin-top:1px !important
 }
 
+.clock {
+    font-size:16px;
+}
+
+
+.custom_prod_btn {
+    float: none;
+    border: none;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
 body {
-    background:url("../images/order_bg.jpg") repeat;
+    background:#11162F;
     background-attachment:fixed;
     background-size:cover
 }
@@ -30,50 +41,52 @@ body {
     display:inline-block;
 }
 .order-menu li a {
-    background: linear-gradient(to bottom,#fff,#e5e5e5);
-    border-radius: 15px;
-    font-size: 30px;
+    background: linear-gradient(to bottom,#e3e3e3,#c8c8c8);
+    border-radius: 10px;
+    font-size: 24px;
     text-transform:uppercase;
-    padding: 35px;
+    padding: 30px;
     color:#2A2A2A;
     border: 1px solid #b9b9b9;
-    box-shadow: 0 0 16px #ababab;
 }
 
 
 .contents .pos_biller {
     background:rgba(234, 234, 234, 0.54);
-    margin-top:39px
+    margin-top:39px;
+    padding-right: 0;
+border-right: 15px solid #21303F;
 }
 
 
 .product_lists ul {
-    background:rgba(255, 255, 255, 0.72)
+    background:rgba(255, 255, 255, 0.5)
 }
 .pos_box .pos_title {
     background:rgba(255, 255, 255, 0.73);
     padding: 10px 25px !important;
     border:none;
-    border-bottom:1px solid #d7d7d7
+    border-bottom:1px solid #a4a4a4
 }
 
 .pos_box {
-    border:none
+    border:none;
+    overflow:hidden
 }
 
 .product_lists {
     max-height:485px;
 }
 
-.product_lists ul li {
-    border:none !important;
-    color:#fff;
-    background:linear-gradient(to bottom,#10c08e,#0f7d95);
-    text-shadow: 0 1px 2px #575757;
-    font-weight:400;
-    border-radius:6px;
-    margin-right:12px;
-}
+    .product_lists ul li {
+        border: none !important;
+        color: #070707;
+        background: linear-gradient(to bottom,#f9f9f9,#d8d8d8);
+        font-weight: 400;
+        border-radius: 6px;
+        margin-right: 12px;
+        border: 1px solid #989898 !important;
+    }
 .product_lists ul li:active {
     background:linear-gradient(to top,#10c08e,#0f7d95);
 }
@@ -83,7 +96,7 @@ body {
     color: #fff;
 }
 .product_lists ul li i {
-    color:#6fc5af
+    color:#39748c
 }
 .pos_products {
     background:rgba(169, 199, 225, 0.5);
@@ -114,26 +127,37 @@ body {
     
 }
 
-
+.cat-list {
+    width:3000px;
+}
 .cat-list li {
     font-size:14px !important;
     display:inline;
     margin-bottom:10px
 }
 
-.cat-list li button {
-    border: none;
-color: #000;
-text-transform: uppercase;
-padding: 10px 15px;
-background: linear-gradient(to bottom,#fff,#ccc);
-border-radius: 4px;
-}
+    .cat-list li .btn.btn-default {
+        border: none;
+        color: #000 !important;
+        text-transform: uppercase;
+        padding: 10px 15px;
+        background: linear-gradient(to bottom,#fff,#ccc) !important;
+        border-radius: 4px;
+        font-weight:normal;
+        font-size:14px !important;
+    }
 
+    .cat-list li .btn.btn-default  input {
+        display:none
+    }
+
+    .cat-list li .btn-default.active {
+        background: linear-gradient(to top,#eaeaea,#b1b1b1) !important;
+    }
 .prod_filter {
     padding:7px 10px;
     overflow:hidden;
-    max-height: 65px;
+    max-height: 55px;
 border-bottom: 1px solid #605f5f;
 background:rgba(27, 23, 22, 0.4)
 }
@@ -145,7 +169,7 @@ background:rgba(27, 23, 22, 0.4)
 }
 
 .product-row {
-background:rgba(179, 206, 229, 0.28);
+background:rgba(49, 109, 161, 0.39);
 padding:10px;
     margin:0
 }
@@ -164,21 +188,185 @@ padding:10px;
     text-align:center
 }
 
-.alpha-list  li {
+.alpha-list  li  {
     display:inline-block;
+    text-transform:capitalize
+}
+.alpha-list  li label {
     background:rgba(255, 255, 255, 0.8);
     border-radius:4px;
-    font-size:16px;
+    font-size:14px !important;
     padding:3px 6px;
-    margin-right:2px
-}
-.alpha-list  li.active {
-    background:#10c08e
+    border:none !important;
+    margin-right:2px;
+    font-weight:normal
 }
 
-.alpha-list  li:active {
+.alpha-list .btn input {
+    display:none
+}
+.alpha-list  li .btn.active {
+    background:#4cff0a
+}
+
+.alpha-list  li label.active {
     background:#fff;
 }
 
 
+.actions ul li .place_order_btn  {
+    background:#0e7d3d;
+    box-shadow:2px 2px 0px #0f6634
+}
 
+ .actions ul li .order_cancel_btn {
+    background:#c0392b;
+    box-shadow:2px 2px 0px #ac3225
+}
+
+.actions ul li {
+    width: 45.2% !important;
+    margin-right: 20px;
+}
+
+ .actions ul li a:active {
+     box-shadow:none
+ }
+
+  .actions ul li a {
+      padding:13px;
+      font-size:18px;
+      text-transform:uppercase;
+      border-radius:6px;
+      margin-top:5px;
+  }
+
+   .actions ul li:last-child {
+       margin-right:10px !important
+   }
+
+
+.scroll-left-btn {
+    background: #8e44ad;
+    border: none;
+    display: block;
+    padding: 7px;
+    width: 45px;
+    margin-right: 12px;
+    border: 1px solid rgba(93, 52, 99, 0.84);
+border-radius: 5px;
+}
+
+
+.scroll-right-btn {
+    background: #8e44ad;
+    border: none;
+    display: block;
+    padding: 7px;
+    width: 45px;
+    margin-left: 12px;
+    border: 1px solid  rgba(93, 52, 99, 0.84);
+border-radius: 5px;
+}
+
+
+.new_prod {
+    color: #000;
+    text-align:left
+}
+
+.new_prod_close_btn {
+    top: 0px;
+    font-size: 20px;
+}
+
+
+.waiter-login-wrapper {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom:0;
+  
+  z-index: 800000;
+  top:0;
+  background: rgba(0,0,0,.7);
+}
+
+.waiter-login {
+  background: rgba(255,255,255,.97);
+  padding: 50px;
+  width: 90%;
+  overflow:hidden;
+  max-width: 900px;
+  margin: 50px auto;
+}
+
+.waiter-login .waiter-login-list {
+  padding: 0;
+  margin: 0;
+  max-height: 500px;
+  overflow: auto;
+  font-size: 14px;
+  max-width: 68%;
+  float:left;
+  display:block;
+  list-style: none;
+}
+
+.waiter-login .waiter-login-list li {
+  float: left;
+  margin: 8px 6px;
+  width: 28.333%;
+  overflow:hidden;
+  text-align: center;
+}
+
+.waiter-login-list li label {
+    border:none;
+    box-shadow:none;
+    background: #ccc;
+    border-radius: 8px;
+    display:block;
+    padding:10px 12px;
+  height: 70px;
+  
+}
+
+.waiter-login-list li label.active {
+    background: #c4ec93;
+box-shadow: 0 0 8px #b3d984 inset ;
+}
+
+.waiter-login-list li label input {
+    display:none
+}
+.waiter-login .fa-user {
+  font-size: 28px;
+  display: block
+}
+
+.waiter-login-btns 
+{
+    margin-top:5px;
+    width:106%;
+}
+.waiter-login-btns .btn {
+    width:100%;
+    padding:13px 15px;
+    font-size:14px !important;
+}
+
+.waiter-login-btns .col-xs-5 {
+    padding-left:0
+}
+
+.push-btn.btn-success {
+  box-shadow:0 4px 0 #42a542;
+  border-radius: 6px;
+}
+
+.push-btn.btn-danger {
+  box-shadow:0 6px 0 #a54542;
+  border-radius: 6px;
+}

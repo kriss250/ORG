@@ -724,7 +724,7 @@ color: rgb(13, 23, 17);
 
 .product_lists ul {
 	background: #F5F5F5;
-	display: none;
+	display:none;
 	padding: 10px;
 	list-style: none;
 	margin: 0;
@@ -733,7 +733,36 @@ color: rgb(13, 23, 17);
 
 }
 
-.product_lists ul li {
+.orders-list {
+    background: #F5F5F5;
+	padding: 10px;
+	list-style: none;
+	margin: 0;
+	position: relative;
+	overflow-x:hidden;
+}
+
+    .orders-list li b {
+        display: table;
+        text-align: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin: auto;
+        font-size: 18px;
+        color: #1d3812;
+        border: 1px solid #ff8746;
+        margin-bottom:5px;
+        padding: 2px 0;
+        box-sizing: border-box;
+        background: #ffdada;
+    }
+
+    .orders-list li i {
+        font-size:12px;
+        text-transform:capitalize
+    }
+.product_lists ul li,.orders-list li {
 	display: inline-block;
 	margin-right: 5px;
 	margin-bottom: 10px;
@@ -751,7 +780,7 @@ color: rgb(13, 23, 17);
 	overflow: hidden;
 }
 
-.product_lists ul li:hover {
+.product_lists ul li:hover,.orders-list li:hover {
 	color:red;
 	border-color: red;
 }
@@ -1570,15 +1599,15 @@ padding: 1px 8px;
 	background-color: #ECBEC8 
 }
 
-.pos_biller .new_prod {
-	position: absolute;
-background: #fff;
-border: 1px solid gray;
-display: none;
-box-shadow: 0 0 6px #666;
-padding: 15px;
-right: 15px;
-	z-index: 30
+.pos_biller .new_prod, .header-right .new_prod {
+    position: absolute;
+    background: #fff;
+    border: 1px solid gray;
+    display: none;
+    box-shadow: 0 0 6px #666;
+    padding: 15px;
+    right: 15px;
+    z-index: 30;
 }
 
 .new_prod input[type="text"]{
@@ -1789,4 +1818,29 @@ background: none;
 .num-field .up-btn .fa {
 	bottom: 0;
 	top:-2px;
+}
+
+.order-search-results {
+    font-size: 14px !important;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0 0 8px #282828;
+    position: absolute;
+    top: 25px;
+    left: 0;
+    right: 0;
+    max-height: 100px;
+    background: #fff;
+    border: 1px solid #bababa;
+}
+
+
+.order-search-results li {
+  padding: 8px 12px;
+  cursor:pointer;
+}
+
+.order-search-results li:hover {
+    color:#ff1f00
 }

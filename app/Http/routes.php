@@ -76,10 +76,28 @@ Route::get("/POS/logout/",['uses'=>"AuthController@destroy",'as'=>'logout']);
 
 
 
+Route::get("POS/Products/json","ProductsController@jsonReq");
+Route::get("/POS/Products/search/","ProductsController@searchProduct");
+Route::post("/POS/orders/save/","OrdersController@saveOrder");
+Route::get("POS/Orders/PrintOrder/{id}",["as"=>"printorder","uses"=>"OrdersController@printOrder"]);
 
 Route::group(['middleware' => 'auth'],function(){
 	// POS Routes
     Route::get("/POS",["as"=>"pos",function(){
+
+
+        if(isset($_GET['sales_mode']))
+        {
+            if(\App\SalesMode::getMode() !=""){
+                setcookie('sales_mode',$_GET['sales_mode'],time()+86400*90,"/");
+                $_COOKIE['sales_mode'] = $_GET['sales_mode'];
+            }else {
+                setcookie('sales_mode',$_GET['sales_mode'],time()+86400*90,"/");
+            }
+        }else if(\App\SalesMode::getMode() =="") {
+            setcookie('sales_mode',\App\SalesMode::NORMAL,time()+86400*90,"/");
+        }
+
 	    if(\Session::get("pos.mode")=="default")
         {
             return View::make("Pos/Home");
@@ -98,11 +116,12 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get("/Backoffice/Invoice/showPayments/{x}",["uses"=>"InvoiceController@showPayments"]);
 	Route::get("POS/NewDay",['as'=>'newday','uses'=>'SettingsController@newDay']);
 
-	Route::get("/POS/Products/search/","ProductsController@searchProduct");
+
 	Route::post("/POS/Bills/assignBill/","BillsController@assignBill");
   Route::post("/POS/Bills/paySuspended/","BillsController@paySuspendedBill");
   Route::post("/POS/Bills/updateBill/","BillsController@updateBill");
   Route::post("/POS/Bills/suspend/","BillsController@suspend");
+
   Route::post("/POS/Bills/pay/","BillsController@pay");
 	Route::get("/POS/Bills/shareBill/","BillsController@shareBill");
 	Route::get("/POS/Bills/assignedBills/","BillsController@assignedList");
@@ -148,13 +167,16 @@ Route::group(['middleware' => 'auth'],function(){
 
   Route::get("POS/Products/jsonSubCats",['uses'=>'ProductsSubCategoryController@ajaxGetSubCategories']);
 	Route::resource("POS/Products/SubCategories","ProductsSubCategoryController");
-	Route::get("POS/Products/json","ProductsController@jsonReq");
+
 	Route::get("POS/Bills/suspendedBills","BillsController@getSuspendedBills");
 	Route::get("POS/Bills/billItems","BillsController@getBillItems");
 	Route::get("POS/Bills/currentSales","BillsController@getCurrentSales");
 	Route::resource("POS/Bills","BillsController");
 	Route::post("POS/Products/CreateCustomProduct",['uses'=>'ProductsController@CreateCustomProduct']);
 	Route::resource("POS/Products","ProductsController");
+
+    Route::get("/POS/orders/getorders","OrdersController@getOrders");
+    Route::get("/POS/orders/getorder","OrdersController@getOrder");
 
 });
 
@@ -166,6 +188,10 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get("/Backoffice/OccupiedRooms",["as"=>"backofficeOccupiedRooms","uses"=>"BackofficeController@OccupiedRooms"]);
     Route::resource("/Backoffice/cashbook","CashbookController");
     Route::resource("Backoffice/credits","CreditsController");
+
+    Route::get("Backoffice/SysAdmin","SystemController@index");
+    Route::post("Backoffice/SysAdmin/proxy/","SystemController@jsProxy");
+
     Route::get("Backoffice/credits/delete/{id}","CreditsController@deleteCredit");
     Route::get("Backoffice/credits/show/payments/{id}","CreditsController@showPayments");
     Route::get("Backoffice/credits/delete/payments/{id}","CreditsController@deletePayment");

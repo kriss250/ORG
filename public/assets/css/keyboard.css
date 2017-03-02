@@ -1,0 +1,162 @@
+﻿.k-keyboard {
+    overflow: hidden;
+    width: 800px;
+    display: none;
+    position: absolute;
+    bottom: -1000px;
+    left: 20%;
+    background: #c3c3c3;
+    margin: auto;
+    text-align: center;
+    font-family: 'Open Sans';
+    box-shadow: 0 -15px 38px #3c3c3c;
+    z-index:10000;
+}
+
+.erase-key-btn {
+    background: #d25d3e;
+border: none;
+border-radius: 6px;
+color: #fff;
+width: 40px;
+padding: 7px 15px
+}
+
+
+.pin-keyboard {
+    padding:0;
+    margin:0;
+    list-style:none;
+    max-width:100%;
+}
+
+    .pin-keyboard li {
+        width: 60px;
+        display: inline-block;
+        height: 60px;
+        float: left;
+        margin-right: 10px;
+        font-size: 20px;
+        text-align: center;
+        background: linear-gradient(to top,#e7e7e7,#fff);
+        padding: 17px 0;
+        margin-bottom: 9px;
+        border-radius: 6px;
+        box-shadow: 0 4px 0px #ccc;
+        border-top: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+          font-weight:bold !important;
+    }
+.hide-key-btn {
+    border: none;
+background: #1eab5f;
+padding: 7px 18px;
+border-radius: 6px;
+color: #fff;
+}
+    .k-keyboard header {
+        background: #e4e4e4;
+        padding: 10px;
+        position: relative;
+        width: 100%;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #dadada;
+    }
+
+        .k-keyboard header .hide-btn {
+            position: absolute;
+            right: 40px;
+        }
+
+        .k-keyboard header input {
+            border: none;
+            height: 25px;
+            font-size: 16px;
+            padding: 5px 5px;
+        }
+
+    .k-keyboard ul {
+        list-style: none;
+        margin:2px 0;
+        padding:0;
+        line-height: 4;
+    }
+
+.keyboard-focused {
+    border: 1px solid #f31a00!important;
+}
+
+        .k-keyboard ul li {
+            display: inline-block;
+            margin-right: 5px;
+            line-height:1;
+            margin-bottom: -8px;
+        }
+
+    .k-keyboard li a {
+        font-size: 18px;
+        transition: all .5s;
+        color: #000;
+        background: linear-gradient(to bottom,#fff,#f5f5f5);
+        box-shadow: 0 2px 2px #aeaeae;
+        text-decoration: none;
+        padding: 16px 25px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .k-keyboard .numeric-keys li a {
+        padding: 10px 20px;
+        position: relative;
+        background: linear-gradient(to bottom,#f9f9f9,#efefef);
+        font-size: 16px;
+    }
+
+        .k-keyboard .numeric-keys li a .hidden-keys {
+            font-size: 11px;
+            position: absolute;
+            left: 5px;
+            top: 20%;
+            color: #989898;
+            font-weight: normal;
+        }
+
+    .k-keyboard li a:active {
+        background: linear-gradient(to top,#fff,#f5f5f5);
+    }
+
+    .k-keyboard .special-keys li a {
+        padding: 10px 25px;
+    }
+
+    .k-keyboard .special-keys .space-key a {
+        color: #ccc;
+        padding: 6px;
+        line-height: 2;
+    }
+
+.special-keys .numeric-key a, .special-keys .enter-key a {
+    background: #e4e4e4 !important;
+}
+
+.input-preview {
+    width: 80%;
+    border:1px solid #dedede;
+    border-radius:4px;
+    background:#f2f2f2
+}
+
+header .input-preview input {
+    width: 85%;
+    float: left;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #b0b0b0 !important;
+    color: #3b3b3b;
+}
+
+.input-preview button {
+    width: 10%;
+    float: right;
+}

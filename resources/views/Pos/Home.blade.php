@@ -80,8 +80,14 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
 </div>
 
 <div class="input-group">
-		  <span class="input-group-addon" id="basic-addon1">Product <i class="fa fa-search"></i></span>
-		  <input type="text" id="product_search" class="form-control" placeholder="Product name / Code" aria-describedby="basic-addon1">
+		  <span class="input-group-addon" id="basic-addon1">{{ \App\SalesMode::getMode()==\App\SalesMode::NORMAL ? "Product" : "Order"}} <i class="fa fa-search"></i></span>
+           @if(\App\SalesMode::getMode()==\App\SalesMode::NORMAL)
+		  <input autocomplete="off" type="text" id="product_search" class="form-control" placeholder="Product name / Code" aria-describedby="basic-addon1">
+           @else
+    <div style="position:relative">
+          <input autocomplete="off" type="text" id="order_search" class="order-search-field form-control" placeholder="Enter Order ID" aria-describedby="basic-addon1">
+    </div>
+           @endif
 </div>
 <!--<button class="custom_prod_btn"><i class="fa fa-plus"></i> Custom Product</button>-->
 <div class="clearfix"></div>
@@ -127,7 +133,7 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
 </div>
 
 </div>
-
+@if(\App\SalesMode::getMode()==\App\SalesMode::NORMAL)
 <div class="pos_products col-md-6">
 	<div class="prod_filter">
 		<ul>
@@ -172,7 +178,13 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
 </div>
 
 </div>
+@else 
+    <div class="orders-wrapper">
+        <ul class="orders-list">
 
+        </ul>
+    </div>
+@endif
 </div>
 
 
@@ -184,11 +196,11 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
     var taxTotal = 0;
     var suspendedBills = [];
 
-	
+
 	$(document).ready(function(){
 
 		/** Load Products **/
-		
+
 		$(".product_lists").loadProducts({url:"/POS/Products/json",store_id:0,category_id:0,favorite:true});
 		/** Add Product To Purchase List **/
 		$(".pos_box").billOperations({
@@ -201,9 +213,22 @@ Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
 			searchUrl:"<?php echo action("ProductsController@searchProduct"); ?>",
 			assignBillUrl:"<?php echo action("BillsController@assignBill"); ?>",
 			shareBillUrl:"{{ action('BillsController@shareBill') }}",
-            checkRoomUrl : "{{ action("BillsController@checkRoom") }}",
+            checkRoomUrl : "{{action("BillsController@checkRoom") }}",
+            getOrderUrl:"<?php echo action("OrdersController@getOrder"); ?>",
 			taxPercent : 18
-		});
+	});
+
+
+    $(".orders-list").loadOrders({
+        url : "<?php echo action("OrdersController@getOrders"); ?>",
+    });
+
+
+    setInterval(function(){
+        $(".orders-list").loadOrders({
+            url : "<?php echo action("OrdersController@getOrders"); ?>",
+        });
+    },40000);
 
 		$("#store_list").change(function(){
 			store =  $(this).val();

@@ -7,7 +7,6 @@
 	        return JSObj.confirm(text);
 	    };
 		//working in ORGBox
-
 		JSObj.ToolStripBG(44, 62, 83);
 		JSObj.ToolStripColor(215, 215, 215);
 	}
@@ -29,11 +28,12 @@
 			url:"/POS/Products/json",
 			category_id:0,
 			store_id: 0,
-            favorite:true
+			favorite: true,
+            letter:'*'
 	    }, options );
 
 	    $.ajax({
-				url:options.url+"?store="+options.store_id+"&category="+options.category_id+((options.favorite) ? "&favorite=1" : ""),
+	        url:options.url+"?store="+options.store_id+"&category="+options.category_id+"&letter="+options.letter+((options.favorite) ? "&favorite=1" : ""),
 				type:"get",
 				success:function(data){
 
@@ -45,7 +45,7 @@
 
 					var prodItem;
 					var list = $("<ul class=\"shown\">");
-
+					$(list).css("min-height", "500px");
 	                $.each(products,function(index,value){
 	                	prodItem = $("<li>").addClass("prod");
 		                $(prodItem).attr("data-price",value.price);
@@ -53,7 +53,7 @@
 						$(prodItem).attr("data-id",value.id);
 						$(prodItem).attr("data-stock_id", value.stock_id);
 						$(prodItem).attr("data-store_id", value.idstore);
-						$(prodItem).html('<i class="fa fa-cutlery"></i>'+value.product_name);
+						$(prodItem).html('<i class="hidden-md fa fa-cutlery"></i>'+value.product_name);
 						$(list).append($(prodItem));
 	                });
 
@@ -71,12 +71,42 @@
 			});
 	}
 
+	$.fn.loadOrders = function (options) {
+	    $.extend({
+	        url: "",
+	        table_id: 0,
+            waiter_id:0
+	    }, options);
+	    var elm = $(this);
+	    
+	    $.ajax({
+	        url: options.url,
+	        type: "get",
+	        "Content-Type": "json",
+	        success: function (data) {
+	            try {
+	                //data = JSON.parse(data);
+	                $(elm).html("");
+	                $.each(data, function (e, v) {
+	                    var li = $("<li class='orders-list-item'>");
+	                    $(li).attr("data-order_id", v.idorders).html("<b>" + v.idorders + "</b><i>" + v.waiter.waiter_name + "</i>");
+	                    $(elm).append(li)
+	                });
+	            } catch (ex) {
+	                alert(ex);
+	            }
+	        },
+	    });
+	};
+
+    //Region
     $.fn.billOperations = function(options){
 
 		var billTotal = 0;
 		var billItems = [];
 		var products = {};
 		var taxTotal = 0;
+		var openOrders = [];
 		var DBUpdate = {
 			toDelete : [],
 			toUpdate : [],
@@ -372,7 +402,7 @@
 		//Suspend btn 
 		$(".suspend_btn").click(function(e){
 			e.preventDefault();
-
+			
 			if($(this).attr("disabled")=="disabled"){
 				return;
 			}
@@ -402,7 +432,7 @@
 
 			
 			  var customer = $("#customer").val();
-			  var billData = {"data":JSON.stringify(billItems),"waiter_id":waiterID,"waiter_name":waiterName,"billTotal":billTotal,"taxTotal":taxTotal,"customer":customer};
+			  var billData = {"data":JSON.stringify(billItems),"waiter_id":waiterID,"waiter_name":waiterName,"billTotal":billTotal,"taxTotal":taxTotal,"customer":customer,"orderids": JSON.stringify(openOrders)};
 
 			$.ajax({
 				url:options.suspendUrl,
@@ -509,6 +539,15 @@
 			})
   
 		});
+
+		$(".order-search-field").keyup(function (e) {
+		    var elm = $(this);
+		    searchOrder($(elm).val(),elm);
+		}).blur(function () {
+		    setTimeout(function () {
+		        $(".order-search-results").remove();
+		    }, 300);
+		})
 
 		$(".print_btn").click(function(e){
 			e.preventDefault();
@@ -628,6 +667,58 @@
 		
 		});
 		
+		$('.pos_box').on('click',".orders-list-item", function (e) {
+
+		    e.preventDefault();
+		    $(this).attr("disabled", "disabled");
+		    var elm = $(this);
+		    
+		    var db_id = parseInt($(this).attr("data-order_id"));
+
+            //Check if the other is not open
+		    if (typeof openOrders.find(function (i) {
+		        return i == db_id;
+		    }) != "undefined") return;
+
+		    openOrders.push(db_id);
+		    
+		    mask = pauseBiller();
+		    //load bill from server
+		    $.ajax({
+		        url: options.getOrderUrl + "?id=" + db_id,
+		        type: "get",
+		        success: function (data) {
+
+		            Data = data;
+		            theorder = Data;
+		           
+		            $(taxField).val(0);
+		            $(billTotalField).val(0);
+		            $(waiterField).val(theorder.waiter_id).trigger("chosen:updated");
+
+
+		            $.each(Data.items, function (key, value) {
+		               
+		                addProductToBill({
+		                    price: parseFloat(value.unit_price),
+		                    name: value.product.product_name,
+		                    id: value.product_id,
+		                    stock_id: value.product.stock_id,
+		                    qty: value.qty,
+		                    idstore: value.store_id,
+		                    total: 0
+		                },false,true);
+
+		            });
+		        }
+
+		    }).done(function () {
+		        $(elm).removeAttr("disabled").remove();
+		        unPauseBiller(mask);
+		    });
+
+		});
+
 
 		$(".grid").on("keyup",'.paid_amount',function(e){
 
@@ -657,8 +748,6 @@
 			}
 
 		});
-
-
 
 		$(".pay_box").on("keyup",".bankcard-amount",function(e){
 			card_amount  = parseFloat($(this).val());
@@ -867,7 +956,7 @@
 
 			var billID = parseInt($("#server_bill_id").val());
 		
-			//New Bill : if bill is not saved yet save it !
+			//New Bill : if bill is not saved yet  it !
 			if(isNaN(billID) || billID < 1 ){
 			    alert("DSDs");
 			    
@@ -1227,6 +1316,31 @@
 			})
 		}
 
+		function searchOrder(term,elm)
+		{
+		    $.ajax({
+		        url: options.getOrderUrl,
+		        type: "get",
+		        data: { "id": term },
+		        success: function (data) {
+		            try {
+		                //data = JSON.parse(data);
+		                $(".order-search-results").remove();
+		                var sResults = $("<div class='order-search-results'>");
+		                $(elm).parent().prepend(sResults);
+
+		                var li = $("<li class='orders-list-item'>");
+		               
+		                $(li).attr("data-order_id", data.idorders).html("<b>#" + data.idorders + "</b> by <i>" + data.waiter.firstname +" "+ data.waiter.lastname+ "</i>");
+		                $(sResults).append(li)
+
+		            } catch (ex) {
+		                alert(ex);
+		            }
+		        },
+		    });
+		}
+
 		$(".pos_biller").on("click",'.search_prod',function(e){
 
 			e.preventDefault();
@@ -1343,6 +1457,7 @@
 			 billTotal = 0;
 			 billItems = [];
 			 products = {};
+			 openOrders = [];
 			 taxTotal = 0;
 			 updateMode  = false;
 
@@ -1496,7 +1611,7 @@
 	    }
 
 	    // update mode is used to add products to a saved bill , which will later be updated
-	    function addProductToBill(product,enableUpdateMode)
+	    function addProductToBill(product,enableUpdateMode,readonly)
 	    {
 	    	enableUpdateMode = typeof enableUpdateMode === 'undefined' ? false : true;
 	    	
@@ -1515,7 +1630,7 @@
 
 	    	var objID  = billItems.length;
 
-			var prod_qty = NumericBox(product.qty);
+			var prod_qty = NumericBox(product.qty,typeof readonly !=="undefined");
 
 			var row = $("<tr>").attr("data-oid",objID).attr("data-prodid",product.id);;
 
@@ -1526,10 +1641,15 @@
 			var priceInput = $("<input type='text' readonly class='price-field' />");
 			$(priceInput).val(product.price);
 			var priceCol = $("<td>").html($(priceInput));
-			var qtyCol = $("<td>").html($(prod_qty));
+			
 			var totalCol = $("<td>").html($("<input type='text' readonly='readonly' class='row_total row_total"+objID+"'>").val(product.total));
 		    var deleteBtn = $("<button data-prod_id='"+product.id+"' data-id='"+objID+"' class='delete_btn'>").html("<i class='fa fa-trash'></i>");
-            
+
+		    if (typeof readonly !== "undefined")
+		    {
+		        $(deleteBtn).attr("disabled", "disabled");
+		    }
+		    var qtyCol = $("<td>").html($(prod_qty));
 
             billTotal += product.total;
             taxTotal = (billTotal*options.taxPercent)/100;
@@ -1554,14 +1674,641 @@
 
 		return this;
 	}
+    //endregion BillOp
 
 
-	function NumericBox(qty)
+    $.fn.OrderOperation = function (options) {
+
+        var billTotal = 0;
+        var billItems = [];
+        var products = {};
+        var taxTotal = 0;
+        var DBUpdate = {
+            toDelete: [],
+            toUpdate: [],
+            newItems: []
+        };
+
+        var updateMode = false;
+
+        var suspendedBills = []; // { idbills:, bill_total:, tax_total:, customer:, waiter_name:, waiter_id: 1, date:}
+        var billTotalField = $("#totalPayable");
+        var taxField = $("#tax");
+        var table = $("#purchase_table");
+        var customerField = $("#customer");
+        var waiterField = $("#waiter");
+        var elm = this;
+        var prod_list = $(".product_lists");
+        var updateBtn = $("<a href='#' class='update_btn'>").html("Update");
+        var buttonsContainer = $(".pos_biller .actions > ul");
+        var searchTextBox = $("#product_search");
+        var resultsDiv = $("<div class='search_results'>").prepend("<i class='search_close_btn fa fa-times'>");
+        var resultsList = $("<ul>");
+
+        $.ajaxSetup({
+            headers: { 'X-CSRF-TOKEN': $('input[name="_token"]').val() }
+        });
+
+
+        $(prod_list).on('click', '.prod', function (e) {
+
+            e.preventDefault();
+
+            //{product_name,product_price,product_id,qty,}
+            var newQty = 1;
+
+            var product = {
+                price: parseFloat($(this).attr("data-price")),
+                name: $(this).attr("data-name"),
+                id: $(this).attr("data-id"),
+                stock_id: $(this).attr("data-stock_id"),
+                qty: newQty,
+                idstore: $(this).attr("data-store_id"),
+                total: 0
+            };
+            
+            addProductToBill(product, true);
+        });
+
+        $(table).on("change", ".price-field", function () {
+
+            //var qty = parseInt($(this).val());
+            var id = $(this).parent().parent().attr("data-oid");
+            var price = parseInt($(this).val());
+            var rowTotalField = $(".row_total" + id);
+
+
+            if (!isNaN(id) && !isNaN(price)) {
+
+                var prevTotal = billItems[id].total;
+                qty = billItems[id].qty;
+                billItems[id].price = price;
+
+                billItems[id].total = billItems[id].price * qty;
+
+                billTotal -= prevTotal;
+                billTotal += billItems[id].total;
+
+
+                //When updating suspended bill
+                if (updateMode) {
+                    try {
+                        recentlyAddedId = DBUpdate.newItems.findIndex(function (el, ind, array) {
+                            if (typeof el.id == "undefined") {
+                                return false;
+                            }
+                            if (el.id == billItems[id].id) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+
+
+                        //search Existing itme
+                        existingid = DBUpdate.toUpdate.findIndex(function (el, ind, array) {
+
+                            if (el.id == billItems[id].id) {
+                                //return true;
+                            } else {
+                                //return false;
+                            }
+                        });
+
+                        //alert(existingid);
+
+                        //Update newly inserted elements
+                        if (recentlyAddedId > -1) {
+                            DBUpdate.newItems[recentlyAddedId] = billItems[id];
+
+                            //return;
+                        }
+
+                        if (existingid > -1) {
+                            DBUpdate.toUpdate[existingid] = billItems[id];
+                            return;
+                        }
+
+                        DBUpdate.toUpdate.push(billItems[id]);
+                    } catch (ex) {
+                        alert(ex);
+                    }
+
+                }
+
+                $(rowTotalField).val(billItems[id].total);
+                taxTotal = (billTotal * 18) / 100;
+
+                $(taxField).val(taxTotal);
+
+                $(billTotalField).val(billTotal);
+
+            } else {
+                $(this).val(1);
+                alert("Only numbers are allowed");
+            }
+        });
+
+        $(table).on("change", ".qty_box", function () {
+
+            var qty = parseFloat($(this).val());
+            var id = parseInt($(this).parent().parent().parent().attr("data-oid"));
+
+            var rowTotalField = $(".row_total" + id);
+
+
+            if (!isNaN(id) && !isNaN(qty)) {
+
+                if (qty == 0) return false;
+
+                var prevTotal = billItems[id].total;
+
+                billItems[id].total = billItems[id].price * qty;
+                billTotal -= prevTotal;
+                billTotal += billItems[id].total;
+                billItems[id].qty = qty;
+
+                //When updating suspended bill
+                if (updateMode) {
+                    try {
+                        recentlyAddedId = DBUpdate.newItems.findIndex(function (el, ind, array) {
+                            if (typeof el.id == "undefined") {
+                                return false;
+                            }
+                            if (el.id == billItems[id].id) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        });
+
+
+                        //search Existing itme
+                        existingid = DBUpdate.toUpdate.findIndex(function (el, ind, array) {
+
+                            if (el.id == billItems[id].id) {
+                                //return true;
+                            } else {
+                                //return false;
+                            }
+                        });
+
+                        //alert(existingid);
+
+                        //Update newly inserted elements
+                        if (recentlyAddedId > -1) {
+                            DBUpdate.newItems[recentlyAddedId] = billItems[id];
+
+                            //return;
+                        }
+
+                        if (existingid > -1) {
+                            DBUpdate.toUpdate[existingid] = billItems[id];
+                            return;
+                        }
+
+                        DBUpdate.toUpdate.push(billItems[id]);
+                    } catch (ex) {
+                        alert(ex);
+                    }
+
+                }
+
+                $(rowTotalField).val(billItems[id].total);
+                taxTotal = (billTotal * 18) / 100;
+
+                $(taxField).val(taxTotal);
+
+                $(billTotalField).val(billTotal);
+
+            } else {
+                $(this).val(1);
+                alert("Only numbers are allowed");
+            }
+        });
+
+        $(".save_print_order").click(function (e) {
+            e.preventDefault();
+
+            if ($(this).attr("disabled") == "disabled") {
+                return;
+            }
+
+            var btn = $(this);
+            btnContents = $(btn).html();
+
+            var tableID = parseInt($("#table").val());
+            var waiterField = $('[name="waiterid"]:checked').val();
+            var waiter_id = typeof waiterField == "undefined" ? 0 : waiterField;
+            var store_id = parseInt($("#store").val());
+
+
+            if ($("#table").val() == 0) {
+                alert("Please choose table");
+                $(btn).html(btnContents).removeAttr("disabled");
+                return;
+            }
+
+
+            if ($("#store").val() < 1) {
+                alert("Please choose order destination store !");
+                $(btn).html(btnContents).removeAttr("disabled");
+                return;
+            }
+
+            if (billItems.length == 0) {
+                alert("There are no items on the order");
+                $(btn).html(btnContents).removeAttr("disabled");
+
+                return;
+            }
+
+            $(btn).attr("disabled", "disabled");
+            $(btn).html("Saving ...");
+
+            var billData = { "data": JSON.stringify(billItems), "stock": store_id, "table_id": tableID, "billTotal": billTotal, "waiter_id": waiter_id, "waiter_pin": $("#waiter-pin-input").val(), "taxTotal": taxTotal };
+
+            $.ajax({
+                url: options.saveOrderUrl,
+                type: "post",
+                data: billData,
+                success: function (data) {
+                    try {
+                        var res = JSON.parse(data);
+                        if (res.errors.length == 0) {
+                            ualert.success("Your order has been saved");
+
+                            var orderDate = new Date(Date.parse(res.date));
+
+                            var savedBillData = {
+                                idorders: res.idorders,
+                                bill_total: billTotal,
+                                tax_total: taxTotal,
+                                waiter_id: waiter_id,
+                                date: res.date,
+                                items: billItems
+                            };
+
+                            $(btn).html(btnContents).removeAttr("disabled");
+
+                            printOrder(res.idorders, { id: waiter_id, pin: $("#waiter-pin-input").val() });
+                            ResetPOS();
+                            $(".waiter-login-wrapper").toggleClass("hidden");
+
+                        } else {
+                            alert("Error saving bill :" + (res.errors !== "undefined" && res.Errors.length > 0 ? res.Errors[0] : ""));
+                            $(btn).html(btnContents).removeAttr("disabled");
+                        }
+                    } catch (ex) {
+                        $(btn).html(btnContents).removeAttr("disabled");
+                        alert("Server response error : " + ex.message);
+                    }
+                },
+                error: function (xhr, stat, error) {
+                    alert("Error sending data: " + error);
+                    $(btn).html(btnContents).removeAttr("disabled");
+
+                }
+
+            }).done(function () {
+                $("#waiter-pin-input").val("");
+                $("[name=waiterid]:checked").removeAttr("checked").parent().removeClass("active");
+                $("#table").val("").trigger("chosen:updated");
+                $("#store").val("").trigger("chosen:updated");
+            });
+        });
+
+        //Item Delete 
+        $(table).on("click", ".delete_btn", function (e) {
+
+            e.preventDefault();
+            var id = parseInt($(this).attr("data-id"));
+            var prod_id = parseInt($(this).attr("data-prod_id"));
+
+            if (isNaN(id) || isNaN(prod_id)) {
+                alert("Unable to remove item , Please reload the page");
+                return;
+            }
+
+            if (updateMode) {
+
+                recentlyAddedId = DBUpdate.newItems.findIndex(function (el, ind, array) {
+                    if (typeof el.id == "undefined") {
+                        return false;
+                    }
+                    if (el.id == prod_id) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+
+                recentlyUpdatedId = DBUpdate.toUpdate.findIndex(function (el, ind, array) {
+                    if (typeof el.id == "undefined") {
+                        return false;
+                    }
+                    if (el.id == prod_id) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+
+
+                if (recentlyAddedId > -1) {
+
+                    DBUpdate.newItems.splice(recentlyAddedId, 1);
+
+                } else {
+
+                    //Cancel Update
+                    if (recentlyUpdatedId > -1) {
+                        DBUpdate.toUpdate.splice(recentlyUpdatedId, 1);
+                    }
+
+                    DBUpdate.toDelete.push(prod_id);
+                }
+            }
+
+
+            billTotal -= billItems[id].total;
+
+            delete billItems[id];
+            $(billTotalField).val(billTotal);
+
+            taxTotal = (billTotal * 18) / 100;
+
+            $(taxField).val(taxTotal);
+            $("tr[data-oid='" + id + "']").remove();
+        });
+
+        $(".cancel_btn").click(function (e) {
+            e.preventDefault();
+            ResetPOS();
+        });
+
+        $(".pos-search-btn").click(function () { $(".pos-search-field").toggle().focus() });
+
+        $(".pos-search-field").keyup(function (e) {
+
+            var items = $("#suspended_bills_list").find("li");
+            var searchVal = $(this).val();
+
+            $.each(items, function (key, value) {
+                id = $(value).children("b").html();
+
+                if (typeof id != "undefined") {
+                    id = id.replace("#", "");
+
+                    if (id == searchVal) {
+                        $(value).parent().parent().children("a").trigger("click");
+
+                        $(value).children("b").css({
+                            background: "rgb(105, 231, 17)",
+                            "padding": "2px 5px"
+                        })
+
+                        $(".suspendedbills_btn").trigger("click");
+                    }
+                }
+            })
+
+        });
+
+        $(".print_btn").click(function (e) {
+            e.preventDefault();
+            if ($(this).attr("disabled") == "disabled") {
+                return false;
+            }
+
+            $(this).attr("disabled", "disabled");
+
+            if ((DBUpdate.toDelete.length + DBUpdate.toUpdate.length + DBUpdate.newItems.length) > 0) {
+                ualert.error("You must save change before printing");
+                return;
+            }
+
+            var svBillID = $("#server_bill_id").val();
+            //var spBillID = $("#local_bill_id").val();
+            var ID = 0;
+
+            if (svBillID > 0) {
+                ID = parseInt(svBillID);
+            }
+
+            if (!isNaN(ID) && ID > 0) {
+                printBill(ID);
+
+            } else {
+                ualert.error("There is no Bill to print , The bill must be suspended before printing");
+                $(this).removeAttr("disabled");
+            }
+
+            $(this).removeAttr("disabled");
+        })
+
+        $(".product_lists").click(function () {
+
+            if ($(".pos_mask").length > 0) {
+                $(".pos_mask").remove();
+                $(".pay_box").hide();
+            }
+
+        });
+
+        
+        //Search Products
+
+        $("#product_search").keyup(function (e) {
+            if ($(searchTextBox).val().length > 0) {
+                searchProduct($(searchTextBox).val());
+            }
+        });
+
+        function searchProduct(name) {
+            $.ajax({
+                url: options.searchUrl,
+                type: "get",
+                data: { q: name },
+                success: function (data) {
+                    $(resultsDiv).html("");
+                    $(resultsList).html("");
+
+                    try {
+                        resData = JSON.parse(data);
+
+                        $.each(resData, function (index, value) {
+                            item = $("<li>").attr({
+                                "data-price": value.price,
+                                "data-id": value.id,
+                                "data-name": value.product_name,
+                                "data-stock_id": value.stock_id,
+                                "data-store_id": value.idstore
+                            }).addClass('search_prod').html(value.product_name + " <span>(" + value.price + ")</span> <input type='number' min='1' value='1' class='_prod-qty' />");
+
+                            $(resultsList).append(item);
+                        });
+
+
+                        $(resultsDiv).html($(resultsList));
+                        $(resultsDiv).prepend('<button class="search_close_btn"><i class="fa fa-times-circle"></i></button>');
+                        if (resData.length == 0) {
+                            $(resultsDiv).html("Nothing found");
+                        }
+
+                        $(searchTextBox).parent().append(resultsDiv);
+
+                    } catch (e) {
+                        ualert.error("Search : Data format error");
+                    }
+                },
+                statusCode: {
+                    401: function () {
+                        ualert.error("Your session has expired please logout and login again !");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 3000)
+                    }
+                }
+            })
+        }
+
+        $(".pos_biller").on("click", '.search_prod', function (e) {
+
+            e.preventDefault();
+            console.log(e.target.nodeName);
+            if (e.target.nodeName == "INPUT") {
+                return false;
+            }
+
+
+            var _qty = $(this).find("._prod-qty").length > 0 ? $(this).find("._prod-qty").val() : 1;
+
+            var product = {
+                price: parseFloat($(this).attr("data-price")),
+                name: $(this).attr("data-name"),
+                id: $(this).attr("data-id"),
+                stock_id: $(this).attr("data-stock_id"),
+                idstore: $(this).attr("data-store_id"),
+                qty: _qty,
+                total: 0
+            };
+
+            addProductToBill(product, true);
+            $(resultsDiv).html("").remove();
+            $(searchTextBox).val("");
+
+        });
+
+        //close search results 
+
+        $(".pos_biller").on("click", '.search_close_btn', function (e) {
+            e.preventDefault();
+            $(resultsDiv).remove();
+        });
+
+     
+
+
+        function ResetPOS() {
+            //Reset Objects
+            billTotal = 0;
+            billItems = [];
+            products = {};
+            taxTotal = 0;
+            updateMode = false;
+
+            DBUpdate = {
+                toDelete: [],
+                toUpdate: [],
+                newItems: []
+            }
+
+            $("#server_bill_id").val("-1");
+            $("#local_bill_id").val("-1");
+
+            var titleRow = $("#purchase_table tr:first-child").clone();
+            $(table).html($(titleRow));
+            $(taxField).val("0");
+            $(customerField).val("Walkin");
+            $(billTotalField).val("0");
+            $(updateBtn).parent().remove();
+            $(buttonsContainer).find(".suspend_btn").parent().show();
+
+            $("#waiter").val("0").trigger("chosen:updated");
+            $(".pos_mask").remove();
+            $(".pay_box").hide();
+        }
+
+        
+        // update mode is used to add products to a saved bill , which will later be updated
+        function addProductToBill(product, enableUpdateMode) {
+            enableUpdateMode = typeof enableUpdateMode === 'undefined' ? false : true;
+            //check if product exists and add quantity only
+            if ($("[data-prodid=" + product.id + "]").length > 0) {
+                var row = $("tr[data-prodid=" + product.id + "]");
+
+                qtybox = $(row).find(".qty_box");
+                oldValue = parseFloat($(qtybox).val());
+                var _newQty = parseFloat(product.qty);
+                $(qtybox).val(oldValue + _newQty).change();
+                return 0;
+            }
+
+            var objID = billItems.length;
+
+            var prod_qty = NumericBox(product.qty);
+
+            var row = $("<tr>").attr("data-oid", objID).attr("data-prodid", product.id);;
+
+            product.total = product.price * product.qty;
+
+            /** Columns **/
+            var nameCol = $("<td>").html(product.name);
+            var priceInput = $("<input type='text' readonly class='price-field' />");
+            $(priceInput).val(product.price);
+            var priceCol = $("<td>").html($(priceInput));
+            var qtyCol = $("<td>").html($(prod_qty));
+            var totalCol = $("<td>").html($("<input type='text' readonly='readonly' class='row_total row_total" + objID + "'>").val(product.total));
+            var deleteBtn = $("<button data-prod_id='" + product.id + "' data-id='" + objID + "' class='delete_btn'>").html("<i class='fa fa-trash'></i>");
+
+
+            billTotal += product.total;
+            taxTotal = (billTotal * options.taxPercent) / 100;
+
+            billItems.push(product);
+
+            $(row).append(nameCol);
+            $(row).append(priceCol);
+            $(row).append(qtyCol);
+            $(row).append(totalCol);
+            $(row).append($("<td>").html(deleteBtn));
+
+            $(table).append($(row));
+
+            $(billTotalField).val(billTotal);
+            $(taxField).val(taxTotal);
+
+            if (updateMode && enableUpdateMode) {
+                DBUpdate.newItems.push(product);
+            }
+        }
+
+        return this;
+    }
+
+	function NumericBox(qty,readonly)
 	{
 		var wrapper = $('<span class="num-field">');
 		var inpt = $('<input type="text" class="qty_box" />');
 		var upbtn =$('<button class="up-btn">');
 		var downbtn = $('<button class="down-btn">');
+		if (typeof readonly !== "undefined" && readonly)
+		{
+		    $(downbtn).attr("disabled", "disabled");
+		    $(upbtn).attr("disabled", "disabled");
+		    $(inpt).attr("readonly", "readonly");
+		}
 
 		$(downbtn).bind({
 			click:function(e){
@@ -1765,6 +2512,9 @@
 						ualert.error("Error printing the bill , Please use bills table to re-print the bill");
 						return;
 					}
+
+					
+
 					if (typeof JSObj === "undefined") {
 					    $(".print_container").html("");
 					    $(".print_container").prepend(data).append(data);
@@ -1800,4 +2550,22 @@
 
 
 		})
+	}
+
+	function printOrder(id,waiterinfo)
+	{
+	    var destUrl = "/POS/Orders/PrintOrder/" + id+("?waiter="+waiterinfo.id+",&pin="+waiterinfo.pin) +  "&xml";
+	    $.ajax({
+	        url :destUrl,
+	        type : "get",
+	        success: function (data) {
+	            if (typeof JSObj !== "undefined") {
+	                JSObj.PrintXmlOrder(data);
+	                return;
+	            }
+	        },
+	        error: function () {
+	            alert("Unable to initiate the printer");
+	        }
+	    });
 	}

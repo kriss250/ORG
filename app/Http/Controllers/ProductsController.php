@@ -252,39 +252,53 @@ class ProductsController extends Controller
     {
 
         $id = 0;
+        $letterq = "";
+
+        $params = [];
+        if(isset($_GET['letter']) && $_GET['letter']!="*" && strlen($_GET['letter']) ==1){
+            array_push($params,$_GET['letter']."%");
+            $letterq = " products.product_name like ? and ";
+        }
+
 
         if(isset($_GET['category'])){
             $id = $_GET['category'];
         }
+
         $favo = (isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " and favorite=1":"";
 
         //Default : no filter
         $sql = "SELECT products.id,product_name,category_name,price,stock_id,store_id as idstore FROM products
         join categories on categories.id = category_id
         join category_store on category_store.category_id = categories.id
-        join product_price on price_id = product_price.id ".((isset($_GET['favorite']) && $_GET['favorite'] == "1") ? " where user_created = 0 and  favorite=1":"")." ".(count($this->workingStores) > 0 ? " and store_id in (".implode(',',$this->workingStores).")" : "")." order by product_name asc limit 70";
+        join product_price on price_id = product_price.id ".
+        (count($this->workingStores) > 0 ? " and store_id in (".implode(',',$this->workingStores).")" : "").
+        "  where {$letterq} ".((isset($_GET['favorite']) && $_GET['favorite'] == "1")
+          ? " favorite=1 and ":"")." user_created=0 order by  favorite,product_name asc limit 150";
 
         //Filter by cate & store
         if(isset($_GET['store']) && $_GET['store']>0 ){
+            array_push($params,$_GET['store']);
             $sql2 = "SELECT products.id,product_name,category_name,price,stock_id,store_id as idstore FROM products
             join categories on categories.id = category_id
             join category_store on category_store.category_id = categories.id
-            join product_price on price_id = product_price.id where store_id=? $favo and user_created = 0 ".(count($this->workingStores) > 0 ? " and store_id in (".implode(',',$this->workingStores).")" : "")."order by product_name asc limit 70";
+            join product_price on price_id = product_price.id where {$letterq} store_id=? {$favo} and user_created = 0 ".(count($this->workingStores) > 0 ? " and store_id in (".implode(',',$this->workingStores).")" : "")."order by  favorite,product_name asc limit 170";
 
-            return json_encode(DB::select($sql2,[$_GET['store']]));
+            return json_encode(DB::select($sql2,$params));
         }
 
         if($id>0){
-            $sql = "SELECT products.id,product_name,category_name,price,categories.stock_id FROM products
+            array_push($params,$id);
+            $sql = "SELECT products.id,product_name,category_name,price,products.stock_id FROM products
             join categories on categories.id = category_id
             join category_store on category_store.category_id = categories.id
-            join product_price on price_id = product_price.id where category_id=? $favo  ".(count($this->workingStores) > 0 ? " and store_id in (".implode(',',$this->workingStores).")" : "")." order by product_name asc limit 70";
+            join product_price on price_id = product_price.id where {$letterq}  user_created = 0 and products.category_id=? $favo  ".(count($this->workingStores) > 0 ? " and store_id in (".implode(',',$this->workingStores).")" : "")." order by favorite,product_name asc limit 170";
 
-            return json_encode(DB::select($sql,[$id]));
+            return json_encode(DB::select($sql,$params));
         }
 
         //Default product list
-        return json_encode(DB::select($sql));
+        return json_encode(DB::select($sql,$params));
     }
 
     public function searchProduct()

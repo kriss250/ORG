@@ -46,12 +46,15 @@ class Handler extends ExceptionHandler
     {
         $email = \App\Settings::get("log_email");
         $msg = $_msg;
-
-        \Mail::later(10,[],[], function ($message) use($email,$msg) {
-            $message->from("orgsystem250@gmail.com","ORG LOGS");
-            $message->to($email->value);
-            $message->setSubject("ORG # Bug Report".rand(0,9));
-            $message->setBody($msg);
-        });
+        try {
+            \Mail::later(50,[],[], function ($message) use($email,$msg) {
+                $message->from("orgsystem250@gmail.com","ORG LOGS");
+                $message->to($email);
+                $message->setSubject("ORG # Bug Report".rand(0,9));
+                $message->setBody($msg);
+            });
+        }catch(Exception $ex){
+           echo $ex;
+        }
     }
 }
