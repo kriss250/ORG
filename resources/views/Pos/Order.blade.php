@@ -39,7 +39,7 @@
         });
 
         $(".right-scroll-cat").click(function () {
-            if ($(".cat-list li:last-child").position().left < $(".cat-list-wrapper").width() ) return;
+            if ($(".cat-list li:last-child").position().left+100 < $(".cat-list-wrapper").width() ) return;
             var currentMargin = $(".cat-list").css("margin-left");
             var margin = parseInt(currentMargin);
             
@@ -70,7 +70,7 @@
 </script>
 <div class="pos_box row">
 
-    <div class="pos_biller col-md-5">
+    <div class="pos_biller col-lg-5 col-md-6">
 
         <div class='pay_box'></div>
 
@@ -143,33 +143,35 @@
 
     </div>
 
-    <div class="pos_products col-md-7">
+    <div class="pos_products col-lg-7 col-md-6">
         <div class="prod_filter">
             <button class="left-scroll-cat scroll-left-btn col-md-1">
                 <i class="fa fa-angle-double-left" aria-hidden="true"></i>
             </button>
-            <div class="btn-group col-md-10 cat-list-wrapper" style="overflow:hidden" data-toggle="buttons">
-                <ul class="cat-list">
+            <div class="col-md-10" style="overflow:hidden">
+                <div class="btn-group col-md-12 cat-list-wrapper" style="overflow:hidden;padding:0" data-toggle="buttons">
+                    <ul class="cat-list">
 
-                     <li>
-                        <label class="btn btn-default active">
-                            <i class="fa fa-sitemap"></i>
-                            <input type="radio" name="cats" value="0" checked id="option0" autocomplete="off"> All
-                        </label>
-                    </li>
+                        <li>
+                            <label class="btn btn-default active">
+                                <i class="fa fa-sitemap"></i>
+                                <input type="radio" name="cats" value="0" checked id="option0" autocomplete="off"> All
+                            </label>
+                        </li>
 
-                    <?php $x  = 1; ?>
-                    @foreach(\App\Category::all() as $cat)
-                    <li>
-                        <label class="btn btn-default">
-                            <i class="fa fa-sitemap"></i>
-                            <input type="radio" name="cats" value="{{$cat->id}}" id="option{{$x}}" autocomplete="off"> {{$cat->category_name}}
-                        </label>
-                    </li>
-                    <?php $x++; ?>
-                    @endforeach
-                </ul>
+                        <?php $x  = 1; ?>
+                        @foreach(\App\Category::all() as $cat)
+                        <li>
+                            <label class="btn btn-default">
+                                <i class="fa fa-sitemap"></i>
+                                <input type="radio" name="cats" value="{{$cat->id}}" id="option{{$x}}" autocomplete="off"> {{$cat->category_name}}
+                            </label>
+                        </li>
+                        <?php $x++; ?>
+                        @endforeach
+                    </ul>
                 </div>
+            </div>
             <button class="right-scroll-cat scroll-right-btn col-md-1">
                 <i class="fa fa-angle-double-right" aria-hidden="true"></i>
             </button>

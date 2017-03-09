@@ -1,12 +1,12 @@
 {
-    "name": "ORG",
-    "description": "ORG Frontdesk , Software Suite",
+    "name": "Kapps",
+    "description": "Kapps Micro-Systems",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
-        "laravel/framework": "5.1.*",
+        "php": ">=5.6.4",
+        "laravel/framework": "5.4.*",
       "illuminate/html": "^5.0",
              "nesbot/carbon": "~1.21"
     },
@@ -18,12 +18,10 @@
     },
     "autoload": {
         "classmap": [
-            "database",
-            "app/Classes"
+            "database"
         ],
         "psr-4": {
-          "App\\": "app/",
-            "Kris\\Frontdesk\\": "packages/Kris/Frontdesk/src/"
+          "App\\": "app/"
         }
     },
     "autoload-dev": {

@@ -1,5 +1,5 @@
 ﻿body{
-  font-size: 16px !important
+  font-size: 13px !important
 }
 
 
@@ -21,7 +21,9 @@ h1 {
 height: 40px;
 }
 .pos_box,.contents {
-  width: 100%
+  width: 100%;
+  padding:0;
+  margin:0
 }
 
 .input-group .fa {
@@ -29,7 +31,7 @@ height: 40px;
 }
 
 .input-group input,input {
-  font-size: 18px !important;
+  font-size: 14px !important;
   height: 36px !important;
 }
 
@@ -42,7 +44,7 @@ height: 40px;
 }
 
 .chosen-container {
-    font-size:20px;
+    font-size:16px;
 }
 .chosen-single {
     height:auto;
@@ -90,7 +92,7 @@ height: 40px;
 
 .product_lists ul li {
     font-size:14px;
-    width:11.8%;
+    width:14%;
     height: 80px;
 }
 
@@ -98,7 +100,9 @@ height: 40px;
     font-size:18px;
 }
 
-
+a:active,a:hover {
+    text-decoration:none !important
+}
 ::-webkit-scrollbar-track-piece{
 	background-color:#fff;
 	-webkit-border-radius:0;

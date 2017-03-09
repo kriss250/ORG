@@ -51,13 +51,14 @@
 
     $(".pin-keyboard li").click(function (e) {
         e.preventDefault();
-        contents = $("#waiter-pin-input").val();
+        var selectorQ = typeof $(this).attr("data-field") == "undefined" ?  "#waiter-pin-input" : $(this).attr("data-field");
+        contents = $(selectorQ).val();
         if ($(this).hasClass("pin-delete-btn"))
         {
-            $("#waiter-pin-input").val(contents.substr(0, contents.length - 1));
+            $(selectorQ).val(contents.substr(0, contents.length - 1));
             return;
         }
-        $("#waiter-pin-input").val(contents+$(this).attr("data-key"));
+        $(selectorQ).val(contents+$(this).attr("data-key"));
     })
 });
 

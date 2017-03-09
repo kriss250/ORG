@@ -63,6 +63,25 @@ if(isset($_GET['working_stores']))
         </div><button class="ok-btn ht_close">OK</button></div>
 @endif
 
+    @if(\Session::has("msg"))
+    <div class="alert alert-success">
+        <button data-toggle="dismiss" data-dismiss="alert" aria-label="close" class="btn alert-dismiss close">
+            <i class="fa fa-times"></i>
+        </button>
+        {{\Session::get("msg")}}
+    </div>
+
+    @endif
+
+    @if(\Session::has("errors"))
+    <div class="alert alert-danger">
+        <button data-toggle="dismiss" data-dismiss="alert" aria-label="close" class="btn alert-dismiss close" class="btn alert-dismiss">
+            <i class="fa fa-times"></i>
+        </button>
+        {{\Session::get("errors")->first()}}
+    </div>
+
+    @endif
 
 <script type="text/javascript">
 
@@ -260,6 +279,7 @@ function switchStore(src)
          <span><i class="fa fa-angle-down"></i></span>
             <ul class="dropdown_menu">
             <li><a href="{{action('StoreController@create') }}">New Store</a></li>
+                <li><a href="{{action('StoreController@index') }}">Stores' List</a></li>
               <li><a href="{{action('ProductsController@create') }}">New Product</a></li>
               <li><a href="{{action('ProductsCategoryController@create') }}">New Category</a></li>
               <li><a href="{{action('ProductsSubCategoryController@create') }}">New Subcategory</a></li>
@@ -273,10 +293,10 @@ function switchStore(src)
         @endif
 
          <li class="list-group-item"> <a href="{{action('BillsController@index') }}"><i class="fa fa-file-text"></i> Bills</a></li>
-        <li class="list-group-item"> <a href="{{action('BillsController@assignedList') }}"><i class="fa fa-reply-all"></i> Assigned Bills</a></li>
+        <!--<li class="list-group-item"> <a href="{{action('BillsController@assignedList') }}"><i class="fa fa-reply-all"></i> Assigned Bills</a></li>-->
 
          @if(Auth::user()->level ==10)
-             <li class="list-group-item dropdown"><a href="#"><i class="fa fa-users"></i> People</a>
+             <li class="list-group-item dropdown"><a href="#"><i class="fa fa-users"></i> People & Tbs</a>
              <span><i class="fa fa-angle-down"></i></span>
                  <ul class="dropdown_menu">
                     <li><a href="{{action('UsersController@create') }}">New User</a></li>
@@ -284,10 +304,10 @@ function switchStore(src)
                     <li><a href="{{action('WaiterController@create') }}">New Waiter</a></li>
                     <li><a href="{{action('UsersController@index') }}">User Lists</a></li>
                     <li><a href="{{action('WaiterController@index') }}">Waiter List</a></li>
+                    <li><a href="{{action('TableController@create') }}">Create Table</a></li>
+                    <li><a href="{{action('TableController@index') }}">Table List</a></li>
                  </ul>
              </li>
-
-
 
          <li class="list-group-item dropdown"> <a href="#"><i class="fa fa-cog"></i> Settings</a>
          <span><i class="fa fa-angle-down"></i></span>

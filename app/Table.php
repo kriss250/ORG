@@ -19,4 +19,5 @@ class Table extends Model
   public $timestamps = false;
   protected $table = "tables";
   protected $connection = "mysql_pos";
+  protected $guarded = [];
 }

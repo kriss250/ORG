@@ -53,14 +53,17 @@
     <div class="header">
         <div class="grid">
             <div class="row">
-                <div class="col-md-3 col-xs-3">
+                <div class="col-md-4 col-xs-3">
                     <h4 style="text-transform:uppercase;font-family:'Open Sans';opacity:.7;padding-left:20px">
-                        <i class="fa fa-cart-plus" aria-hidden="true"></i> Ordering System
-                        <span style="display:block;opacity:.5;font-size:11px">ORG Point of sales</span>
+                        <img class="col-xs-2" width="60" style="padding:0;filter:sepia(100%);margin-top:-10px" src="/uploads/images/{{\App\Resto::get()->first()->logo_image}}" />
+                        <span class="col-xs-10">
+                            Ordering System
+                            <span style="display:block;opacity:.5;font-size:11px">ORG Point of sales</span>
+                        </span>
                     </h4>
                 </div>
 
-                <div class="col-md-9 col-xs-9 header-right">
+                <div class="col-md-8 col-xs-9 header-right">
 
                     <ul>
                         <li style="position:relative">

@@ -19,4 +19,5 @@ class Waiter extends Model
   public $timestamps = false;
   protected $table = "waiters";
   protected $connection = "mysql_pos";
+  protected $guarded = [];
 }

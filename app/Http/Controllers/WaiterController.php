@@ -27,7 +27,7 @@ class WaiterController extends Controller
                 array( 'db' => 'date','dt' => 4,
                         'formatter'=>function($d,$row){
                             return date(\ORG\Dates::DSPDATEFORMAT,strtotime($d));
-                        }      
+                        }
                     )
             );
 
@@ -124,5 +124,27 @@ class WaiterController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function changePIN()
+    {
+        $data = \Request::all();
+        if(strlen($data['old_pin'])>0){
+            $waiter = \App\Waiter::where("idwaiter",$data['waiterid'])->where("pin",md5($data['old_pin']))->get()->first();
+        }else {
+            //New Pin
+            $waiter = \App\Waiter::where("idwaiter",$data['waiterid'])->where("pin")->get()->first();
+        }
+        if(strlen($data['new_pin']) < 4) {
+             return json_encode(["error"=>"Your PIN must be atleast 4 characters long"]);
+        }
+        if($waiter == null)
+        {
+            return json_encode(["error"=>"Invalid PIN"]);
+        }else {
+            $waiter->update(['pin'=>md5($data['new_pin'])]);
+            return json_encode(["success"=>1]);
+        }
     }
 }

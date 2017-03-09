@@ -80,7 +80,7 @@ Route::get("POS/Products/json","ProductsController@jsonReq");
 Route::get("/POS/Products/search/","ProductsController@searchProduct");
 Route::post("/POS/orders/save/","OrdersController@saveOrder");
 Route::get("POS/Orders/PrintOrder/{id}",["as"=>"printorder","uses"=>"OrdersController@printOrder"]);
-
+Route::post("POS/Waiters/changePIN","WaiterController@changePIN");
 Route::group(['middleware' => 'auth'],function(){
 	// POS Routes
     Route::get("/POS",["as"=>"pos",function(){
@@ -157,6 +157,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::resource("BusinessCustomers","CustomerController");
     Route::get("/Statement/{where}/{id}/{company}/{individual}/","StatementController@ShowStatement");
 	Route::resource("POS/Waiters","WaiterController");
+
 	Route::resource("POS/Products/Categories","ProductsCategoryController");
     Route::resource("FO/Reservations","ReservationController");
 
@@ -174,7 +175,8 @@ Route::group(['middleware' => 'auth'],function(){
 	Route::resource("POS/Bills","BillsController");
 	Route::post("POS/Products/CreateCustomProduct",['uses'=>'ProductsController@CreateCustomProduct']);
 	Route::resource("POS/Products","ProductsController");
-
+    Route::resource("POS/Tables","TableController");
+    Route::get("POS/Tables/delete/{id}","TableController@delete");
     Route::get("/POS/orders/getorders","OrdersController@getOrders");
     Route::get("/POS/orders/getorder","OrdersController@getOrder");
 

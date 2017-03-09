@@ -16,6 +16,7 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\Http\Controllers\TableController.php" />
     <Compile Include="app\Http\Controllers\SystemController.php" />
     <Compile Include="app\OrderItem.php" />
     <Compile Include="app\SalesMode.php" />
@@ -726,6 +727,8 @@
     <Compile Include="resources\views\Pos\assignedBills.blade.php" />
     <Compile Include="resources\views\Pos\BillList.blade.php" />
     <Compile Include="resources\views\Pos\BillPrint.blade.php" />
+    <Compile Include="resources\views\Pos\TableList.blade.php" />
+    <Compile Include="resources\views\Pos\NewTable.blade.php" />
     <Compile Include="resources\views\Pos\OrderPrintXml.blade.php" />
     <Compile Include="resources\views\Pos\BillPrintXml.blade.php" />
     <Compile Include="resources\views\Pos\categoryStore.blade.php" />

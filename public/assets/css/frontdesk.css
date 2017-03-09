@@ -813,17 +813,17 @@ font-size: 11px;
 padding: 3px 6px;
 border-bottom: 1px solid #afd6ec;
 }
-fieldset label{
-  font-weight: bold;
-  font-size: 9px;
-  margin: 0;
-  margin-bottom:1px;
-  margin-top:4px !important;
-  display:block;
-  letter-spacing: 1px;
-  color:rgb(82, 118, 153);
-  font-family:'Open Sans';
-  text-transform: uppercase;
+fieldset label {
+    font-weight: bold;
+    font-size: 9.8px;
+    margin: 0;
+    margin-bottom: 1px;
+    margin-top: 4px !important;
+    display: block;
+    letter-spacing: 1px;
+    color: rgb(82, 118, 153);
+    font-family: Roboto;
+    text-transform: uppercase;
 }
 
 
@@ -1697,4 +1697,25 @@ color: #272727;
     margin-top:15px;
     box-shadow: 0 0 18px #aeaeae;
     border-radius: 12px;
+}
+
+::-webkit-scrollbar-track-piece{
+	background-color:rgba(255, 255, 255, 0.36);
+	-webkit-border-radius:0;
+}
+::-webkit-scrollbar{
+	width:13px;padding:5px;
+    height:20px;
+}
+
+::-webkit-scrollbar-thumb{
+	height:25px;
+	background-color:#89949d;
+	-webkit-border-radius:20px;
+	outline:2px solid rgba(235, 235, 235, 0.5);
+	outline-offset:-4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color:#3f505e;
 }
