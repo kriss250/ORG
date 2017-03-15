@@ -559,7 +559,7 @@ class BillsController extends Controller
                $customer_name = $v[0]->guest;
                $room_id = $v[0]->idrooms;
                $cp = $v[0]->company;
-               foreach($the_bill as $bil){
+               foreach($the_bill as $bill){
 
                    $ins = DB::connection("mysql_book")->insert("insert into room_charges (room_id,reservation_id,charge,amount,motif,date,user_id,user,pos) values (?,?,?,?,?,?,?,?,?)",
                             [
