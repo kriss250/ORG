@@ -26,11 +26,11 @@ class BillsController extends Controller
     private $errors = array();
     private $billDate;
     private $restrictedStores = "";
+
     public function __contruct()
     {
         $this->billDate = \ORG\Dates::$RESTODT;
         $this->restrictedStores =  \Session::get("restricted_stores");
-
     }
 
     /**

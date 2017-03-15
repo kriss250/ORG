@@ -155,7 +155,7 @@ class BackofficeReportController extends Controller
 
                 $info["data"] = \App\StockReport::transfersOverview($warehouse1,$warehouse2,$range);
                 $info['warehouses'] = \App\StockReport::getWarehouses();
-                
+
                 return \View::make("Backoffice.Reports.Stock.TransfersOverview",$info);
             case "cashBooks":
                 $cashbook_id = isset($_GET['cashbook']) ? $_GET['cashbook'] : 3 ;
@@ -322,19 +322,20 @@ class BackofficeReportController extends Controller
            $data['room_status_chart'] = $room_status_chart;
            try {
                $data['avg_rate'] = $avg;
-               $data['avg_rate_rate'] =$avg > 0 ? ($avg-$prev_avg)*100/($prev_avg) : 0;
+               $data['avg_rate_rate'] =$avg > 0  && $prev_avg > 0? ($avg-$prev_avg)*100/($prev_avg) : 0;
                $data['fo_turnover']=  $foturnover;
                $data['fo_turnover_rate'] = $foturnover_rate;
 
                $data['range'] = $range;
                $data['pos_turnover']  = POSReport::turnover($range);
                $data['prev_pos_turnover']  = POSReport::prev_turnover($range);
-           }catch(\Exception $x){}
-           $data['pos_turnover_rate'] = ($data['pos_turnover']+$data['prev_pos_turnover'] > 0) ? ($data['pos_turnover']-$data['prev_pos_turnover'])*100/($data['prev_pos_turnover'])  : 0;
+           }catch(\Exception $x){
+               throw $x;
+           }
 
+           $data['pos_turnover_rate'] = ($data['pos_turnover']+$data['prev_pos_turnover'] > 0) ? ($data['pos_turnover']-$data['prev_pos_turnover'])*100/($data['prev_pos_turnover'])  : 0;
            $data['pos_stores'] = POSReport::storesSales($range);
            return \View::make("Backoffice.Reports.FlashActivity",$data);
-
             default:
                 abort(404);
                 break;

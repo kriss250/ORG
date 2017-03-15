@@ -740,6 +740,7 @@ color: rgb(13, 23, 17);
 	margin: 0;
 	position: relative;
 	overflow-x:hidden;
+    overflow-y:auto;
     max-height: 520px;
 }
 

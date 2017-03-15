@@ -354,7 +354,7 @@ class ProductsController extends Controller
     {
         $updated  = DB::update("update products set favorite=? where id=?",[$state,$prod]);
         return json_encode(array($updated));
-    }
+    } 
 
     public static function removeProductsFromStock($date = null)
     {

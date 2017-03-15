@@ -21,7 +21,7 @@
     <waiter>{{ $bill[0]->waiter_name }}</waiter>
     <items>
         @foreach($bill as $b)
-            <Item code="{{ $b->EBM }}" name="{{ $b->product_name }}" qty="{{ $b->qty }}" uprice="{{ $b->unit_price }}" subtotal="{{    $b->product_total }}"></Item>
+            <Item code="{{ $b->EBM }}" name="{{utf8_encode($b->product_name) }}" qty="{{ $b->qty }}" uprice="{{ $b->unit_price }}" subtotal="{{    $b->product_total }}"></Item>
         @endforeach
     </items>
         <total>
