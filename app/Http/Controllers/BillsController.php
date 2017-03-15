@@ -171,11 +171,11 @@ class BillsController extends Controller
                     "amount_paid"=> isset($data['paid_amount']) ? $data['paid_amount'] : 0 ,
                     "change_returned"=>isset( $data['change_returned']) ?  $data['change_returned'] : 0,
                     "pay_date"=> isset($data['paid_amount']) ? $this->billDate : null
-
                 ]);
 
-        $orders = json_decode($data['orderids']);
-        if(count($orders)>0){
+        $orders = isset($data['orderids']) ? json_decode($data['orderids']) : [];
+        if(count($orders)>0)
+        {
             \App\Order::whereIn("idorders",$orders)->update(["has_bill"=>1,"bill_id"=>$billid]);
         }
 
