@@ -46,7 +46,7 @@ class AuthController extends Controller
         if($att)
         {
             $url = \Session::get('url.intended','/');
-            \ORG\POS::Log("User ".(\Auth::user()->username)." loggedin | Destination : $url","default");
+            \ORG\POS::Log("User ".(\Auth::user()->username)."({$_SERVER['REMOTE_ADDR']}) loggedin | Destination : $url","default");
 
             $stores = \DB::select("SELECT group_concat(store_id) as stores FROM org_pos.user_store_restriction where user_id=".\Auth::user()->id." group by user_id");
             if(count($stores)>0)
