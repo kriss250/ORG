@@ -96,6 +96,7 @@ Route::group(['middleware' => 'auth'],function(){
             }
         }else if(\App\SalesMode::getMode() =="") {
             setcookie('sales_mode',\App\SalesMode::NORMAL,time()+86400*90,"/");
+            $_COOKIE['sales_mode'] =1;
         }
 
 	    if(\Session::get("pos.mode")=="default")

@@ -525,8 +525,8 @@ class BillsController extends Controller
         $data['Room'] = $req->input("Room");
         $data['BillID'] = $req->input("BillID");
         $data['due'] = $req->input("due");
-        $status['occupied'] = 2;//\ORG\RoomStatus::$OCCUPIED;
-        $status['assigned'] = 3;//\ORG\Bill::$ASSIGNED;
+        $status['occupied'] = 2; //\ORG\RoomStatus::$OCCUPIED;
+        $status['assigned'] = 3; //\ORG\Bill::$ASSIGNED;
 
         $date = \ORG\Dates::$RESTODATE;
         $resto_code = 2;
