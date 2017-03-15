@@ -705,3 +705,24 @@ a:active, a:focus {
 .fullscreen .col-md-10 {
     width: 100%
 }
+
+::-webkit-scrollbar-track-piece{
+	background-color:rgba(255, 255, 255, 0.36);
+	-webkit-border-radius:0;
+}
+::-webkit-scrollbar{
+	width:13px;padding:5px;
+    height:20px;
+}
+
+::-webkit-scrollbar-thumb{
+	height:25px;
+	background-color:#89949d;
+	-webkit-border-radius:20px;
+	outline:2px solid rgba(235, 235, 235, 0.5);
+	outline-offset:-4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color:#3f505e;
+}
