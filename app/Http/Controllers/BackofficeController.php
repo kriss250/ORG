@@ -174,14 +174,14 @@ class BackofficeController extends Controller
 
     public function OccupiedRooms()
     {
-        $sql = "select concat_ws(' ',firstname,lastname)as guest,room_number,concat(date_format(checkin,'%d/%M'),' - ',date_format(checkout,'%d/%M')) dates,night_rate,due_amount,balance_amount from
-           reservations
-            join rooms on rooms.idrooms = room_id
-            join guest on guest.id_guest = guest_in
-            where checked_in is not null and checked_out is null limit 12";
+        //$sql = "select concat_ws(' ',firstname,lastname)as guest,room_number,concat(date_format(checkin,'%d/%M'),' - ',date_format(checkout,'%d/%M')) dates,night_rate,due_amount,balance_amount from
+        //   reservations
+        //    join rooms on rooms.idrooms = room_id
+        //    join guest on guest.id_guest = guest_in
+        //    where checked_in is not null and checked_out is null limit 12";
 
-        $data =  \DB::connection("mysql_book")->select($sql);
-        return json_encode($data);
+        //$data =  \DB::connection("mysql_book")->select($sql);
+        return json_encode([]);
     }
 
     public function retreiveExchangeRates(){
