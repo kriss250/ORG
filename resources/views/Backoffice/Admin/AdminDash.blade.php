@@ -2,10 +2,10 @@
 @section("contents")
 
 <style>
-
     body {
         background: #2c3e50;
     }
+
     .cmd-window {
         background: #02080e;
         height: 600px;
@@ -16,20 +16,19 @@
         font-size: 12px;
         font-family: arial;
         padding: 15px;
-        
     }
 
     .brand {
-    font-weight:bold;
-    float:left;
-    width:6%;
+        font-weight: bold;
+        float: left;
+        width: 6%;
     }
 
     .loading-msg {
         text-transform: uppercase;
         font-size: 13px;
-        line-height:.2;
-        display:inline-block;
+        line-height: .2;
+        display: inline-block;
         color: green;
         font-family: Segoe UI;
         font-weight: bold;
@@ -37,31 +36,32 @@
         border: 1px solid;
         border-radius: 3px;
         padding: 0 8px;
-        height:13px;
-        text-align:center
+        height: 13px;
+        text-align: center;
     }
+
     .cmd-active-host {
-        color:red;
-    margin-bottom:15px;
+        color: red;
+        margin-bottom: 15px;
     }
 
     .cmd-prompt input {
-        background:none;
-    width:89%;
-    border:none;
-    box-shadow:none;
-    float:left;
-    border:none
+        background: none;
+        width: 89%;
+        border: none;
+        box-shadow: none;
+        float: left;
+        border: none;
     }
 
         .cmd-prompt input:focus, .cmd-prompt input:focus {
             border: none;
             box-shadow: none;
         }
+
     .cmd-prompt {
         max-height: 550px;
         overflow: auto;
-        
     }
 
     .cmd-list {
@@ -71,18 +71,18 @@
     }
 
         .cmd-list li {
-            max-width:100%;
+            max-width: 100%;
         }
 
-        .cmd-list li.container-fluid {
-            padding:0
-        }
+            .cmd-list li.container-fluid {
+                padding: 0;
+            }
 
     .cmd-result {
         padding-left: 15px;
         color: #adadad;
-        padding-top:6px;
-        padding-bottom:6px;
+        padding-top: 6px;
+        padding-bottom: 6px;
     }
 </style>
 
@@ -92,6 +92,12 @@
     cmdPromptLocation = -1;
 
     $(document).ready(function () {
+
+        $("#ip").keyup(function(){
+                activeClient = $(this).val();
+        $(".client-name").text(activeClient);
+        });
+    
         $(".client-name").text(activeClient);
 
         $(".cmd-window").click(function () {
@@ -155,6 +161,10 @@
         });
     }
 </script>
+<center style="max-width:200px;margin:auto;padding-top:10px">
+    <input id="ip" class="form-control" placeholder="IP" />
+</center>
+<div class="clearfix"></div>
 <div class="cmd-window">
     <div class="cmd-active-host">
         You are now talking to <span class="client-name"></span>
