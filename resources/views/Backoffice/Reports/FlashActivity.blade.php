@@ -14,7 +14,9 @@
 <div class="report-filter">
 <table style="width:100%">
     <tr>
-        <td><h3>Flash Activity</h3> </td>
+        <td>
+            <h3>Flash Activity</h3>
+        </td>
         <td>
            <form style="float:right" action="" class="form-inline" method="get">
                 <label>Date</label>
@@ -68,7 +70,7 @@
 
 
 <div class="row summary-block">
-  <div class="col-xs-4">
+  <div class="col-xs-3">
     Frontdesk turnover
     <p>
      {{number_format($fo_turnover)}}
@@ -76,15 +78,22 @@
     </p>
   </div>
 
-  <div class="col-xs-4">
+  <div class="col-xs-3">
     POS turnover
     <p>
       {{number_format($pos_turnover)}}
       <sup class="text-{{$pos_turnover_rate > 0 ? "success" : "danger"}}">{{$pos_turnover_rate > 0 ? "+" : ""}}{{number_format($pos_turnover_rate,1)}}%</sup>
     </p>
   </div>
+    <div class="col-xs-3">
+        Expenses
+            @foreach(\App\Cashbook::getCashExpenses() as $exp)
+            <p>{{number_format($exp->amount)}} <span style="font-size:12px;opacity:.6">{{$exp->cashbook_name}}</span> </p>
+            @endforeach
+       
+    </div>
 
-  <div class="col-xs-4">
+  <div class="col-xs-3">
     Average Room Rate
     <p>
       {{number_format($avg_rate)}}
@@ -93,8 +102,8 @@
   </div>
 </div>
 <hr />
-<h3>Overall Turnover</h3>
-<span style="margin-top:-10px;display:block;margin-bottom:15px">Sales</span>
+<h3>Overall Turnover & Payments</h3>
+<span style="margin-top:-10px;display:block;margin-bottom:15px">Total sales and payments</span>
 
 <table class="table table-striped table-bordered table-condensed">
 
@@ -121,41 +130,47 @@
      <h4>GT : {{number_format($total_pos_amount+$fo_turnover)}}</h4>
   </td>
   </tr>
+
+        <tr>
+            <th>
+                Cash
+            </th>
+
+            <th>
+                CC
+            </th>
+            <th>
+                Check
+            </th>
+            <th>
+                Bank
+            </th>
+        </tr>
+    <tr>
+        <td>
+            0
+        </td>
+
+        <td>
+            0
+        </td>
+        <td>
+            0
+        </td>
+        <td>
+            0
+        </td>
+    </tr>
+
+        <tr>
+            <td class="text-center" style="font-weight:bold;font-size:16px !important" colspan="4">
+                GT P : 0
+            </td>
+        </tr>
+  
 </table>
 
-<h3>Overall Payment</h3>
-<span style="margin-top:-10px;display:block;margin-bottom:15px">Payments receive (Frontdesk,POS,Invoices)</span>
 
-<table class="table table-striped table-bordered table-condensed">
-  <thead>
-    <tr>
-      <th>
-        Cash
-      </th>
-
-      <th>
-      CC
-      </th>
-<th>
-  Check
-</th>
-      <th>
-        Bank
-      </th>
-    </tr>
-  </thead>
-
-
-  <tfoot>
-    <tr>
-      <th class="text-center" style="font-weight:bold;font-size:16px !important" colspan="4">
-        GT : N/A
-      </th>
-    </tr>
-  </tfoot>
-</table>
-
-<div id="room-chart"></div>
     <div class="text-center print-footer">
        <table style="margin-bottom:85px;width:100%;" class="table">
            <tr>

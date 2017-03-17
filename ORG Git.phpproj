@@ -16,6 +16,7 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\Cashbook.php" />
     <Compile Include="app\Http\Controllers\TableController.php" />
     <Compile Include="app\Http\Controllers\SystemController.php" />
     <Compile Include="app\OrderItem.php" />
@@ -904,6 +905,7 @@
     <Folder Include="public\assets\js\vendor\nestable" />
     <Folder Include="public\assets\js\vendor\datepair\" />
     <Folder Include="public\assets\js\vendor\bsdatepicker\" />
+    <Folder Include="public\assets\js\vendor\clipboard\" />
     <Folder Include="public\assets\js\vendor\owl-carousel" />
     <Folder Include="public\assets\js\vendor\parsley" />
     <Folder Include="public\assets\js\vendor\raphael" />
@@ -1085,6 +1087,8 @@
     <Content Include="public\assets\js\keyboard.js" />
     <Content Include="public\assets\js\vendor\bsdatepicker\css\bootstrap-datepicker.min.css" />
     <Content Include="public\assets\js\vendor\bsdatepicker\js\bootstrap-datepicker.min.js" />
+    <Content Include="public\assets\js\vendor\clipboard\clipboard-action.js" />
+    <Content Include="public\assets\js\vendor\clipboard\clipboard.js" />
     <Content Include="public\assets\js\vendor\datepair\jquery.datepair.js" />
     <Content Include="public\assets\js\vendor\datepair\jquery.datepair.min.js" />
     <Content Include="public\images\frontdesk\add_room.svg" />

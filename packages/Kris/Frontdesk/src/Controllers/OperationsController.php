@@ -379,7 +379,32 @@ order by reservations.status desc ",[$enddate,$date]);
 
     public function setRoomStatus()
     {
-        return \Kris\Frontdesk\Room::find($_GET['roomid'])->update(["status"=>$_GET['status']]);
+        $newstatus = 1;
+        $room = \Kris\Frontdesk\Room::find($_GET['roomid']);
+
+        switch($_GET['status'])
+        {
+            case \Kris\Frontdesk\RoomStatus::BLOCKED :
+                $newstatus = \Kris\Frontdesk\RoomStatus::BLOCKED;
+                break;
+            case \Kris\Frontdesk\RoomStatus::DIRTY:
+                $newstatus  = \Kris\Frontdesk\RoomStatus::DIRTY;
+                break;
+            case  \Kris\Frontdesk\RoomStatus::HOUSEUSE :
+                $newstatus = \Kris\Frontdesk\RoomStatus::HOUSEUSE;
+                break;
+
+            case \Kris\Frontdesk\RoomStatus::VACANT :
+                $newstatus = \Kris\Frontdesk\RoomStatus::VACANT;
+                break;
+            default:
+                $newstatus = $room->status;
+        }
+
+       $up = $room->update(["status"=>$newstatus]);
+       \FO::log("Changed Room {$room->room_number} ' status from {$room->rstatus->status_name} status to {$newstatus}");
+
+       return $up > 0 ? "1" : "0";
     }
 
     public function newHkTask()

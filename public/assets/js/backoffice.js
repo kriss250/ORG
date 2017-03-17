@@ -16,6 +16,12 @@ $(document).ready(function () {
         $(this).alert('close');
     });
 
+    //Create copy button
+
+    var cpBtn = $("<button class='clipboard-copy-btn'>");
+    cpBtn.html("<i class='fa fa-clipboard'></i>").attr("data-clipboard-target", ".table");
+    
+    $(".report-filter").append(cpBtn);
 
     $("body").on("submit", ".ajax-form", function (e) {
         var form = $(this);
@@ -282,3 +288,5 @@ function refresh(url) {
 function confirmAnnouncement(id) {
     alert(id);
 }
+
+

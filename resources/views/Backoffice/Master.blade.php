@@ -28,6 +28,7 @@
         {!! HTML::script('assets/js/vendor/typeahead/typeahead.bundle.min.js') !!}
         {!! HTML::script('assets/js/vendor/slimscroll/jquery.slimscroll.min.js') !!}
         {!! HTML::script('assets/js/vendor/daterangepicker/daterangepicker.js') !!}
+       
         {!! HTML::script('assets/js/vendor/datepicker/js/bootstrap-datepicker.min.js') !!}
         {!! HTML::script('assets/js/vendor/bootbox/bootbox.min.js') !!}
         {!! HTML::script('assets/js/backoffice.js') !!}
@@ -353,11 +354,22 @@
         </div>
     </div>
 
+    {!! HTML::script('assets/js/vendor/clipboard/clipboard.js') !!}
+
+    <script>
+        $(document).ready(function(){
+            var clipboard = new Clipboard('.clipboard-copy-btn');
+            clipboard.on('success', function (e) {
+                e.clearSelection();
+            });
+        })
+    </script>
     <footer class="footer">
         <div class="grid">
-            <p class="text-center">&copy; {{ date('Y') }} KLAXYCOM CORP.</p>
+            <p class="text-center">&copy; {{date('Y') }} KLAXYCOM CORP.</p>
             <p class="text-center"> ORG SYSTEMS </p>
         </div>
     </footer>
+     
 </body>
 </html>

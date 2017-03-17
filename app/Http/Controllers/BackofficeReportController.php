@@ -179,9 +179,6 @@ class BackofficeReportController extends Controller
 
                 $initial = $in-$out;
 
-
-
-
                 $cashbook_name = \DB::connection("mysql_backoffice")->select("SELECT cashbook_name FROM cash_book where cashbookid=?",[$cashbook_id]);
                 $cashbook_name = isset($cashbook_name[0]->cashbook_name) ?  $cashbook_name[0]->cashbook_name : "";
                 $where = "";
@@ -315,7 +312,7 @@ class BackofficeReportController extends Controller
            $foprvturnover = $frontdesk->prevTurnover($range);
            $foturnover_rate = 0;
            if($foprvturnover!=0){
-           $foturnover_rate = $foturnover > 0 ?  ($foturnover-$foprvturnover)*100/($foprvturnover) :0;
+               $foturnover_rate = $foturnover > 0 ?  ($foturnover-$foprvturnover)*100/($foprvturnover) :0;
            }
            $avg  = $frontdesk->avg_rate($range);
            $prev_avg = $frontdesk->prev_avg_rate($range);
@@ -333,7 +330,7 @@ class BackofficeReportController extends Controller
                throw $x;
            }
 
-           $data['pos_turnover_rate'] = ($data['pos_turnover']+$data['prev_pos_turnover'] > 0) ? ($data['pos_turnover']-$data['prev_pos_turnover'])*100/($data['prev_pos_turnover'])  : 0;
+           $data['pos_turnover_rate'] = ($data['prev_pos_turnover'] > 0) ? ($data['pos_turnover']-$data['prev_pos_turnover'])*100/($data['prev_pos_turnover'])  : 0;
            $data['pos_stores'] = POSReport::storesSales($range);
            return \View::make("Backoffice.Reports.FlashActivity",$data);
             default:
@@ -341,4 +338,6 @@ class BackofficeReportController extends Controller
                 break;
         }
     }
+
+   
 }

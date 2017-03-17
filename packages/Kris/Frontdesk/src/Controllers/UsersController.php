@@ -29,7 +29,7 @@ class UsersController extends Controller
 
         if(!is_null($user)){
             \Session::put("fo_user",$user);
-            \FO::log("Logged in");
+            \FO::log("Logged in from {$_SERVER['REMOTE_ADDR']}");
             $url = \Session::get('url.intended','/frontdesk/standard');
             return redirect()->to($url);
         }else
