@@ -804,7 +804,7 @@ class ReservationsController extends Controller
 
         $new_room =\Request::input("new_room");
 
-        $the_room = \Kris\Frontdesk\Room::where("room_number",$new_room)->get()->first();
+        $the_room = \Kris\Frontdesk\Room::where("room_number",$new_room)->get()->first(); //Dest
         $new_room_id= $the_room != null ? $the_room->idrooms : 0;
         $res = \Kris\Frontdesk\Reservation::find($id);
 
@@ -838,9 +838,24 @@ class ReservationsController extends Controller
                     ]);
 
 
-                //Update status
-                $the_room->status = $res->room->status; // new room
-                $res->room->status = \Kris\Frontdesk\RoomStatus::VACANT; // old room
+                if($res->status == \Kris\Frontdesk\Reservation::CHECKEDIN) //CHECKED IN
+                {
+                    $res->room->status =\Kris\Frontdesk\RoomStatus::DIRTY ; // old room
+                    $the_room->status =  \Kris\Frontdesk\RoomStatus::OCCUPIED;
+
+                }else if($res->status ==\Kris\Frontdesk\Reservation::ACTIVE) // RESEVATIONS
+                {
+                     //$res->room->status = $the_room->status ==\Kris\Frontdesk\RoomStatus::OCCUPIED ?  \Kris\Frontdesk\RoomStatus::OCCUPIED : \Kris\Frontdesk\RoomStatus::VACANT  ; // old room
+                    if($res->room->status==\Kris\Frontdesk\RoomStatus::RESERVED && (new \Carbon\Carbon($res->checkin))->eq(\Kris\Frontdesk\Env::WD()))
+                    {
+                        $res->room->status = \Kris\Frontdesk\RoomStatus::VACANT;
+                    }
+
+                    if($the_room->status!=\Kris\Frontdesk\RoomStatus::OCCUPIED && (new \Carbon\Carbon($res->checkin))->eq(\Kris\Frontdesk\Env::WD())){
+                        $the_room->status = \Kris\Frontdesk\RoomStatus::RESERVED;
+                    }
+                }
+
 
 
                 $res->room_id = $new_room_id; //switch rooms
@@ -848,6 +863,7 @@ class ReservationsController extends Controller
                 $res->room->save();
                 $the_room->save();
                 $res->save();
+                \FO::Log("Shifted Guest ({$res->idreservation}) to room {$the_room->room_number}");
             }else {
                 $errors->getMessageBag()->add('Room', 'The specified room is not available');
             }

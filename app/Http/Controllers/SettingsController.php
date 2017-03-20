@@ -112,10 +112,10 @@ class SettingsController extends Controller
 
     public function newDay()
     {
-        $tsp1 =strtotime(date('y-m-d'));
+        $tsp1 =strtotime(date('Y-m-d'));
         $tsp2 = strtotime(\ORG\Dates::$RESTODATE);
 
-
+        //Only allow setting a new wh n
         if($tsp1>$tsp2)
         {
 
@@ -183,7 +183,6 @@ class SettingsController extends Controller
         }
 
         return json_encode($c);
-
 
     }
 

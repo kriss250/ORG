@@ -1100,7 +1100,7 @@
     <Content Include="public\images\frontdesk\tag-percentage.svg" />
     <Content Include="public\images\frontdesk\tag.svg" />
     <Content Include="public\images\frontdesk\user_list.svg" />
-    <Content Include="public\uploads\images\logo_hillview.png" />
+    <Content Include="public\uploads\images\.gitignore" />
     <Content Include="public\images\frontdesk\arrow-left.svg" />
     <Content Include="public\images\frontdesk\arrow-right.svg" />
     <Content Include="public\images\frontdesk\Basket-Full.png" />
