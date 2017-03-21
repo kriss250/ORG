@@ -651,7 +651,7 @@
 			var advancedBox = $("<div class='advancedBox'>");
 			$(advancedBox).append("<label>Pay. Method / Pay. Mode</label>")
                 .append("<select id='pay_method' name='method'><option>Cash</option><option>Bank Card</option><option>Check</option></select>")
-                .append("<select id='pay_mode' name='pay_mode'><option>Debit</option><option>Credit</option><option value='0'>Off-Tariff</option>")
+                .append("<select id='pay_mode' name='pay_mode'><option>Debit</option><option>Credit</option><option value='0'>Free offer</option>")
                 .append("<label>Comment</label>")
                 .append("<input id='pay_comment' name='comment' type='text'>");
 			
