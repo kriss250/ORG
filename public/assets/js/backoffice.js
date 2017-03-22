@@ -124,7 +124,7 @@ $(document).ready(function () {
         var url = $(this).attr("data-url");
         $.get(url, function (data) {
             if (data == "1") {
-                refresh($(btn).attr("data-refresh-url"));
+                location.reload();
             } else {
                 alert("Error removing transaction");
             }
@@ -282,6 +282,12 @@ function showRangeValue(src) {
 function refresh(url) {
     $.get(url + "?date=" + $('.date-picker-single').val(), function (data) {
         $(".content-container").html(data);
+    })
+}
+
+function refreshPage(url) {
+    $.get(url + "?date=" + $('.date-picker-single').val(), function (data) {
+        $(document).html(data);
     })
 }
 

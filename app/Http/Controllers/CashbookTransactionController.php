@@ -101,16 +101,16 @@ class CashbookTransactionController extends Controller
     {
         if(\Auth::user()->level < 8)
         {
-            return;
+            return 0;
         }
         $sign = $_GET['type']=="IN" ? "-":"+";
         $sign_post_delete = $_GET['type']=="OUT" ? "-":"+";
-
+        $trans = \App\CashbookTransaction::find($id);
         \DB::beginTransaction();
 
         $up1 = \DB::connection("mysql_backoffice")->update("update cashbook_transactions set deleted=1 where transactionid=?",[$id]);
         $up2 = \DB::connection("mysql_backoffice")->update("update cash_book set balance=balance$sign? where cashbookid=?",[$_GET['amount'],$_GET['cashbook']]);
-        $up3 = \DB::connection("mysql_backoffice")->update("update cashbook_transactions set new_balance=new_balance$sign_post_delete? where date >=(select date(date) from cashbook_transactions where transactionid=? and deleted=0) and transactionid>0",[$_GET['amount'],$id]);
+        $up3 = \DB::connection("mysql_backoffice")->update("update cashbook_transactions set new_balance=new_balance{$sign_post_delete}? where date >=?",[$_GET['amount'],(new \Carbon\Carbon($trans->date))->format("Y-m-d")]);
 
         if($up1>0 && $up2>0 && $up3>0)
         {

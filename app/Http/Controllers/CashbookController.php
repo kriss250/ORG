@@ -69,8 +69,12 @@ class CashbookController extends Controller
         if(isset($_GET['date']) && strlen($_GET['date'])>2)
         {
             $d = explode('/', $_GET['date']);
-
-            $date = $d[2]."-".$d[1]."-".$d[0];
+            if(count($d)<3)
+            {
+                $date = \ORG\Dates::$RESTODATE;
+            }else {
+                $date = $d[2]."-".$d[1]."-".$d[0];
+            }
             $where = " and date(cashbook_transactions.date)=?";
             $params = [$id,$date];
         }else{

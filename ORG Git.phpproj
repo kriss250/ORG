@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app\Cashbook.php" />
+    <Compile Include="app\CashbookTransaction.php" />
     <Compile Include="app\Http\Controllers\TableController.php" />
     <Compile Include="app\Http\Controllers\SystemController.php" />
     <Compile Include="app\OrderItem.php" />
