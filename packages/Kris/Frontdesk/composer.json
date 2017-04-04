@@ -8,13 +8,5 @@
       "email": "info@kris.rw"
     }
   ],
-  "autoload": {
-    "psr-4": {
-      "kris\\frontdesk\\": "src"
-    }
-  },
-  "minimum-stability": "dev",
-  "require": {
-    "illuminate/suppoty": "~5"
-  }
+  "minimum-stability": "dev"
 }

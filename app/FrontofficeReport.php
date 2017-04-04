@@ -285,8 +285,8 @@ join reservations on reservations.room_id=idrooms and reservations.idreservation
 
         $days = $d1->diff($d2)->days+1;
         $rangex  = $range;
-        $rangex[1] = (new Carbon($rangex[0]))->addDays(1)->format("Y-m-d");
-        $rangex[0] = (new Carbon($rangex[0]))->addDays($days)->format("Y-m-d");
+        $rangex[1] = (new Carbon($rangex[0]))->addDays($days)->format("Y-m-d");
+        $rangex[0] = (new Carbon($rangex[0]))->addDays(1)->format("Y-m-d") ;
 
         //if($range[0]== \ORG\Dates::$RESTODATE)
         //{

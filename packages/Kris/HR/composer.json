@@ -1,0 +1,20 @@
+{
+  "name": "kris/hr",
+  "description": "ORG Human Ressource Manager",
+  "license": "BSD",
+  "authors": [
+    {
+      "name": "Hakizimana Christian",
+      "email": "info@kris.rw"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Kris\\HR\\": "src"
+    }
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "illuminate/suppoty": "~5"
+  }
+}

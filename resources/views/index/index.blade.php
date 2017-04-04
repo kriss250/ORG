@@ -96,7 +96,7 @@ border-radius: 15px;
 <body>
 <div class="page"> 
 <div class="thebox">
-   
+
 <h1>ORG Software Suite </h1>
 <p style="margin-bottom: 45px;">KLAXYCOM</p>
 <a style="display:none" href="?frontdesk"><span>ORG <i class="fa fa-male"></i></span> Frontdesk </a>

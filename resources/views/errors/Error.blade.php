@@ -53,7 +53,7 @@
             $.ajaxSetup({ async: true });
             var msg = `{!!$ex->getMessage()." on Line # ".$ex->getLine()." in ".$ex->getFile()."----------------------------------------------------------------------------------------------------"!!}`;
 
-            $.post('{{url("/errors/report")}}', {"msg":msg,'_token':'{{csrf_token()}}'});
+            //$.post('{{url("/errors/report")}}', {"msg":msg,'_token':'{{csrf_token()}}'});
         })
     </script>
 

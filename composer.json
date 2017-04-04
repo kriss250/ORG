@@ -1,12 +1,12 @@
 {
-    "name": "Kapps",
-    "description": "Kapps Micro-Systems",
+    "name": "org",
+    "description": "ORG Micro-Systems",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.1.*",
       "illuminate/html": "^5.0",
              "nesbot/carbon": "~1.21"
     },
@@ -17,12 +17,16 @@
         "phpspec/phpspec": "~2.1"
     },
     "autoload": {
-        "classmap": [
-            "database"
-        ],
-        "psr-4": {
-          "App\\": "app/"
-        }
+      "classmap": [
+        "database",
+        "app/ORG"
+      ],
+      "psr-4": {
+        "App\\": [ "app/", "packages/kris/POS/src", "packages/kris/Backoffice/src" ],
+        "Kris\\Frontdesk\\": "packages/kris/Frontdesk/src",
+        "Kris\\HR\\": "packages/kris/HR/src"
+      },
+      "files": ["app/ORG/ssp.class.php" ]
     },
     "autoload-dev": {
         "classmap": [
