@@ -105,7 +105,7 @@ class ReportsController extends Controller
                 foreach ($data["sales"]  as $sale)
                 {
                 	  $_data[$sale->username]["sales"][] = $sale;
-                      $_data[$pay->username]["currencies"][] = $data['currencies'];
+                      $_data[$sale->username]["currencies"][] = $data['currencies'];
                 }
 
                 return \View::make("Frontdesk::reports.Receptionist",["users"=>$_data]);
