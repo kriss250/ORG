@@ -202,7 +202,7 @@ class BackofficeReportController extends Controller
                 //Frontdesk Reports
 
             case "frontdeskDailySales":
-                $sales = $frontdesk->Sales($range);
+                $sales = $frontdesk->DailyRoomSales($range);
                 return \View::make("Backoffice.Reports.Frontdesk.Sales",$sales);
 
             case "frontdeskServiceSales":
@@ -339,5 +339,5 @@ class BackofficeReportController extends Controller
         }
     }
 
-   
+
 }

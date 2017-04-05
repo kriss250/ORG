@@ -6,77 +6,8 @@
 
 
 </style>
-<?php
-$rows = "";
-static $spanx =1;
-$spans = [];
-$span = 1;
-
-$total_tariff=0;
-$total_due =0;
-$firstRow= false;
-
-$i =0;
-foreach($data as $res) {
 
 
-    $total_tariff += $res->night_rate;
-
-
-    $rows  .= "<tr>";
-
-    #region IS IT THE FIRT ROW
-    $span = $res->gsize > 1 ? "rowspan='$res->gsize'" : "";
-    if($i==0)
-    {
-        //first Row of the table
-        $firstRow  = true;
-    }else if( $data[$i-1]->idreservation != $res->idreservation ){
-        //First Row of the group or row with span =1
-        $firstRow = true;
-    }else {
-        $firstRow = false;
-    }
-
-    #endregion
-
-    $total_due += $firstRow && strlen($res->idreservation) > 0 ? $res->due_amount : 0;
-    $rows .= "<td>".($i+1)."</td>";
-    $rows .= "<td>{$res->room_number}</td>";
-    $rows .= "<td>{$res->type_name}</td>";
-    $rows .= "<td>{$res->guest}</td>";
-
-    if($firstRow)
-    {
-        $rows .= "<td $span>{$res->Company}</td>" ;
-        $rows .= "<td $span>".\App\FX::Date($res->checkin)."</td>";
-        $rows .= "<td $span>".\App\FX::Date($res->checkout)."</td>";
-    }
-
-    $rows .="<td>".number_format($res->night_rate)."</td>";
-
-    if($firstRow)
-    {
-        $rows .="<td $span>".number_format($res->due_amount)."</td>";
-        $rows .= "<td $span>".$res->payer."</td>";
-    }
-
-    $rows .=" </tr>";
-
-    $i++;
-}
-
-
-;
-$rows .="<tfoot>
-<tr style='font-weight:bold'>
-
-
-<td colspan='7'>TOTAL</td>
-<td>".number_format($total_tariff)."</td>
-<td>".number_format($total_due)."</td><td></td></tr>
-</tfoot>";
-?>
 <div class="page-contents">
 
 <div class="report-filter">
@@ -107,28 +38,29 @@ $rows .="<tfoot>
 
 </table>
 </div>
+    <br />
+    <div class="row" style="padding-left:25px;padding-right:25px">
+        <?php $peek = ["day"=>null,"sales"=>0]; $counter =0; $total = 0; foreach($data as $item) :
+                  $counter ++;
+              $total += $item->amount;
+              $d = new \Carbon\Carbon($item->date);
+              $peek = $peek['sales'] < $item->amount ? ["day"=>$d,"sales"=>$item->amount] : $peek;
+        ?>
 
-    <table class="table table-bordered">
-        <thead>
-               <tr>
-                   <th>#</th>
-                <th>Room</th>
-                 <th>Room Type</th>
-                 <th>Guest</th>
-                 <th>Company</th>
-                 <th>Checkin</th>
-                 <th>Checkout</th>
-                 <th>Tariff</th>
-                 <th>Due Amount</th>
-                <th>Payer</th>
-            </tr>
-        </thead>
-        <?php echo $rows; ?>
- 
-        
-    </table>
+        <div style="border:1px solid;margin-right:-1px" class="col-xs-1 text-center">
+            <b>{{$d->format("d")}}</b> <br />
+            <b>({{ $item->sold }}) </b><br /> {{ number_format($item->amount) }}
+        </div>
 
+        <?php endforeach; ?>
 
+        <div class="clearfix"></div>
+        <br />
+        <hr />
+        <p>Peek : {{$peek['day']}} with {{number_format($peek['sales'])}}</p>
+        <p>Average Daily Sales : {{number_format($total/$counter)}} </p>
+        <p style="font-size:22px">Total Sales : {{number_format($total)}}</p>
+    </div>
 
 <div class="text-center print-footer">
        <table style="margin-bottom:85px;width:100%;" class="table">

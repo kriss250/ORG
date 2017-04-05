@@ -114,6 +114,17 @@ where  date(checked_in) <= '$date' and date(checkout) > '$date' and reservations
             ")];
     }
 
+    public function DailyRoomSales($range)
+    {
+        $date  = $range[0];
+        $datex = (new \Carbon\Carbon($date))->addDays(1)->format("Y-m-d");
+        $datex2 = (new \Carbon\Carbon($range[1]))->addDays(1)->format("Y-m-d");
+
+        return ["data"=>self::$db->select("select count(*) as sold,date_sub(date,interval 1 day) as date,sum(amount) as amount from acco_charges where  date between '{$datex}' and '{$datex2}'  group by date")];
+
+    }
+
+
     public function PaymentControl($range)
     {
         return ["data"=>self::$db->select("select idreservation,payer,id_account,room_number,accounts.paid_amount,type_name,is_group,concat_ws(' ',guest.firstname,guest.lastname) as guest,companies.name as Company,concat(adults,'/',children) as pax,
