@@ -143,7 +143,7 @@ $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
             <tr>
                 <td>{{    $i}}</td>
                 <td>
-                    <a href="#" onclick="javascript:window.open('http://org.com/POS/Customers/Bill/Finder/{{$pay->idreservation}}?type=standard','','width=920,height=620',this)">{{$pay->idreservation}}</a>
+                    <a href="#" onclick="javascript:window.open('{{action("CustomersController@printBill",$pay->idreservation)}}?type=standard','','width=920,height=620',this);return;">{{$pay->idreservation}}</a>
                 </td>
                 <td>{{$pay->guest}}</td>
                 <td>{{$pay->company}}</td>
