@@ -58,7 +58,7 @@
         <br />
         <hr />
         <p>Peek : {{$peek['day']}} with {{number_format($peek['sales'])}}</p>
-        <p>Average Daily Sales : {{number_format($total/$counter)}} </p>
+        <p>Average Daily Sales : {{$counter > 0  ? number_format($total/$counter) : 0 }} </p>
         <p style="font-size:22px">Total Sales : {{number_format($total)}}</p>
     </div>
 
