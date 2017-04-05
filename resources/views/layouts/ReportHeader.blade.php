@@ -40,7 +40,7 @@ $resto = \App\Resto::get()->first();
 <div class="container-fluid report_header">
     <div class="col-md-9">
         <div class="col-md-2">
-            <img width="100" src="{{ \ORG\Settings::$LOGO }}" />
+            <img width="100" src="/uploads/images/{{$resto->logo_image}}" />
         </div>
         <div class="col-md-10 header_desc">
             <p><b>{{$resto->resto_name}}</b></p>
