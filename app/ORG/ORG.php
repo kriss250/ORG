@@ -4,7 +4,9 @@ namespace ORG;
 use DB;
 use Auth;
 
-class Settings {}
+class Settings {
+    public $LOGO = "";
+}
 
 class POS 
 {
