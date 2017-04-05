@@ -58,6 +58,7 @@ $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
         <thead>
             <tr>
                 <th>#</th>
+                <th>ID</th>
                 <th>Guest</th>
                 <th>Company</th>
                 <th>Room</th>
@@ -140,7 +141,10 @@ $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
 
         ?>
             <tr>
-                <td>{{$i}}</td>
+                <td>{{    $i}}</td>
+                <td>
+                    <a href="#" onclick="javascript:window.open('http://org.com/POS/Customers/Bill/Finder/{{$pay->idreservation}}?type=standard','','width=920,height=620',this)">{{$pay->idreservation}}</a>
+                </td>
                 <td>{{$pay->guest}}</td>
                 <td>{{$pay->company}}</td>
                 <td>{{$pay->room_number}}</td>
@@ -157,14 +161,14 @@ $totals = ["cash"=>0,"bank"=>0,"cc"=>0,"check"=>0];
    
         <tfoot>
             <tr>
-                <th colspan="4">Total</th>
+                <th colspan="5">Total</th>
                 <th>{{number_format($totals['cash'])}}</th>
                 <th>{{number_format($totals['cc'])}}</th>
                 <th>{{number_format($totals['check'])}}</th>
                 <th>{{number_format($totals['bank'])}}</th>
                 <th class="text-red text-right"><b style="color:darkred">Grand Total:</b></th>
                 <th class="text-right" colspan="2">
-                    <b style="font-size:13px">{{number_format($totals['cash']+$totals['cc']+$totals['bank']+$totals['check'])}}</b>
+                    <b style="font-size:14px;color:#000">{{number_format($totals['cash']+$totals['cc']+$totals['bank']+$totals['check'])}}</b>
                 </th>
             </tr>
         </tfoot>

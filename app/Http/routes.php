@@ -237,3 +237,22 @@ Route::group([],function(){
 
 
 });
+
+Route::get("rt",function(){
+
+   $API = new \RouterOS\RouterOSAPI();
+$API->debug = false;
+if ($API->connect('105.179.5.126', 'kriss', 'Kriss123')) {
+    $API->write('/ip/hotspot/user/profile/print');
+    //$API->write("=name=okma", false);
+    //$API->write("=limit-uptime=156", false);
+    //$API->write("=profile=nolimit",false);
+    //$API->write("=password=adminxx", true);
+
+    $READ = $API->read(false);
+    $ARRAY = $API->parseResponse($READ);
+    print_r($ARRAY);
+    $API->disconnect();
+}
+
+});

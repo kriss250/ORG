@@ -17,6 +17,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app\Countries.php" />
+    <Compile Include="app\ORG\RouterOSAPI.php" />
+    <Compile Include="app\ORG\RouterOS.php" />
     <Compile Include="packages\kris\Backoffice\src\Cashbook.php" />
     <Compile Include="packages\kris\Backoffice\src\CashbookTransaction.php" />
     <Compile Include="packages\kris\HR\src\Controllers\EmployeeController.php" />
