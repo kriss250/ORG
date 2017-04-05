@@ -22,9 +22,9 @@
         "app/ORG"
       ],
       "psr-4": {
-        "App\\": [ "app/", "packages/kris/POS/src", "packages/kris/Backoffice/src" ],
-        "Kris\\Frontdesk\\": "packages/kris/Frontdesk/src",
-        "Kris\\HR\\": "packages/kris/HR/src"
+        "App\\": [ "app/", "packages/Kris/POS/src", "packages/Kris/Backoffice/src" ],
+        "Kris\\Frontdesk\\": "packages/Kris/Frontdesk/src",
+        "Kris\\HR\\": "packages/Kris/HR/src"
       },
       "files": ["app/ORG/ssp.class.php" ]
     },
