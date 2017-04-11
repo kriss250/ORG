@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
                 $message->setBody($msg);
             });
         }catch(Exception $ex){
-           echo $ex;
+          // echo $ex;
         }
     }
 }

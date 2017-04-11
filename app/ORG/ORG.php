@@ -5,7 +5,7 @@ use DB;
 use Auth;
 
 class Settings {
-    public $LOGO = "";
+    public static $LOGO = "";
 }
 
 class POS 
