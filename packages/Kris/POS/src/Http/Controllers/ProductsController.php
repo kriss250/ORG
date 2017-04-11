@@ -128,6 +128,7 @@ class ProductsController extends Controller
                     "product_name"=> $this->data['product_name'],
                     "description"=>$this->data['description'],
                     "stock_id"=>$stock_id,
+                    "ebm"=>$this->data['item_code'],
                     "date"=>date(\ORG\Dates::DBDATEFORMAT)
                     ]
                 );

@@ -37,6 +37,9 @@
     {!! Form::label('product_label', 'Tax(%)') !!}
     {!!Form::text('product_tax', $tax,["class"=>"form-control"]) !!}
 
+    {!! Form::label('code_label', 'Code(EBM)') !!}
+    {!!Form::text('item_code', $tax,["class"=>"form-control"]) !!}
+
     {!! Form::label('stock_code_label', 'Stock Code') !!}
     {!! Form::text('stock_code', $code,["class"=>"form-control"]) !!}
 
