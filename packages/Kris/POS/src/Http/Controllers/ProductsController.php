@@ -40,13 +40,14 @@ class ProductsController extends Controller
 
             $columns = array(
                 array( 'db' => 'org_pos.products.id',"ds"=>"id", 'dt' => 0 ),
-                array( 'db' => 'products.product_name', "ds"=>"product_name",'dt' => 1 ),
-                array( 'db' => 'category_name',  'dt' => 2 ),
-                array( 'db' => 'sub_category_name',   'dt' => 3 ),
-                array( 'db' => 'products.price',"ds"=>"price", 'dt' => 4 ),
-                array( 'db' => 'code', 'dt' => 5 ),
-                array( 'db' => 'products.description',"ds"=>"description",'dt' =>6),
-                array( 'db' => 'products.date',"ds"=>"date",'dt' => 7,
+                array( 'db' => 'org_pos.products.ebm',"ds"=>"ebm", 'dt' => 1 ),
+                array( 'db' => 'products.product_name', "ds"=>"product_name",'dt' => 2 ),
+                array( 'db' => 'category_name',  'dt' => 3 ),
+                array( 'db' => 'sub_category_name',   'dt' => 4 ),
+                array( 'db' => 'products.price',"ds"=>"price", 'dt' => 5 ),
+                array( 'db' => 'code', 'dt' => 6 ),
+                array( 'db' => 'products.description',"ds"=>"description",'dt' =>7),
+                array( 'db' => 'products.date',"ds"=>"date",'dt' => 8,
                         'formatter'=>function($d,$row){
                             return date(ORG\Dates::DSPDATEFORMAT,strtotime($d));
                         }
@@ -70,7 +71,7 @@ class ProductsController extends Controller
         $cats = DB::select("SELECT id,category_name FROM categories");
 
         if(isset($_GET['id'])){
-            $prod = DB::select("SELECT product_name,stock.products.code as code,products.description,category_name,sub_category_name,org_pos.product_price.price,tax,org_pos.products.category_id,sub_categories.id as sub_cat FROM org_pos.products
+            $prod = DB::select("SELECT ebm,product_name,stock.products.code as code,products.description,category_name,sub_category_name,org_pos.product_price.price,tax,org_pos.products.category_id,sub_categories.id as sub_cat FROM org_pos.products
                 join categories on products.category_id = categories.id join product_price  on product_price.id = price_id
                 left join stock.products on stock.products.id = org_pos.products.stock_id
                 left join org_pos.sub_categories on org_pos.products.subcategory_id = sub_categories.id where org_pos.products.id=?",[$_GET['id']])[0];
@@ -209,8 +210,8 @@ class ProductsController extends Controller
             DB::transaction(function() use($id,$data,$stock_id){
                 $sub_catx = isset($data['sub_category']) ? $data['sub_category'] : "0" ;
 
-                 DB::update("update products set stock_id=?,product_name=?,category_id=?,subcategory_id=?,description=? where id=?",
-                    [$stock_id,$data['product_name'],$data['category'],$sub_catx,$data['description'],$id]
+                DB::update("update products set stock_id=?,product_name=?,category_id=?,subcategory_id=?,description=?,ebm=? where id=?",
+                    [$stock_id,$data['product_name'],$data['category'],$sub_catx,$data['description'], $data['item_code'],$id]
                 );
 
                  if(isset($data['prev_price']) && $data['prev_price'] !=$data['product_price'] ){
@@ -219,6 +220,7 @@ class ProductsController extends Controller
                         "product_id"=>$id,
                         "price"=>$data['product_price'],
                         "tax"=>$data['product_tax'],
+
                         "date"=>\ORG\Dates::$RESTODT
                     ]);
 
@@ -355,7 +357,7 @@ class ProductsController extends Controller
     {
         $updated  = DB::update("update products set favorite=? where id=?",[$state,$prod]);
         return json_encode(array($updated));
-    } 
+    }
 
     public static function removeProductsFromStock($date = null)
     {
