@@ -367,6 +367,17 @@ class POSReport extends Model
     	return \DB::select("SELECT concat(firstname,' ',lastname)as user,type,action,logs.date FROM logs join users on users.id = user_id where date(logs.date) between ? and ? {$cashier_str}",$date);
     }
 
+    public static function daySales($date)
+    {
+        $sql = "SELECT store.store_name, date(date),sum(unit_price*qty) as amount FROM org_pos.bill_items
+join bills on bills.idbills  = bill_id
+join store on store.idstore = store_id
+where deleted = 0 and status not in (1)
+group by date(date),store_id where date(date) between ? and  ?";
+        $data = \DB::select($sql,$date);
+
+        return $data;
+    }
 
     public static function turnover($date)
     {

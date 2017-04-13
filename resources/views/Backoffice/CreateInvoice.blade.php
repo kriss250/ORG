@@ -145,7 +145,7 @@
         <div class="row">
             <div class="col-xs-5">
                 <label>Institution</label>
-                <input required class="form-control" type="text" name="company" placeholder="Company Name / Individual" />
+                <input data-table="org_backoffice.debtors" autocomplete="off" data-field="name" required class="form-control suggest-input" type="text" name="company" placeholder="Company Name / Individual" />
                 <label>
                     Address / Contacts
                 </label>

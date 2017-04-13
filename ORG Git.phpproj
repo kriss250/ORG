@@ -21,6 +21,7 @@
     <Compile Include="app\ORG\RouterOS.php" />
     <Compile Include="packages\kris\Backoffice\src\Cashbook.php" />
     <Compile Include="packages\kris\Backoffice\src\CashbookTransaction.php" />
+    <Compile Include="packages\kris\Backoffice\src\Debtor.php" />
     <Compile Include="packages\kris\HR\src\Controllers\EmployeeController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\TaxController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\ChargeController.php" />
@@ -683,6 +684,7 @@
     <Compile Include="resources\views\Backoffice\CreditPaymentsList.blade.php" />
     <Compile Include="resources\views\Backoffice\InvoiceList.blade.php" />
     <Compile Include="resources\views\Backoffice\CreateInvoice.blade.php" />
+    <Compile Include="resources\views\Backoffice\NewCredit.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\FlashActivity.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\SalesMix.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\WaiterSales.blade.php" />

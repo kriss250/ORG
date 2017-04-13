@@ -38,6 +38,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+       
         if($request->ajax()){ 
             self::emailLog($e->__toString());
             return new \Illuminate\Http\Response($e->__toString(),500);

@@ -48,14 +48,20 @@ class InvoiceController extends Controller
             redirect()->back()->withErrors(["Invoice Code Already Exist !"]);
         }
 
+        $debtor = \App\Debtor::firstOrCreate([
+          "name"=>trim($data['company'])
+        ]);
 
+        //echo $debtor;
+        //return;
         $invoice = \App\Invoice::create([
             "user_id"=> \Auth::user()->id,
             "due_date"=>$data['due_date'],
             "institution"=>$data['company'],
             "address"=>$data['address'],
             "code"=>$data['code'],
-            "description"=>$data['description']
+            "description"=>$data['description'],
+            "debtor_id"=>$debtor->iddebtors
             ]);
 
         unset($data['due_date']);

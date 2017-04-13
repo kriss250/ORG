@@ -14,9 +14,9 @@ class BackofficeController extends Controller
 
     public function __construct()
     {
-        if(\Auth::user()->level < 7)
+        if(\Auth::user()->level < 2)
         {
-            abort(403);
+            abort(403,"You are not allowed to access this page");
         }
     }
     /**
