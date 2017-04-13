@@ -10,15 +10,15 @@
             </td>
 
             <td>
-                C.S.M.M
-            </td>
-
-            <td>
                 ACCOUNTANT
             </td>
 
             <td>
                 DAF
+            </td>
+
+            <td>
+                Manager
             </td>
         </tr>
     </table>
