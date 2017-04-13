@@ -15,6 +15,7 @@ namespace Kris\Frontdesk;
 \Route::post("/fo/login.attempt",["as"=>"fo.login.attempt","uses"=>"Kris\Frontdesk\Controllers\UsersController@login"]);
 
 \Route::group(["middleware"=>"auth.fo"], function(){
+     \Route::get("fo/InputSuggestions",["as"=>"inputsuggestions","uses"=>"App\Http\Controllers\SuggestionsController@index"]);
     \Route::get("frontdesk/{view}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@home"]);
     \Route::get("fo/ajax/bookingdata",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@getBookingData"]);
     \Route::get("fo/ajax/form/{form}",["uses"=>"Kris\Frontdesk\Controllers\OperationsController@forms"]);

@@ -57,7 +57,7 @@
         $(document).ready(function () {
 
           $(".suggest-input").suggest({
-            url : '{{action("SuggestionsController@index")}}'
+            url : '{{route("inputsuggestions")}}'
           });
             $(".charges-table-wrapper").slimscroll({
                 height: "182px",

@@ -59,31 +59,12 @@
         });
 
         $("body").on("blur", "input[name=company]", function () {
-
-            $(this).parent().find(".suggestions").remove();
+            var elm  =$(this);
+            setTimeout(function () {
+               elm.parent().find(".suggestions").remove();
+            }, 150);
         })
 
-        $("body").on("keyup", "input[name=company]", function () {
-            if($(this).val().length < 2)
-            {
-                return;
-            }
-
-
-            var _suggestionList = $(this).parent().find(".suggestions");
-            if (_suggestionList.length == 0)
-            {
-                var suggestionList = $("<ul class='suggestions'>");
-                $(this).parent().append(suggestionList);
-            } else {
-                var suggestionList = _suggestionList;
-                $(suggestionList).html("");
-            }
-
-            SearchCompany($(this).val(), '{{action("\Kris\Frontdesk\Controllers\OperationsController@findCompany")}}', $(suggestionList));
-
-
-        })
     })
 </script>
 

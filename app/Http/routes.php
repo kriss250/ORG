@@ -183,9 +183,8 @@ Route::group(['middleware' => 'auth'],function(){
 
 });
 
-
 Route::group(['middleware' => 'auth'],function(){
-
+    Route::get("/Backoffice/InputSuggestions",["uses"=>"SuggestionsController@index"]);
     Route::resource("/Backoffice/users","UniversalUsersController");
     Route::get("/Backoffice",["as"=>"backoffice","uses"=>"BackofficeController@index"]);
     Route::get("/Backoffice/OccupiedRooms",["as"=>"backofficeOccupiedRooms","uses"=>"BackofficeController@OccupiedRooms"]);
@@ -207,7 +206,7 @@ Route::group(['middleware' => 'auth'],function(){
     Route::resource("/Backoffice/InvoicePayment","InvoicePaymentController");
     Route::get("/Backoffice/Credit/listCreditors",["uses"=>"CreditsController@listCreditors"]);
     Route::get("/Backoffice/Credit/paymentForm",["uses"=>"CreditsController@newPayment"]);
-    Route::get("/Backoffice/InputSuggestions",["uses"=>"SuggestionsController@index"]);
+
     Route::get("/Backoffice/Search/{query}/",['uses'=>'BackofficeController@search','as'=>'BackofficeSearch']);
     Route::get("/Backoffice/itemPreview/",function(){
          return \View::make("Backoffice.ItemPreview");

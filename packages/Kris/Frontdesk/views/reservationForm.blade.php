@@ -51,27 +51,7 @@
             $(this).parent().find(".suggestions").remove();
         })
 
-        $("body").on("keyup", "input[name=company]", function () {
-            if($(this).val().length < 2)
-            {
-                return;
-            }
-
-
-            var _suggestionList = $(this).parent().find(".suggestions");
-            if (_suggestionList.length == 0)
-            {
-                var suggestionList = $("<ul class='suggestions'>");
-                $(this).parent().append(suggestionList);
-            } else {
-                var suggestionList = _suggestionList;
-                $(suggestionList).html("");
-            }
-
-            SearchCompany($(this).val(), '{{action("\Kris\Frontdesk\Controllers\OperationsController@findCompany")}}', $(suggestionList));
-
-
-        })
+       
     })
 </script>
 
@@ -169,7 +149,7 @@
 
             <fieldset>
                 <label>Company</label>
-                <input type="text" autocomplete="off" name="company" placeholder="Company / Organisation" />
+                <input type="text" class="suggest-input" data-table="orgdb2.companies" data-field="name" autocomplete="off" name="company" placeholder="Company / Organisation" />
             </fieldset>
 
             <fieldset>
