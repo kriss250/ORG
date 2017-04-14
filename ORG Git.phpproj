@@ -1146,6 +1146,7 @@
     <Content Include="public\assets\images\order_bg.jpg" />
     <Content Include="public\assets\images\organogram-2.svg" />
     <Content Include="public\assets\images\touch-icon.svg" />
+    <Content Include="public\assets\js\fx.js" />
     <Content Include="public\assets\js\hr.js" />
     <Content Include="public\assets\js\fo-main.js" />
     <Content Include="public\assets\js\keyboard.js" />

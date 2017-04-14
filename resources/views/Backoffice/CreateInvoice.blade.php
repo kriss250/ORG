@@ -184,6 +184,7 @@
 
                 @for($i=1;$i<4;$i++)
                 <tr class="row_{{$i}}">
+
                     <td>
                         <button type="button" class="row-del-btn btn btn-danger btn-xs">
                             <i class="fa fa-trash"></i>
@@ -195,16 +196,19 @@
                             </span>
                         </div>
                     </td>
+
                     <td>
-                        <input required type="text" data-table="org_backoffice.invoice_items" data-field="description" name="desc_{{$i}}" rows="1" class="form-control suggest-input desc-input" placeholder="Description Item {{$i}}" />
+                        <input autocomplete="off" required type="text" data-table="org_backoffice.invoice_items" data-field="description" name="desc_{{$i}}" rows="1" class="form-control suggest-input esc-input" placeholder="Description Item {{$i}}" />
                     </td>
 
                     <td>
                         <input required min="1" value="1" name="days_{{$i}}" type="number" class="form-control days-input" />
                     </td>
+
                     <td>
                         <input required min="1" name="qty_{{$i}}" type="number" class="form-control qty-input" />
                     </td>
+
                     <td>
                         <input required name="price_{{$i}}" class="form-control price-input" type="text" placeholder="Price #" />
                     </td>

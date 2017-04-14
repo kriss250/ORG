@@ -3,17 +3,21 @@ $.fn.suggest = function(options) {
     var table = $(elem).attr("data-table");
     var field = $(elem).attr("data-field");
     var limit = 30;
-
+   
     $(elem).wrap("<div class='suggestions-wrapper'></div>");
     var ul  = $("<ul class='dropdown-menu'>");
     var input  ="";
 
-    $(".suggestions-wrapper").on("click",".dropdown-menu li",function(){
-      $(this).parent().parent().find(".suggest-input").val($(this).html());
-      $(elem).parent().removeClass("open");
+    $(".suggestions-wrapper").on("click", ".dropdown-menu li", function () {
+        $(this).parent().parent().find(".suggest-input").val($(this).html());
+        $(elem).parent().removeClass("open");
     });
 
-    $(elem).on("keyup", function() {
+    $(elem).on("keyup", function () {
+
+       table = $(this).attr("data-table");
+       field = $(this).attr("data-field");
+       
       input =  $(this).val();
       var eventSrc = $(this);
       $(ul).html("");

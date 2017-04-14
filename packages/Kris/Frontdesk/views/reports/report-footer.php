@@ -18,7 +18,7 @@
             </td>
 
             <td>
-                Manager
+                MANAGER
             </td>
         </tr>
     </table>
