@@ -11,15 +11,16 @@
 namespace Kris\HR\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeLeave extends Model
+class PayrollTax extends Model
 {
     protected $connection = "mysql_hr";
-    protected $table = "employee_leaves";
-    public $primaryKey = "idemployee_leaves";
+    protected $table = "payroll_taxes";
+    public $primaryKey = "payroll_id";
     public $guarded = [];
+    public $timestamps = false;
 
-    public function employee()
+    public function tax()
     {
-        return $this->hasOne("\Kris\HR\Models\Employee","idemployees","employee_id");
+        return $this->hasOne("\Kris\HR\Models\Tax","idtaxes","tax_id");
     }
 }

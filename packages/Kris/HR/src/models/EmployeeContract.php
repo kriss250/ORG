@@ -8,13 +8,15 @@
  * @version 1.0
  * @author kris
  */
-namespace Kris\HR;
+namespace Kris\HR\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class EmployeeContract extends Model
 {
     protected $connection = "mysql_hr";
-    protected $table = "employees";
-    public $primaryKey = "idemployees";
-    public $timestamps = false;
+    protected $table = "employee_contract";
+    public $primaryKey = "idcontracts";
+    public $timestamps = true;
+    public $guarded = [];
+
 }

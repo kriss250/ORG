@@ -24,6 +24,17 @@
 
         });
     }
+
+    function toggleBankAccount(src)
+    {
+        if($(src).val()!=0)
+        {
+            $("[name='bank_account']").removeAttr("disabled");
+        }else {
+   
+            $("[name='bank_account']").attr("disabled","disabled").change();
+        }
+    }
 </script>
     <div class="col-md-10 main-contents">
         <div class="page-title">
@@ -100,8 +111,25 @@
 
                     <label>Email</label>
                     <input value="{{isset($employee) ? $employee->contact[0]->email1 : ""}}" name="email" type="email" class="form-control" placeholder="Email address" />
+                  
+                    <label>Bank info.</label>
+                    <?php
+                      $account = isset($employee) ?  \Kris\HR\Models\BankAccount::where("employee_id",$employee->idemployees)->where("active","1")->first(): null;
+                    ?>
+                    <select name="bank" onchange="toggleBankAccount(this)" class="form-control">
+                        <option value="0">N/A</option>
+                        @foreach(\Kris\HR\Models\Bank::all() as $bank)
+                        <option {!! $account != null && $account->bank_id==$bank->idbanks ? print ' selected ' :'' !!} value="{{$bank->idbanks}}">{{$bank->bank_name}}</option>
+                        @endforeach
+                    </select>
+                    <div class="input-group" style="margin-top:10px">
+                        <span class="input-group-addon">Account N<sup>o</sup></span>
+                        <input required {!! $account != null && $account->bank_id>0 ? print " value='".htmlentities($account->account_name)."'" : 'disabled' !!} type="text" name="bank_account" class="form-control" />
+                    </div>
+
                     <label>General Description</label>
                     <textarea name="description" class="form-control" placeholder="Describe the employee">{{isset($employee) ? $employee->description : ""}}</textarea>
+
                 </div>
 
                 <div class="form-group col-md-3">
@@ -133,12 +161,30 @@
                     <label>Salary</label>
                     <?php  
                     if(isset($employee)){
-                       
                         $sals = $employee->salary;
                         $sal = $sals!= null && isset($sals{count($sals)-1}) ?  $sals{count($sals)-1} :null;
                     }
                     ?>
                     <input required value="{{isset($sal) && $sal!=null ? $sal->amount : ""}}" name="salary" type="number" class="form-control" placeholder="#" />
+
+                    <label>---Current Contract---</label>
+                    <div class="row">
+                        <?php
+
+                        $contract = !isset($employee) || $employee == null ? null :\Kris\HR\Models\EmployeeContract::where("employee_id",$employee->idemployees)->where("termination_date")->orderBy("idcontracts","desc")->first();
+
+                        ?>
+                        <input type="hidden" name="current_contract" value="{{isset($contract)  && $contract!==null ? $contract->idcontracts : 0 }}" />
+                        <div class="col-md-6">
+                            <label>Start</label>
+                            <input type="text" value="{{isset($contract)  && $contract!==null ? $contract->start_date : ""}}" class="form-control" name="contract_start" placeholder="Start Date" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>End</label>
+                            <input value="{{isset($contract)  && $contract!==null ? $contract->end_date : ""}}" type="text" name="contract_end" placeholder="End Date" class="form-control" />
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="clearfix"></div>

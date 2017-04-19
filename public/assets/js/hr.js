@@ -21,6 +21,11 @@ if (typeof JSObj !== "undefined") {
 
 
 $(document).ready(function () {
+
+    $(".modal-btn").click(function (e) {
+        e.preventDefault();
+        window.open($(this).attr("href"),"_blank","width=920,height=600");
+    })
     var pageTitle = $(".page-title");
     if(typeof pageTitle !== "undefined")
     {

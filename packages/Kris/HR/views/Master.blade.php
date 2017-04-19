@@ -38,7 +38,7 @@
                     <a data-toggle="tab" href="#pane-2">Operations</a>
                 </li>
 
-                <li >
+                <!--<li>
                     <a data-toggle="dropdown" class="dropdown-toggle"  href="#">
                         <i class="fa fa-cogs"></i>Settings
                         <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -54,9 +54,9 @@
                             <a onclick="openWindow('newLaundry','Laundry Order',this,480,310)" href="#">Users' List</a>
                         </li>
                       
-                        <!--<li><a href="#">Lost and found</a></li>-->
+                      
                     </ul>
-                </li>
+                </li>-->
 
              
                 <li>
@@ -172,7 +172,23 @@
 
                         </li>
 
-                       
+                        <li class="menu-group">
+                            <ul>
+                                <li>
+                                    <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','newAdvance')}}">
+                                        <img height="32" src="/images/HR/banknote-euro.svg" />
+                                        New Advance
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','advanceList')}}">
+                                        <img height="32" src="/images/HR/bill.svg" />
+                                        Advance List
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="menu-group">
                             <ul>
@@ -211,23 +227,7 @@
                                
                             </ul>
                         </li>
-                        <li class="menu-group">
-                           <ul>
-                               <li>
-                                   <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','newTax')}}">
-                                       <img height="32" src="/images/HR/scale.svg" />
-                                       Create Tax
-                                   </a>
-                               </li>
-
-                               <li>
-                                   <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','taxList')}}">
-                                       <img height="32" src="/images/frontdesk/briefcase.svg" />
-                                       Tax List
-                                   </a>
-                               </li>
-                           </ul>
-                        </li>
+                       
 
                        
                     </ul>
@@ -240,7 +240,7 @@
                     <ul class="menu-2">
 
                       
-                        <li class="menu-group">
+                        <!--<li class="menu-group">
                             <ul>
                                 <li>
                                     <a onclick="openWindow('addUser','Create User',this,400,500)" href="#">
@@ -262,21 +262,39 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>-->
 
                         <li style="padding:1px 15px" class="menu-group">
                             <ul>
                                 <li>
-                                    <a data-iframe="yes" data-desc="Manage room status" class="dlg-btn" title="Room status management" data-toggle="modal" onclick="openDialog('/fo/section/frame/roomStatus','Reservation','width=850,height=610,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" data-toggle="modal" href="{{action('\Kris\HR\Controllers\PageController@open','newPayroll')}}">
                                         <img src="/images/frontdesk/hue.svg" />
-                                        Commited
+                                        New Payroll
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a data-iframe="yes" data-desc="Manage room status" class="dlg-btn" title="Room status management" data-toggle="modal" onclick="openDialog('/fo/section/frame/roomStatus','Reservation','width=850,height=610,resizable=no',this)" href="#">
+                                    <a data-iframe="yes" href="{{action('\Kris\HR\Controllers\PageController@open','payrolls')}}">
                                         <img src="/images/frontdesk/hue.svg" />
-                                        Commit Month
+                                        Payrolls
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="menu-group">
+                            <ul>
+                                <li>
+                                    <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','newTax')}}">
+                                        <img height="32" src="/images/HR/scale.svg" />
+                                        Create Tax
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','taxList')}}">
+                                        <img height="32" src="/images/frontdesk/briefcase.svg" />
+                                        Tax List
                                     </a>
                                 </li>
                             </ul>
@@ -287,99 +305,72 @@
 
             <div class="tab-pane" id="pane-4">
                 <div style="padding-top:8px;" class="grid">
-                <!--<ul class="menu-2">
+                <ul class="menu-2">
 
 
                     <li>
-                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","foPayments") }}','','width=1010,height=640',this)">
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
                             <img src="/images/frontdesk/card-visa-blue.svg" />
-                            Payment Control
-                        </a>
-                    </li>
-
-                     <li>
-                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","refund") }}','','width=1010,height=640',this)">
-                            <img src="/images/frontdesk/scale.svg" />
-                            Refunds
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","extraSales") }}','','width=1010,height=640',this)">
-                            <img src="/images/frontdesk/groceries-bag.svg" />
-                            Extra Sales
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","rooming") }}','','width=1010,height=640',this)">
-                            <img src="/images/frontdesk/parking-sign.svg" />
-                            Police Report
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","myShift") }}','','width=1010,height=640',this)">
-                            <img src="/images/frontdesk/woman-suit.svg" />
-
-                            My Shift
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","receptionist") }}','','width=1010,height=640',this)">
-                            <img src="/images/frontdesk/support.svg" />
-                            Receptionist
+                            Employee Report
                         </a>
                     </li>
 
 
                     <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/images/frontdesk/bed.svg" />
-                            Rooms
-                            <i class="fa fa-angle-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","roomStatus") }}','','width=1010,height=640',this)">Room Status</a></li>
-                            <li><a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","roomtransfers") }}','','width=1010,height=640',this)">Room Transfer</a> </li>
-
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","banquetBooking") }}','','width=1010,height=640',this)">
-                            <img src="/images/frontdesk/confetti.svg" />
-                            Halls Booking
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.payroll") }}'>
+                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            Payroll Report
                         </a>
                     </li>
-                    <!--<li><a href="#">Invoices</a> </li>
-                    <li><a onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","") }}','','width=1010,height=640',this)">Payments</a></li>
+
+
                     <li>
-                        <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","foLogs") }}','','width=1010,height=640',this)">
-                            <img src="/images/frontdesk/paste.svg" />
-                            Logs
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.fullPayroll") }}'>
+                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            Payroll Report 2
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.contract") }}'>
+                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            Contract Report
                         </a>
                     </li>
 
                     <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <img src="/images/frontdesk/vacuum-cleaner.svg" />
-                            Housekeeping
-                            <i class="fa fa-angle-down"></i>
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
+                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            Payroll Report
                         </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","housekeeping") }}','','width=1010,height=640',this)">
-                                    Housekeeping
-                                </a>
-                            </li>
-                            <li><a href="#" onclick="openDialog('{{action("\Kris\Frontdesk\Controllers\ReportsController@index","laundry") }}','','width=1010,height=640',this)">Laundry</a></li>
-
-                        </ul>
                     </li>
 
 
-                </ul>-->
+                    <li>
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
+                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            Department Report
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
+                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            Absence Report
+                        </a>
+                    </li>
+                  
+                    <li>
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
+                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            Adva nce Report
+                        </a>
+                    </li>
+
+
+                </ul>
                     </div>
             </div>
 

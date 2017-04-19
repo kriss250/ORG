@@ -43,6 +43,11 @@ class Employee extends Model
         return $this->hasMany("\Kris\HR\Models\Salary","employee_id","idemployees");
     }
 
+    public function contract()
+    {
+        return $this->hasMany("\Kris\HR\Models\EmployeeContract","idemployees","employee_id");
+    }
+
     public function getCurrentSalary()
     {
 

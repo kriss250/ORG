@@ -9,18 +9,42 @@
         <p style="font-size:12px;opacity:.6;margin-top:-5px;">Use this form to create a new employee and set their respective departments</p>
     </div>
     <div class="row" style="padding:10px 35px;">
-        <form class="col-md-5">
+        <form method="post" action="{{action("\Kris\HR\Controllers\LeaveController@store")}}" class="col-md-5">
             <label>Employee</label>
-            <select class="form-control"></select>
+            <input type="hidden" name="_token" value="{{csrf_token()}}" />
+            <select required name="employee" class="form-control">
+                <option value="">Select Employee</option>
+                @foreach(\Kris\HR\Models\Employee::all() as $emp)
+                <option value="{{$emp->idemployees}}">{{$emp->idemployees}}--{{$emp->firstname}} {{$emp->lastname}}</option>
+                @endforeach
+            </select>
 
             <label>Leave type</label>
-            <select class="form-control"></select>
+            <select name="leave" required class="form-control">
+                <option value="">Choose</option>
+                <option value="{{\Kris\HR\Models\LeaveType::MEDICAL}}">Medical</option>
+                <option value="{{\Kris\HR\Models\LeaveType::LOSS}}">Loss</option>
+                <option value="{{\Kris\HR\Models\LeaveType::MATERNITY}}">Maternity</option>
+                <option value="{{\Kris\HR\Models\LeaveType::ADMINISTRATIVE}}">Administrative</option>
+                <option value="{{\Kris\HR\Models\LeaveType::OTHER}}">Other</option>
+            </select>
 
             <label>Dates</label>
-            <input type="text" placeholder="Enter Full name" class="form-control" /> to
+            <div class="row">
+                <div class="col-md-6">
+                    <label>From</label>
+                    <input required name="startdate" type="text" placeholder="Start Date" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label>To</label>
+                    <input required name="enddate" type="text" placeholder="End Date" class="form-control" />
+                </div>
+            </div>
+            
 
             <label>Description</label>
-            <textarea class="form-control"></textarea>
+            <textarea name="description" required class="form-control"></textarea>
             <p>&nbsp;</p>
             <input type="submit" class="btn btn-success" value="Save" />
         </form>

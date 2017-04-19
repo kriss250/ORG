@@ -42,6 +42,48 @@ class EmployeeController extends Controller
             $address->save();
             $emp->save();
 
+            if($data['current_contract']>0)
+            {
+                //update contract
+                $con = \Kris\HR\Models\EmployeeContract::find($data['current_contract']);
+                $con->start_date = $data['contract_start'];
+                $con->end_date =strlen($data['contract_end'])<1?null:$data['contract_end'];
+                $con->save();
+            }else {
+                //Create Contract
+
+                \Kris\HR\Models\EmployeeContract::create([
+                    "employee_id"=>$emp->idemployees,
+                    "start_date"=>$data['contract_start'],
+                    "end_date"=>strlen($data['contract_end'])<1?null:$data['contract_end']
+                    ]);
+            }
+
+
+            if($data['bank']>0)
+            {
+                $account = \Kris\HR\Models\BankAccount::where("bank_id",$data['bank'])->where("employee_id",$emp->idemployees)->where("active","1")->first();
+
+                if($account==null)
+                {
+                    \Kris\HR\Models\BankAccount::create([
+                    "employee_id"=>$emp->idemployees,
+                    "account_name"=>$data['bank_account'],
+                    "bank_id"=>$data['bank']
+                ]);
+                }else {
+                    //update
+                    //Create a new account
+                    $account->active= 0;
+                    $account->save();
+                    \Kris\HR\Models\BankAccount::create([
+                   "employee_id"=>$emp->idemployees,
+                   "account_name"=>$data['bank_account'],
+                   "bank_id"=>$data['bank']
+               ]);
+                }
+            }
+
             if($emp->salary == null || !isset($emp->salary{count($emp->salary)-1}) || $data['salary']!=$emp->salary{count($emp->salary)-1}->amount)
             {
                 //Create new Salary the salary
@@ -84,6 +126,14 @@ class EmployeeController extends Controller
                 "email1"=>$data['email']
                 ]);
 
+             if($data['bank']>0)
+             {
+                 \Kris\HR\Models\BankAccount::create([
+                     "employee_id"=>$emp->idemployees,
+                     "account_name"=>$data['bank_account'],
+                     "bank_id"=>$data['bank']
+                 ]);
+             }
             $address = \Kris\HR\Models\Address::create([
                 "employee_id"=>$emp->idemployees,
                 "country"=>$data['country'],
