@@ -44,5 +44,13 @@ $(document).ready(function () {
     titleHeight = typeof titleHeight === "undefined" ? 0 : titleHeight;
     $(".main-contents > .row").css({ "overflow": "auto", "margin-bottom": "15px" }).height(windowHeight - menuHeight - titleHeight - 180);
     $(".body-tab-content").height(windowHeight - menuHeight - titleHeight - 280)
-   
+    $('body').on('focus', '.datepicker', function () {
+        var minDate = typeof $(this).attr("data-mindate") != "undefined" ? $(this).attr("data-mindate") : null;
+        $(this).datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            startDate: minDate,
+            todayHighlight: true
+        });
+    });
 });

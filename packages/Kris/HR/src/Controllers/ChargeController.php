@@ -52,4 +52,41 @@ class ChargeController extends Controller
     {
         return \View::make("HR::newCharge",["charge"=>\Kris\HR\Models\Charge::find($id)]);
     }
+
+
+    public function saveEmployeeCharge()
+    {
+        $data = \Request::all();
+
+        if(isset($data['charge'])){
+            \Kris\HR\Models\EmployeeCharge::find($data['charge'])->update([
+                "employee_id"=>$data['employee'],
+                "amount"=>$data['amount'],
+                "date"=>$data['date'],
+                "description"=>$data['description']
+                ]);
+        }else {
+            \Kris\HR\Models\EmployeeCharge::create([
+                "employee_id"=>$data['employee'],
+                "amount"=>$data['amount'],
+                "date"=>$data['date'],
+                "description"=>$data['description']
+                ]);
+
+        }
+        return redirect()->back();
+    }
+
+
+    public function removeEmpCharge($id)
+    {
+        \Kris\HR\Models\EmployeeCharge::find($id)->update(["deleted"=>"1"]);
+
+        return redirect()->back();
+    }
+
+    public function editEmpCharge($id)
+    {
+        return \View::make("HR::addEmployeeCharge")->with(["charge"=>\Kris\HR\Models\EmployeeCharge::find($id)]);
+    }
 }

@@ -25,7 +25,7 @@
         ?>
 
         @foreach($users as $user)
-        <tr>
+        <tr {!! $user->is_active==0 ? 'style="text-decoration:line-through !important"' :"" !!}>
             <td>{{$user->username}}</td>
             <td>{{$user->firstname}}</td>
             <td>{{$user->lastname}}</td>
@@ -35,7 +35,17 @@
             <td>
               {{$user->system}}
             </td>
-            <td> <a href="{{action("UniversalUsersController@edit",$user->id)}}" class="btn btn-xs btn-danger"><i class="fa fa-key" aria-hidden="true"></i></a></td>
+            <td>
+                <!--<a href="{{action("UniversalUsersController@edit",$user->id)}}" class="btn btn-xs btn-danger">
+                    <i class="fa fa-key" aria-hidden="true"></i>
+                </a>-->
+
+                @if($user->is_active==1 && \Auth::user()->id != $user->id)
+                <a  href="{{action("UniversalUsersController@activationToggle",$user->id)}}?action=deactivate&system={{strtolower($user->system)}}">Deactivate</a>
+                @elseif($user->is_active==0 && \Auth::user()->id != $user->id)
+                <a href="{{action("UniversalUsersController@activationToggle",$user->id)}}?action=activate&system={{strtolower($user->system)}}">Activate</a>
+                @endif
+            </td>
         </tr>
         @endforeach
     </table>

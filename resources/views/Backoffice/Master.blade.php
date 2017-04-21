@@ -298,11 +298,12 @@
                             <a class="dropdown-btn" href=""><i class="fa fa-cutlery"></i> POS Reports <i class="fa fa-chevron-down"></i></a>
                             @include("layouts.pos_menu")
                         </li>
+                        @if(\Auth::user()->level!=9)
                         <li class="report-btn">
                             <a class="dropdown-btn" href="#"> <i class="fa fa-bed"></i> Frontdesk Reports <i class="fa fa-chevron-down"></i></a>
                             @include("layouts.frontdesk_menu")
                         </li>
-
+                        @endif
                         <li class="report-btn"><a href="{{ action("BackofficeReportController@index",'cashBooks') }}"><i class="fa fa-file-text-o"></i> CashBook Reports</a></li>
 
 
@@ -332,7 +333,7 @@
                         <li>
                             <a class="dropdown-btn" href=""><i class="fa fa-user"></i> User Management <i class="fa fa-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ action("UniversalUsersController@create") }}">New User</a> </li>
+                                <!--<li><a href="{{ action("UniversalUsersController@create") }}">New User</a> </li>-->
                                 <li><a href="{{ action("UniversalUsersController@index") }}">User List</a> </li>
 
                             </ul>

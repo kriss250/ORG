@@ -11,12 +11,11 @@
 namespace Kris\HR\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeContract extends Model
+class Absence extends Model
 {
     protected $connection = "mysql_hr";
-    protected $table = "employee_contract";
-    public $primaryKey = "idcontracts";
-    public $timestamps = true;
+    protected $table = "absence";
+    public $primaryKey = "idabsence";
     public $guarded = [];
 
     public function employee()

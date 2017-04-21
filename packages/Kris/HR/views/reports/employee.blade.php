@@ -4,22 +4,47 @@
 <div class="report-filter">
     <form action="" method="get">
         <div style="width:100%;max-width:980px;margin:auto" class="row">
-            <div class="col-xs-5">
+            <div class="col-xs-3">
                 <h4>HR Reports</h4>
             </div>
 
-            <div class="col-xs-7 container-fluid text-right">
+            <div style="font-size:11px !important" class="col-xs-9 container-fluid text-right">
 
-                <div class="col-xs-4">
-                   
-                    <input style="max-width:100%" name="startdate" type="text" value="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" class="datepicker form-control" />-
+                <div class="col-xs-3">
+                    <select name="department" required class="form-control">
+                        <option value="0">Choose Departement</option>
+                        @foreach(\Kris\HR\Models\Department::all() as $dp)
+                        <option {{(isset($post) && $post->department_id==$dp->iddepartments ? "selected" :"")}} value="{{$dp->iddepartments}}">{{    $dp->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="col-xs-4">
-                    <input name="enddate" type="text" value="{{\Kris\Frontdesk\Env::WD()->format("Y-m-d")}}" class="datepicker form-control" />
+
+                <div class="col-xs-2">
+                    <Select name="gender" class="form-control">
+                        <option value="0">Choose Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
+
+
+                  <div class="col-xs-2">
+                    <Select name="education" class="form-control">
+                        <option value="0">Education</option>
+                        <option value="{{\Kris\HR\Models\Degree::NONE}}">None</option>
+                        <option value="{{\Kris\HR\Models\Degree::PRIMARY}}">Primary School</option>
+                        <option value="{{\Kris\HR\Models\Degree::SECONDARY}}">Secondary School</option>
+                        <option value="{{\Kris\HR\Models\Degree::COLLEGE}}">College</option>
+                        <option value="{{\Kris\HR\Models\Degree::BACHELOR}}">Bachelors'</option>
+                        <option value="{{\Kris\HR\Models\Degree::MASTERS}}">Masters</option>
+                        <option value="{{\Kris\HR\Models\Degree::DOCTOR}}">Doctorate</option>
+                        <option value="{{\Kris\HR\Models\Degree::PROFESSOR}}">Professor</option>
+
+                    </select>
                 </div>
 
                 <div class="col-xs-3">  
-                    <input type="submit" class="btn btn-success btn-sm" value="Go" />
+                    <input type="submit" class="btn btn-success btn-sm" name="go" value="Go" />
                     <button type="button" onclick="window.print()" class="btn btn-default report-print-btn">Print</button>
                 </div>
             </div>
@@ -48,8 +73,32 @@
                 <th>Education</th>
             </tr>
         </thead>
-        <?php $x = 1; ?>
-        @foreach(\Kris\HR\Models\Employee::all() as $emp)
+        <?php $x = 1;
+              
+
+              if(isset($_GET['go']))
+              {
+                  $emps =    \Kris\HR\Models\Employee::where("active","1");
+                  if(isset($_GET['department']) && $_GET['department'] > 0)
+                  {
+                      $emps = $emps->where("department_id",$_GET['department']);
+                  }
+
+                  if(isset($_GET['gender']) && $_GET['gender']  !="0")
+                  {
+                      $emps = $emps->where("gender",strtolower( $_GET['gender']));
+                  }
+
+                  if(isset($_GET['education']) && $_GET['education']  !="0")
+                  {
+                      $emps = $emps->where("highest_degree", $_GET['education']);
+                  }
+                  $emps = $emps->get();
+              }else {
+                  $emps = \Kris\HR\Models\Employee::all();
+              }
+        ?>
+        @foreach($emps as $emp)
         <tr>
             <td>{{$x}}</td>
             <td>{{$emp->idemployees}}</td>

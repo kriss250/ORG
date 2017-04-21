@@ -27,39 +27,43 @@
         </div>
     </form>
 </div>
-<div class="print-document">
+<div class="print-document"> 
     @include("HR::reports.report-print-header")
-    <p class="report-title">Contract Report</p>
+    <p class="report-title">Advance Report</p>
 
     <?php $x = 1; $total = 0; ?>
-
-   
    
     <?php $x = 1; ?>
     <table class="table table-bordered table-condensed table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Department</th>
-                <th>Post</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-            </tr>
-        </thead>
-       @foreach(\Kris\HR\Models\EmployeeContract::whereNull("termination_date")->get() as $con)
-        <?php $con->employee->load("department"); $con->employee->load("post");   ?>
-        <tr {!!\Carbon\Carbon::now()->lt((new \Carbon\Carbon($con->end_date))) ? 'style="text-decoration:line-through"' :""!!}>
-            <td>{{$x}}</td>
-            <td>{{$con->employee->firstname}} {{$con->employee->lastname}}</td>
-            <td>{{$con->employee->department->name}}</td>
-            <td>{{$con->employee->post->name}}</td>
-            <td>{{ $con->start_date == null ? "" : (new \Carbon\Carbon($con->start_date))->format("d/m/Y")}}</td>
-            <td>{{ $con->end_date == null ? "-" : (new \Carbon\Carbon($con->end_date))->format("d/m/Y")}}</td>
-        </tr>
+         <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Employee</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                 
+                </tr>
+            </thead>
 
-        <?php $x++; ?>
-       @endforeach
+            @foreach(\Kris\HR\Models\Advance::where("deleted","0")->get() as $ad)
+            <tr>
+                <td>{{$ad->employee->idemployees}}</td>
+                <td>{{$ad->employee->firstname}} {{$ad->employee->lastname}}</td>
+                <td>{{$ad->amount}}</td>
+                <td>{{$ad->description}}</td>
+                <td>{{$ad->date}}</td>
+            </tr>
+            <?php $total += $ad->amount; ?>
+            @endforeach
+
+<tfoot>
+<tr>
+    <th colspan="2">TOTAL</th>
+    <th>{{number_format($total)}}</th>
+</tr>
+</tfoot>
+
     </table>
  
   

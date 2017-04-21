@@ -29,7 +29,7 @@
 </div>
 <div class="print-document">
     @include("HR::reports.report-print-header")
-    <p class="report-title">Contract Report</p>
+    <p class="report-title">Department Report</p>
 
     <?php $x = 1; $total = 0; ?>
 
@@ -40,26 +40,22 @@
         <thead>
             <tr>
                 <th>#</th>
+                <th>Code</th>
                 <th>Name</th>
-                <th>Department</th>
-                <th>Post</th>
-                <th>Start Date</th>
-                <th>End Date</th>
+                <th>Posts</th>
+                <th>Description</th>
             </tr>
         </thead>
-       @foreach(\Kris\HR\Models\EmployeeContract::whereNull("termination_date")->get() as $con)
-        <?php $con->employee->load("department"); $con->employee->load("post");   ?>
-        <tr {!!\Carbon\Carbon::now()->lt((new \Carbon\Carbon($con->end_date))) ? 'style="text-decoration:line-through"' :""!!}>
-            <td>{{$x}}</td>
-            <td>{{$con->employee->firstname}} {{$con->employee->lastname}}</td>
-            <td>{{$con->employee->department->name}}</td>
-            <td>{{$con->employee->post->name}}</td>
-            <td>{{ $con->start_date == null ? "" : (new \Carbon\Carbon($con->start_date))->format("d/m/Y")}}</td>
-            <td>{{ $con->end_date == null ? "-" : (new \Carbon\Carbon($con->end_date))->format("d/m/Y")}}</td>
-        </tr>
-
-        <?php $x++; ?>
-       @endforeach
+        <?php $x = 1; ?>
+       @foreach(\Kris\HR\Models\Department::all() as $dp)
+            <tr>
+                <td>{{$x++}}</td>
+                <td>{{$dp->iddepartments}}</td>
+                <td>{{$dp->name}}</td>
+                <td>{{count($dp->post)}}</td>
+                <td>{{$dp->description}}</td>
+            </tr>
+            @endforeach
     </table>
  
   

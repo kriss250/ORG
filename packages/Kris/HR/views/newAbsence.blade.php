@@ -5,11 +5,11 @@
 
 <div class="col-md-10 main-contents">
     <div class="page-title">
-        <h3>Create a new leave</h3>
+        <h3>Absence</h3>
         <p style="font-size:12px;opacity:.6;margin-top:-5px;">Use this form to create a new employee and set their respective departments</p>
     </div>
     <div class="row" style="padding:10px 35px;">
-        <form method="post" action="{{action("\Kris\HR\Controllers\LeaveController@store")}}" class="col-md-5">
+        <form method="post" action="{{action("\Kris\HR\Controllers\AbsenceController@store")}}" class="col-md-5">
             <label>Employee</label>
             <input type="hidden" name="_token" value="{{csrf_token()}}" />
             <select required name="employee" class="form-control">
@@ -17,16 +17,6 @@
                 @foreach(\Kris\HR\Models\Employee::all() as $emp)
                 <option value="{{$emp->idemployees}}">{{$emp->idemployees}}--{{$emp->firstname}} {{$emp->lastname}}</option>
                 @endforeach
-            </select>
-
-            <label>Leave type</label>
-            <select name="leave" required class="form-control">
-                <option value="">Choose</option>
-                <option value="{{\Kris\HR\Models\LeaveType::MEDICAL}}">Medical</option>
-                <option value="{{\Kris\HR\Models\LeaveType::LOSS}}">Loss</option>
-                <option value="{{\Kris\HR\Models\LeaveType::MATERNITY}}">Maternity</option>
-                <option value="{{\Kris\HR\Models\LeaveType::ADMINISTRATIVE}}">Administrative</option>
-                <option value="{{\Kris\HR\Models\LeaveType::OTHER}}">Other</option>
             </select>
 
             <label>Dates</label>

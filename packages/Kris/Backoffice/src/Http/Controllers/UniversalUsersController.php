@@ -17,11 +17,11 @@ class UniversalUsersController extends Controller
     public function index()
     {
         $systems  =\App\User::$Systems;
-        $pos_users = \DB::select("select id,firstname,lastname,username,level,date,'POS' as system from users limit 60");
-        $stock_users= \DB::connection("mysql_stock")->select("select users.id,first_name as firstname,last_name as lastname,username,groups.name as group_name,created_on,'Stock' as system from users join users_groups on users_groups.user_id = users.id
+        $pos_users = \DB::select("select id,firstname,lastname,username,level,date,is_active,'POS' as system from users limit 60");
+        $stock_users= \DB::connection("mysql_stock")->select("select users.id,first_name as firstname,last_name as lastname,username,'1' as is_active,groups.name as group_name,created_on,'Stock' as system from users join users_groups on users_groups.user_id = users.id
  join groups on groups.id=group_id");
         //$backoffice_users = "";
-        $frontdesk_users = \DB::connection("mysql_book")->select("select idusers as id,firstname,lastname,username,users.date,user_group.name as group_name,'Frontdesk' as system from users join user_group on user_group.iduser_group = users.group_id limit 60");
+        $frontdesk_users = \DB::connection("mysql_book")->select("select idusers as id,firstname,lastname,username,users.date,user_group.name as group_name,is_active,'Frontdesk' as system from users join user_group on user_group.iduser_group = users.group_id limit 60");
 
         return \View::make("Backoffice.ListUsers",["fo_users"=>$frontdesk_users,"stock_users"=>$stock_users,"pos_users"=>$pos_users]);
     }
@@ -55,7 +55,7 @@ class UniversalUsersController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
     /**
@@ -90,5 +90,43 @@ class UniversalUsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function activationToggle($userid)
+    {
+        $action = $_GET['action'];
+        $system = $_GET['system'];
+
+
+        switch($action)
+        {
+            case "activate":
+                if(strtolower($system)=="pos")
+                {
+
+                    $up = \App\User::find($userid);
+                    $up->is_active=1;
+                    $up->save();
+
+                }else if(strtolower($system)=="frontdesk")
+                {
+                   \Kris\Frontdesk\User::find($userid)->update(['is_active'=>"1"]);
+                }
+                    break;
+            case "deactivate":
+                if(strtolower($system)=="pos")
+                {
+                    $up = \App\User::find($userid);
+                    $up->is_active=0;
+                    $up->save();
+
+                }else if(strtolower($system)=="frontdesk")
+                {
+                    \Kris\Frontdesk\User::find($userid)->update(['is_active'=>"0"]);
+                }
+                break;
+        }
+
+        return redirect()->back();
     }
 }

@@ -29,12 +29,9 @@
 </div>
 <div class="print-document">
     @include("HR::reports.report-print-header")
-    <p class="report-title">Contract Report</p>
+    <p class="report-title">Leave Report</p>
 
     <?php $x = 1; $total = 0; ?>
-
-   
-   
     <?php $x = 1; ?>
     <table class="table table-bordered table-condensed table-striped">
         <thead>
@@ -43,19 +40,19 @@
                 <th>Name</th>
                 <th>Department</th>
                 <th>Post</th>
-                <th>Start Date</th>
-                <th>End Date</th>
+                <th>Days</th>
+  
             </tr>
         </thead>
-       @foreach(\Kris\HR\Models\EmployeeContract::whereNull("termination_date")->get() as $con)
-        <?php $con->employee->load("department"); $con->employee->load("post");   ?>
-        <tr {!!\Carbon\Carbon::now()->lt((new \Carbon\Carbon($con->end_date))) ? 'style="text-decoration:line-through"' :""!!}>
+       @foreach(\Kris\HR\Models\EmployeeLeave::select(\DB::raw("sum(datediff(end_date,start_date)) as stays,employee_leaves.*"))->groupBy("employee_id")->get() as $lv)
+        <?php  $lv->employee->load("department"); $lv->employee->load("post");   ?>
+        <tr>
             <td>{{$x}}</td>
-            <td>{{$con->employee->firstname}} {{$con->employee->lastname}}</td>
-            <td>{{$con->employee->department->name}}</td>
-            <td>{{$con->employee->post->name}}</td>
-            <td>{{ $con->start_date == null ? "" : (new \Carbon\Carbon($con->start_date))->format("d/m/Y")}}</td>
-            <td>{{ $con->end_date == null ? "-" : (new \Carbon\Carbon($con->end_date))->format("d/m/Y")}}</td>
+            <td>{{$lv->employee->firstname}} {{$lv->employee->lastname}}</td>
+            <td>{{$lv->employee->department->name}}</td>
+            <td>{{$lv->employee->post->name}}</td>
+            <td>{{$lv->stays}}</td>
+
         </tr>
 
         <?php $x++; ?>

@@ -86,7 +86,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Birth Date</label>
-                            <input value="{{isset($employee) ? $employee->birthdate : ""}}" type="text" name="birthdate" class="form-control" />
+                            <input value="{{isset($employee) ? $employee->birthdate : ""}}" type="text" name="birthdate" class="form-control datepicker" />
                         </div>
 
                         <div class="col-md-6">
@@ -177,12 +177,12 @@
                         <input type="hidden" name="current_contract" value="{{isset($contract)  && $contract!==null ? $contract->idcontracts : 0 }}" />
                         <div class="col-md-6">
                             <label>Start</label>
-                            <input type="text" value="{{isset($contract)  && $contract!==null ? $contract->start_date : ""}}" class="form-control" name="contract_start" placeholder="Start Date" />
+                            <input type="text" value="{{isset($contract)  && $contract!==null ? $contract->start_date : ""}}" class="form-control datepicker" name="contract_start" placeholder="Start Date" />
                         </div>
 
                         <div class="col-md-6">
                             <label>End</label>
-                            <input value="{{isset($contract)  && $contract!==null ? $contract->end_date : ""}}" type="text" name="contract_end" placeholder="End Date" class="form-control" />
+                            <input value="{{isset($contract)  && $contract!==null ? $contract->end_date : ""}}" type="text" name="contract_end" placeholder="End Date" class="form-control datepicker" />
                         </div>
                     </div>
                 </div>

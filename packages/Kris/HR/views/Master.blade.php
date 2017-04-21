@@ -151,26 +151,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="menu-group">
-                            <ul>
-
-                                <li>
-                                    <a href="{{action('\Kris\HR\Controllers\PageController@open','newBank')}}">
-                                        <img src="/images/HR/bank.svg" />
-                                        New Bank
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="{{action('\Kris\HR\Controllers\PageController@open','bankList')}}">
-                                        <img src="/images/frontdesk/file-attachment.svg" />
-                                        Bank List
-                                    </a>
-                                </li>
-
-                            </ul>
-
-                        </li>
+                        
 
                         <li class="menu-group">
                             <ul>
@@ -185,6 +166,24 @@
                                     <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','advanceList')}}">
                                         <img height="32" src="/images/HR/bill.svg" />
                                         Advance List
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="menu-group">
+                            <ul>
+                                <li>
+                                    <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','addEmployeeCharge')}}">
+                                        <img height="32" src="/images/HR/money-slot.svg" />
+                                         Add Charge
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','employeeChargeList')}}">
+                                        <img height="32" src="/images/HR/check.svg" />
+                                        Chargee List
                                     </a>
                                 </li>
                             </ul>
@@ -212,19 +211,18 @@
                         <li class="menu-group">
                             <ul>
                                 <li>
-                                    <a href="{{action('\Kris\HR\Controllers\PageController@open','newCharge')}}">
-                                        <img src="/images/HR/cut-prices.svg" />
-                                        New Charge
+                                    <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','newAbsence')}}">
+                                        <img height="32" src="/images/HR/stopwatch.svg" />
+                                        Absence
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="{{action('\Kris\HR\Controllers\PageController@open','chargeList')}}">
-                                        <img src="/images/HR/file-checked.svg" />
-                                        Charges List
+                                    <a class="dlg-btn" href="{{action('\Kris\HR\Controllers\PageController@open','absenceList')}}">
+                                        <img height="32" src="/images/HR/bill.svg" />
+                                        Absent Employees
                                     </a>
                                 </li>
-                               
                             </ul>
                         </li>
                        
@@ -281,7 +279,24 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="menu-group">
+                            <ul>
+                                <li>
+                                    <a href="{{action('\Kris\HR\Controllers\PageController@open','newCharge')}}">
+                                        <img src="/images/HR/cut-prices.svg" />
+                                        New Charge
+                                    </a>
+                                </li>
 
+                                <li>
+                                    <a href="{{action('\Kris\HR\Controllers\PageController@open','chargeList')}}">
+                                        <img src="/images/HR/file-checked.svg" />
+                                        Charges List
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
                         <li class="menu-group">
                             <ul>
                                 <li>
@@ -299,6 +314,27 @@
                                 </li>
                             </ul>
                         </li>
+
+                        <li class="menu-group">
+                            <ul>
+
+                                <li>
+                                    <a href="{{action('\Kris\HR\Controllers\PageController@open','newBank')}}">
+                                        <img src="/images/HR/bank.svg" />
+                                        New Bank
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{{action('\Kris\HR\Controllers\PageController@open','bankList')}}">
+                                        <img src="/images/frontdesk/file-attachment.svg" />
+                                        Bank List
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -310,7 +346,7 @@
 
                     <li>
                         <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
-                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            <img src="/images/HR/file-checked-2.svg" />
                             Employee Report
                         </a>
                     </li>
@@ -318,7 +354,7 @@
 
                     <li>
                         <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.payroll") }}'>
-                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            <img src="/images/HR/file-checked-2.svg" />
                             Payroll Report
                         </a>
                     </li>
@@ -326,7 +362,7 @@
 
                     <li>
                         <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.fullPayroll") }}'>
-                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            <img src="/images/HR/file-checked-2.svg" />
                             Payroll Report 2
                         </a>
                     </li>
@@ -334,38 +370,46 @@
 
                     <li>
                         <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.contract") }}'>
-                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            <img src="/images/HR/file-checked-2.svg" />
                             Contract Report
                         </a>
                     </li>
 
                     <li>
-                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
-                            <img src="/images/frontdesk/card-visa-blue.svg" />
-                            Payroll Report
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.leave") }}'>
+                            <img src="/images/HR/file-checked-2.svg" />
+                            Leave Report
                         </a>
                     </li>
 
 
                     <li>
-                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
-                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.leaveSummary") }}'>
+                            <img src="/images/HR/file-checked-2.svg" />
+                            Leave Summary
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.department") }}'>
+                            <img src="/images/HR/file-checked-2.svg" />
                             Department Report
                         </a>
                     </li>
 
 
-                    <li>
+                    <!--<li>
                         <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
-                            <img src="/images/frontdesk/card-visa-blue.svg" />
+                            <img src="/images/HR/file-checked-2.svg" />
                             Absence Report
                         </a>
-                    </li>
+                    </li>-->
                   
                     <li>
                         <a class="modal-btn" href='{{action("\Kris\HR\Controllers\PageController@open","reports.employee") }}'>
-                            <img src="/images/frontdesk/card-visa-blue.svg" />
-                            Adva nce Report
+                            <img src="/images/HR/file-checked-2.svg" />
+                            Advance Report
                         </a>
                     </li>
 

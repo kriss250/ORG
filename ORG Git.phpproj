@@ -22,6 +22,7 @@
     <Compile Include="packages\kris\Backoffice\src\Cashbook.php" />
     <Compile Include="packages\kris\Backoffice\src\CashbookTransaction.php" />
     <Compile Include="packages\kris\Backoffice\src\Debtor.php" />
+    <Compile Include="packages\kris\HR\src\Controllers\AbsenceController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\AdvanceController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\LeaveController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\EmployeeController.php" />
@@ -32,15 +33,20 @@
     <Compile Include="packages\kris\HR\src\Controllers\DepartmentController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\PageController.php" />
     <Compile Include="packages\kris\HR\src\HRServiceProvider.php" />
+    <Compile Include="packages\kris\HR\src\models\Absence.php" />
+    <Compile Include="packages\Kris\HR\src\models\EmployeeCharge.php" />
     <Compile Include="packages\Kris\HR\src\models\Payroll.php" />
     <Compile Include="packages\Kris\HR\src\models\PayrollCharge.php" />
     <Compile Include="packages\Kris\HR\src\models\PayrollEmployee.php" />
     <Compile Include="packages\Kris\HR\src\models\PayrollTax.php" />
     <Compile Include="packages\kris\HR\src\models\Salary.php" />
     <Compile Include="packages\kris\HR\src\models\Type.php" />
+    <Compile Include="packages\Kris\HR\views\addEmployeeCharge.blade.php" />
+    <Compile Include="packages\kris\HR\views\absenceList.blade.php" />
     <Compile Include="packages\kris\HR\views\employeeViewer.blade.php" />
     <Compile Include="packages\kris\HR\views\advanceList.blade.php" />
     <Compile Include="packages\Kris\HR\views\newAdvance.blade.php" />
+    <Compile Include="packages\kris\HR\views\newAbsence.blade.php" />
     <Compile Include="packages\Kris\HR\views\reports\employee.blade.php" />
     <Compile Include="packages\kris\HR\views\reports\fullPayroll.blade.php" />
     <Compile Include="packages\kris\HR\views\reports\contract.blade.php" />
@@ -48,6 +54,7 @@
     <Compile Include="packages\Kris\HR\views\reports\report-filter.blade.php" />
     <Compile Include="packages\Kris\HR\views\reports\report-footer.php" />
     <Compile Include="packages\Kris\HR\views\reports\report-print-header.blade.php" />
+    <Compile Include="packages\kris\HR\views\employeeChargeList.blade.php" />
     <Compile Include="packages\kris\HR\views\taxList.blade.php" />
     <Compile Include="packages\kris\HR\views\newTax.blade.php" />
     <Compile Include="packages\kris\HR\views\newLeave.blade.php" />

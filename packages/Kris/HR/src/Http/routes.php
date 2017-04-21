@@ -21,6 +21,12 @@ namespace Kris\HR;
     \Route::resource("HR/post","\Kris\HR\Controllers\PostController");
     \Route::resource("HR/bank","\Kris\HR\Controllers\BankController");
     \Route::resource("HR/charge","\Kris\HR\Controllers\ChargeController");
+
+    \Route::post("HR/employeeCharge/save","\Kris\HR\Controllers\ChargeController@saveEmployeeCharge");
+
+    \Route::get("HR/employeeCharge/edit/{x}","\Kris\HR\Controllers\ChargeController@editEmpCharge");
+    \Route::get("HR/employeeCharge/remove/{x}","\Kris\HR\Controllers\ChargeController@removeEmpCharge");
+
     \Route::resource("HR/tax","\Kris\HR\Controllers\TaxController");
     \Route::resource("HR/leave","\Kris\HR\Controllers\LeaveController");
     \Route::get("HR/leave/remove/{id}","\Kris\HR\Controllers\LeaveController@remove");
@@ -30,6 +36,8 @@ namespace Kris\HR;
 
     \Route::resource("HR/advance","\Kris\HR\Controllers\AdvanceController");
     \Route::get("HR/advance/remove/{id}","\Kris\HR\Controllers\AdvanceController@remove");
+
+    \Route::resource("HR/absence","\Kris\HR\Controllers\AbsenceController");
 
     \Route::get("HR/posts/get/{dpid?}",["uses"=>"Kris\HR\Controllers\PostController@getPosts"]);
 });

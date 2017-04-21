@@ -40,7 +40,8 @@ class AuthController extends Controller
 
         $att = Auth::attempt([
             "username"=> $data['username'],
-            "password"=>$data['password']
+            "password"=>$data['password'],
+            "is_active"=>"1"
         ]);
 
         if($att)

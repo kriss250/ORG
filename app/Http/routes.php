@@ -186,6 +186,7 @@ Route::group(['middleware' => 'auth'],function(){
 Route::group(['middleware' => 'auth'],function(){
     Route::get("/Backoffice/InputSuggestions",["uses"=>"SuggestionsController@index"]);
     Route::resource("/Backoffice/users","UniversalUsersController");
+    Route::get("/Backoffice/users/toggleActivation/{user}/","UniversalUsersController@activationToggle");
     Route::get("/Backoffice",["as"=>"backoffice","uses"=>"BackofficeController@index"]);
     Route::get("/Backoffice/OccupiedRooms",["as"=>"backofficeOccupiedRooms","uses"=>"BackofficeController@OccupiedRooms"]);
     Route::resource("/Backoffice/cashbook","CashbookController");
