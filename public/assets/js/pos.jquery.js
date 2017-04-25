@@ -1638,7 +1638,7 @@
 		    
 		    /** Columns **/
 			var nameCol = $("<td>").html(product.name);
-			var priceInput = $("<input type='text' readonly class='price-field' />");
+			var priceInput = $("<input type='text' class='price-field' />");
 			$(priceInput).val(product.price);
 			var priceCol = $("<td>").html($(priceInput));
 			
