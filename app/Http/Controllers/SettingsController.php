@@ -183,6 +183,7 @@ class SettingsController extends Controller
         $paths = [];
         $accounts = ['','',''];
         $phones = ['',''];
+        $existing_logos =['','',''];
         $existing_logos = \App\Settings::get("logo");
         $emails = ['',''];
         $x = 0 ;
