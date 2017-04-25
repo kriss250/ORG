@@ -39,7 +39,7 @@ class SettingsController extends Controller
     public function store(Request $req)
     {
         $data = $req->all();
-      
+
         \App\POSSettings::set("custom_product", array_key_exists('custom_product',$data) ? "1" : "0");
         \App\POSSettings::set("price_change", array_key_exists('price_change',$data) ? "1" : "0");
         return redirect()->back();
@@ -183,8 +183,8 @@ class SettingsController extends Controller
         $paths = [];
         $accounts = ['','',''];
         $phones = ['',''];
-        $existing_logos =['','',''];
-        $existing_logos = \App\Settings::get("logo");
+        $existing_logos =\App\Settings::get("logo");
+        $existing_logos = is_array($existing_logos) ?   \App\Settings::get("logo") : ['','',''];
         $emails = ['',''];
         $x = 0 ;
         foreach($files as $file)
