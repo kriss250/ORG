@@ -87,12 +87,12 @@ color: #fff;
     border: 1px solid #f31a00!important;
 }
 
-        .k-keyboard ul li {
-            display: inline-block;
-            margin-right: 5px;
-            line-height:1;
-            margin-bottom: -8px;
-        }
+.k-keyboard ul li {
+    display: inline-block;
+    margin-right: 5px;
+    line-height: 1.4;
+    margin-bottom: 25px;
+}
 
     .k-keyboard li a {
         font-size: 18px;
