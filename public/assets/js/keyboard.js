@@ -11,7 +11,7 @@
         var inputText = previewContents;
         $(".input-preview input").val(inputText);
 
-        $(input).val(inputText).trigger("keyup")
+        $(input).val(inputText).trigger("keyup").trigger("change")
     })
 
     $(".hide-key-btn").click(function (e) {
@@ -46,7 +46,7 @@
         contents.substr(0, curPos - 1) + contents.substr(curPos)
         );
 
-        $(input).val($(".preview-text-box").val()).trigger("keyup")
+        $(input).val($(".preview-text-box").val()).trigger("keyup").trigger("change");
     });
 
     $(".pin-keyboard li").click(function (e) {
