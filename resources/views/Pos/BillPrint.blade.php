@@ -8,7 +8,7 @@
 
      <tr>
          <td>
-            <div class="logo"><img width="60" src="{{\App\POSSettings::get("logo")[0] }}"> </div>
+            <div class="logo"><img width="60" src="{{\App\Settings::get("logo")[0] }}"> </div>
         </td>
          <td>
             <div style="font-weight:bold" class="bill_contacts">

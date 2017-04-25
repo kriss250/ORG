@@ -3,11 +3,11 @@
     <?php $resto = \App\Resto::get()->first(); print '<?xml version="1.0" encoding="UTF-8"?>';?>
 <Bill offtariff="{{ $bill[0]->status == \ORG\Bill::OFFTARIFF ? 1 : 0 }}" id="{{ $bill[0]->idbills }}">
     <header>
-        <logo>{{ \ORG\Settings::$LOGO }}</logo>
-        <email>{{$resto->resto_email }}</email>
-        <phone>{{$resto->resto_phone }}</phone>
-        <tin>{{$resto->tin}}</tin>
-        <website>{{$resto->website}}</website>
+        <logo>{{ \App\Settings::get("logo")[0] }}</logo>
+        <email>{{\App\Settings::get("email") }}</email>
+        <phone>{{\App\Settings::get("phones")[0] }}</phone>
+        <tin>{{\App\Settings::get("tin")}}</tin>
+        <website>{{\App\Settings::get("website")}}</website>
     </header>
 
     <customer>{{ $bill[0]->customer }}</customer>
