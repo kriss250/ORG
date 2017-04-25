@@ -9,7 +9,7 @@ class Settings extends Model
     protected $connection="main_db";
     protected $table = "settings";
     protected $guarded = [];
-    protected $primaryKey = "idsettings";
+    protected $primaryKey = "name";
 
     public static function get($setting)
     {
@@ -17,7 +17,8 @@ class Settings extends Model
         if($item != null)
         {
             //Arrays & Single Values
-            return isset($item[0]) && (!is_null($item)) && $item->serialized == "1"  ? unserialize($item->value) : $item->value;;
+
+            return (!is_null($item)) && $item->serialized == "1"  ? unserialize($item->value) : $item->value;;
         }else {
             return null;
         }
@@ -28,17 +29,17 @@ class Settings extends Model
     {
         if(is_array($value))
         {
-            self::updateOrCreate([
-                "name"=>$name,
-                "value"=>serialize($value),
-                "serialized"=>"1"
-                ]);
+            $setting = self::firstOrNew(["name"=>$name]);
+            $setting->name = $name;
+            $setting->value = serialize($value);
+            $setting->serialized = "1";
+            $setting->save();
         }else {
-            self::updateOrCreate([
-               "name"=>$name,
-               "value"=>$value,
-               "serialized"=>"0"
-               ]);
+            $setting = self::firstOrNew(["name"=>$name]);
+            $setting->name = $name;
+            $setting->value = $value;
+            $setting->serialized = "0";
+            $setting->save();
         }
     }
 }

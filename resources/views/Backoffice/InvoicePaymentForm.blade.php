@@ -24,9 +24,17 @@
       if($(this).prop("checked"))
       {
         var amount = parseFloat($("[name='amount']").val());
-        var vat =Math.ceil(calculateWHT(amount));
+        var vat =Math.floor(calculateWHT(amount));
         $(input).val(vat);
-        $(input).prop({disabled:false})
+        $(input).prop({ disabled: false });
+
+        if ($(".vat_check").prop("checked")) {
+            amount += vat;
+            var realVAT = Math.floor(calculateVAT(amount));
+            $("[name='vat']").val(realVAT);
+        }
+
+        $(input).val(vat);
       }else {
         $(input).val("");
         $(input).prop({disabled:true});
@@ -62,7 +70,7 @@
         <label>Invoice N<sup>0</sup></label>
       <div style="max-width:200px;" class="input-group">
 
-      <input name="invoice" value="{{isset($_GET['id']) ? $_GET['id'] : old("invoice")}}" data-table="org_backoffice.invoices" data-field="idinvoices" type="text" class="form-control suggest-input" />
+      <input name="invoice" value="{{isset($_GET['id']) ? $_GET['id'] : old("invoice")}}" data-table="org_backoffice.invoices" data-field="code" type="text" class="form-control suggest-input" />
       <span class="input-group-addon"><i class="fa fa-check"></i></span>
     </div>
     </div>

@@ -1,13 +1,16 @@
-<?php $prop = \App\Resto::get()->first(); ?>
+<?php
+$logos =\App\Settings::get("logo");
+$logo = isset($logos[0]) ? $logos[0] : null;
+?>
 <table style="width:100%">
 <tr>
     <td style="width:85px;padding-right:15px">
-        <img src="/uploads/images/{{$prop->logo_image}}" width="100" />
+        <img src="{{$logo}}" width="100" />
     </td>
     <td>
         <h4 style="margin-bottom:0">Report</h4>
-        {{$prop->resto_name}}<br />
-        {{$prop->website}}
+        {{\App\Settings::get("name")}}<br />
+        {{\App\Settings::get("website")}}
     </td>
 
     <td class="text-right">

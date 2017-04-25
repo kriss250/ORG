@@ -14,7 +14,7 @@ namespace Kris\HR;
 \Route::get("/HR/logout",["as"=>"hr.logout","uses"=>"Kris\Frontdesk\Controllers\UsersController@logout"]);
 \Route::post("/HR/login.attempt",["as"=>"hr.login.attempt","uses"=>"Kris\Frontdesk\Controllers\UsersController@login"]);
 
-\Route::group(["middleware"=>"auth.fo"], function(){
+\Route::group(["middleware"=>"auth.fo","as"=>"hr"], function(){
     \Route::get("HR/",["uses"=>"Kris\HR\Controllers\PageController@home"]);
     \Route::get("HR/page/{page}",["uses"=>"Kris\HR\Controllers\PageController@open"]);
     \Route::resource("HR/department","\Kris\HR\Controllers\DepartmentController");

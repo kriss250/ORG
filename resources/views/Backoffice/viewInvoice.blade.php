@@ -102,13 +102,13 @@
 <div class="page-contents" style="padding:25px">
     <div class="header-print">
         <div class="print-logo-wrapper">
-            <img class="logo" width="120" src="data:image/jpeg;base64,{{base64_encode($hotel->logo)}}" />
+            <img class="logo" width="100" src="{{count(\App\Settings::get("logo")) > 0 ? \App\Settings::get("logo")[0] : "" }}" />
             <div class="logo-text">
-                <h3>{{$hotel->hotel_name}}</h3>
-                <p>Phone: {{$hotel->phone1}} / {{$hotel->phone3}}</p>
-                <p>Email: {{$hotel->email1}}</p>
+                <h3>{{\App\Settings::get("name")}}</h3>
+                <p>Phone: {{\App\Settings::get("phone")[0]}} / {{\App\Settings::get("phone")[1]}}</p>
+                <p>Email: {{\App\Settings::get("email")}}</p>
                 <p>Address:{{$hotel->address_line1}}</p>
-                <p>TIN : {{$hotel->TIN}}</p>
+                <p>TIN : {{\App\Settings::get("tin")}}</p>
             </div>
         </div>
 
@@ -221,11 +221,15 @@ $spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
 
     <div class="col-xs-6" style="border:1px solid;padding:6px">
       <b>TIN/VAT</b> : {{$hotel->TIN}}<br />
-     <b>Account Number</b> : Bank of Kigali 00086-00649051-36 Rwf (LENIMA LTD)
+     <b>Account Number</b> : 
+        <?php $accs=[]; $accs =  \App\Settings::get("bankaccount"); ?>
+        @foreach($accs as $account)
+        {{$account}} |
+        @endforeach
     </div>
     <div style="float:right" class="col-xs-4">
         <p>Done at {{$hotel->city}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},</p>
-     Operations Manager (Signature)<br />
+         Manager (Signature)<br />
       <!--{{\Auth::user()->firstname}} {{\Auth::user()->lastname}}-->
 
     </div>

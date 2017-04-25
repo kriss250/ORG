@@ -26,36 +26,45 @@ class InvoicePaymentController extends Controller {
 
   public function store()
   {
-    $data = \Request::all();
-    $id = explode("/",$data['invoice'])[0];
-    $invoice  = Invoice::find($id);
+      $data = \Request::all();
+      $id = explode("/",$data['invoice'])[0];
 
-    $validator = \Validator::make($data,[
-      "invoice"=>"required",
-      "amount"=>"required|numeric",
-      "mode"=>"required|numeric"
-      ]);
+      $invoice = null;
+      $validator = \Validator::make($data,[
+        "invoice"=>"required",
+        "amount"=>"required|numeric",
+        "mode"=>"required|numeric"
+        ]);
 
-    if($invoice == null)
-    {
-      $validator->getMessageBag()->add('invoiceid', 'Invalid invoice number');
-    }
+
+      if(count(explode("/",$data['invoice'])) < 2)
+      {
+          $validator->getMessageBag()->add('invoiceid', 'Invalid invoice number format , use "code/year"');
+      }else {
+          $invoice  = Invoice::where(\DB::raw("code"),"?")->where(\DB::raw("date_format(created_at,'%Y')"),"?")->setBindings([$id,explode("/",$data['invoice'])[1]])->first();
+      }
+
+      if($invoice == null)
+      {
+          $validator->getMessageBag()->add('invoiceid', 'Invalid invoice number');
+      }
 
       if($validator->fails() || $invoice == null )
       {
-        return redirect()->back()->withInput()->withErrors($validator->errors());
+          print_r($validator); return;
+          return redirect()->back()->withInput()->withErrors($validator->all());
       }else {
-        $p = $invoice->payment()->create([
-          "amount"=>$data['amount'],
-          "description"=>$data['description'],
-          "pay_mode"=>$data['mode'],
-          "wh_vat"=>isset($data['vat']) ? $data['vat'] : 0,
-          "wht"=>isset($data['wht']) ? $data['wht'] : 0
-        ]);
-        if($p!=null)
-        {
-          return redirect()->back()->with(["msg"=>"Payment saved"]);
-        }
+          $p = $invoice->payment()->create([
+            "amount"=>$data['amount'],
+            "description"=>$data['description'],
+            "pay_mode"=>$data['mode'],
+            "wh_vat"=>isset($data['vat']) ? $data['vat'] : 0,
+            "wht"=>isset($data['wht']) ? $data['wht'] : 0
+          ]);
+          if($p!=null)
+          {
+              return redirect()->back()->with(["msg"=>"Payment saved"]);
+          }
       }
   }
 

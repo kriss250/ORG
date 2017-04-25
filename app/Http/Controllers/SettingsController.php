@@ -39,24 +39,10 @@ class SettingsController extends Controller
     public function store(Request $req)
     {
         $data = $req->all();
-        try {
-            $tmp = \File::get('../app/Classes/POSSettings.tmpl');
-
-            $con = strtr($tmp,[
-                "{-RESTONAME-}"=>$data['resto_name'],
-                "{-LOGO-}"=>$data['logo'],
-                "{-CURRENCY-}"=>$data['currency'],
-                "{-TAXRATE-}"=>$data['tax'],
-                "{-PHONES-}"=>$data['phones'],
-                "{-EMAIL-}"=>$data['email'],
-                "{-WEBSITE-}"=>$data['website']
-            ]);
-
-            \File::put('../app/Classes/POSSettings.php',"<?php \n".$con);
-            return redirect()->Back()->with("success","Settings Saved");
-        }catch(Exception $ex){
-            return redirect()->Back()->with("errors","Unable to save settings");
-        }
+      
+        \App\POSSettings::set("custom_product", array_key_exists('custom_product',$data) ? "1" : "0");
+        \App\POSSettings::set("price_change", array_key_exists('price_change',$data) ? "1" : "0");
+        return redirect()->back();
     }
 
     /**
@@ -189,5 +175,60 @@ class SettingsController extends Controller
     public function AppSetup()
     {
         return \View::make("Setup");
+    }
+
+    public function setup(Request $request)
+    {
+        $files = [$request->file("logo_1"),$request->file("logo_2"),$request->file("logo_3")];
+        $paths = [];
+        $accounts = ['','',''];
+        $phones = ['',''];
+        $existing_logos = \App\Settings::get("logo");
+        $emails = ['',''];
+        $x = 0 ;
+        foreach($files as $file)
+        {
+
+            if($file==null) continue;
+
+
+
+            $ext = $file->getClientOriginalExtension();
+            $newname  = "image_".rand(5000,10000).".".$ext;
+
+            $path = "/uploads/images/".$newname;
+            $paths[] =  $path;
+
+            if(array_key_exists($x,$existing_logos))
+            {
+                $existing_logos[$x] =$path;
+            }else {
+                $existing_logos[] = $path;
+            }
+            if($ext== "jpg" || $ext=="png")
+            {
+                $file->move("uploads/images/", $newname);
+            }
+
+            $x++;
+        }
+
+        $phones[0] = $request->input("phone_1");
+        $phones[1] = $request->input("phone_2");
+        $accounts[0]  = $request->input("bankaccount_1");
+        $accounts[1]  = $request->input("bankaccount_2");
+        $accounts[2]  = $request->input("bankaccount_3");
+
+        \App\Settings::set("logo",$existing_logos);
+        \App\Settings::set("tin",$request->input("tin"));
+        \App\Settings::set("name",$request->input("name"));
+        \App\Settings::set("website",$request->input("website"));
+        \App\Settings::set("phones",$phones);
+        \App\Settings::set("email",$request->input("email"));
+
+        \App\Settings::set("bankaccount",$accounts);
+        \App\Settings::set("website",$request->input("website"));
+
+        return redirect()->back();
     }
 }

@@ -20,8 +20,14 @@
             <i class="fa fa-cog"></i> ORG SETUP
         </h2>
         <hr />
-        <form class="form">
+        <form enctype="multipart/form-data" class="form" method="post" action="{{action('SettingsController@setup')}}">
+        <input type="hidden" name="_token" value="{{csrf_token()}}" />
             <div class="row">
+                <label>Name</label>
+                <input type="text" name="name" value="{{\App\Settings::get("name")}}" class="form-control" />
+
+                <label>TIN</label>
+                <input type="text" name="tin" value="{{\App\Settings::get("tin")}}" class="form-control" />
                 <div class="col-md-6">
                     <h4>LOGOs</h4>
                     <div class="row">
@@ -80,25 +86,25 @@
                 <div class="col-md-6">
                     <h4>Bank Accounts</h4>
                     <label>Account 1</label>
-                    <input type="text" class="form-control" />
+                    <input name="bankaccount_1" value="{{isset(\App\Settings::get('bankaccount')[0]) ? \App\Settings::get('bankaccount')[0] : ""}}" type="text" class="form-control" />
                     <label>Account 2</label>
-                    <input type="text" class="form-control" />
+                    <input name="bankaccount_2" value="{{isset(\App\Settings::get('bankaccount')[1]) ? \App\Settings::get('bankaccount')[1] : " "}}" type="text" class="form-control" />
                     <label>Account 3</label>
-                    <input type="text" class="form-control" />
+                    <input name="bankaccount_3" value="{{isset(\App\Settings::get('bankaccount')[2]) ? \App\Settings::get('bankaccount')[2] : " "}}" type="text" class="form-control" />
                 </div>
             </div>
 
 
-            <div class="row">
+            <!--<div class="row">
                 <div class="col-md-6">
                     <h4>Notifications</h4>
                     <label>Night Audit Email 1</label>
                     <input name="auemail_1" value="{{is_null($setting = Settings::get('au_email1')) ? " " : $setting}}" type="text" class="form-control" />
 
                     <label>Night Audit Email 2</label>
-                    <input name="auemail_2" value="{{is_null($setting = Settings::get('au_email1')) ? " " : $setting}}" type="text" class="form-control" />
+                    <input name="auemail_2" value="{{is_null($setting = Settings::get('au_email2')) ? " " : $setting}}" type="text" class="form-control" />
                 </div>
-            </div>
+            </div>-->
 
             <hr />
             <input type="submit" class="btn btn-primary" value="Save" />

@@ -36,7 +36,10 @@
 
 
     <title>Backoffice | ORG Systems</title>
-
+    <?php
+      $logos =\App\Settings::get("logo");
+      $logo = isset($logos[0]) ? $logos[0] : null;
+    ?>
 </head>
 <body>
     <style type="text/css">
@@ -171,11 +174,11 @@
     <header id="header">
         <div class="grid container-fluid">
             <div class="col-md-1 col-xs-3 logo">
-                <img src="/uploads/images/{{$prop->logo_image}}" width="45" />
+                <img src="{{ isset($logo) && $logo != null ? $logo :  ""}}" width="45" />
             </div>
 
             <div style="padding-left:5px;" class="col-md-5 col-xs-6">
-                <h4 style="font-family:Lato;margin-bottom:0;margin-top:5px;">{{$prop->resto_name}}</h4>
+                <h4 style="font-family:Lato;margin-bottom:0;margin-top:5px;">{{\App\Settings::get("name")}}</h4>
                 <p style="color:rgb(182, 179, 179)">Backoffice | ORG Systems</p>
             </div>
 

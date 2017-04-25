@@ -19,6 +19,7 @@
     <Compile Include="app\Countries.php" />
     <Compile Include="app\ORG\RouterOSAPI.php" />
     <Compile Include="app\ORG\RouterOS.php" />
+    <Compile Include="app\POSSettings.php" />
     <Compile Include="packages\kris\Backoffice\src\Cashbook.php" />
     <Compile Include="packages\kris\Backoffice\src\CashbookTransaction.php" />
     <Compile Include="packages\kris\Backoffice\src\Debtor.php" />
@@ -706,8 +707,11 @@
     <Compile Include="resources\views\Backoffice\CreditPaymentsList.blade.php" />
     <Compile Include="resources\views\Backoffice\InvoiceList.blade.php" />
     <Compile Include="resources\views\Backoffice\CreateInvoice.blade.php" />
+    <Compile Include="resources\views\Backoffice\InvoicePaymentForm.blade.php" />
     <Compile Include="resources\views\Backoffice\NewCredit.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\FlashActivity.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\misc\Creditors.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\misc\Debtors.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\SalesMix.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\WaiterSales.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Stock\TransfersOverview.blade.php" />
@@ -1024,6 +1028,7 @@
     <Folder Include="resources\views\Backoffice\Admin\" />
     <Folder Include="resources\views\Backoffice\Reports\" />
     <Folder Include="resources\views\Backoffice\Reports\Frontdesk\" />
+    <Folder Include="resources\views\Backoffice\Reports\misc\" />
     <Folder Include="resources\views\Backoffice\Reports\POS\" />
     <Folder Include="resources\views\Backoffice\Reports\Stock\" />
     <Folder Include="resources\views\errors\" />

@@ -12,13 +12,13 @@ $hotel  = \Kris\Frontdesk\Property::get()->first();
 </style>
 <div class="print-header">
     <div class="print-logo-wrapper">
-        <img class="logo" width="100" src="data:image/jpeg;base64,{{base64_encode($hotel->logo)}}" />
+        <img class="logo" width="100" src="{{\App\Settings::get('logo')[0]}}" />
         <div class="logo-text">
-            <h3>{{$hotel->hotel_name}}</h3>
-            <p>Phone: {{$hotel->phone1}} / {{$hotel->phone2}}</p>
-            <p>Email: {{$hotel->email1}}</p>
+            <h3>{{\App\Settings::get("name")}}</h3>
+            <p>Phone: {{\App\Settings::get('phones')[0]}} / {{\App\Settings::get('phones')[1]}}</p>
+            <p>Email: {{\App\Settings::get('email')}}</p>
             <p>Address: {{$hotel->address_line1}}</p>
-            <p>TIN : {{$hotel->TIN}}</p>
+            <p>TIN : {{\App\Settings::get('tin')}}</p>
         </div>
     </div>
 

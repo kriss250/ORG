@@ -108,6 +108,7 @@ Route::group(['middleware' => 'auth'],function(){
     }]);
 
     Route::get("/Setup","SettingsController@AppSetup");
+    Route::post("/Setup/set","SettingsController@setup");
     Route::get("/Backoffice/dasboard2","BackofficeController@dashboard2");
 
     Route::resource("/Backoffice/PO","OrderController");

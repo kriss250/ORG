@@ -8,13 +8,13 @@
 
      <tr>
          <td>
-            <div class="logo"><img width="60" src="{{ \ORG\Settings::$LOGO }}"> </div>
+            <div class="logo"><img width="60" src="{{\App\POSSettings::get("logo")[0] }}"> </div>
         </td>
          <td>
             <div style="font-weight:bold" class="bill_contacts">
-                <p style="font-size:10px;" class="text-center"><i class="fa fa-envelope-o"></i> {{ \ORG\Settings::$EMAIL }}</p>
-                <p class="text-center" style="font-size:10px !important"><i class="fa fa-phone"></i> {{ \ORG\Settings::$PHONES }}</p>
-              <p style="font-size:10px" class="text-center">TIN/TVA : 101914869</p>  
+                <p style="font-size:10px;" class="text-center"><i class="fa fa-envelope-o"></i> {{ \App\POSSettings::get("email") }}</p>
+                <p class="text-center" style="font-size:10px !important"><i class="fa fa-phone"></i> {{\App\POSSettings::get("phone1")[0] }}</p>
+              <p style="font-size:10px" class="text-center">TIN/TVA : {{\App\POSSettings::get("tin") }}</p>  
 
             </div>
          </td>
@@ -72,7 +72,7 @@
                 <p class="text-center" style="margin-top:10px;">.....................................</p>
             </div>
 
-            <p style="font-size:10px;padding:10px 0;border-top:1px dashed" class="text-center">{{ \ORG\Bill::$FOOTER." ".\ORG\Settings::$RESTONAME }}</p>
+            <p style="font-size:10px;padding:10px 0;border-top:1px dashed" class="text-center">{{ \App\POSSettings::get("footer") ." ".\App\POSSettings::get("name") }}</p>
 </div>
 </div>
 

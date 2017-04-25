@@ -80,7 +80,7 @@
           <tr>
 
               <td>{{$item->institution}}</td>
-              <td>{{$item->idinvoices}}/{{(new \Carbon\Carbon($item->created_at))->format("Y")}}</td>
+              <td>{{$item->code}}/{{(new \Carbon\Carbon($item->created_at))->format("Y")}}</td>
               <td>
                 {{$item->due_date}}
               </td>

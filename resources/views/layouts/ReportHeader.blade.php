@@ -1,11 +1,3 @@
-<?php
-//logo
-//site name
-//contacts
-//email
-
-$resto = \App\Resto::get()->first();
-?>
 <style>
     .report_header {
         border-bottom:1px dashed #828282;
@@ -40,19 +32,19 @@ $resto = \App\Resto::get()->first();
 <div class="container-fluid report_header">
     <div class="col-md-9">
         <div class="col-md-2">
-            <img width="100" src="/uploads/images/{{$resto->logo_image}}" />
+            <img width="100" src="{{\App\Settings::get("logo")[0];}}" />
         </div>
         <div class="col-md-10 header_desc">
-            <p><b>{{$resto->resto_name}}</b></p>
-            <p>{{$resto->resto_email }}</p>
-            <p>{{$resto->resto_phone}}</p>
+            <p><b>{{\App\Settings::get("name")}}</b></p>
+            <p>{{\App\Settings::get("emails")[0]}}</p>
+            <p>{{\App\Settings::get("phones")[0]}}</p>
             <p>POS Report - {{ \ORG\Dates::$RESTODATE }}</p>
         </div>
     </div>
 
     <div class="col-md-3">
         <p style="margin:0" class="text-right">ORG System</p>
-        <p class="text-right"><a href="">{{ $resto->website }}</a></p>
+        <p class="text-right"><a href="">{{\App\Settings::get("website") }}</a></p>
         <p class="text-right">User : {{Auth::user()->username }}</p>
     </div>
 </div>

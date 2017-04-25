@@ -27,20 +27,24 @@
         }
     }
 </style>
+
+
+
 <table style="width:100%">
 <tr>
     <td style="width:85px;padding-right:15px">
-        <img src="/uploads/images/{{$prop->logo_image}}" width="100" />
+        <img class="logo" width="100" src="{{\App\Settings::get('logo')[0]}}" />
     </td>
     <td>
         <h4 style="margin-bottom:0">Cashbook Transaction</h4>
-        {{$prop->resto_name}}<br />
-        {{$prop->website}}
+        {{\App\Settings::get("name")}}<br />
+        {{\App\Settings::get("website")}}
+        <p>Phone: {{\App\Settings::get('phones')[0]}} / {{\App\Settings::get('phones')[1]}}</p>
     </td>
 
     <td class="text-right">
         Date : 
-    <b>{{$tr[0]->date}}</b><br>
+    <b>{{(new \Carbon\Carbon($tr[0]->date))->format("d/m/Y H:i:s")}}</b><br>
     </td>
 
 </tr>

@@ -274,9 +274,9 @@ class BackofficeReportController extends Controller
                 if(isset($_GET['customer'])&& $_GET['customer'] != "")
                 {
                   $range[] = $_GET['customer'];
-                  $data = \App\Invoice::select(\DB::raw("institution,idinvoices,due_date,created_at,invoices.description,sum(unit_price*qty*days) as amount"))->join("invoice_items","invoice_id","=","idinvoices")->whereRaw("date(invoices.created_at) between ? and ?")->where("institution","?")->setBindings($range)->groupBy("idinvoices")->get();
+                  $data = \App\Invoice::select(\DB::raw("code,institution,idinvoices,due_date,created_at,invoices.description,sum(unit_price*qty*days) as amount"))->join("invoice_items","invoice_id","=","idinvoices")->whereRaw("date(invoices.created_at) between ? and ?")->where("institution","?")->setBindings($range)->groupBy("idinvoices")->get();
                 }else {
-                  $data = \App\Invoice::select(\DB::raw("institution,idinvoices,due_date,created_at,invoices.description,sum(unit_price*qty*days) as amount"))->join("invoice_items","invoice_id","=","idinvoices")->whereRaw("date(invoices.created_at) between ? and ?")->setBindings($range)->groupBy("institution")->get();
+                  $data = \App\Invoice::select(\DB::raw("code,institution,idinvoices,due_date,created_at,invoices.description,sum(unit_price*qty*days) as amount"))->join("invoice_items","invoice_id","=","idinvoices")->whereRaw("date(invoices.created_at) between ? and ?")->setBindings($range)->groupBy("institution")->get();
                 }
                 return \View::make("Backoffice.Reports.misc.Debtors",["data"=>$data,"range"=>$range]);
 
