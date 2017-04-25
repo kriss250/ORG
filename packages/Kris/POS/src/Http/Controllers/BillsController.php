@@ -554,20 +554,24 @@ class BillsController extends Controller
                 left join companies on companies.idcompanies = company_id
                 where checked_in is not null and checked_out is null and room_number =?",[$data['Room']]);
             //bar = 1
+
+
+
             if($v){
                $res= $v[0]->reservation_id;
                $customer_name = $v[0]->guest;
                $room_id = $v[0]->idrooms;
                $cp = $v[0]->company;
                foreach($the_bill as $bill){
+                   $store = \App\Store::find($bill->store_id);
 
                    $ins = DB::connection("mysql_book")->insert("insert into room_charges (room_id,reservation_id,charge,amount,motif,date,user_id,user,pos) values (?,?,?,?,?,?,?,?,?)",
                             [
                                 $room_id,
                                 $res,
-                                $bill->store_id=="1" ||  $bill->store_id=="2" ? $bar_code :  $resto_code,
+                                $store->subset=='Bar' ? $bar_code :  $resto_code, //bar
                                 $bill->amount,
-                                $bill->store_id=="1" ||  $bill->store_id=="2" ? $bar_motif : $resto_motif,
+                                 $store->subset=='Bar' ? $bar_motif : $resto_motif, //Resto
                                 \ORG\Dates::$RESTODT,
                                 1,
                                 \Auth::user()->username,
