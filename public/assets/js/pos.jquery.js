@@ -1956,7 +1956,7 @@
                             $(".waiter-login-wrapper").toggleClass("hidden");
 
                         } else {
-                            alert("Error saving bill :" + (res.errors !== "undefined" && res.Errors.length > 0 ? res.Errors[0] : ""));
+                            alert("Error saving bill :" + (res.errors !== "undefined" && res.errors.length > 0 ? res.errors[0] : ""));
                             $(btn).html(btnContents).removeAttr("disabled");
                         }
                     } catch (ex) {
