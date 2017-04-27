@@ -137,7 +137,7 @@
                     {{$x}}
                 </li>
                 @endfor
-                <li style="color:#000;" data-field="#waiter-nepin-w-input" data-key="0">0</li>
+                <li style="color:#000;" data-field="#waiter-new-pin-input" data-key="0">0</li>
                 <li style="color:#000;width:130px" data-field="#waiter-new-pin-input" class="pin-delete-btn">
                      DEL.
                 </li>
