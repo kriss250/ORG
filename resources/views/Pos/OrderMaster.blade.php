@@ -75,7 +75,7 @@
                                     <button class="new_prod_close_btn"><i class='fa fa-times'></i></button>
                                     <label>Name</label> <input name="product_name" type="text">
                                     <label>Price</label> <input name="product_price" type="text">
-                                    <label>Category</label> <select style="max-width:150px;display:block" required="" name="category">
+                                    <label>Category</label><select style="max-width:150px;display:block" required="" name="category">
                                         <option value="">Category</option><?php $cats = \DB::select("SELECT id,category_name,store_name,store_id FROM categories join category_store on category_store.category_id = categories.id join store on store.idstore = store_id"); ?>
                                         @foreach($cats as $cat)
                                         <option value="{{ $cat->id }}-{{$cat->store_id}}">{{$cat->category_name}} ({{ $cat->store_name }})</option>
@@ -331,7 +331,7 @@
 
             <ul class="waiter-login-list pull-left btn-group" data-toggle="buttons">
 
-                @foreach(\App\Waiter::all() as $waiter)
+                @foreach(\App\Waiter::where("is_active","1")->get() as $waiter)
                 <li>
                     <label class="btn btn-default">
                         <i class="fa fa-user"></i>
