@@ -118,7 +118,7 @@
     <div class="waiter-login">
 
         <ul class="waiter-login-list pull-left btn-group col-md-4" data-toggle="buttons">
-            @foreach(\App\Waiter::all() as $waiter)
+            @foreach(\App\Waiter::where("is_active","1")->get() as $waiter)
             <li style="font-size:14px !important">
                 <label class="btn btn-default">
                     <i class="fa fa-user"></i>
