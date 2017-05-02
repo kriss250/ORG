@@ -209,7 +209,7 @@ class InvoiceController extends Controller
 
     public function delete($id)
     {
-      \App\Invoice::find($id)->delete();
+      if(\Auth::user()->level > 9) \App\Invoice::find($id)->delete();
       return redirect()->back();
     }
 

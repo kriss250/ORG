@@ -43,6 +43,11 @@
         border-width: 8px 0 8px 8px;
         border-color: transparent transparent transparent #d43f3a;
     }
+
+    .date-input {
+        border: 1px solid #ccc !important;
+        font-size: 12px;
+    }
 </style>
 
 
@@ -117,7 +122,7 @@
 
     var dateGroup = $('<div class="input-group">');
     var dateGroupAddon = $('<span style="font-size:13px;cursor:pointer;padding:5px" class="date-picker-toggle input-group-addon"><i class="fa fa-calendar"></i></span>');
-    var dateInput = $('<input name="date_'+nextNo+'" class="form-control date-input date-picker" type="text" placeholder="Y-m-d" />');
+    var dateInput = $('<input name="date_'+nextNo+'" class="form-control date-input" type="text" placeholder="Y-m-d" />');
     var descInput = $('<input type="text" data-table="org_backoffice.invoice_items" data-field="description" name="desc_'+nextNo+'" rows="1" class="desc-inputdesc-input desc-input form-control suggest-input" placeholder="Description Item '+nextNo+'" />');
     var qtyInput = $('<input required min="1" name="qty_'+nextNo+'" type="number" class="form-control qty-input" />');
     var upInput = $('<input required name="price_' + nextNo + '" class="form-control price-input" type="text" placeholder="Price #" />');
@@ -182,7 +187,7 @@
                     </tr>
                 </thead>
 
-                @for($i=1;$i<4;$i++)
+                @for($i=1;$i<2;$i++)
                 <tr class="row_{{$i}}">
 
                     <td>

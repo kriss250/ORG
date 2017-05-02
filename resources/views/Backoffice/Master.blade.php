@@ -177,7 +177,7 @@
                 <img src="{{ isset($logo) && $logo != null ? $logo :  ""}}" width="45" />
             </div>
 
-            <div style="padding-left:5px;" class="col-md-5 col-xs-6">
+            <div style="padding-left:5px;" class="col-md-5 col-xs-5">
                 <h4 style="font-family:Lato;margin-bottom:0;margin-top:5px;">{{\App\Settings::get("name")}}</h4>
                 <p style="color:rgb(182, 179, 179)">Backoffice | ORG Systems</p>
             </div>
@@ -185,7 +185,7 @@
             <div class="col-md-6 col-xs-4 header-menu">
                 <ul>
                     <li class="user-item">
-                        <span class="round"><i class="fa fa-user"></i></span>
+                        <span class="round hidden-xs"><i class="fa fa-user"></i></span>
                         <div class="btn-group">
                             <button type="button" style="font-size:12px;background:rgb(91, 183, 63);border: medium none;border-radius: 0px 4px 4px 0;margin-left: -10px;margin-top: 12px;color: rgba(255, 255, 255, 0.93);padding-left: 15px;" class="btn btn-default dropdown-toggle login-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Hi, {{ \Auth::user()->username }} <span class="caret"></span>
@@ -200,7 +200,7 @@
                     <li>
                         <a class="expand-btn hidden-xs" href="#"><i class="fa fa-arrows-alt"></i></a>
                     </li>
-                    <li>
+                    <li class="hidden-xs">
                         <?php $tsp = strtotime( \ORG\Dates::$RESTODT); ?>
                         <p style="padding-top: 16px;padding-right: 30px;font-size: 11px;color: rgb(111, 111, 111)"> {{date("l d, m Y",$tsp) }}</p>
                     </li>
@@ -237,7 +237,7 @@
                     <div class='search-results closed'></div>
                 </form>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 hidden-xs">
                 <ul class="inline-list notification-list">
                     <li>Notifications</li>
                     <li><a href=""><i class="fa fa-bell"></i></a> </li>
@@ -301,7 +301,7 @@
                             <a class="dropdown-btn" href=""><i class="fa fa-cutlery"></i> POS Reports <i class="fa fa-chevron-down"></i></a>
                             @include("layouts.pos_menu")
                         </li>
-                        @if(\Auth::user()->level!=9)
+                        @if(\Auth::user()->level>5)
                         <li class="report-btn">
                             <a class="dropdown-btn" href="#"> <i class="fa fa-bed"></i> Frontdesk Reports <i class="fa fa-chevron-down"></i></a>
                             @include("layouts.frontdesk_menu")

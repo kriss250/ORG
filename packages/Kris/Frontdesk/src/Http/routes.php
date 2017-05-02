@@ -79,6 +79,33 @@ namespace Kris\Frontdesk;
     \Route::get("fo/statements/guest/{id}",["uses"=>"\Kris\Frontdesk\Controllers\StatementsController@guest"]);
     \Route::get("fo/statements/company/{id}",["uses"=>"\Kris\Frontdesk\Controllers\StatementsController@company"]);
 
+    \Route::get("/fo/scavange",function(){
+
+                $reservations = \Kris\Frontdesk\Reservation::whereIn("idreservation",[
+                    
+                    ])->orderBy("idreservation","asc")->get();
+
+                foreach($reservations as $reservation)
+                {
+                    $res = $reservation->idreservation;
+
+                    $reservation->delete();
+                    \DB::connection("mysql")->delete("delete from acco_charges where reservation_id=?",[$res]);
+                    \DB::connection("mysql")->delete("delete from folio where reservation_id=?",[$res]);
+                    \DB::connection("mysql")->delete("delete from room_charges where reservation_id=?",[$res]);
+
+                    \Kris\Frontdesk\Reservation
+                        ::where("idreservation",">",$res)
+                        ->update(['idreservation'=>\DB::raw("idreservation-1")]);
+
+                     \DB::connection("mysql")->update("update acco_charges set reservation_id=reservation_id-1 where reservation_id>?",[$res]);
+                     \DB::connection("mysql")->update("update folio set reservation_id=reservation_id-1 where reservation_id>?",[$res]);
+                     \DB::connection("mysql")->update("update room_charges set reservation_id=reservation_id-1  where reservation_id>?",[$res]);
+
+
+                }
+    });
+
 });
 
 

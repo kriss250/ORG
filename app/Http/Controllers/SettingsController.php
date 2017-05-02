@@ -229,6 +229,8 @@ class SettingsController extends Controller
 
         \App\Settings::set("bankaccount",$accounts);
         \App\Settings::set("website",$request->input("website"));
+        \App\Settings::set("city",$request->input("city"));
+        \App\Settings::set("state",$request->input("state"));
 
         return redirect()->back();
     }

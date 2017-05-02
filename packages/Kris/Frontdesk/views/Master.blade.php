@@ -89,17 +89,14 @@ Floors View</a> </li>
                         <!--<li><a href="#">Lost and found</a></li>-->
                     </ul>
                 </li>
-
+    @if(\Kris\Frontdesk\User::session()->group_id <=3)
             <li>
                 <a data-toggle="tab" href="#pane-3">
                     <i class="fa fa-cogs"></i>Settings
 
                 </a>
-                <!--<ul class="dropdown-menu">
-                  
-                </ul>-->
             </li>
-
+    @endif
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="$">Charts <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu">
@@ -418,7 +415,7 @@ margin-right: 8px;">
                 </ul>
                     </div>
             </div>
-
+             @if(\Kris\Frontdesk\User::session()->group_id <=3)
             <div class="tab-pane" id="pane-3">
                 <div style="padding-top:8px;" class="grid">
                 <ul class="menu-2">
@@ -511,6 +508,7 @@ margin-right: 8px;">
                 </ul>
                     </div>
             </div>
+            @endif
             <div class="clearfix"></div>
         </div>
 

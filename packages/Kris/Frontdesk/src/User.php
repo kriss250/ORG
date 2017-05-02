@@ -40,4 +40,9 @@ class User extends Model
 
         $this->belongsToMany("\Kris\Frontdesk\Log","user_id","idusers");
     }
+
+    public static function session()
+    {
+        return \Session::get("fo_user");
+    }
 }

@@ -10,6 +10,8 @@ $(document).ready(function () {
 
         JSObj.ToolStripBG(250, 250, 250);
         JSObj.ToolStripColor(35,35, 35);
+    } else {
+        notifyBrowser();
     }
 
     $(".alert.success").delay(3800).slideUp(200, function() {
@@ -295,4 +297,24 @@ function confirmAnnouncement(id) {
     alert(id);
 }
 
+function notifyBrowser()
+{
+    $(document).ready(function () {
+        con = $("<div>");
+        $(con).addClass("alert alert-danger text-center").html("You are using an unsupported browser some features may not work correctly, Please use ORG Box app for better experience !");
+        $(con).css({
+            "left": "0",
+            "right": "0",
+            "position": "relative",
+            "width": "100%",
+            "padding": "5px",
+            "font-size": "11px",
+            "display":"none"
+        })
+        $("html").prepend($(con))
 
+        setTimeout(function () {
+            $(con).fadeIn(500)
+        },1000)
+    });
+}

@@ -69,6 +69,11 @@
                     <input name="email" value="{{ is_null($setting=Settings::get('email')) ? "" : $setting}}" type="text" class="form-control" />
                     <label>Website</label>
                     <input name="website" value="{{is_null($setting = Settings::get('website')) ? "" : $setting}}" type="text" class="form-control" />
+                    <h4>Address</h4>
+                    <label>City</label>
+                    <input name="city" value="{{is_null($setting = Settings::get('city')) ? " " : $setting}}" type="text" class="form-control" />
+                    <label>State</label>
+                    <input name="state" value="{{is_null($setting = Settings::get('state')) ? " " : $setting}}" type="text" class="form-control" />
                 </div>
             </div>
             <hr />

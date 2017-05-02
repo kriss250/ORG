@@ -6,7 +6,7 @@
     .page-contents
     {
       padding: 8px;
-      font-size: 12px
+      font-size: 13px
     }
 
     .invoice-table td {
@@ -48,13 +48,14 @@
 
     .logo-text p {
       margin: 0;
-      font-size: 10px
+      font-size: 12px
     }
 
     .logo-text h3 {
       margin-bottom: 2px;
-      font-size: 16px;
-      margin-top: 0
+      font-size: 18px;
+      margin-top: 0;
+      font-weight:bold
     }
 
 .table.invoice-table tr td {
@@ -62,7 +63,7 @@
   border-top: none !important;
   border-right: 1px solid;
   border-left: 1px solid;
-  font-size: 10px;
+  font-size: 11px;
 }
 .invoice-address {
   margin-bottom: 10px;
@@ -95,8 +96,19 @@
 }
 
 .invoice-table tfoot tr:last-child th{
-  font-size: 18px;
+  font-size: 16px;
 }
+
+    .s-title {
+        padding: 1px 0px;
+        border-bottom: 1px dashed;
+        margin-bottom: 18px;
+        font-size: 11px;
+        font-weight: bold;
+        display:block;
+        width: 50%;
+        
+    }
 </style>
 
 <div class="page-contents" style="padding:25px">
@@ -105,38 +117,43 @@
             <img class="logo" width="100" src="{{count(\App\Settings::get("logo")) > 0 ? \App\Settings::get("logo")[0] : "" }}" />
             <div class="logo-text">
                 <h3>{{\App\Settings::get("name")}}</h3>
-                <p>Phone: {{\App\Settings::get("phone")[0]}} / {{\App\Settings::get("phone")[1]}}</p>
+                <p>Phone: {{\App\Settings::get("phones")[0]}} / {{\App\Settings::get("phones")[1]}}</p>
                 <p>Email: {{\App\Settings::get("email")}}</p>
-                <p>Address:{{$hotel->address_line1}}</p>
+                <p>Website : {{\App\Settings::get("website")}}</p>
+                <p>Address:{{\App\Settings::get("state")}} - {{\App\Settings::get("city")}} </p>
                 <p>TIN : {{\App\Settings::get("tin")}}</p>
             </div>
         </div>
 
         <div class="print-header-desc text-right">
-            <h3 class="invoice-no" style="font-weight:bold;margin-bottom:0px;color:rgb(125, 125, 125)">INVOICE N<sup>o</sup></h3>
-            <h4 style="margin-top:0">{{$invoice->code}} / {{ (new Carbon\Carbon($invoice->created_at))->format("Y")}}</h4>
-            <h5 style="border:1px solid rgb(100,100,100);display:inline-block;padding:10px">DATE : {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}}</h5>
+            <h3 class="invoice-no" style="font-weight:bold;margin-bottom:0px;color:rgb(125, 125, 125)">
+                INVOICE <br />
+                {{$invoice->code}} / {{ (new Carbon\Carbon($invoice->created_at))->format("Y")}}
+            </h3>
+      
+            <h5 style="border:1px solid rgb(100,100,100);display:inline-block;padding:10px">DATE : {{(new Carbon\Carbon($invoice->due_date))->format("d/m/Y")}}</h5>
         </div>
 
         <div class="clearfix"></div>
     </div>
 
-
-    <h2 class="text-center"><strong>INVOICE: {{$invoice->code}} / {{ (new Carbon\Carbon($invoice->created_at))->format("Y")}}</strong></h2>
+    <p class="text-center" style="margin-bottom:-20px;">Customer</p>
+    <h3 class="text-center" style="text-transform:uppercase"><strong>{{ucfirst($invoice->institution)}}</strong></h3>
 
 <div style="padding-left:5px" class="container-fluid">
 
   <div class="invoice-address col-xs-5">
      
-    <p style="padding:3px 6px;border-bottom:2px solid;margin-bottom:8px;font-size:16px;">
+    <p class="s-title">
       CUSTOMER
     </p>
-    <p style="font-size:16px;padding-left:0"><b>{{ucfirst($invoice->institution)}}</b></p>
-    <p style="margin-top:5px">{{$invoice->address}}</p>
+      <br />
+    <p style="font-size:13px;padding-left:0">Name : <b>{{ucfirst($invoice->institution)}}</b></p>
+    <p style="margin-top:5px">Address : {{nl2br($invoice->address)}}</p>
 
     <p>&nbsp;</p>
     <p style="font-size:13px;font-weight:bold;margin-bottom:15px;">Description : {{$invoice->description}}</p>
-    <p>Due Date : {{ (new \Carbon\Carbon($invoice->due_date))->format("d/m/Y")}}</p>
+    <!--<p>Due Date : {{ (new \Carbon\Carbon($invoice->due_date))->format("d/m/Y")}}</p>-->
   </div>
 
 </div>
@@ -213,13 +230,13 @@
 $spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
 ?>
 
-<p style="text-transform:capitalize">
+<p style="text-transform:capitalize;margin-top:-80px">
   <b>Total Amount : {{$spell->format($total)}} (VAT Inclusive) </b>
 </p>
 
 <div class="row" style="padding:15px;">
 
-    <div class="col-xs-6" style="border:1px solid;padding:6px">
+    <div class="col-xs-6" style="border:1px solid;padding:6px;font-size:11px">
       <b>TIN/VAT</b> : {{$hotel->TIN}}<br />
      <b>Account Number</b> : 
         <?php $accs=[]; $accs =  \App\Settings::get("bankaccount"); ?>
@@ -227,8 +244,8 @@ $spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
         {{$account}} |
         @endforeach
     </div>
-    <div style="float:right" class="col-xs-4">
-        <p>Done at {{$hotel->city}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},</p>
+    <div style="float:right;margin-top:40px" class="col-xs-4">
+        <p>Done at {{\App\Settings::get('city')}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},</p>
          Manager (Signature)<br />
       <!--{{\Auth::user()->firstname}} {{\Auth::user()->lastname}}-->
 
