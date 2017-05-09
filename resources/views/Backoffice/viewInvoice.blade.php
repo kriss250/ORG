@@ -137,18 +137,15 @@
         <div class="clearfix"></div>
     </div>
 
-    <p class="text-center" style="margin-bottom:-20px;">Customer</p>
-    <h3 class="text-center" style="text-transform:uppercase"><strong>{{ucfirst($invoice->institution)}}</strong></h3>
-
 <div style="padding-left:5px" class="container-fluid">
 
   <div class="invoice-address col-xs-5">
      
-    <p class="s-title">
+    <p style="margin-top:18px;" class="s-title">
       CUSTOMER
     </p>
       <br />
-    <p style="font-size:13px;padding-left:0">Name : <b>{{ucfirst($invoice->institution)}}</b></p>
+    <p style="font-size:16px;padding-left:0"> <b>Name : {{ucfirst($invoice->institution)}}</b></p>
     <p style="margin-top:5px">Address : {{nl2br($invoice->address)}}</p>
 
     <p>&nbsp;</p>
@@ -181,7 +178,7 @@
 }}</td>
   <td style="width:50px">{{$item->days}}</td>
   <td style="width:50px">{{$item->qty}}</td>
-  <td>{{$item->unit_price}}</td>
+  <td>{{number_format($item->unit_price)}}</td>
   <td>{{number_format($item->qty*$item->unit_price*$item->days)}}</td>
 </tr>
 <?php $total += $item->qty*$item->days*$item->unit_price; ?>
@@ -230,23 +227,23 @@
 $spell = new NumberFormatter("en", NumberFormatter::SPELLOUT);
 ?>
 
-<p style="text-transform:capitalize;margin-top:-80px">
-  <b>Total Amount : {{$spell->format($total)}} (VAT Inclusive) </b>
+<p style="text-transform:capitalize;margin-top:-80px;max-width:68%">
+  <b>Total Amount : {{$spell->format($total)}} RWF (VAT Inclusive) </b>
 </p>
 
 <div class="row" style="padding:15px;">
 
     <div class="col-xs-6" style="border:1px solid;padding:6px;font-size:11px">
-      <b>TIN/VAT</b> : {{$hotel->TIN}}<br />
+      <b>TIN/VAT</b> : {{\App\Settings::get("tin")}}<br />
      <b>Account Number</b> : 
         <?php $accs=[]; $accs =  \App\Settings::get("bankaccount"); ?>
         @foreach($accs as $account)
-        {{$account}} |
+        {{$account}}
         @endforeach
     </div>
     <div style="float:right;margin-top:40px" class="col-xs-4">
         <p>Done at {{\App\Settings::get('city')}}, On {{(new Carbon\Carbon($invoice->created_at))->format("d/m/Y")}},</p>
-         Manager (Signature)<br />
+         General Manager<br />
       <!--{{\Auth::user()->firstname}} {{\Auth::user()->lastname}}-->
 
     </div>
