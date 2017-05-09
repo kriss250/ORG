@@ -139,7 +139,7 @@
 
 <div style="padding-left:5px" class="container-fluid">
 
-  <div class="invoice-address col-xs-5">
+  <div class="invoice-address col-xs-8">
      
     <p style="margin-top:18px;" class="s-title">
       CUSTOMER
