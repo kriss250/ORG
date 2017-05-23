@@ -146,7 +146,7 @@
     </p>
       <br />
     <p style="font-size:16px;padding-left:0"> <b>Name : {{ucfirst($invoice->institution)}}</b></p>
-    <p style="margin-top:5px">Address : {{nl2br($invoice->address)}}</p>
+    <p style="margin-top:5px">Address : {!! nl2br( htmlentities($invoice->address)) !!}</p>
 
     <p>&nbsp;</p>
     <p style="font-size:13px;font-weight:bold;margin-bottom:15px;">Description : {{$invoice->description}}</p>

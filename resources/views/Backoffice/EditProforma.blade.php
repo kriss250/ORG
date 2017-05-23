@@ -220,7 +220,7 @@
             </table>
         </div>
         <button onclick="addRow(event)" style="margin-top:-10px;display:block;margin-bottom:20px;" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add row</button>
-        <input type="submit" value="Update Invoice" class="btn btn-primary" />
+        <input type="submit" value="Update Proforma" class="btn btn-primary" />
     </form>
 </div>
 
