@@ -79,13 +79,8 @@
             <hr />
             <div class="row">
                 <div class="col-md-6">
-                    <h4>Signatory</h4>
-                    <table class="table table-condensed table-striped table-bordered">
-                        <tr>
-                            <th>Title</th>
-                            <th>Position</th>
-                        </tr>
-                    </table>
+                    <h4>Currency</h4>
+                    <input name="currency" value="{{ Settings::get('currency') }}" placeholder="Currency" type="text" class="form-control" />
                 </div>
 
                 <div class="col-md-6">

@@ -192,8 +192,6 @@ class SettingsController extends Controller
 
             if($file==null) continue;
 
-
-
             $ext = $file->getClientOriginalExtension();
             $newname  = "image_".rand(5000,10000).".".$ext;
 
@@ -231,6 +229,7 @@ class SettingsController extends Controller
         \App\Settings::set("website",$request->input("website"));
         \App\Settings::set("city",$request->input("city"));
         \App\Settings::set("state",$request->input("state"));
+        \App\Settings::set("currency",$request->input("currency"));
 
         return redirect()->back();
     }

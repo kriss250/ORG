@@ -23,6 +23,9 @@
     <Compile Include="packages\kris\Backoffice\src\Cashbook.php" />
     <Compile Include="packages\kris\Backoffice\src\CashbookTransaction.php" />
     <Compile Include="packages\kris\Backoffice\src\Debtor.php" />
+    <Compile Include="packages\kris\Backoffice\src\Http\Controllers\ProformaController.php" />
+    <Compile Include="packages\kris\Backoffice\src\Proforma.php" />
+    <Compile Include="packages\kris\Backoffice\src\ProformaItem.php" />
     <Compile Include="packages\kris\HR\src\Controllers\AbsenceController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\AdvanceController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\LeaveController.php" />
@@ -701,10 +704,13 @@
     <Compile Include="resources\views\Backoffice\Admin\Master.blade.php" />
     <Compile Include="resources\views\Backoffice\BillFinder.blade.php" />
     <Compile Include="resources\views\Backoffice\CashbookTransactionPrint.blade.php" />
+    <Compile Include="resources\views\Backoffice\CreateProforma.blade.php" />
     <Compile Include="resources\views\Backoffice\CreditOrdersList.blade.php" />
+    <Compile Include="resources\views\Backoffice\EditProforma.blade.php" />
     <Compile Include="resources\views\Backoffice\EditInvoice.blade.php" />
     <Compile Include="resources\views\Backoffice\FoBillView.blade.php" />
     <Compile Include="resources\views\Backoffice\CreditPaymentsList.blade.php" />
+    <Compile Include="resources\views\Backoffice\ProformaList.blade.php" />
     <Compile Include="resources\views\Backoffice\InvoiceList.blade.php" />
     <Compile Include="resources\views\Backoffice\CreateInvoice.blade.php" />
     <Compile Include="resources\views\Backoffice\InvoicePaymentForm.blade.php" />
@@ -715,6 +721,7 @@
     <Compile Include="resources\views\Backoffice\Reports\POS\SalesMix.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\WaiterSales.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Stock\TransfersOverview.blade.php" />
+    <Compile Include="resources\views\Backoffice\viewProforma.blade.php" />
     <Compile Include="resources\views\Backoffice\viewInvoice.blade.php" />
     <Compile Include="resources\views\Backoffice\ViewReservation.blade.php" />
     <Compile Include="resources\views\Backoffice\FOStatement.blade.php" />

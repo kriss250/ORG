@@ -113,7 +113,11 @@ Route::group(['middleware' => 'auth'],function(){
 
     Route::resource("/Backoffice/PO","OrderController");
     Route::resource("/Backoffice/Invoice","InvoiceController");
+    Route::resource("/Backoffice/Proforma","ProformaController");
     Route::get("/Backoffice/Invoice/delete/{x}",["uses"=>"InvoiceController@delete"]);
+
+    Route::get("/Backoffice/Proforma/delete/{x}",["uses"=>"ProformaController@delete"]);
+
     Route::get("/Backoffice/Invoice/payment/delete/{x}",["uses"=>"InvoicePaymentController@delete"]);
     Route::get("/Backoffice/Invoice/showPayments/{x}",["uses"=>"InvoiceController@showPayments"]);
 	Route::get("POS/NewDay",['as'=>'newday','uses'=>'SettingsController@newDay']);

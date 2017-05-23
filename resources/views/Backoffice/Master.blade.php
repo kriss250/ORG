@@ -278,7 +278,9 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a  href="{{action("InvoiceController@create") }}">Create Invoice</a>
+                                    <a href="{{action("ProformaController@create") }}">Create Proforma</a>
                                     <a href="{{action("InvoiceController@index") }}">Saved Invoices</a>
+                                    <a href="{{action("ProformaController@index") }}">Saved Proforma</a>
                                     <a href="{{action("InvoicePaymentController@create") }}">New Payment</a>
                                 </li>
                             </ul>
