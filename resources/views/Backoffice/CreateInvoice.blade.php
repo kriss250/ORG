@@ -172,7 +172,9 @@
             </div>
         </div>
         <hr />
-        <label>Invoice Items</label>
+        <label>Invoice Items</label> 
+       
+        <button href="{{action("InvoiceController@browseDebts")}}" data-width="850" data-height="580" class="btn btn-danger btn-xs modal-btn" type="button">Browse Debts</button>
         <div class="invoice-table-wrapper">
             <table class="invoice-items-table table-bordered table table-condensed table-striped">
                 <thead>
@@ -221,7 +223,7 @@
                 @endfor
             </table>
         </div>
-        <button onclick="addRow(event)" style="margin-top:-10px;display:block;margin-bottom:20px;" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add row</button>
+        <button type="button" onclick="addRow(event)" style="margin-top:-10px;display:block;margin-bottom:20px;" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add row</button>
         <input type="submit" value="Save Invoice" class="btn btn-primary" />
     </form>
 </div>

@@ -60,7 +60,9 @@
             <td>{{$bill->checkout}}</td>
             <td>{{number_format($bill->due_amount)}}</td>
             <td>{{number_format($bill->due_amount-$bill->paid_amount)}}</td>
-            <td><a class="btn btn-xs btn-success" onclick="return window.open('{{action("CustomersController@printBill",$bill->idreservation)}}?type=standard','','width=920,height=620',this)" href="#"><i class="fa fa-eye"></i></a></td>
+            <td>
+                <a class="btn btn-xs btn-success" onclick="return window.open('{{action("CustomersController@printBill",$bill->idreservation)}}?type=standard','','width=920,height=620',this)" href="#"><i class="fa fa-eye"></i></a>
+            </td>
         </tr>
         @endforeach
 <tfoot>

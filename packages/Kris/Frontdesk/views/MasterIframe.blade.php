@@ -19,6 +19,7 @@
     {!!HTML::script("assets/js/vendor/bsdatepicker/js/bootstrap-datepicker.min.js") !!}
     {!!HTML::script('assets/js/vendor/highcharts/highcharts.js') !!}
     {!!HTML::script("assets/js/vendor/slimscroll/jquery.slimscroll.min.js") !!}
+    {!! HTML::script('assets/js/vendor/clipboard/clipboard.js') !!}
     {!!HTML::script('assets/js/fx.js') !!}
     {!!HTML::script("assets/js/fo-main.js")!!}
     <title>Frontoffice</title>

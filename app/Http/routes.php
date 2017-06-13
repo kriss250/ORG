@@ -224,6 +224,8 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get("/Backoffice/Debts/unexported",["uses"=>"POSCreditController@unexportedDebts"]);
     Route::get("/Backoffice/Debts/internal",["uses"=>"POSCreditController@internalDebts"]);
     Route::get("/Backoffice/Debts/external",["uses"=>"POSCreditController@externalDebts"]);
+    Route::get("/Backoffice/Debts/json",["uses"=>"InvoiceController@getDebts"]);
+    Route::get("/Backoffice/Debts/browse",["uses"=>"InvoiceController@browseDebts"]);
     Route::get("/Backoffice/Debts/export",["uses"=>"POSCreditController@export"]);
     Route::get("/Backoffice/Settings/changePassword",function(){
     	return \View::make("Backoffice.ChangePassword");

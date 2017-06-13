@@ -226,4 +226,28 @@ class InvoiceController extends Controller
         $inv = \App\Invoice::where("code","=",$code)->where(\DB::raw("year(created_at)"),"=",date("Y"))->first();
         return $inv!=null;
     }
+
+    public function browseDebts()
+    {
+        return \View::make("Backoffice.BrowseDebts");
+    }
+    public function getDebts()
+    {
+        $start_date =isset($_GET['startdate']) ? $_GET['startdate'] :  date("Y-m-d",strtotime(\ORG\Dates::$RESTODT));
+        $end_date = isset($_GET['enddate']) ? $_GET['enddate'] : $start_date;
+
+        $range = [$start_date,$end_date];
+        $range_fo = [$start_date,$end_date];
+        array_push($range,\ORG\Bill::CREDIT);
+
+        $pos_data = \DB::select("select idbills,bill_total,customer,amount_paid,bills.date,username from bills join users on users.id=user_id where deleted=0 and export_credit=0 and date(bills.date) between ? and ? and (status =?)",$range);
+
+        $fo_data= \DB::connection("mysql_book")->select("select idreservation,checkin,checkout,concat_ws(' ',firstname,lastname)as guest,payer,companies.name,paid_amount,due_amount,(due_amount-paid_amount) as dues from reservations
+            join guest on guest.id_guest = reservations.guest_id
+            left join companies on companies.idcompanies = company_id
+            where status=6 and due_amount > paid_amount and date(checked_out) between ? and  ? group by idreservation
+            ",$range_fo);
+
+        echo json_encode(["data"=>$pos_data,"fo_data"=>$fo_data]);
+    }
 }

@@ -700,6 +700,7 @@
     <Compile Include="resources\lang\en\passwords.php" />
     <Compile Include="resources\lang\en\validation.php" />
     <Compile Include="resources\views\Backoffice\addAnnouncement.blade.php" />
+    <Compile Include="resources\views\Backoffice\browseDebts.blade.php" />
     <Compile Include="resources\views\Backoffice\Admin\AdminDash.blade.php" />
     <Compile Include="resources\views\Backoffice\Admin\Master.blade.php" />
     <Compile Include="resources\views\Backoffice\BillFinder.blade.php" />
@@ -1158,6 +1159,7 @@
     <Content Include="public\assets\css\hr.css" />
     <Content Include="public\assets\css\keyboard.css" />
     <Content Include="public\assets\css\OpenSans-font.css" />
+    <Content Include="public\assets\css\org_template.css" />
     <Content Include="public\assets\css\setup.css" />
     <Content Include="public\assets\css\print-doc.css" />
     <Content Include="public\assets\css\orders.css" />
