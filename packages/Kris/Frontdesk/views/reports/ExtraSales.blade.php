@@ -21,6 +21,13 @@
         </thead>
         <?php $credit  = 0 ; $paid=0; ?>
         @foreach($sales as $sale)
+        <?php
+         if(!isset($cr_totals[$sale->alias]))
+        {
+           $cr_totals[$sale->alias] = 0;
+        }
+        ?>
+
         <tr>
             <td class="text-left">{{$sale->guest}}</td>
             <td>{{$sale->service}}</td>
@@ -35,6 +42,7 @@
                 if($sale->is_credit==0)
                 {
                     $paid += $sale->amount;
+                    $cr_totals[$sale->alias] += $sale->amount;
                 }else {
                     $credit += $sale->amount;
                 }
@@ -47,13 +55,23 @@
             <tr>
                 <td colspan="3">TOTAL</td>
                 <td>{{ number_format($paid)}}</td>
-                <td>{{ number_format($credit)}}</td>
+                <td>{{number_format($credit)}}</td>
                 <td></td>
                 <td></td>
                 <td></td>
             </tr>
         </tfoot>
     </table>
-</div>
+
+    Currencies
+    <table class="table table-bordered table-condensed">
+        <tr>
+            @foreach($cr_totals as $key=>$val)
+            <th>
+                <b>{{$key}} {{number_format($val)}}</b>
+            </th>
+            @endforeach
+        </tr>
+    </table></div>
 
 @stop

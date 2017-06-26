@@ -182,7 +182,7 @@
 
 		    //var qty = parseInt($(this).val());
 		    var id = $(this).parent().parent().attr("data-oid");
-		    var price = parseInt($(this).val());
+		    var price = parseFloat($(this).val());
 		    var rowTotalField = $(".row_total" + id);
 
 
@@ -192,7 +192,7 @@
 		        qty = billItems[id].qty;
 		        billItems[id].price = price;
 
-		        billItems[id].total = billItems[id].price * qty;
+		        billItems[id].total = Math.ceil(billItems[id].price * qty);
 
 		        billTotal -= prevTotal;
 		        billTotal += billItems[id].total;
@@ -245,7 +245,7 @@
 		        }
 
 		        $(rowTotalField).val(billItems[id].total);
-		        taxTotal = (billTotal * 18) / 100;
+		        taxTotal = Math.ceil((billTotal * 18) / 100);
 
 		        $(taxField).val(taxTotal);
 
@@ -1652,7 +1652,7 @@
 		    var qtyCol = $("<td>").html($(prod_qty));
 
             billTotal += product.total;
-            taxTotal = (billTotal*options.taxPercent)/100;
+            taxTotal =Math.ceil((billTotal*options.taxPercent)/100);
 
             billItems.push(product);
             
@@ -1663,7 +1663,7 @@
 			$(row).append($("<td>").html(deleteBtn));
 			
 			$(table).append($(row));
-
+			billTotal = Math.ceil(billTotal);
 			$(billTotalField).val(billTotal);
 			$(taxField).val(taxTotal);
 

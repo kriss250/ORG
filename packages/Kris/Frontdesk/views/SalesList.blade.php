@@ -21,35 +21,57 @@
 
     <div class="clearfix"></div>
 </div>
+<div style="padding:0" class="inline-fieldsets list-wrapper">
+    <p class="list-wrapper-title">Extra Sales</p>
+    <table class="table table-condensed table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Guest</th>
+                <th>Service</th>
+                <th>Paid</th>
+                <th>Credit</th>
+                <th>Pay. Method</th>
+                <th>User</th>
+                <th>Date</th>
+                <th><i class="fa fa-trash"></i></th>
+            </tr>
+        </thead>
 
-<table class="table table-condensed table-bordered">
-    <thead>
+        @foreach($data as $sale)
         <tr>
-            <th>Guest</th>
-            <th>Service</th>
-            <th>Receipt</th>
-            <th>Paid</th>
-            <th>Credit</th>
-            <th>Pay. Method</th>
-            <th>User</th>
-            <th>Date</th>
+            <td>{{$sale->idmisc_sales}}</td>
+            <td class="text-left">{{$sale->guest}}</td>
+            <td>{{$sale->service}}</td>
+            <td>{{$sale->is_credit == "0" ? $sale->amount : ""}}</td>
+            <td>{{$sale->is_credit == "1" ? $sale->amount : ""}}</td>
+            <td>{{            $sale->method_name}}</td>
+            <td>{{$sale->username}}</td>
+            <td>{{            $sale->date}}</td>
+            <td>
+                <ul class="list-inline">
+
+                    <li class="col-xs-5 pull-left">
+                        <a class="btn btn-default btn-xs" title="Print" data-toggle="tooltip" onclick="openWindow('printExtraSalesReceipt/{{$sale->idmisc_sales}}',this,'Print Receipt',970,580);" href="#">
+                            <i class="fa fa-print"></i>
+                        </a>
+                    </li>
+
+                    <!--<li class="col-xs-5 pull-right">
+                        <a class="btn btn-xs btn-danger" href="#">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </li>-->
+
+                    
+                </ul>
+
+                
+            </td>
         </tr>
-    </thead>
-
-    @foreach($data as $sale)
-    <tr>
-        <td class="text-left">{{$sale->guest}}</td>
-        <td>{{$sale->service}}</td>
-        <td>{{$sale->receipt}}</td>
-        <td>{{$sale->is_credit == "0" ? $sale->amount : ""}}</td>
-        <td>{{$sale->is_credit == "1" ? $sale->amount : ""}}</td>
-        <td>{{$sale->method_name}}</td>
-        <td>{{$sale->username}}</td>
-        <td>{{$sale->date}}</td>
-    </tr>
-    @endforeach
-</table>
-
+        @endforeach
+    </table>
+</div>
 @if(isset($data) && count($data)>0)
 
 @endif

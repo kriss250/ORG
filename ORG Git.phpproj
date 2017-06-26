@@ -26,6 +26,7 @@
     <Compile Include="packages\kris\Backoffice\src\Http\Controllers\ProformaController.php" />
     <Compile Include="packages\kris\Backoffice\src\Proforma.php" />
     <Compile Include="packages\kris\Backoffice\src\ProformaItem.php" />
+    <Compile Include="packages\kris\Frontdesk\views\printExtraSalesReceipt.blade.php" />
     <Compile Include="packages\kris\HR\src\Controllers\AbsenceController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\AdvanceController.php" />
     <Compile Include="packages\kris\HR\src\Controllers\LeaveController.php" />

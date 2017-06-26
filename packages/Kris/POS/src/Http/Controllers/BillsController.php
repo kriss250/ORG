@@ -160,7 +160,7 @@ class BillsController extends Controller
 
         $billid = DB::table('bills')->insertGetId([
                     "waiter_id"=> $data['waiter_id'],
-                    "bill_total"=>$data['billTotal'],
+                    "bill_total"=>ceil($data['billTotal']),
                     "tax_total"=> $data['taxTotal'],
                     "customer"=>$data['customer'],
                     "user_id"=> \Auth::user()->id,

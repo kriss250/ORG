@@ -123,8 +123,9 @@ class ReportsController extends Controller
                 return \View::make("Frontdesk::reports.Housekeeping",["tasks"=>$tasks]);
 
             case "extraSales":
-                $q = "SELECT idmisc_sales,is_credit,guest,receipt,service,method_name,amount,username,misc_sales.date FROM misc_sales
+                $q = "SELECT idmisc_sales,is_credit,guest,currencies.alias,receipt,service,method_name,amount,original_amount,username,misc_sales.date FROM misc_sales
                                 join users on users.idusers = user_id
+                                left join currencies on currencies.idcurrency = misc_sales.currency
                                 left join pay_method on pay_method.idpay_method = pay_mode where date(misc_sales.date) between ? and ?";
 
                 $data = \DB::connection("mysql_book")->select($q,$range);

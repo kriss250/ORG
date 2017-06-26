@@ -303,7 +303,7 @@ order by reservations.status desc ",[$enddate,$date]);
                 $errors[] = "Please Payment method";
             }
 
-            $q = "insert into misc_sales (guest,receipt,service,description,amount,pay_mode,is_credit,date,user_id) values(?,?,?,?,?,?,?,?,?)";
+            $q = "insert into misc_sales (guest,service,description,amount,pay_mode,is_credit,date,user_id,currency,original_amount) values(?,?,?,?,?,?,?,?,?,?)";
 
 
             if(count($errors)>0)
@@ -312,8 +312,9 @@ order by reservations.status desc ",[$enddate,$date]);
             }else
             {
                 $id = \Kris\Frontdesk\User::me()->idusers;
-
-                \DB::connection("mysql_book")->insert($q,[$data['names'],$data['receipt'],$data['service'],$data['desc'],$data['amount'],$data['pay_method'],$data['mode'],\Kris\Frontdesk\Env::WD()->format("Y-m-d"),$id]);
+                 $currency = \Kris\Frontdesk\Currency::find($data['currency']);
+                 $converted =$data["amount"]*$currency->rate;
+                 \DB::connection("mysql_book")->insert($q,[$data['names'],$data['service'],$data['desc'],$converted,$data['pay_method'],$data['mode'],\Kris\Frontdesk\Env::WD()->format("Y-m-d"),$id,$data['currency'],$data['amount']]);
                 return redirect()->back()->with("msg","Sale saved !");
             }
 
@@ -580,6 +581,18 @@ order by reservations.status desc ",[$enddate,$date]);
     {
         $pay = \Kris\Frontdesk\Payment::find($id);
         return \View::make("Frontdesk::printReceipt",["payment"=>$pay]);
+    }
+
+    function printExtraSalesReceipt($id)
+    {
+        $q = "SELECT idmisc_sales,is_credit,guest,currencies.alias,receipt,description,service,method_name,amount,original_amount,username,misc_sales.date FROM misc_sales
+                                join users on users.idusers = user_id
+                                left join currencies on currencies.idcurrency = misc_sales.currency
+                                left join pay_method on pay_method.idpay_method = pay_mode where idmisc_sales=?";
+
+        $data = \DB::connection("mysql_book")->select($q,[$id]);
+
+        return \View::make("Frontdesk::printExtraSalesReceipt",["payment"=>$data[0]]);
     }
 
 
