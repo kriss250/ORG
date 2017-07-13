@@ -253,7 +253,7 @@
 
 		    } else {
 		        $(this).val(1);
-		        alert("Only numbers are allowed");
+		        //alert("Only numbers are allowed");
 		    }
 		});
 
@@ -331,7 +331,7 @@
 
 				}else {
 					$(this).val(1);
-					alert("Only numbers are allowed");
+					///alert("Only numbers are allowed");
 				}
 		});
 
@@ -744,7 +744,7 @@
 			{
 				$(".total-split-amount").val(cash_amount+card_amount);
 			}else {
-				ualert.error("Only numbers are allowed");
+				//ualert.error("Only numbers are allowed");
 			}
 
 		});
@@ -757,7 +757,7 @@
 			{
 				$(".total-split-amount").val(cash_amount+card_amount);
 			}else {
-				ualert.error("Only numbers are allowed");
+				//ualert.error("Only numbers are allowed");
 			}
 
 		});
@@ -1805,7 +1805,7 @@
 
             } else {
                 $(this).val(1);
-                alert("Only numbers are allowed");
+                //alert("Only numbers are allowed");
             }
         });
 
@@ -1883,7 +1883,7 @@
 
             } else {
                 $(this).val(1);
-                alert("Only numbers are allowed");
+                //alert("Only numbers are allowed");
             }
         });
 

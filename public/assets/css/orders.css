@@ -75,20 +75,22 @@ body {
     overflow:hidden
 }
 
-.product_lists {
+.product_lists 
+{
     max-height:485px;
 }
 
-    .product_lists ul li {
-        border: none !important;
-        color: #070707;
-        background: linear-gradient(to bottom,#f9f9f9,#d8d8d8);
-        font-weight: 400;
-        border-radius: 6px;
-        margin-right: 12px;
-        word-break: break-word;
-        border: 1px solid #989898 !important;
-    }
+.product_lists ul li {
+	border: none !important;
+	color: #070707;
+	background: linear-gradient(to bottom,#f9f9f9,#d8d8d8);
+	font-weight: 400;
+	border-radius: 6px;
+	margin-right: 12px;
+	line-height:1.1;
+	word-break: break-word;
+	border: 1px solid #989898 !important;
+}
 .product_lists ul li:active {
     background:linear-gradient(to top,#10c08e,#0f7d95);
 }

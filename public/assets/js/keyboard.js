@@ -8,7 +8,7 @@
         //aselection
         cursorLoc = getCursorPosition();
         previewContents = previewContents.substr(0, cursorLoc) + $(this).attr("key").toLowerCase() + previewContents.substr(cursorLoc);
-        var inputText = previewContents;
+        var inputText =  previewContents;
         $(".input-preview input").val(inputText);
 
         $(input).val(inputText).trigger("keyup").trigger("change")
@@ -19,7 +19,7 @@
     });
     $("body").on("focus", "input[type=text]", function () {
         var elem = $(this);
-       
+        $(elem).select();
         if (typeof ($(this).attr("readonly")) != "undefined") return;
 
         if ($(this).hasClass("preview-text-box")) {
