@@ -293,6 +293,7 @@ function switchStore(src)
         @endif
 
          <li class="list-group-item"> <a href="{{action('BillsController@index') }}"><i class="fa fa-file-text"></i> Bills</a></li>
+           <li class="list-group-item"> <a href="{{action('OrdersController@index') }}"><i class="fa fa-shopping-cart"></i> Orders</a></li>
         <!--<li class="list-group-item"> <a href="{{action('BillsController@assignedList') }}"><i class="fa fa-reply-all"></i> Assigned Bills</a></li>-->
 
          @if(Auth::user()->level ==10)

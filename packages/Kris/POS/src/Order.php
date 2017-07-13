@@ -18,6 +18,7 @@ class Order extends Model
   protected $primaryKey= "idorders";
   public $timestamps = false;
   protected $table = "orders";
+  public $guarded = [];
   protected $connection = "mysql_pos";
 
   public function items()

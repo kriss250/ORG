@@ -34,6 +34,11 @@ class BackofficeReportController extends Controller
                  $info = POSReport::RoomPosts($range);
 
                 return \View::make("Backoffice.Reports.POS.RoomPosts",$info);
+            case "orders":
+                $waiter = isset($_GET['waiter']) ? $_GET['waiter'] : 0;
+                $info = POSReport::Orders($range,0,$waiter);
+
+                return \View::make("Backoffice.Reports.POS.OrderList",["bills"=>$info]);
             case "debts":
             $info = POSReport::Credits($range);
                 return \View::make("Backoffice.Reports.POS.Credits",$info);

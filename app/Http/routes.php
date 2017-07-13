@@ -185,6 +185,8 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get("POS/Tables/delete/{id}","TableController@delete");
     Route::get("/POS/orders/getorders","OrdersController@getOrders");
     Route::get("/POS/orders/getorder","OrdersController@getOrder");
+    Route::get("/POS/Orders","OrdersController@index");
+    Route::get("/POS/Orders/delete","OrdersController@delete");
 
 });
 

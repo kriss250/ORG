@@ -224,6 +224,53 @@ class POSReport extends Model
         return $bills;
     }
 
+    public static function Orders(Array $range,$store=0,$waiter=0,Array $status=[])
+    {
+
+        $params = $range;
+        $where_waiter = "";
+        $join_store = "";
+        $where_store = "";
+       
+        if(!is_numeric($waiter))
+        {
+            return;
+        }
+        if($waiter>0)
+        {
+            $where_waiter = " (orders.waiter_id=$waiter) and";
+        }
+
+        if(count($status)>0)
+        {
+            $where_status = " status in (".implode(',', $status).") and ";
+        }
+
+
+        $bills= \DB::select("select idorders,customer,store_name,deleted,has_bill,stock,bill_id,orders.date,sum(unit_price*qty) as total,waiter_id,waiter_name,waiters.lastname
+ from orders
+ join waiters on idwaiter = orders.waiter_id
+ join order_items on order_items.order_id = idorders
+ join store on idstore = store_id
+ where $where_waiter date(orders.date) between ? and  ?  group by idorders order by idorders desc ",$params);
+
+        foreach ($bills as $bill) {
+            $params= [$bill->idorders];
+
+            if($store>0)
+            {
+                $join_store = " join categories on categories.id=category_id join store on store.idstore = order_items.store_id";
+                $where_store = " and order_items.store_id=?";
+                array_push($params, $store);
+            }
+
+            $bill->items = \DB::select("select product_name,order_items.qty,order_items.unit_price from order_items join products on products.id=product_id $join_store where order_id=? $where_store",$params);
+        }
+
+        return $bills;
+    }
+
+
     public static function Products($date,$store=0)
     {
     	$store_str = "";

@@ -24,6 +24,27 @@ class OrdersController extends Controller
 
     }
 
+    public function index()
+    {
+        $params =[\ORG\Dates::$RESTODATE,\ORG\Dates::$RESTODATE];
+
+        if(\Auth::user()->level < 9 ){
+            //Prevent viewing past bills (cashiers)
+            $params = [\ORG\Dates::$RESTODATE,\ORG\Dates::$RESTODATE];
+        }else {
+            if(isset($_GET['startdate']))
+            {
+                $params = [$_GET['startdate'],$_GET['startdate']];
+            }
+        }
+        $waiter = 0;
+
+        if(isset($_GET['waiter'])) {$waiter = $_GET['waiter'];}
+        $bills = \App\POSReport::Orders($params,0,$waiter);
+
+        return \View::make("/Pos/OrderList",["bills"=>$bills]);
+    }
+
     public function saveOrder(Request $req)
     {
         $this->orderDate = \ORG\Dates::$RESTODT;
@@ -96,68 +117,6 @@ class OrdersController extends Controller
      */
     public function destroy($id,Request $req)
     {
-        $id = $req->input("id");
-
-        if(\Auth::user()->level < 7)
-        {
-            return "0";
-        }
-
-        //For suspended bills
-        if($req->input("retain",0) == 0){
-            try
-            {
-
-                DB::transaction(function($id) use($id){
-                   // DB::update("delete from bill_items where bill_id=?",[$id]);
-                   // DB::delete("delete from bills where idbills=?",[$id]);
-                     DB::update("update bills set deleted=?,deleted_by=? where idbills=?",
-                        [
-                        1,
-                        Auth::user()->id,//user
-                        $id
-                        ]);
-                    DB::update("update payments set void=1 where bill_id=?",[$id]);
-                });
-
-
-                \ORG\POS::Log("Deleted Suspended Bill #".$id,"danger");
-                return "1";
-
-            }catch (Exception $ex)
-            {
-                return "0";
-            }
-
-        // For paid bills
-        }else{
-
-
-          try
-            {
-                DB::transaction(function($id) use($id){
-                    DB::update("update bills set deleted=?,deleted_by=? where idbills=?",
-                        [
-                        1,
-                        Auth::user()->id,//user
-                        $id
-                        ]);
-                    DB::update("update payments set void=1 where bill_id=?",[$id]);
-                });
-                //Restore items for paid bills only
-                if($id>0)
-                {
-                    $this->restoreProductsFromStockByBill($id);
-                }
-
-                \ORG\POS::Log("Delete Paid Bill #".$id,"danger");
-                return "1";
-
-            } catch (Exception $ex)
-            {
-                return "$ex";
-            }
-        }
 
     }
 
@@ -224,4 +183,11 @@ class OrdersController extends Controller
     }
 
 
+    public function delete()
+    {
+        if(isset($_GET['id']) && is_numeric($_GET['id']))
+        {
+            echo \App\Order::where("idorders",$_GET['id'])->whereNull("bill_id")->update(["deleted"=>"1","deleted_by"=>\Auth::user()->id]);
+        }
+    }
 }

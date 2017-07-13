@@ -720,6 +720,7 @@
     <Compile Include="resources\views\Backoffice\Reports\FlashActivity.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\misc\Creditors.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\misc\Debtors.blade.php" />
+    <Compile Include="resources\views\Backoffice\Reports\POS\OrderList.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\SalesMix.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\POS\WaiterSales.blade.php" />
     <Compile Include="resources\views\Backoffice\Reports\Stock\TransfersOverview.blade.php" />
@@ -807,6 +808,7 @@
     <Compile Include="resources\views\ORGFrontdesk\Reports\index.blade.php" />
     <Compile Include="resources\views\ORGFrontdesk\Reports\Master.blade.php" />
     <Compile Include="resources\views\Pos\assignedBills.blade.php" />
+    <Compile Include="resources\views\Pos\OrderList.blade.php" />
     <Compile Include="resources\views\Pos\BillList.blade.php" />
     <Compile Include="resources\views\Pos\BillPrint.blade.php" />
     <Compile Include="resources\views\Pos\TableList.blade.php" />
