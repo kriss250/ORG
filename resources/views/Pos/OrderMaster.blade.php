@@ -31,7 +31,9 @@
         {!!HTML::script('assets/js/vendor/accounting/accounting.js') !!}
         {!!HTML::script('assets/js/vendor/datetimepicker/js/bootstrap-datetimepicker.min.js') !!}
         {!!HTML::script('assets/js/vendor/datepicker/js/bootstrap-datepicker.min.js') !!}
+        
         {!!HTML::script('assets/js/pos.jquery.js') !!}
+        {!!HTML::script('assets/js/pos.order.jquery.js') !!}
         {!!HTML::script('assets/js/POS.js') !!}
         {!!HTML::script('assets/js/keyboard.js') !!}
     

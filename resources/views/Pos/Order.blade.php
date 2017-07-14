@@ -62,10 +62,7 @@
          $(".waiter-login-wrapper").toggleClass("hidden");
      });
 
-     $(".cancel_login_btn").click(function (e) {
-         e.preventDefault();
-         $(".waiter-login-wrapper").toggleClass("hidden");
-     });
+  
     });
 </script>
 <div class="pos_box row">
@@ -237,7 +234,8 @@
         $(".pos_box").OrderOperation({
             saveOrderUrl : "<?php echo action("OrdersController@saveOrder"); ?>",
             searchUrl:"<?php echo action("ProductsController@searchProduct"); ?>",
-			taxPercent : 18
+            taxPercent: 18,
+            sideOrders :{!! \App\SideDish::all()->pluck("name")->toJson() !!}
 		});
 
         $("#store_list").change(function () {

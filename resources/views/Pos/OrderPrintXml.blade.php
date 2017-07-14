@@ -15,7 +15,7 @@
     <store>{{$order[0]->store_name}}</store>
     <items>
         @foreach($order as $b)
-        <item name="{{$b->product_name }}" qty="{{$b->qty }}" uprice="{{$b->unit_price }}" subtotal="{{$b->product_total }}"></item>
+        <item name="{{ $b->product_name }} {{strlen($b->side_dishes) > 0 ? "(With : ".$b->side_dishes.")" : "" }}" qty="{{$b->qty }}" uprice="{{$b->unit_price }}" subtotal="{{$b->product_total }}"></item>
         @endforeach
     </items>
 

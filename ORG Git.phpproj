@@ -78,6 +78,7 @@
     <Compile Include="packages\kris\HR\views\Home.blade.php" />
     <Compile Include="packages\kris\POS\src\Http\Controllers\TableController.php" />
     <Compile Include="packages\kris\Backoffice\src\Http\Controllers\SystemController.php" />
+    <Compile Include="packages\kris\POS\src\SideDish.php" />
     <Compile Include="packages\kris\POS\src\OrderItem.php" />
     <Compile Include="packages\kris\POS\src\SalesMode.php" />
     <Compile Include="packages\kris\POS\src\Table.php" />
@@ -1190,6 +1191,7 @@
     <Content Include="public\assets\js\hr.js" />
     <Content Include="public\assets\js\fo-main.js" />
     <Content Include="public\assets\js\keyboard.js" />
+    <Content Include="public\assets\js\pos.order.jquery.js" />
     <Content Include="public\assets\js\vendor\bsdatepicker\css\bootstrap-datepicker.min.css" />
     <Content Include="public\assets\js\vendor\bsdatepicker\js\bootstrap-datepicker.min.js" />
     <Content Include="public\assets\js\vendor\clipboard\clipboard-action.js" />

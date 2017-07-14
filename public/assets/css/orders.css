@@ -378,3 +378,64 @@ box-shadow: 0 0 8px #b3d984 inset ;
   box-shadow:0 6px 0 #a54542;
   border-radius: 6px;
 }
+
+.sd-order_btn {
+    font-size: 16px;
+color: #428dab;
+border: 1px solid #ccc;
+padding: 3px 6px;
+margin-right:5px;
+background: #fff;
+border-radius: 3px;
+display: inline-block;
+
+}
+
+.pos_biller tr td:last-child {
+    min-width:85px !important;
+}
+
+.side-orders-wrapper {
+    background:#fff;
+    position:relative;
+    margin:30px auto;
+    padding:15px 30px;
+    z-index:100;
+    font-size:18px;
+    max-width:360px;
+    font-weight:bold;
+    box-shadow:0 0 8px #b1b1b1
+}
+
+.side-orders-wrapper ul {
+    padding:0;
+    margin:0;
+    list-style:none
+}
+
+
+.side-orders-wrapper li span {
+    float:left;
+    display:table;
+}
+
+.side-orders-wrapper li input {
+    float:left;
+    margin-top:-6px;
+    margin-right:5px;
+    display:table
+}
+
+.side-orders-wrapper > p {
+    text-align: center;
+border-bottom: 3px solid #ffc696;
+padding-bottom: 6px;
+
+}
+.side-orders-wrapper li label {
+    margin:0
+}
+
+.side-orders-wrapper ul li {
+
+}

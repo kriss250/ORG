@@ -84,7 +84,7 @@ class OrdersController extends Controller
             }
 
             //$xid = gettype($item->idstore)=="object" ? $item->idstore->store_id : $item->idstore;
-            array_push($orderItems,["order_id"=>$orderid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty,"store_id"=>$data['stock']]);
+            array_push($orderItems,["order_id"=>$orderid,"product_id"=>$item->id,"unit_price"=>$item->price,"qty"=>$item->qty,"store_id"=>$data['stock'],"side_dishes"=>$item->sideOrders]);
         }
 
         $_ins = DB::table("order_items")->insert($orderItems);
@@ -144,7 +144,7 @@ class OrdersController extends Controller
             return "0";
         }
 
-        $sql = "SELECT idorders,date_format(orders.date,'%d/%m/%Y %T') as date,waiter_name,product_name,qty,unit_price,(qty*unit_price) as product_total,product_id,store_name,table_name
+        $sql = "SELECT idorders,date_format(orders.date,'%d/%m/%Y %T') as date,side_dishes,waiter_name,product_name,qty,unit_price,(qty*unit_price) as product_total,product_id,store_name,table_name
                 FROM orders
                 join order_items on order_id = idorders
                 join products on products.id = product_id
