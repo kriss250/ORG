@@ -1,32 +1,5 @@
 ﻿(function ($) {
-    $.fn.loadOrders = function (options) {
-        $.extend({
-            url: "",
-            table_id: 0,
-            waiter_id: 0
-        }, options);
-        var elm = $(this);
-
-        $.ajax({
-            url: options.url,
-            type: "get",
-            "Content-Type": "json",
-            success: function (data) {
-                try {
-                    //data = JSON.parse(data);
-                    $(elm).html("");
-                    $.each(data, function (e, v) {
-                        var li = $("<li class='orders-list-item'>");
-                        $(li).attr("data-order_id", v.idorders).html("<b>" + v.idorders + "</b><i>" + v.waiter.waiter_name + "</i>");
-                        $(elm).append(li)
-                    });
-                } catch (ex) {
-                    alert(ex);
-                }
-            },
-        });
-    };
-
+   
     $.fn.OrderOperation = function (options) {
 
         var billTotal = 0;
