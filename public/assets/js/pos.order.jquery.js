@@ -39,6 +39,7 @@
             var oid = parseInt($(this).parent().parent("tr").attr("data-oid"));
             var saveBtn = $("<button class='btn btn-primary'>");
             pauseBiller();
+            var elm = $(this);
             var sideOrdersWrapper = $("<div class='side-orders-wrapper'>");
             $(sideOrdersWrapper).html("<p>SIDE ORDERS</p>")
             
@@ -60,10 +61,10 @@
                     billItems[oid].sideOrders = checkedItems.join(",");
 
                     row = $("#purchase_table tr")[oid + 1];
-                    var existingSideOrderText = $(".side-order-txt");
+                    var existingSideOrderText = $(elm).parent().parent().find(".side-order-txt");
                     if (typeof existingSideOrderText !== "undefined") $(existingSideOrderText).remove();
                     var sideOrderTxt = $("<b class='side-order-txt'>(With : " + billItems[oid].sideOrders + ")</b>");
-                    $(row).find("td:first-child").append(sideOrderTxt);
+                    $(elm).parent().parent().find("td:first-child").append(sideOrderTxt);
                 } else {
                     $(".side-order-txt").remove();
                 }
