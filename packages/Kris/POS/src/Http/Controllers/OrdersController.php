@@ -175,7 +175,10 @@ class OrdersController extends Controller
 
     public function getOrder()
     {
-        $order = \App\Order::where("idorders",$_GET['id'])->where("has_bill","0")->where("deleted","0")->where(\DB::raw("date(date)"),\ORG\Dates::$RESTODATE)->get()->first()->load("waiter");
+
+        $order = \App\Order::where("idorders",$_GET['id'])->where("has_bill","0")->where("deleted","0")->where(\DB::raw("date(date)"),\ORG\Dates::$RESTODATE)->get()->first();
+        if($order == null) return [];
+        $order->load("waiter");
         $data=  ["order"=>$order,
             "items"=> $order != null ? $order->items->load("product")->all() : []
             ];

@@ -480,12 +480,10 @@
                 $(".pos_mask").remove();
                 $(".pay_box").hide();
             }
-
         });
 
 
         //Search Products
-
         $("#product_search").keyup(function (e) {
             if ($(searchTextBox).val().length > 0) {
                 searchProduct($(searchTextBox).val());
@@ -540,8 +538,6 @@
             })
         }
 
-
-      
 
         $(".pos_biller").on("click", '.search_prod', function (e) {
 

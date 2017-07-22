@@ -1334,7 +1334,7 @@
 		                $(sResults).append(li)
 
 		            } catch (ex) {
-		                alert(ex);
+		                //alert(ex);
 		            }
 		        },
 		    });
