@@ -809,6 +809,7 @@
     <Compile Include="resources\views\ORGFrontdesk\Reports\index.blade.php" />
     <Compile Include="resources\views\ORGFrontdesk\Reports\Master.blade.php" />
     <Compile Include="resources\views\Pos\assignedBills.blade.php" />
+    <Compile Include="resources\views\Pos\EditWaiter.blade.php" />
     <Compile Include="resources\views\Pos\OrderList.blade.php" />
     <Compile Include="resources\views\Pos\BillList.blade.php" />
     <Compile Include="resources\views\Pos\BillPrint.blade.php" />

@@ -77,7 +77,7 @@ class ProductsCategoryController extends Controller
          }
 
          if(count($errors)==0){
-            $saved  = \DB::insert("insert into categories (category_name,description,store_id,date) values(?,?,?,?)",[$data['category_name'],$data['description'],$data['store'],date(\ORG\Dates::DBDATEFORMAT) ]);
+            $saved  = \DB::insert("insert into categories (category_name,description,date) values(?,?,?)",[$data['category_name'],$data['description'],date(\ORG\Dates::DBDATEFORMAT) ]);
          }
 
         if($saved){

@@ -27,6 +27,21 @@ $(document).ready(function(){
             "defaultContent": $(buttons).html()
         }]
 	});
+
+
+    $("#table").on("click",".edit_btn",function(e){
+		e.preventDefault();
+		var id = $(this).parent().parent().children('td').html();
+
+		if(isNaN(parseInt(id))){
+			//not a number
+		}else {
+		    uri = decodeURI("{{ action('WaiterController@edit') }}");
+		    uri = uri.replace('{Waiters}', id);
+		   window.location.href = uri;
+		}
+	});
+
 })
 	
 </script>

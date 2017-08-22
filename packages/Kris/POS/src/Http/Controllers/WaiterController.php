@@ -101,7 +101,7 @@ class WaiterController extends Controller
      */
     public function edit($id)
     {
-        //
+         return \View::make("Pos.EditWaiter",["waiter"=>\App\Waiter::find($id)] );
     }
 
     /**
@@ -112,7 +112,18 @@ class WaiterController extends Controller
      */
     public function update($id)
     {
-        //
+        $waiter = \App\Waiter::find($id);
+        $waiter->firstname = $_POST['firstname'];
+        $waiter->lastname=  $_POST['lastname'];
+
+        if(strlen($_POST['pin']) > 2)
+        {
+            $waiter->PIN = md5($_POST['pin']);
+        }
+
+        if($waiter->save()){
+            return json_encode(["success"=>"1"]);
+        }
     }
 
     /**
