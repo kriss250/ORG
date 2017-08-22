@@ -566,12 +566,14 @@ display: block;">
 <footer>
     <div class="row">
         <div class="col-xs-7">
+            @if(\Kris\Frontdesk\User::session()->group_id !=\Kris\Frontdesk\UserGroup::HOUSEKEEPER)
             <form class="form-btn" method="get" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@checkin",[$res->idreservation,$res->room_id])}}">
                 <button type="submit" {{$res->status==\Kris\Frontdesk\Reservation::ACTIVE ? "" : "disabled"}} class="btn btn-success">Checkin</button>
             </form>
             <form class="form-btn confirm-form-submit" data-msg="Are you sure you want to check out this guest ?"  method="get" action="{{action("\Kris\Frontdesk\Controllers\ReservationsController@checkout",[$res->idreservation,$res->room_id])}}">
                 <button {{$res->status==\Kris\Frontdesk\Reservation::CHECKEDIN ? "" : "disabled"}} class="btn btn-danger">Checkout</button>
              </form>
+            @endif
                 @if($res->status==\Kris\Frontdesk\Reservation::ACTIVE  || $res->status==\Kris\Frontdesk\Reservation::CHECKEDIN)
                 <button type="button" onclick="window.open('{{action("\Kris\Frontdesk\Controllers\OperationsController@forms","addCharge")}}?id={{$res->idreservation}}','','width=400,height=320')" style="font-size:12px" class="btn btn-default"><i class="fa fa-plus"></i> Add Charge</button>
                 <button  style="font-size:12px" class="btn btn-default update-btn"><i class="fa fa-save"></i> Update</button>
@@ -601,11 +603,12 @@ display: block;">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
-
+                @if(\Kris\Frontdesk\User::session()->group_id !=\Kris\Frontdesk\UserGroup::HOUSEKEEPER)
                 <ul class="dropdown-menu">
                     <li><a href="{{action("\Kris\Frontdesk\Controllers\ReservationsController@cancel",$res->idreservation)}}">Cancel Reservation</a></li>
                     <li><a href="{{action("\Kris\Frontdesk\Controllers\ReservationsController@noshow",$res->idreservation)}}">Mark as no show</a></li>
                 </ul>
+                @endif
             </div>
         </div>
     </div>

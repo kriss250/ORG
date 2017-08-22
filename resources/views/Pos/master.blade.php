@@ -271,70 +271,79 @@ function switchStore(src)
             </span>
         </span>
 
-       <ul>
-         <li class="list-group-item"><a href="{{route('pos') }}"><i class="fa fa-home"></i> Home</a></li>
-
-         @if(Auth::user()->level >7)
-         <li class="list-group-item dropdown"><a href=""> <i class="fa fa-archive"></i> Products </a>
-         <span><i class="fa fa-angle-down"></i></span>
-            <ul class="dropdown_menu">
-            <li><a href="{{action('StoreController@create') }}">New Store</a></li>
-                <li><a href="{{action('StoreController@index') }}">Stores' List</a></li>
-              <li><a href="{{action('ProductsController@create') }}">New Product</a></li>
-              <li><a href="{{action('ProductsCategoryController@create') }}">New Category</a></li>
-              <li><a href="{{action('ProductsSubCategoryController@create') }}">New Subcategory</a></li>
-              <li><a href="{{action('ProductsController@index') }}">Product List</a></li>
-                <li><a href="{{action('ProductsController@categoryStore') }}">Category to Store</a></li>
-                <li><a href="{{action('ProductsController@productPrice') }}">Product Prices</a></li>
-              <li><a href="{{action('ProductsCategoryController@index') }}">Category List</a></li>
-              <li><a href="{{action('ProductsSubCategoryController@index') }}">SubCategory List</a></li>
-            </ul>
-         </li>
-        @endif
-
-         <li class="list-group-item"> <a href="{{action('BillsController@index') }}"><i class="fa fa-file-text"></i> Bills</a></li>
-           <li class="list-group-item"> <a href="{{action('OrdersController@index') }}"><i class="fa fa-shopping-cart"></i> Orders</a></li>
-        <!--<li class="list-group-item"> <a href="{{action('BillsController@assignedList') }}"><i class="fa fa-reply-all"></i> Assigned Bills</a></li>-->
-
-         @if(Auth::user()->level ==10)
-             <li class="list-group-item dropdown"><a href="#"><i class="fa fa-users"></i> People & Tbs</a>
-             <span><i class="fa fa-angle-down"></i></span>
+         <ul>
+             <li class="list-group-item"><a href="{{route('pos') }}"><i class="fa fa-home"></i> Home</a></li>
+             @if(Auth::user()->level >5)
+             <li class="list-group-item dropdown">
+                 <a href=""> <i class="fa fa-archive"></i> Products </a>
+                 <span><i class="fa fa-angle-down"></i></span>
                  <ul class="dropdown_menu">
-                    <li><a href="{{action('UsersController@create') }}">New User</a></li>
-                    <li><a href="{{action('CustomersController@create') }}">New Customer</a></li>
-                    <li><a href="{{action('WaiterController@create') }}">New Waiter</a></li>
-                    <li><a href="{{action('UsersController@index') }}">User Lists</a></li>
-                    <li><a href="{{action('WaiterController@index') }}">Waiter List</a></li>
-                    <li><a href="{{action('TableController@create') }}">Create Table</a></li>
-                    <li><a href="{{action('TableController@index') }}">Table List</a></li>
+                     <li><a href="{{action('StoreController@create') }}">New Store</a></li>
+                     <li><a href="{{action('StoreController@index') }}">Stores' List</a></li>
+                     <li><a href="{{action('ProductsController@create') }}">New Product</a></li>
+                     <li><a href="{{action('ProductsCategoryController@create') }}">New Category</a></li>
+                     <li><a href="{{action('ProductsSubCategoryController@create') }}">New Subcategory</a></li>
+                     <li><a href="{{action('ProductsController@index') }}">Product List</a></li>
+                     <li><a href="{{action('ProductsController@categoryStore') }}">Category to Store</a></li>
+                     <li><a href="{{action('ProductsController@productPrice') }}">Product Prices</a></li>
+                     <li><a href="{{action('ProductsCategoryController@index') }}">Category List</a></li>
+                     <li><a href="{{action('ProductsSubCategoryController@index') }}">SubCategory List</a></li>
                  </ul>
              </li>
+             @endif
 
-         <li class="list-group-item dropdown"> <a href="#"><i class="fa fa-cog"></i> Settings</a>
-         <span><i class="fa fa-angle-down"></i></span>
-              <ul class="dropdown_menu">
-                 <li><a href="{{action('SettingsController@create') }}">General</a></li>
-                 <li><a href="{{url('/POS/Settings/changePassword') }}">Change Password</a></li>
-              </ul>
-         </li>
-         @endif
+             @if(Auth::user()->level > 3)
+             <li class="list-group-item"> <a href="{{action('BillsController@index') }}"><i class="fa fa-file-text"></i> Bills</a></li>
+             <li class="list-group-item"> <a href="{{action('OrdersController@index') }}"><i class="fa fa-shopping-cart"></i> Orders</a></li>
+             @endif
 
-         <li class="list-group-item"> <a style="color:#C81313" onclick="confirmNewDay(this);" data-destination="<?php echo action("SettingsController@newDay"); ?>"><i class="fa fa-calendar"></i> New Day</a></li>
-         <li class="list-group-item dropdown"> <a href=""><i class="fa fa-files-o"></i> Reports</a>
+             @if(Auth::user()->level > 5)
+             <li class="list-group-item dropdown">
+                 <a href="#"><i class="fa fa-users"></i> People & Tbs</a>
+                 <span><i class="fa fa-angle-down"></i></span>
+                 <ul class="dropdown_menu">
+                     @if(Auth::user()->level > 8)
+                     <li><a href="{{action('UsersController@create') }}">New User</a></li>
+                     @endif
+                     <li><a href="{{action('CustomersController@create') }}">New Customer</a></li>
+                     <li><a href="{{action('WaiterController@create') }}">New Waiter</a></li>
+                     @if(Auth::user()->level > 8)
+                     <li><a href="{{action('UsersController@index') }}">User Lists</a></li>
+                     @endif
+                     <li><a href="{{action('WaiterController@index') }}">Waiter List</a></li>
+                     <li><a href="{{action('TableController@create') }}">Create Table</a></li>
+                     <li><a href="{{action('TableController@index') }}">Table List</a></li>
+                 </ul>
+             </li>
+             @endif
 
-         <span><i class="fa fa-angle-down"></i></span>
-             <ul class="dropdown_menu">
-                <!--<li><a href="{{route('POSReports','summaryDay') }}">Sales Report</a></li>-->
-                 <li><a href="{{route('POSReports','MyShiftReport') }}">My Shift Report</a></li>
-                 <li><a href="{{route('POSReports','DailySalesMix') }}">Sales Report</a></li>
-                 <li><a href="{{route('POSReports','RoomPost') }}">Room Posts</a></li>
-                 <li><a href="{{route('POSReports','Credits') }}">Credit</a></li>
-                  <li><a href="{{route("POSReports",'Cashier') }}">Cashier Report</a></li>
-                 <li><a href="{{route('POSReports','CashierShift') }}">Shift Report(Summary)</a></li>
-
-              </ul>
-         </li>
-       </ul>
+             <li class="list-group-item dropdown">
+                 <a href="#"><i class="fa fa-cog"></i> Settings</a>
+                 <span><i class="fa fa-angle-down"></i></span>
+                 <ul class="dropdown_menu">
+                     @if(Auth::user()->level > 5)
+                     <li><a href="{{action('SettingsController@create') }}">General</a></li>
+                     @endif
+                     <li><a href="{{url('/POS/Settings/changePassword') }}">Change Password</a></li>
+                 </ul>
+             </li>
+             @if(Auth::user()->level > 4)
+             <li class="list-group-item"> <a style="color:#C81313" onclick="confirmNewDay(this);" data-destination="<?php echo action("SettingsController@newDay"); ?>"><i class="fa fa-calendar"></i> New Day</a></li>
+             @endif
+             <li class="list-group-item dropdown">
+                 <a href=""><i class="fa fa-files-o"></i> Reports</a>
+                 <span><i class="fa fa-angle-down"></i></span>
+                 <ul class="dropdown_menu">
+                     <!--<li><a href="{{route('POSReports','summaryDay') }}">Sales Report</a></li>-->
+                     <li><a href="{{route('POSReports','MyShiftReport') }}">My Shift Report</a></li>
+                     <li><a href="{{route('POSReports','DailySalesMix') }}">Sales Report</a></li>
+                     <li><a href="{{route('POSReports','RoomPost') }}">Room Posts</a></li>
+                     <li><a href="{{route('POSReports','Credits') }}">Credit</a></li>
+                     <li><a href="{{route("POSReports",'Cashier') }}">Cashier Report</a></li>
+                     <li><a href="{{route('POSReports','CashierShift') }}">Shift Report(Summary)</a></li>
+                 </ul>
+             </li>
+         </ul>
      </nav>
 
     @if(\Session::get("pos.mode")=="default")

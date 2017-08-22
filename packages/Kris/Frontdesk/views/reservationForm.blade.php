@@ -289,7 +289,7 @@
                         <option value="">Choose Country</option>
                         @foreach(Kris\Frontdesk\Countries::$list as $country)
                         <option>
-                            {{$country}}
+                            {{    $country}}
                         </option>
                         @endforeach
                     </select>
@@ -308,7 +308,9 @@
 
         <div class="clearfix"></div>
         <footer>
+             @if(\Kris\Frontdesk\User::session()->group_id !=\Kris\Frontdesk\UserGroup::HOUSEKEEPER)
             <button class="btn btn-primary"><i class="fa fa-calendar"></i> Reserve</button>
+            @endif
         </footer>
 
     </form>

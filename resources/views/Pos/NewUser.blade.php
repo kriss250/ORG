@@ -8,7 +8,7 @@
 
 <br>
 <form name="reg_form" style="max-width:500px;" id="user_reg_form" action="{{ action('UsersController@store')}}" method="post">
-<input type="hidden" name="_token" value="{{ csrf_token() }}">
+<input type="hidden" name="_token" value="{{csrf_token() }}">
 
   <div class="form-group">
     <label for="exampleInputEmail1">Firstname</label>
@@ -28,8 +28,13 @@
 
 
 <div class="form-group">
-    <label for="exampleInputEmail1">Level (1-10)</label>
-    <input type="range" name="level"  step="1" value="1" min="1" max="10" class="form-control" placeholder="">
+    <label for="exampleInputEmail1">Group</label>
+    <select class="form-control" name="level">
+        <option value="3">Viewer</option>
+        <option selected value="4">Cashier</option>
+        <option value="5">Supervisor</option>
+        <option value="6">POS Admin</option>
+    </select>
   </div>
 
   <div class="form-group">

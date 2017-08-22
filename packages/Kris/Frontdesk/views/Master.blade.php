@@ -77,7 +77,7 @@
 Floors View</a> </li>
                     </ul>
                 </li>
-
+            @if(\Kris\Frontdesk\User::session()->group_id ==\Kris\Frontdesk\UserGroup::HOUSEKEEPER)
                 <li>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">Housekeeping <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                     <ul class="dropdown-menu">
@@ -89,11 +89,11 @@ Floors View</a> </li>
                         <!--<li><a href="#">Lost and found</a></li>-->
                     </ul>
                 </li>
-    @if(\Kris\Frontdesk\User::session()->group_id <=3)
+            @endif
+    @if(\Kris\Frontdesk\User::session()->group_id <=\Kris\Frontdesk\UserGroup::MANAGER)
             <li>
                 <a data-toggle="tab" href="#pane-3">
                     <i class="fa fa-cogs"></i>Settings
-
                 </a>
             </li>
     @endif
@@ -107,11 +107,11 @@ Floors View</a> </li>
                     <a data-toggle="tab" href="#pane-2">Reports</a>
                     
                 </li>
-
+            @if(\Kris\Frontdesk\User::session()->group_id !=\Kris\Frontdesk\UserGroup::HOUSEKEEPER)
                 <li>
                     <a href="#" onclick="openWindow('newDay')"><i style="color:rgb(144, 192, 203)" class="fa fa-moon-o"></i> New Day</a>
                 </li>
-
+            @endif
                 <div class="notification-menu">
                     System Date : <span style="font-weight: bold !important;background: rgba(236, 240, 241, 0.86) none repeat scroll 0% 0%;
 padding: 2px 6px;
@@ -222,12 +222,14 @@ margin-right: 8px;">
 
                         <li style="padding:1px 15px" class="menu-group">
                             <ul>
+                                @if(\Kris\Frontdesk\User::session()->group_id ==\Kris\Frontdesk\UserGroup::HOUSEKEEPER || \Kris\Frontdesk\User::session()->group_id < 3 )
                                 <li>
                                     <a data-iframe="yes" data-desc="Manage room status" class="dlg-btn" title="Room status management" data-toggle="modal" onclick="openDialog('/fo/section/frame/roomStatus','Reservation','width=850,height=610,resizable=no',this)" href="#">
                                         <img src="/images/frontdesk/hue.svg" />
                                         Room Status
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
 

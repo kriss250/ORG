@@ -2,7 +2,7 @@
 
 @section("contents")
 
-@if (Auth::user()->level > 5)
+@if (Auth::user()->level > 3)
 <script>
         $(document).ready(function(){
 			$("html").css({

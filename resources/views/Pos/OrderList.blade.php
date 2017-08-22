@@ -33,6 +33,11 @@
     .deleted-order td{
         text-decoration: line-through !important;
     }
+
+    .c-btn {
+        border:none;
+        background:none;
+    }
 </style>
 <br />
 
@@ -98,7 +103,7 @@
 
                   <td rowspan='$zi'>".\App\FX::Time($bill->date)."</td>
                   <td rowspan='$zi'>
-                     <button class='cancel-order-btn'data-id='{$bill->idorders}'><i class='fa fa-".(($bill->bill_id<0 || $bill->bill_id == null) ? 'trash' : 'check')."'></i></button>
+                     <button class='".(Auth::user()->level > 5 ? 'cancel-order-btn' : 'c-btn')."'data-id='{$bill->idorders}'><i class='fa fa-".(($bill->bill_id<0 || $bill->bill_id == null) ? 'trash' : 'check')."'></i></button>
                   </td>
             </tr>".$sub_rows;
 

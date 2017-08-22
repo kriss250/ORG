@@ -33,7 +33,7 @@ class UniversalUsersController extends Controller
      */
     public function create()
     {
-        //
+        return \View::make("Backoffice.NewUser");
     }
 
     /**

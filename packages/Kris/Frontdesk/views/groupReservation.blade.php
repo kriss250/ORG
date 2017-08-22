@@ -230,7 +230,7 @@
                         <option value="">Choose Method</option>
                         @foreach(Kris\Frontdesk\PayMethod::all() as $mode)
                         <option value="{{$mode->idpay_method}}">
-                            {{$mode->method_name}}
+                            {{    $mode->method_name}}
                         </option>
                         @endforeach
                     </select>
@@ -244,7 +244,9 @@
 
         <div class="clearfix"></div>
         <footer>
+            @if(\Kris\Frontdesk\User::session()->group_id !=\Kris\Frontdesk\UserGroup::HOUSEKEEPER)
             <button type="submit" class="btn btn-primary"><i class="fa fa-calendar"></i> Reserve</button>
+            @endif
         </footer>
 
     </form>

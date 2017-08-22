@@ -37,11 +37,20 @@
 
     <title>Backoffice | ORG Systems</title>
     <?php
+   
       $logos =\App\Settings::get("logo");
       $logo = isset($logos[0]) ? $logos[0] : null;
     ?>
+
 </head>
 <body>
+    <?php if(Auth::user()->level  < 7) { ?>
+
+    <script>
+        location.href= "/";
+    </script>
+
+    <?php } ?>
     <style type="text/css">
         .input-group .twitter-typeahead {
             display: block !important;
@@ -340,7 +349,7 @@
                             <ul class="dropdown-menu">
                                 <!--<li><a href="{{ action("UniversalUsersController@create") }}">New User</a> </li>-->
                                 <li><a href="{{ action("UniversalUsersController@index") }}">User List</a> </li>
-
+                                 <li><a href="{{ action("UniversalUsersController@create") }}">Create User</a> </li>
                             </ul>
                         </li>
                         @endif
