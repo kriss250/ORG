@@ -19,7 +19,7 @@ $_enddate =isset($_GET['enddate'])? new \Carbon\Carbon($_GET['enddate']) : \Kris
             <h3>{{\App\Settings::get("name")}}</h3>
             <p>Phone: {{\App\Settings::get('phones')[0]}} / {{\App\Settings::get('phones')[1]}}</p>
             <p>Email: {{\App\Settings::get('email')}}</p>
-            <p>Address: {{$hotel->address_line1}}</p>
+            <p>Address: {{\App\Settings::get('city')}} - {{\App\Settings::get('state')}} </p>
             <p>TIN : {{\App\Settings::get('tin')}}</p>
         </div>
     </div>
