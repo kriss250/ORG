@@ -1091,11 +1091,10 @@
 		//end share bill
 
 		//Open Bill
-		$(suspList).on('click','.bill_open_btn',function(e){
+		$(".pos_box").on('click','.bill_open_btn',function(e){
 
 			e.preventDefault();
 			$(this).attr("disabled","disabled");
-			
 			
 			var local_id = parseInt($(this).attr("data-sus_id"));
 			var db_id = parseInt($(this).attr("data-bill_id"));
@@ -1131,14 +1130,16 @@
 
 	            		$(customerField).val(thebill.customer);
 	            		$(customerField).attr("value", thebill.customer);
-			            $(taxField).val(thebill.tax_total);
-			            $(billTotalField).val(thebill.bill_total);
+	            		$(taxField).val(thebill.tax_total);
+	            		
+	            		var calcTotal = thebill.bill_total - (thebill.is_fixed_discount ? thebill.discount : (thebill.discount * thebill.bill_total) / 100);
+	            		$(billTotalField).val(calcTotal);
+	            		
 			            $(waiterField).val(thebill.waiter_id).trigger("chosen:updated");
-
 			            
 
 			            $.each(Data[0], function (key, value) {
-
+			                value.bill = { id: thebill.idbills, discount: { fixed: thebill.is_fixed_discount == 0, value: thebill.discount } };
 			            	addProductToBill(value);
 
 			            });
@@ -1519,8 +1520,16 @@
 		            $.each(bills[1], function (index, res) {
 		                //Add bill to suspendedlist
 		                var billDate = new Date(Date.parse(res.date));
-		                var waiterName = typeof res.waiter_name !== "undefined" ? res.waiter_name : suspendedBills[localbill_id].waiter_name;
-		                var billItem = $("<li>").html("<b>#" + res.idbills + "</b> [" + waiterName + "] ").addClass("bill_item bill_item_" + res.idbills);
+		                var waiterName = typeof res.waiter_name !== "undefined"
+                            ?
+                            res.waiter_name
+                            :
+                            suspendedBills[localbill_id].waiter_name;
+
+		                var billItem = $("<li>").html("<b>" + res.idbills + "</b> " + waiterName.toUpperCase() + " ")
+                            .addClass("bill_open_btn bill_item bill_item_" + res.idbills).attr({
+                                "data-bill_id":res.idbills
+                            });;
 
 		                $(".bill-list").append(billItem);
 		            })
@@ -1594,7 +1603,6 @@
 	    	$(delBtn).attr({
 	    		"data-sus_id":localbill_id,
 	    		"data-bill_id":res.idbills
-	    		
 	    	});
 	    	
 	    	var waiterName = typeof res.waiter_name !=="undefined" ? res.waiter_name : suspendedBills[localbill_id].waiter_name;
@@ -1661,9 +1669,9 @@
 		        $(deleteBtn).attr("disabled", "disabled");
 		    }
 		    var qtyCol = $("<td>").html($(prod_qty));
-
-            billTotal += product.total;
-            taxTotal =Math.ceil((billTotal*options.taxPercent)/100);
+		    var discounted = product.bill.discount.fixed ? product.total - product.bill.discount.value : product.total - (product.bill.discount.value * product.total) / 100;
+		    billTotal += typeof product.bill != "undefined" ?  discounted : product.total ;
+            taxTotal = Math.ceil((billTotal*options.taxPercent)/118);
 
             billItems.push(product);
             

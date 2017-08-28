@@ -85,6 +85,11 @@ class BillsController extends Controller
 
             }
 
+            if($the_bill->user_id==0){
+                $the_bill->user_id=\Auth::user()->id;
+                $the_bill->save();
+            }
+
             if($the_bill->print_count > 0) return $updated;
 
             if((count($new_items)+count($items_to_delete)+count($items_to_update))==0){return $updated;}
@@ -111,11 +116,14 @@ class BillsController extends Controller
                 );
             }
 
+
             // Update the bill totals
 
             $updated = DB::update("update bills set last_updated_by=?,last_updated_at=?,bill_total=?,tax_total=? where idbills=?",[
                 \Auth::user()->id,\ORG\Dates::$RESTODT,$req->input('billTotal'),$req->input('taxTotal'),$id
             ]);
+
+
 
             \ORG\POS::Log("Update suspended bill #".$id." PRV AMT : {$prvBill->bill_total} New AMT : ".$req->input('billTotal').", Printed : {$prvBill->print_count}","default");
 
@@ -315,12 +323,12 @@ class BillsController extends Controller
 
             if( ($this->bill_status== \ORG\Bill::OFFTARIFF || $this->bill_status== \ORG\Bill::CREDIT ) && strtolower(trim($customer)) == "walkin" )
             {
-                array_push($errors, "The name of the customer is required for OFFTARIFF & CREDIT Bills");
+                array_push($errors, "The name of the customer is required for FREE OFFER & CREDIT Bills");
             }
 
             if($this->bill_status== \ORG\Bill::OFFTARIFF && $print_count > 0 )
             {
-                array_push($errors, "You cannot mark a bill as OFFTARIFF, when the bill has already been printed.");
+                //array_push($errors, "You cannot mark a bill as OFFTARIFF, when the bill has already been printed.");
             }
 
             $paid_status = $this->bill_status;
@@ -356,7 +364,11 @@ class BillsController extends Controller
 
             ]);
 
-
+            $theBill = \App\Bill::find($data['billID']);
+            if($theBill->user_id==0){
+                $theBill->user_id=\Auth::user()->id;
+                $theBill->save();
+            }
             if(count($errors)==0 && $res > 0){
 
                 \ORG\POS::Log("Paid Bill #".$data['billID'],"default");
@@ -368,7 +380,6 @@ class BillsController extends Controller
 
 
     }
-
 
     public function restoreProductsFromStockByBill($id)
     {
@@ -463,7 +474,7 @@ class BillsController extends Controller
             if(isset($_GET['bill_id'])){
                 $sql = "SELECT unit_price as price,qty,product_name as name,products.id,(unit_price*qty) as total FROM bill_items join products on products.id = product_id where bill_id=?";
                 $items = DB::select($sql,[$_GET['bill_id']]);
-                $bill  = DB::select("select bill_total,tax_total,customer,waiter_name,waiter_id,bills.date,shared from bills join waiters on waiters.idwaiter = waiter_id where deleted=0 and idbills=? and (user_id=? or shared=1)",[$_GET['bill_id'],Auth::user()->id])[0];
+                $bill  = DB::select("select bill_total,tax_total,customer,waiter_name,waiter_id,bills.date,shared,discount,is_fixed_discount from bills join waiters on waiters.idwaiter = waiter_id where deleted=0 and idbills=? and (user_id=? or shared=1 or user_id=0)",[$_GET['bill_id'],Auth::user()->id])[0];
                 return json_encode([$items,$bill]);
             }
 

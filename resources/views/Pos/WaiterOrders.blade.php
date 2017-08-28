@@ -48,7 +48,7 @@
                     $.each(v.items,function(c,s){
 
                         if(s.qty - s.billed_qty == 0) return true;
-                        row = $("<tr>").attr({"order-id":s.order_id,"item-id":s.idorder_items,"item-product-id":s.product.id,'item-qty':(s.qty-s.billed_qty)});
+                        row = $("<tr>").attr({"store_id":s.store_id,"order-id":s.order_id,"item-id":s.idorder_items,"item-product-id":s.product.id,'item-qty':(s.qty-s.billed_qty)});
                         $(row).append($("<td width='40%'>").html(s.product.product_name));
                         $(row).append($("<td>").html(s.unit_price));
                         $(row).append($("<td>").html(s.qty));
@@ -208,7 +208,7 @@
     var addToObject  = function(item){
 
         if(billOrderItems.billItems.length  == 0 ){
-            billOrderItems.billItems.push({id:item.product_id, qty:item.qty,price:item.unit_price });
+            billOrderItems.billItems.push({id:item.product_id, qty:item.qty,price:item.unit_price,store_id:item.store_id });
         }else {
             //Search
             ExistingbillItem = billOrderItems.billItems.filter(function(obj){
