@@ -4,27 +4,30 @@
 
 @if (Auth::user()->level > 3)
 <script>
-        $(document).ready(function(){
-			$("html").css({
-			"overflow":"hidden"
-			});
+    $(document).ready(function(){
+        $("html").css({
+            "overflow":"hidden"
+        });
 
-			$(".main-container").css("overflow","auto");
-		});
+        $(".main-container").css("overflow","auto");
+    });
 </script>
 <div class="pos_box row">
     <div class="pos_title">
         <b>POS {{\Session::get("pos.mode",0)=="health_center" ? "Health Club" : "" }}</b>
+        @if(\App\SalesMode::getMode()!=\App\SalesMode::RESTOv2)
         <button class="suspendedbills_btn">
             Suspended Bills (<span>0</span>) <i class="fa fa-angle-down"></i>
             <span class="arrow"></span>
         </button>
+     
         <input class="pos-search-field" type='text' placeholder="Search Bill ID" />
         <button class='pos-search-btn'>
             <i class="fa fa-search"></i>
         </button>
 
         <ul id="suspended_bills_list"></ul>
+        @endif
     </div>
     <div class="pos_biller col-md-6">
         <div class='pay_box'></div>
@@ -62,9 +65,14 @@
             </div>
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1">{{ \App\SalesMode::getMode()==\App\SalesMode::NORMAL ? "Product" : "Order"}} <i class="fa fa-search"></i></span>
+
                 @if(\App\SalesMode::getMode()==\App\SalesMode::NORMAL)
                 <input autocomplete="off" type="text" id="product_search" class="form-control" placeholder="Product name / Code" aria-describedby="basic-addon1">
-                @else
+                @elseif(\App\SalesMode::getMode()== \App\SalesMode::RESTOv2)
+                <div style="position:relative">
+                    <input autocomplete="off" type="text" id="bill_search" class="order-search-field form-control" placeholder="Enter Bill ID" aria-describedby="basic-addon1">
+                </div>
+                @elseif(\App\SalesMode::getMode()== \App\SalesMode::RESTO)
                 <div style="position:relative">
                     <input autocomplete="off" type="text" id="order_search" class="order-search-field form-control" placeholder="Enter Order ID" aria-describedby="basic-addon1">
                 </div>
@@ -150,9 +158,14 @@
             <ul class="cat_prods"></ul>
         </div>
     </div>
-    @else
+    @elseif(\App\SalesMode::getMode()==\App\SalesMode::RESTO)
     <div class="orders-wrapper">
         <ul class="orders-list"></ul>
+    </div>
+
+    @elseif(\App\SalesMode::getMode()==\App\SalesMode::RESTOv2)
+    <div class="bills-wrapper">
+        <ul class="bill-list"></ul>
     </div>
     @endif
 </div>
@@ -166,32 +179,34 @@
     var suspendedBills = [];
 
 
-	$(document).ready(function(){
+    $(document).ready(function(){
 
-		/** Load Products **/
+        /** Load Products **/
 
-		$(".product_lists").loadProducts({url:"/POS/Products/json",store_id:0,category_id:0,favorite:true});
-		/** Add Product To Purchase List **/
-		$(".pos_box").billOperations({
-			suspendUrl : "<?php echo action("BillsController@suspend"); ?>",
-			suspendedUrl : "<?php echo action('BillsController@getSuspendedBills'); ?>",
-			billUpdateUrl:"<?php echo action("BillsController@updateBill"); ?>",
-			billDeleteUrl:"<?php echo action("BillsController@destroy"); ?>",
-		    paySuspendeBillUrl: "<?php echo action("BillsController@paySuspendedBill"); ?>",
-		    payBillUrl: "<?php echo action("BillsController@pay"); ?>",
-			searchUrl:"<?php echo action("ProductsController@searchProduct"); ?>",
-			assignBillUrl:"<?php echo action("BillsController@assignBill"); ?>",
+        $(".product_lists").loadProducts({url:"/POS/Products/json",store_id:0,category_id:0,favorite:true});
+        /** Add Product To Purchase List **/
+        $(".pos_box").billOperations({
+            suspendUrl : "<?php echo action("BillsController@suspend"); ?>",
+            suspendedUrl : "<?php echo action('BillsController@getSuspendedBills'); ?>",
+            billUpdateUrl:"<?php echo action("BillsController@updateBill"); ?>",
+            billDeleteUrl:"<?php echo action("BillsController@destroy"); ?>",
+            paySuspendeBillUrl: "<?php echo action("BillsController@paySuspendedBill"); ?>",
+            payBillUrl: "<?php echo action("BillsController@pay"); ?>",
+            searchUrl:"<?php echo action("ProductsController@searchProduct"); ?>",
+            assignBillUrl:"<?php echo action("BillsController@assignBill"); ?>",
 			shareBillUrl:"{{ action('BillsController@shareBill') }}",
             checkRoomUrl : "{{action("BillsController@checkRoom") }}",
             getOrderUrl:"<?php echo action("OrdersController@getOrder"); ?>",
-			taxPercent : 18
-	});
-
-
-    $(".orders-list").loadOrders({
-        url : "<?php echo action("OrdersController@getOrders"); ?>",
+            autoloadBills:{{ \App\SalesMode::getMode()==\App\SalesMode::NORMAL ? 'true' : 'false' }},
+            autoloadWaiterBills: {{ \App\SalesMode::getMode()==\App\SalesMode::RESTOv2 ? 'true' : 'false' }},
+            taxPercent : 18
     });
 
+    @if(\App\SalesMode::getMode()==\App\SalesMode::RESTO)
+        $(".orders-list").loadOrders({
+            url : "<?php echo action("OrdersController@getOrders"); ?>",
+        });
+    @endif
 
     setInterval(function(){
         $(".orders-list").loadOrders({
@@ -199,35 +214,35 @@
         });
     },40000);
 
-		$("#store_list").change(function(){
-			store =  $(this).val();
-			$(".product_lists").loadProducts({url:"/POS/Products/json",store_id:store,category_id:0});
-		})
+    $("#store_list").change(function(){
+        store =  $(this).val();
+        $(".product_lists").loadProducts({url:"/POS/Products/json",store_id:store,category_id:0});
+    })
 
-		$(".favorite_prod_btn").click(function (e) {
-		    $(".product_lists").loadProducts({ url: "/POS/Products/json", store_id: 0, category_id: 0, favorite: true });
-		})
-		$(".suspendedbills_btn").click(function(e){
-			$(this).children(".arrow").toggle();
-			$("#suspended_bills_list").toggle(100);
-		})
+    $(".favorite_prod_btn").click(function (e) {
+        $(".product_lists").loadProducts({ url: "/POS/Products/json", store_id: 0, category_id: 0, favorite: true });
+    })
+    $(".suspendedbills_btn").click(function(e){
+        $(this).children(".arrow").toggle();
+        $("#suspended_bills_list").toggle(100);
+    })
 
-		$("#suspended_bills_list").on("click",".waiter_btn", function(e){
-			e.preventDefault();
-			$(this).children(".fa").toggleClass("fa-plus-square-o fa-minus-square-o");
-			$(this).parent().children("ul").toggle();
-		})
+    $("#suspended_bills_list").on("click",".waiter_btn", function(e){
+        e.preventDefault();
+        $(this).children(".fa").toggleClass("fa-plus-square-o fa-minus-square-o");
+        $(this).parent().children("ul").toggle();
+    })
 
-		$(".new_prod_close_btn").click(function(e){
-			e.preventDefault();
-			$(".new_prod").toggle();
-		});
+    $(".new_prod_close_btn").click(function(e){
+        e.preventDefault();
+        $(".new_prod").toggle();
+    });
 
-		$(".custom_prod_btn").click(function(e){
-			e.preventDefault();
-			$(".new_prod").toggle();
-		})
-	})
+    $(".custom_prod_btn").click(function(e){
+        e.preventDefault();
+        $(".new_prod").toggle();
+    })
+    })
 
 </script>
 @else

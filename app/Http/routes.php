@@ -81,6 +81,8 @@ Route::get("/POS/Products/search/","ProductsController@searchProduct");
 Route::post("/POS/orders/save/","OrdersController@saveOrder");
 Route::get("POS/Orders/PrintOrder/{id}",["as"=>"printorder","uses"=>"OrdersController@printOrder"]);
 Route::post("POS/Waiters/changePIN","WaiterController@changePIN");
+Route::post("POS/Bills/PrintBill/{id}",["as"=>"printbill","uses"=>"BillsController@printBill"]);
+
 Route::group(['middleware' => 'auth'],function(){
 	// POS Routes
     Route::get("/POS",["as"=>"pos",function(){
@@ -138,7 +140,6 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get("/POS/Bills/deleteBillPayments","BillsController@deleteBillPayments");
     Route::post("/POS/GeneralReport",["uses"=>"POSReportController@GenerateReport","as"=>"POSGeneralReport"]);
 
-	Route::get("POS/Bills/PrintBill/{id}",["as"=>"printbill","uses"=>"BillsController@printBill"]);
 
 	Route::get("/POS/Settings/changePassword",function(){
 		return \View::make("Pos.ChangePassword");
@@ -244,6 +245,13 @@ Route::group([],function(){
 	    return View::make("Pos/Order");
     }]);
 
+    Route::get("/Order/MyOrders",["as"=>"waiterOrders",function(){
+        return View::make("Pos/WaiterOrders");
+    }]);
+
+    Route::get("/Order/TableOrders",["as"=>"tableOrders","uses"=>"OrdersController@tableOrders"]);
+    Route::post("/Order/MyTables",["as"=>"myTables","uses"=>"OrdersController@myTables"]);
+    Route::post("/Order/SaveWaiterBill",["as"=>"saveWaiterBill","uses"=>"OrdersController@saveBill"]);
 
 });
 

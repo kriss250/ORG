@@ -100,7 +100,7 @@
     </li>
 
     <li>
-        <a class="lorder-btn" href="#">
+        <a class="lorder-btn" href="{{route('waiterOrders')}}">
             <i class="fa fa-list-ol"></i>
             My Orders
         </a>

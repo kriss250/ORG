@@ -13,15 +13,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Bill extends Model
+class BillItem extends Model
 {
-  protected $primaryKey= "idbills";
+  protected $primaryKey= "product_id";
   public $timestamps = false;
-  protected $table = "bills";
+  protected $table = "bill_items";
   protected $connection = "mysql_pos";
-
-  public function items()
-  {
-      return $this->hasMany("\App\BillItem","bill_id","idbills");
-  }
+  public $guarded = [];
 }

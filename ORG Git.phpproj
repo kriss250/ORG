@@ -76,6 +76,7 @@
     <Compile Include="packages\kris\HR\views\newEmployee.blade - Copy.php" />
     <Compile Include="packages\kris\HR\views\newEmployee.blade.php" />
     <Compile Include="packages\kris\HR\views\Home.blade.php" />
+    <Compile Include="packages\kris\POS\src\BillItem.php" />
     <Compile Include="packages\kris\POS\src\Http\Controllers\TableController.php" />
     <Compile Include="packages\kris\Backoffice\src\Http\Controllers\SystemController.php" />
     <Compile Include="packages\kris\POS\src\SideDish.php" />
@@ -848,6 +849,7 @@
     <Compile Include="resources\views\Pos\Settings.blade.php" />
     <Compile Include="resources\views\Pos\SubCategoryList.blade.php" />
     <Compile Include="resources\views\Pos\UsersList.blade.php" />
+    <Compile Include="resources\views\Pos\WaiterOrders.blade.php" />
     <Compile Include="resources\views\Pos\WaitersList.blade.php" />
     <Compile Include="resources\views\Setup.blade.php" />
     <Compile Include="tests\ExampleTest.php" />

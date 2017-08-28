@@ -185,12 +185,83 @@ class OrdersController extends Controller
         return $order;
     }
 
-
     public function delete()
     {
         if(isset($_GET['id']) && is_numeric($_GET['id']))
         {
             echo \App\Order::where("idorders",$_GET['id'])->whereNull("bill_id")->update(["deleted"=>"1","deleted_by"=>\Auth::user()->id]);
         }
+    }
+
+    public function myTables(Request $req){
+        $waiter = $req->input("waiter",0);
+        $pin = $req->input("pin");
+        $w = \App\Waiter::where("pin",md5($pin))->where("idwaiter",$waiter)->first();
+        if($w == null) return ["error"=>"Invalid waiter"];
+        return \App\Order::where("deleted","0")->where("has_bill",0)->where("waiter_id",$waiter)->where(\DB::raw("date(date)"),\ORG\Dates::$RESTODATE)->groupBy("table_id")->get()->load("table");
+    }
+
+    public function tableOrders(Request $req)
+    {
+        $waiter = $req->input("waiter",0);
+        $table = $req->input("table");
+
+        $orders = \App\OrderItem::select("order_id")
+            ->join("orders","idorders","=","order_id")
+            ->where("deleted","0")->where("waiter_id",$waiter)
+            ->where("table_id",$table)
+            ->where(DB::raw("qty-billed_qty"),">","0")
+            ->where(\DB::raw("date(date)"),\ORG\Dates::$RESTODATE)
+            ->groupBy("order_id")
+            ->get()->toArray();
+        $orderIds = [];
+        foreach($orders as $o)
+        {
+            $orderIds[]  = $o["order_id"];
+        }
+
+        return \App\Order::with("items.product")->whereIn("idorders",$orderIds)->get();
+    }
+
+    public function saveBill(Request $req)
+    {
+        $data =  $req->input("data",null);
+        $data = json_decode($data);
+        $bill = new \App\Bill();
+
+        $cwaiter= \App\Waiter::where("idwaiter", $_POST['waiter']['id'])->where("pin",md5($_POST['waiter']['pin']))->first();
+        if($cwaiter == null){
+            return  ["success"=>0,"bill"=>0];
+        }
+        $bill->waiter_id = $_POST['waiter']['id'];
+        $bill->status = \ORG\Bill::SUSPENDED;
+        $bill->customer = "Walkin";
+        $bill->date = \ORG\Dates::$RESTODATE." ".date("H:i:s");
+        $bill->is_fixed_discount = $_POST['discount']['type'] == 'fixed';
+        $bill->discount  = floatval($_POST['discount']['value']);
+
+        $items = new \Illuminate\Support\Collection();
+        foreach($data->billItems as $item){
+            $items->push(new \App\BillItem([
+                "product_id"=>$item->id,
+                "qty"=>$item->qty,
+                "unit_price"=>$item->price
+                ]));
+
+            $bill->bill_total += $item->qty*$item->price;
+        }
+
+        $orderItem = null;
+
+        foreach($data->orderItems as $oitem)
+        {
+            $orderItem = \App\OrderItem::find($oitem->itemid);
+            $orderItem->billed_qty +=($orderItem->billed_qty +$oitem->qty <= $orderItem->qty ) ?  $oitem->qty : 0;
+            $orderItem->save();
+        }
+
+        $bill->save();
+        $bill->items()->saveMany($items);
+        return ["success"=>1,"bill"=>$bill->idbills];
     }
 }

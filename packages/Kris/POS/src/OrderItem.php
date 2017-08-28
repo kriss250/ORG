@@ -19,7 +19,7 @@ class OrderItem extends Model
   public $timestamps = false;
   protected $table = "order_items";
   protected $connection = "mysql_pos";
-
+  public $primaryKey ="idorder_items" ;
   public function product()
   {
       return $this->hasOne("\App\Product","id","product_id");

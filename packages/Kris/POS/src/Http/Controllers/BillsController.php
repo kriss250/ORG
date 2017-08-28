@@ -470,7 +470,7 @@ class BillsController extends Controller
             //Load suspended Bills without items
             $sql = "SELECT idbills,bill_total,tax_total,customer,shared,concat_ws(' ',waiters.firstname,waiters.lastname) as waiter_name,waiter_id,bills.date  as date FROM bills
                 join waiters on waiters.idwaiter = waiter_id
-                where deleted=0 and bills.status=? and (user_id = ? or shared=1)
+                where deleted=0 and bills.status=? and (user_id = ? or shared=1 or user_id=0)
                 order by waiter_id,idbills desc";
 
             $bills = DB::select($sql,[\ORG\Bill::SUSPENDED,Auth::user()->id]);
@@ -490,22 +490,38 @@ class BillsController extends Controller
 
     public function printBill($id)
     {
+        //!!!! SECURE THIS
         if(!is_numeric($id))
         {
             return "0";
+        }
+
+        //Validation
+        if(isset($_POST['waiter']))
+        {
+            $cwaiter= \App\Waiter::where("idwaiter", $_POST['waiter']['id'])->where("pin",md5($_POST['waiter']['pin']))->first();
+            if($cwaiter==null){
+                return null;
+            }
+        }else {
+            if(Auth::user() == null)
+            {
+                return response('Access Denied', 401);
+            }
         }
 
         $sql = "SELECT idbills,format(bill_total,0) as bill_total,format(tax_total,0) as tax_total,amount_paid,change_returned,pay_date,date_format(bills.date,'%d/%m/%Y %T') as date,bills.status,waiter_name,username,product_name,qty,unit_price,(qty*unit_price) as product_total,product_id,EBM,customer,status FROM bills
                 join bill_items on bill_id = idbills
                 join products on products.id = product_id
                 join waiters on idwaiter = waiter_id
-                join users on users.id = user_id
-                where idbills =? and deleted=0 ".((Auth::user()->level<8) ? " and print_count < 1" :"");
+                left join users on users.id = user_id
+                where idbills =? and deleted=0 ".(Auth::user()== null || (Auth::user()->level<8) ? " and print_count < 1" :"");
 
         $bill = \DB::select($sql,[$id]);
 
         if($bill){
-            \DB::update("update bills set print_count=print_count+1,last_printed_by=? where idbills=?",[Auth::user()->id,$id]);
+            $user = Auth::user() ==null ? 0 :  Auth::user()->id;
+            \DB::update("update bills set print_count=print_count+1,last_printed_by=? where idbills=?",[$user,$id]);
 
             if(isset($_GET['xml'])){
                 $response = html_entity_decode(trim(\View::make("Pos.BillPrintXml",["bill"=>$bill])));

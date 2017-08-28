@@ -28,15 +28,7 @@
             "max-height":(screenHeight*0.8)+"px"
         });
 
-        $(".waiter-login").css({
-            "height": (screenHeight * 0.85) + "px",
-            "max-height": (screenHeight * 0.85) + "px"
-        });
-
-        $(".waiter-login-list").css({
-            "height": (screenHeight * 0.72) + "px",
-            "max-height": (screenHeight * 0.85) + "px"
-        });
+       
 
         $(".right-scroll-cat").click(function () {
             if ($(".cat-list li:last-child").position().left+100 < $(".cat-list-wrapper").width() ) return;

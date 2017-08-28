@@ -154,8 +154,8 @@
     	});
 
   		//Load suspended bills from server
-        loadSuspendedBills();
-
+        if (options.autoloadBills) { loadSuspendedBills(); }
+        if (options.autoloadWaiterBills) { loadWaiterSuspendedBills(); }
 		$(prod_list).on('click','.prod',function(e){
 
 			e.preventDefault();
@@ -1502,7 +1502,42 @@
 			countSuspendedBills();
 		}
 
-		
+
+		function loadWaiterSuspendedBills() {
+
+		    $.ajax({
+		        url: options.suspendedUrl + "?json",
+		        type: "get",
+		        success: function (data) {
+		            try {
+		                var bills = JSON.parse(data);
+		            } catch (ex) {
+		                alert("Data Error");
+		                return;
+		            }
+
+		            $.each(bills[1], function (index, res) {
+		                //Add bill to suspendedlist
+		                var billDate = new Date(Date.parse(res.date));
+		                var waiterName = typeof res.waiter_name !== "undefined" ? res.waiter_name : suspendedBills[localbill_id].waiter_name;
+		                var billItem = $("<li>").html("<b>#" + res.idbills + "</b> [" + waiterName + "] ").addClass("bill_item bill_item_" + res.idbills);
+
+		                $(".bill-list").append(billItem);
+		            })
+
+		        },
+		        statusCode: {
+		            401: function () {
+		                ualert.error("Your session has expired please logout and login again !");
+		                setTimeout(function () {
+		                    window.location.reload();
+		                }, 3000)
+		            }
+		        }
+		    }).done(function () {
+		        //countSuspendedBills();
+		    })
+		}
 
 		function loadSuspendedBills()
 		{
@@ -1878,58 +1913,55 @@ function unPauseBiller(mask) {
 	        location.href = $(src).attr("data-destination");
 	    }
 	}
-	function printBill(id)
+	function printBill(id,data)
 	{
-		$(document).ready(function(){
+
 			var destUrl ="/POS/Bills/PrintBill/"+id+((typeof JSObj !== "undefined") ? "?xml": "");
 			
 			$.ajax({
-				url :destUrl,
-				type : "get",
-				success : function(data){
+			    url: destUrl,
+			    type: "post",
+                data:data,
+			    success: function (data) {
 
-					if(data.length ==1){
-						ualert.error("Error printing the bill , Please use bills table to re-print the bill");
-						return;
-					}
-
-					
-
-					if (typeof JSObj === "undefined") {
-					    $(".print_container").html("");
-					    $(".print_container").prepend(data).append(data);
-					}
-
-					if(data.length>1)
-					{
-					    if (typeof JSObj ==="undefined") {
-					        window.print();
-					    } else {
-					        JSObj.PrintXmlBill(data);
-					    }
-					}else {
-						ualert.error("Unable to print the bill , Please contact your system administrator");
-					}
-					
-
-					//reset 
-					$(".print_container").html("");
-				},
-				error : function(){
-					alert("Unable to initiate the printer");
-				},
-				statusCode: {
-					    401: function() {
-					      ualert.error("Your session has expired please logout and login again !");
-					      setTimeout(function(){
-					      	window.location.reload();
-					      },3000)
-					    }
-					}
-			})
+			        if (data.length == 1) {
+			            ualert.error("Error printing the bill , Please use bills table to re-print the bill");
+			            return;
+			        }
 
 
-		})
+
+			        if (typeof JSObj === "undefined") {
+			            $(".print_container").html("");
+			            $(".print_container").prepend(data).append(data);
+			        }
+
+			        if (data.length > 1) {
+			            if (typeof JSObj === "undefined") {
+			                window.print();
+			            } else {
+			                JSObj.PrintXmlBill(data);
+			            }
+			        } else {
+			            ualert.error("Unable to print the bill , Please contact your system administrator");
+			        }
+
+
+			        //reset 
+			        $(".print_container").html("");
+			    },
+			    error: function () {
+			        alert("Unable to initiate the printer");
+			    },
+			    statusCode: {
+			        401: function () {
+			            ualert.error("Your session has expired please logout and login again !");
+			            setTimeout(function () {
+			                window.location.reload();
+			            }, 3000)
+			        }
+			    }
+			});
 	}
 
 	function printOrder(id,waiterinfo)

@@ -57,7 +57,9 @@
             <div class="row">
                 <div class="col-md-4 col-xs-3">
                     <h4 style="text-transform:uppercase;font-family:'Open Sans';opacity:.7;padding-left:20px">
-                        <img class="col-xs-2" width="40" style="padding:0;filter:sepia(100%);margin-top:-10px;max-height:100%" src="{{\App\Settings::get("logo")[0]}}" />
+                        <span class="col-xs-2">
+                            <img  width="40" style="padding:0;filter:sepia(100%);margin-top:-3px;max-height:100%" src="{{\App\Settings::get("logo")[0]}}" />
+                        </span>
                         <span class="col-xs-10">
                             Ordering System
                             <span style="display:block;opacity:.5;font-size:11px">ORG Point of sales</span>
@@ -370,7 +372,25 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            var screenHeight = $(window).height();
+            $(".waiter-login").css({
+                "height": (screenHeight * 0.85) + "px",
+                "max-height": (screenHeight * 0.85) + "px"
+            });
 
+            $(".waiter-login-list").css({
+                "height": (screenHeight * 0.72) + "px",
+                "max-height": (screenHeight * 0.85) + "px"
+            });
+
+            $(".maincontainer").css({
+                "height": (screenHeight * 0.78) + "px",
+                "max-height": (screenHeight * 0.78) + "px"
+            });
+        })
+    </script>
 
 </body>
 </html>
