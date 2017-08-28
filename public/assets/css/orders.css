@@ -567,7 +567,7 @@ padding-bottom: 6px;
     }
 
     .bill-wrapper {
-        width: 39%;
+        width: 35%;
         float: right;
         background: #fff;
         border: 1px solid #ccc;
@@ -611,19 +611,6 @@ padding-bottom: 6px;
         }
 
 
-    .maincontainer .orders-container::before {
-        content: '\f18e';
-        right: 20px;
-        top: 36%;
-        display: inline-block;
-        font: normal normal normal 84px/1 FontAwesome;
-        color: rgba(164, 164, 164, 0.5);
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        transform: translate(0, 0);
-        position: absolute;
-    }
 
     .maincontainer .table-list li {
         width: 200px;
