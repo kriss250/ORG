@@ -6,7 +6,7 @@ $discount = 0;
 if($bill[0]->is_fixed_discount==1){
     $discount = $bill[0]->discount;
 }else {
-    $discount = ($bill[0]->discount * $bill[0]->bill_total) / 100;
+    $discount = ($bill[0]->discount/100)* floatval(str_replace(",","", $bill[0]->bill_total));
 }
 ?>
 <Bill discount="{{$discount}}" offtariff="{{ $bill[0]->status == \ORG\Bill::OFFTARIFF ? 1 : 0 }}" id="{{ $bill[0]->idbills }}">
