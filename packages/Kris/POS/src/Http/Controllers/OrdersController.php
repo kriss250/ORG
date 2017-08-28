@@ -245,7 +245,7 @@ class OrdersController extends Controller
             $items->push(new \App\BillItem([
                 "product_id"=>$item->id,
                 "qty"=>$item->qty,
-                "store_id"=>$item->store_id,
+                "store_id"=> isset($item->store_id) ? $item->store_id: 0 ,
                 "unit_price"=>$item->price
                 ]));
 
