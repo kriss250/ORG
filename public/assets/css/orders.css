@@ -572,6 +572,8 @@ padding-bottom: 6px;
         background: #fff;
         border: 1px solid #ccc;
         padding: 10px 25px;
+        height:inherit;
+        overflow:auto
     }
 
         .bill-wrapper h3 {

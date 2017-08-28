@@ -329,7 +329,7 @@
                     $(elm).removeAttr("disabled");
                     $(".waiter-login-wrapper").addClass("hidden");
                 }
-            });
+            }).done(function(){ $(elm).removeAttr("disabled");});
         })
     }
 
