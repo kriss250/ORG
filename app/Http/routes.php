@@ -65,16 +65,11 @@ Route::get("ReportCenter/Login",function(){
     return \View::make("ReportCenter.Login");
 });
 
-
-
 Route::post("ReportCenter/Login",['uses'=>'ReportCenterController@login']);
-
 
 Route::get("/POS/login/",['uses'=>"AuthController@create","as"=>"login"]);
 Route::post("/POS/login/","AuthController@store");
 Route::get("/POS/logout/",['uses'=>"AuthController@destroy",'as'=>'logout']);
-
-
 
 Route::get("POS/Products/json","ProductsController@jsonReq");
 Route::get("/POS/Products/search/","ProductsController@searchProduct");
@@ -234,7 +229,6 @@ Route::group(['middleware' => 'auth'],function(){
     	return \View::make("Backoffice.ChangePassword");
     });
 });
-
 
 Route::group([],function(){
     Route::get("/Order",["as"=>"order",function(){

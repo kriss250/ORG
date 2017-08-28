@@ -1,7 +1,15 @@
 @if(count($bill)>0)
   
     <?php $resto = \App\Resto::get()->first(); print '<?xml version="1.0" encoding="UTF-8"?>';?>
-<Bill offtariff="{{ $bill[0]->status == \ORG\Bill::OFFTARIFF ? 1 : 0 }}" id="{{ $bill[0]->idbills }}">
+<?php
+$discount = 0;
+if($bill[0]->is_fixed_discount==1){
+    $discount = $bill[0]->discount;
+}else {
+    $discount = ($bill[0]->discount * $bill[0]->bill_total) / 100;
+}
+?>
+<Bill discount="{{$discount}}" offtariff="{{ $bill[0]->status == \ORG\Bill::OFFTARIFF ? 1 : 0 }}" id="{{ $bill[0]->idbills }}">
     <header>
         <logo>{{ \App\Settings::get("logo")[0] }}</logo>
         <email>{{\App\Settings::get("email") }}</email>

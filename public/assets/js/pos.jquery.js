@@ -156,7 +156,12 @@
   		//Load suspended bills from server
         if (options.autoloadBills) { loadSuspendedBills(); }
         if (options.autoloadWaiterBills) {
-            setInterval(function () { loadWaiterSuspendedBills(); }, 10000);
+            loadWaiterSuspendedBills();
+
+            setTimeout(function () {
+                loadWaiterSuspendedBills();
+            }, 20000);
+
         }
 
 		$(prod_list).on('click','.prod',function(e){
@@ -1532,7 +1537,7 @@
 
 		                var billItem = $("<li>").html("<b>" + res.idbills + "</b> " + waiterName.toUpperCase() + " ")
                             .addClass("bill_open_btn bill_item bill_item_" + res.idbills).attr({
-                                "data-bill_id":res.idbills
+                                "data-bill_id": res.idbills
                             });;
 
 		                $(".bill-list").append(billItem);
@@ -1548,8 +1553,9 @@
 		            }
 		        }
 		    }).done(function () {
-		        //countSuspendedBills();
-		    })
+		       
+		    });
+		   
 		}
 
 		function loadSuspendedBills()
@@ -1673,7 +1679,7 @@
 		        $(deleteBtn).attr("disabled", "disabled");
 		    }
 		    var qtyCol = $("<td>").html($(prod_qty));
-		    alert(product.bill.discount.value);
+		   
 		    var discounted = !product.bill.discount.fixed ? product.total - product.bill.discount.value : product.total - (product.bill.discount.value * product.total) / 100;
 		    billTotal += typeof product.bill != "undefined" ?  discounted : product.total ;
             taxTotal = Math.ceil((billTotal*options.taxPercent)/118);
@@ -1961,8 +1967,8 @@ function unPauseBiller(mask) {
 			        //reset 
 			        $(".print_container").html("");
 			    },
-			    error: function () {
-			        alert("Unable to initiate the printer");
+			    error: function (e) {
+			        alert("Unable to initiate the print "+e);
 			    },
 			    statusCode: {
 			        401: function () {

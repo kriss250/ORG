@@ -521,7 +521,7 @@ class BillsController extends Controller
             }
         }
 
-        $sql = "SELECT idbills,format(bill_total,0) as bill_total,format(tax_total,0) as tax_total,amount_paid,change_returned,pay_date,date_format(bills.date,'%d/%m/%Y %T') as date,bills.status,waiter_name,username,product_name,qty,unit_price,(qty*unit_price) as product_total,product_id,EBM,customer,status FROM bills
+        $sql = "SELECT idbills,format(bill_total,0) as bill_total,format(tax_total,0) as tax_total,amount_paid,change_returned,pay_date,date_format(bills.date,'%d/%m/%Y %T') as date,bills.status,waiter_name,username,product_name,qty,unit_price,(qty*unit_price) as product_total,product_id,EBM,customer,status,discount,is_fixed_discount FROM bills
                 join bill_items on bill_id = idbills
                 join products on products.id = product_id
                 join waiters on idwaiter = waiter_id
