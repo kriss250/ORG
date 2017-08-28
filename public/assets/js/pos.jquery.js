@@ -1669,7 +1669,8 @@
 		        $(deleteBtn).attr("disabled", "disabled");
 		    }
 		    var qtyCol = $("<td>").html($(prod_qty));
-		    var discounted = product.bill.discount.fixed ? product.total - product.bill.discount.value : product.total - (product.bill.discount.value * product.total) / 100;
+		    alert(product.bill.discount.value);
+		    var discounted = !product.bill.discount.fixed ? product.total - product.bill.discount.value : product.total - (product.bill.discount.value * product.total) / 100;
 		    billTotal += typeof product.bill != "undefined" ?  discounted : product.total ;
             taxTotal = Math.ceil((billTotal*options.taxPercent)/118);
 
@@ -1936,8 +1937,6 @@ function unPauseBiller(mask) {
 			            ualert.error("Error printing the bill , Please use bills table to re-print the bill");
 			            return;
 			        }
-
-
 
 			        if (typeof JSObj === "undefined") {
 			            $(".print_container").html("");

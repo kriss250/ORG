@@ -120,7 +120,7 @@
 
         var bill = $(".bill-wrapper");
         var table = $(".bill-wrapper table");
-       
+
         if(table.length == 0){
             table = $("<table>");
         }
@@ -147,7 +147,7 @@
         }
 
 
-      
+
         if(bill.length == 0)
         {
             //Create bill container
@@ -308,6 +308,11 @@
         $(".waiter-login-wrapper").removeClass("hidden");
         $(".save_print_order").click(function(e){
             e.stopPropagation();
+            elm = $(this);
+            if(typeof $(this).attr("disabled") !=="undefined"){
+                return;
+            }
+            $(this).attr("disabled","disabled");
             pin  =  $("#waiter-pin-input").val();
             if(pin.length < 1){return; }
             var waiter = {id:window.currentWaiter,pin:$("#waiter-pin-input").val()};
@@ -321,6 +326,7 @@
                     billOrderItems = {"billItems":[], "orderItems":[] };
                     $(".bill-wrapper").remove();
                     window.printBill(data.bill,{waiter:waiter});
+                    $(elm).removeAttr("disabled");
                     $(".waiter-login-wrapper").addClass("hidden");
                 }
             });
