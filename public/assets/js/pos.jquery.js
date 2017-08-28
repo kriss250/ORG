@@ -155,7 +155,10 @@
 
   		//Load suspended bills from server
         if (options.autoloadBills) { loadSuspendedBills(); }
-        if (options.autoloadWaiterBills) { loadWaiterSuspendedBills(); }
+        if (options.autoloadWaiterBills) {
+            setInterval(function () { loadWaiterSuspendedBills(); }, 10000);
+        }
+
 		$(prod_list).on('click','.prod',function(e){
 
 			e.preventDefault();
@@ -1505,12 +1508,13 @@
 
 
 		function loadWaiterSuspendedBills() {
-
+		   
 		    $.ajax({
 		        url: options.suspendedUrl + "?json",
 		        type: "get",
 		        success: function (data) {
 		            try {
+		                $(".bill-list").html("");
 		                var bills = JSON.parse(data);
 		            } catch (ex) {
 		                alert("Data Error");
