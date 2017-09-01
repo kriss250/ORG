@@ -45,7 +45,7 @@ class CreditsController extends Controller
       {
         $creditor = \App\Creditor::firstOrCreate([
           "name"=>trim($data['creditor']),
-          "paid_amount"=>0,
+          "idcreditors"=>$data['creditor_id']
         ]);
 
         $creditor->due_amount = $creditor->due_amount+$data['amount'];

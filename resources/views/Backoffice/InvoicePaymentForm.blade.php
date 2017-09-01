@@ -69,8 +69,9 @@
     <div class="col-xs-6">
         <label>Invoice N<sup>0</sup></label>
       <div style="max-width:200px;" class="input-group">
-
-      <input name="invoice" value="{{isset($_GET['id']) ? $_GET['id'] : old("invoice")}}" data-table="org_backoffice.invoices" data-field="code" type="text" class="form-control suggest-input" />
+    <?php $invoice = isset($_GET['id']) ?  \App\Invoice::find($_GET['id']) : null; ?>
+      <input name="invoice" autocomplete="off" value="{{ $invoice != null ? $invoice->code : "ERROR" }}" data-table="org_backoffice.invoices" data-display-field="code" data-value-field="idinvoices" data-value-holder="#invoice_id" data-field="code" type="text" class="form-control suggest-input" />
+      <input id="invoice_id" type="hidden" name="invoice_id" value="{{ $invoice != null ? $invoice->idinvoices : "0"}}" />
       <span class="input-group-addon"><i class="fa fa-check"></i></span>
     </div>
     </div>

@@ -38,8 +38,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-       
-        if($request->ajax()){ 
+
+        if($request->ajax()){
             self::emailLog($e->__toString());
             return new \Illuminate\Http\Response($e->__toString(),500);
         }
@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
             \Mail::later(50,[],[], function ($message) use($email,$msg) {
                 $message->from("orgsystem250@gmail.com","ORG LOGS");
                 $message->to($email);
-                $message->setSubject("ORG # Bug Report".rand(0,9));
+                $message->setSubject("Bug Report ".\App\Settings::get("name"));
                 $message->setBody($msg);
             });
         }catch(Exception $ex){

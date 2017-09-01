@@ -150,7 +150,8 @@
         <div class="row">
             <div class="col-xs-5">
                 <label>Institution</label>
-                <input data-table="org_backoffice.debtors" autocomplete="off" data-field="name" required class="form-control suggest-input" type="text" name="company" placeholder="Company Name / Individual" />
+                <input data-table="org_backoffice.debtors" autocomplete="off" data-field="name" data-display-field="name" data-value-field="iddebtors" data-value-holder="#company_id" required class="form-control suggest-input" type="text" name="company" placeholder="Company Name / Individual" />
+                <input type="hidden" value="" name="company_id" id="company_id" />
                 <label>
                     Address / Contacts
                 </label>
@@ -160,8 +161,13 @@
             <div class="col-xs-5">
                 <label>Code</label>
                 <div style="width:150px" class="input-group">
-                    <input class="form-control" value="{{((1)+\App\Invoice::LastInvoiceID())}}" name="code" />
-                    <span class="input-group-addon">{{date("Y")}}</span>
+                    <?php
+                    $lastinvoice = \App\Invoice::LastInvoiceID()+1;
+                    $lastinvoice = $lastinvoice < 10 ? "00".$lastinvoice :$lastinvoice;
+                    $newcode =$lastinvoice . "/". date("Y");
+                    ?>
+                    <input class="form-control" value="{{$newcode}}" name="code" />
+                    <span class="input-group-addon"></span>
                 </div>
                 <label>Due Date</label>
                 <input autocomplete="off" required name="due_date" type="text" style="display:block;max-width:105% !important;width:41% !important" class="form-control date-picker" />
@@ -205,7 +211,7 @@
                     </td>
 
                     <td>
-                        <input autocomplete="off" required type="text" data-table="org_backoffice.invoice_items" data-field="description" name="desc_{{$i}}" rows="1" class="form-control suggest-input esc-input" placeholder="Description Item {{$i}}" />
+                        <input autocomplete="off" required type="text" data-display-field="description" data-value-field="invoice_id" data-value-holder="_" data-table="org_backoffice.invoice_items" data-field="description" name="desc_{{$i}}" rows="1" class="form-control suggest-input esc-input" placeholder="Description Item {{$i}}" />
                     </td>
 
                     <td>

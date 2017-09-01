@@ -10,16 +10,18 @@ $.fn.suggest = function(options) {
 
     $(".suggestions-wrapper").on("click", ".dropdown-menu li", function () {
         $(this).parent().parent().find(".suggest-input").val($(this).html());
+        $($(elem).attr("data-value-holder")).val($(this).attr("data-value"));
         $(elem).parent().removeClass("open");
     });
 
     $(elem).on("keyup", function () {
 
-       table = $(this).attr("data-table");
-       field = $(this).attr("data-field");
-       
-      input =  $(this).val();
-      var eventSrc = $(this);
+        table = $(this).attr("data-table");
+        field = $(this).attr("data-field");
+        display_field = $(this).attr("data-display-field");
+        value_field = $(this).attr("data-value-field");
+        input =  $(this).val();
+        var eventSrc = $(this);
       $(ul).html("");
       if(input.length===0)
       {
@@ -28,12 +30,12 @@ $.fn.suggest = function(options) {
         //Load data
         setTimeout(function(){
           $.ajax({
-              url: options.url+"?query="+input+"&table="+table+"&field="+field+"&limit="+limit,
+              url: options.url + "?query=" + input + "&table=" + table + "&field=" + field + "&limit=" + limit + "&display_field=" + display_field+"&value_field="+value_field,
               type: "get",
               success: function(data) {
                 $(ul).html("");
                   $.each(data,function(x,y){
-                      var item = "<li>"+y.name+"</li>";
+                      var item = "<li data-value='" + y.value + "'>" + y.name + "</li>";
                       $(ul).append(item);
                   });
 

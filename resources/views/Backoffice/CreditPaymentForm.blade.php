@@ -11,9 +11,10 @@
 <form class="form-inline" action="{{action("CreditsController@addPayment")}}" method="post">
   <input type="hidden" value="{{csrf_token()}}" name="_token" />
   <label for="">Voucher</label>
-  <input autocomplete="off" type="text" class="form-control suggest-input" data-table="org_backoffice.credit" data-field="voucher" name="voucher" value="">
+    <input autocomplete="off" type="text" class="form-control suggest-input" data-table="org_backoffice.credit" data-field="voucher" data-display-field="voucher" data-value-field="id" data-value-holder="#creditor_id" name="voucher" value="" />
 <br>
 <br>
+    <input type="hidden" value="0" name="creditor_id" id="creditor_id" />
   <label for="">Amount</label>
     <input class="form-control" type="text" class="form-control" name="amount" />
 

@@ -49,11 +49,11 @@ class InvoiceController extends Controller
         }
 
         $debtor = \App\Debtor::firstOrCreate([
-          "name"=>trim($data['company'])
+          "name"=>trim($data['company']),
+          'iddebtors'=> $data["company_id"]
         ]);
 
-        //echo $debtor;
-        //return;
+        
         $invoice = \App\Invoice::create([
             "user_id"=> \Auth::user()->id,
             "due_date"=>$data['due_date'],

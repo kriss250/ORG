@@ -27,7 +27,7 @@ class InvoicePaymentController extends Controller {
   public function store()
   {
       $data = \Request::all();
-      $id = explode("/",$data['invoice'])[0];
+      $id = $data['invoice_id'];
 
       $invoice = null;
       $validator = \Validator::make($data,[
@@ -37,11 +37,11 @@ class InvoicePaymentController extends Controller {
         ]);
 
 
-      if(count(explode("/",$data['invoice'])) < 2)
+      if(!is_numeric($data["invoice_id"]))
       {
           $validator->getMessageBag()->add('invoiceid', 'Invalid invoice number format , use "code/year"');
       }else {
-          $invoice  = Invoice::where(\DB::raw("code"),"?")->where(\DB::raw("date_format(created_at,'%Y')"),"?")->setBindings([$id,explode("/",$data['invoice'])[1]])->first();
+          $invoice  = Invoice::find($data["invoice_id"]);
       }
 
       if($invoice == null)
@@ -51,7 +51,6 @@ class InvoicePaymentController extends Controller {
 
       if($validator->fails() || $invoice == null )
       {
-          print_r($validator); return;
           return redirect()->back()->withInput()->withErrors($validator->all());
       }else {
           $p = $invoice->payment()->create([

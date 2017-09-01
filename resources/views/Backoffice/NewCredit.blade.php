@@ -11,8 +11,8 @@
 
     <form class="form-inline" action="{{action("CreditsController@store")}}" method="post">
       <label>Supplier / Creditor</label>
-      <input autocomplete="off" name="creditor" data-table="org_backoffice.creditors" data-field="name" class="form-control suggest-input" placeholder="Supplier Name" />
-
+        <input autocomplete="off" name="creditor" data-table="org_backoffice.creditors" data-display-field="name" data-value-field="idcreditors" data-value-holder="#creditor_id" data-field="name" class="form-control suggest-input" placeholder="Supplier Name" />
+        <input type="hidden" value="0" name="creditor_id" id="creditor_id" />
       <label>Voucher</label><br>
       <input name="voucher" placeholder="Voucher#" type="text" class="form-control" />
       <br>

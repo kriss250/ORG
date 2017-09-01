@@ -18,7 +18,10 @@ class SuggestionsController extends Controller
     public function index()
     {
         $data = \Request::all();
-        $data = \DB::select("select distinct $data[field] as name from $data[table] where $data[field] like '$data[query]%' order by $data[field] desc limit $data[limit]");
+
+        $data = \DB::select("select distinct {$data["field"]} as name,{$data["value_field"]} as value from {$data["table"]} where  {$data["field"]} like ? order by {$data["field"]} desc limit {$data["limit"]}",
+            [$data["query"]."%" ]
+            );
         return $data;
     }
 
