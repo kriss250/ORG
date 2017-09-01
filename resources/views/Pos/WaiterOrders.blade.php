@@ -23,7 +23,7 @@
      * Load table orders
      */
     var loadTableOrders = function(elm,waiter,table){
-    
+
         billOrderItems = { billItems:[], orderItems:[] };
         $(".table-list li.active").removeClass("active");
         $(elm).addClass("active");
@@ -329,8 +329,10 @@
                     billOrderItems = {"billItems":[], "orderItems":[] };
                     window.printBill(data.bill,{waiter:waiter});
                     $(elm).removeAttr("disabled");
+                    $(".bill-wrapper").remove();
                     $(".waiter-login-wrapper").addClass("hidden");
                     $(".save_print_order").show();
+
                 }else {
 
                     alert(typeof data.error ==="undefined" ? "ERROR SAVING BILL" : data.error);

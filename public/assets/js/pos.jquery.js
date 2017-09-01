@@ -925,7 +925,7 @@
 				ualert.error("Amount paid must be equal to 0 for free consumption customers");
 				return false;
 			}
-
+			
             //Region End VALIDATION
 
         	$(this).attr("disabled","disabled");
@@ -962,13 +962,12 @@
 			}
 
 			var billID = parseInt($("#server_bill_id").val());
-		
+			var waiterName = $("#waiter option:selected").html();
 			//New Bill : if bill is not saved yet  it !
 			if(isNaN(billID) || billID < 1 ){
-			    alert("DSDs");
-			    
+			   
 				var waiterID = parseInt($("#waiter").val());
-			    var waiterName = $("#waiter option:selected").html();
+			   
 
 
 				var paidAmount = parseInt($(".paid_amount").val());
@@ -992,8 +991,10 @@
 							if(printTheBill){
 								window.printBill(jData.idbills);
 							}
-
+						
+							
 							window.countSales();
+
 							ResetPOS();
 						}else {
 							ualert.error(jData.errors[0]);
@@ -1039,6 +1040,9 @@
 						window.printBill(billID);	
 					}
 
+				    try {
+				        JSObj.printBillConf("Bill " + billID + " Paid : " + amount, "Waiter : " + waiterName);
+				    } catch (ex) { alert(ex.message);}
 					window.countSales();
 					
 					removeBillFromUI(billID);
