@@ -1141,15 +1141,20 @@
 	            		$(taxField).val(thebill.tax_total);
 	            		
 	            		var calcTotal = thebill.bill_total - (thebill.is_fixed_discount ? thebill.discount : (thebill.discount * thebill.bill_total) / 100);
+	            		
 	            		$(billTotalField).val(calcTotal);
 	            		
 			            $(waiterField).val(thebill.waiter_id).trigger("chosen:updated");
 			            
-
+			            var x = 0;
 			            $.each(Data[0], function (key, value) {
-			                value.bill = { id: thebill.idbills, discount: { fixed: thebill.is_fixed_discount == 0, value: thebill.discount } };
-			            	addProductToBill(value);
-
+			                if (x==0) {
+			                    value.bill = { id: thebill.idbills, discount: { fixed: thebill.is_fixed_discount == 0, value: thebill.discount } };
+			                } else {
+			                    value.bill = { id: thebill.idbills, discount: { fixed: thebill.is_fixed_discount == 0, value: 0 } };
+			                }
+			                addProductToBill(value);
+			                x++;
 			            });
 
 			            $(".local_bill_id").val();
@@ -1853,7 +1858,6 @@ function unPauseBiller(mask) {
 
 		});	
 	}
-
 
 	ualert.warning  = function (message){
 

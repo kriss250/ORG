@@ -80,6 +80,8 @@
         $_cash_percent = $bill->bill_total ==0 ? 0 : (($bill->cash * 100) / $bill->bill_total)/100;
         $_card_percent = $bill->bill_total ==0 ? 0 : (($bill->card * 100) / $bill->bill_total)/100;
         $_check_percent = $bill->bill_total ==0 ? 0 : (($bill->check_amount * 100) / $bill->bill_total)/100;
+        $discount = 0;
+        $discount = $bill->is_fixed_discount ? $bill->discount : ($bill->discount/100)*$bill->bill_total;
         if($zi>1){
             $tr .= "<tr".($bill->status == \ORG\Bill::SUSPENDED ? " class='text-danger' ":"").">
                  <td rowspan='$zi'>$bill->idbills ".($bill->status == \ORG\Bill::SUSPENDED ? " <i class='fa fa-question-circle'></i>":"")." ".($bill->last_updated_by>0 && $bill->last_updated_by != $bill->user_id ? "<b style='color:red;font-size:16px'>*</b>" : "" )."</td>
@@ -87,13 +89,14 @@
                   <td  rowspan='$zi'>$bill->username</td>
                   <td  rowspan='$zi'>$bill->waiter_name</td>
                   <td class='no-cell' colspan='4'></td>
-                  <td  rowspan='$zi'>".number_format($billGT)."</td>
+                  <td  rowspan='$zi'>".($discount > 0 ? "<span class='lnt'>{$billGT}</span> ". ($billGT - $discount) : $billGT )."</td>
                   <td  class='amt-col' rowspan='$zi'>".number_format($_cash_percent*$billGT)."</td>
                   <td class='amt-col' rowspan='$zi'>".number_format($_card_percent*$billGT)."</td>
                   <td class='amt-col' rowspan='$zi'>".number_format($_check_percent*$billGT)."</td>
                   <td rowspan='$zi'>".\App\FX::DT($bill->date)."</td>
             </tr>".$sub_rows;
         }
+        $billGT -= $discount; 
             $totals['cash'] +=$_cash_percent*$billGT;
             $totals['card'] +=$_card_percent*$billGT;
             $totals['check']+=$_check_percent*$billGT;

@@ -23,7 +23,8 @@
      * Load table orders
      */
     var loadTableOrders = function(elm,waiter,table){
-        var billOrderItems = {"billItems":[], "orderItems":[] };
+    
+        billOrderItems = { billItems:[], orderItems:[] };
         $(".table-list li.active").removeClass("active");
         $(elm).addClass("active");
         $(".bill-wrapper").remove();
@@ -125,8 +126,6 @@
             table = $("<table>");
         }
 
-
-
         var row =$(".bill-wrapper tr[item-product-id="+item.product.id+"]");
 
         if($(row).length < 1)
@@ -212,7 +211,6 @@
         }else {
             //Search
             ExistingbillItem = billOrderItems.billItems.filter(function(obj){
-
                 return obj.id == item.product_id
             });
 
@@ -293,20 +291,26 @@
      * Save The Bill
      */
     var saveBill = function(waiter){
+
         $(".waiter-login-list").hide();
         $("#waiter-pin-input").val("");
         $(".waiter-login .pull-right").css({"width":"100%","float":"none"});
         width = $(".waiter-login .pull-right").width();
         $(".waiter-login").css("padding","26px 43px").width(width+160);
-        $(".save_print_order").html("Save & Print");
+        $(".save_print_order").hide();
         $(".cancel_login_btn").click(function(e){
             e.stopPropagation();
             $(".waiter-login-wrapper").addClass("hidden");
             return true;
 
-        })
+        });
+
         $(".waiter-login-wrapper").removeClass("hidden");
-        $(".save_print_order").click(function(e){
+        bbtn = $('.order_bill_print').length > 0 ? $('.order_bill_print') : $("<button class='push-btn btn btn-success order_bill_print'>");
+        $(bbtn)
+        .html("Save & Print")
+        .click(function(e){
+            e.preventDefault();
             e.stopPropagation();
             elm = $(this);
             if(typeof $(this).attr("disabled") !=="undefined"){
@@ -314,7 +318,7 @@
             }
             $(this).attr("disabled","disabled");
             pin  =  $("#waiter-pin-input").val();
-            if(pin.length < 1){return; }
+
             var waiter = {id:window.currentWaiter,pin:$("#waiter-pin-input").val()};
             var discount = {type:$("[name='discount-type']:checked").val(),value: parseFloat( $("[name='discount-amount']").val())};
 
@@ -322,15 +326,18 @@
 
             $.post('{{route('saveWaiterBill')}}',data,function(data){
                 if(typeof data.success !== "undefined" && data.success == "1" ){
-                    var table = $(".table-list li.active").attr("d");
                     billOrderItems = {"billItems":[], "orderItems":[] };
-                    $(".bill-wrapper").remove();
                     window.printBill(data.bill,{waiter:waiter});
                     $(elm).removeAttr("disabled");
                     $(".waiter-login-wrapper").addClass("hidden");
+                    $(".save_print_order").show();
+                }else {
+
+                    alert(typeof data.error ==="undefined" ? "ERROR SAVING BILL" : data.error);
+                    return false;
                 }
-            }).done(function(){ $(elm).removeAttr("disabled");});
-        })
+            }).complete(function(){ $(elm).removeAttr("disabled");});
+        }).appendTo($(".waiter-login-btns .pull-left"));
     }
 
     /**

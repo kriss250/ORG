@@ -227,42 +227,56 @@ class OrdersController extends Controller
     {
         $data =  $req->input("data",null);
         $data = json_decode($data);
-        $bill = new \App\Bill();
 
         $cwaiter= \App\Waiter::where("idwaiter", $_POST['waiter']['id'])->where("pin",md5($_POST['waiter']['pin']))->first();
+
         if($cwaiter == null){
-            return  ["success"=>0,"bill"=>0];
+            return  ["success"=>0,"bill"=>0,"error"=>"Invalid Waiter"];
         }
-        $bill->waiter_id = $_POST['waiter']['id'];
-        $bill->status = \ORG\Bill::SUSPENDED;
-        $bill->customer = "Walkin";
-        $bill->date = \ORG\Dates::$RESTODATE." ".date("H:i:s");
-        $bill->is_fixed_discount = $_POST['discount']['type'] == 'fixed';
-        $bill->discount  = floatval($_POST['discount']['value']);
+        DB::beginTransaction();
 
-        $items = new \Illuminate\Support\Collection();
-        foreach($data->billItems as $item){
-            $items->push(new \App\BillItem([
-                "product_id"=>$item->id,
-                "qty"=>$item->qty,
-                "store_id"=> isset($item->store_id) ? $item->store_id: 0 ,
-                "unit_price"=>$item->price
-                ]));
+        $resp =["success"=>0,"bill"=>0];
 
-            $bill->bill_total += $item->qty*$item->price;
-        }
 
-        $orderItem = null;
+            $bill = new \App\Bill();
+            $bill->waiter_id = $_POST['waiter']['id'];
+            $bill->status = \ORG\Bill::SUSPENDED;
+            $bill->customer = "Walkin";
+            $bill->date = \ORG\Dates::$RESTODATE." ".date("H:i:s");
+            $bill->is_fixed_discount = $_POST['discount']['type'] == 'fixed';
+            $bill->discount  = floatval($_POST['discount']['value']);
 
-        foreach($data->orderItems as $oitem)
-        {
-            $orderItem = \App\OrderItem::find($oitem->itemid);
-            $orderItem->billed_qty +=($orderItem->billed_qty +$oitem->qty <= $orderItem->qty ) ?  $oitem->qty : 0;
-            $orderItem->save();
-        }
+            $items = new \Illuminate\Support\Collection();
 
-        $bill->save();
-        $bill->items()->saveMany($items);
-        return ["success"=>1,"bill"=>$bill->idbills];
+            foreach($data->billItems as $item) {
+
+                $items->push(new \App\BillItem([
+                    "product_id"=>$item->id,
+                    "qty"=>$item->qty,
+                    "store_id"=> isset($item->store_id) ? $item->store_id: 0 ,
+                    "unit_price"=>$item->price
+                    ]));
+
+                $bill->bill_total += $item->qty*$item->price;
+            }
+
+            $orderItem = null;
+
+            foreach($data->orderItems as $oitem)
+            {
+                $orderItem = \App\OrderItem::find($oitem->itemid);
+                $orderItem->billed_qty +=(($orderItem->billed_qty +$oitem->qty) <= $orderItem->qty ) ?  $oitem->qty : 0;
+                $orderItem->save();
+            }
+            $bill->save();
+            $bill->items()->saveMany($items);
+
+
+            DB::commit();
+
+            $resp = ["success"=>1,"bill"=>$bill->idbills];
+
+            DB::rollBack();
+        return $resp;
     }
 }

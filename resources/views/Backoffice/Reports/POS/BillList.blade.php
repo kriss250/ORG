@@ -59,7 +59,6 @@
        $totals['check'] += $bill->check_amount;
 
         foreach($bill->items as $item){
-            $totals['bill'] += $item->unit_price*$item->qty;
             $sub_rows .='<tr>
                 <td>'.$item->product_name.'</td>
                 <td>'.$item->qty.'</td>
@@ -68,6 +67,10 @@
                 ';
         }
 
+        $discount = 0;
+        $discount =  $bill->is_fixed_discount ? $bill->discount : ($bill->discount/100)*$bill->bill_total;
+
+        $totals['bill'] += $bill->bill_total - $discount;
         $tr .= "<tr>
                  <td rowspan='$zi'>$bill->idbills ".($bill->last_updated_by>0 && $bill->last_updated_by != $bill->user_id ? "<b style='color:red;font-size:16px'>*</b>" : "" )."</td>
                   <td  rowspan='$zi'>$bill->customer </td>
@@ -75,7 +78,7 @@
                   <td  rowspan='$zi'>$bill->waiter_name</td>
               
                   <td class='no-cell' colspan='4'></td>
-                  <td  rowspan='$zi'>$bill->bill_total</td>
+                  <td  rowspan='$zi'>".($discount > 0 ? "<span class='lnt'>{$bill->bill_total}</span>". ($bill->bill_total - $discount) : $bill->bill_total )."</td>
                   <td  rowspan='$zi'>$bill->status_name</td>
                   <td  class='amt-col' rowspan='$zi'>$bill->cash </td>
                   <td class='amt-col' rowspan='$zi'>$bill->card</td>

@@ -1915,3 +1915,9 @@ height: 524px;
   display: block;
   color: #000;
 }
+
+.lnt {
+  text-decoration: line-through;
+  display: block;
+  font-size: 10px;
+}

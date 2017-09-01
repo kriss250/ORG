@@ -56,15 +56,15 @@
 
 <table class="table table-bordered table-striped bills-table">
  
-<?php
+    <?php
     $totals= array("bill"=>"","cash"=>"","check"=>"","card"=>"");
     $sub_rows ="";
     $tr= "";
-   
+
     foreach($bills as $bill) {
-     
-       $zi = count($bill->items)+1; $sub_row= ""; 
-       $totals['bill'] += $bill->bill_total;
+
+       $zi = count($bill->items)+1; $sub_row= "";
+
        $totals['cash'] += $bill->cash;
        $totals['card'] +=$bill->card;
        $totals['check'] += $bill->check_amount;
@@ -78,19 +78,23 @@
                 ';
         }
 
+        $discount = 0;
+        $discount =  $bill->is_fixed_discount ? $bill->discount : ($bill->discount/100)*$bill->bill_total;
+        $totals['bill'] += $bill->bill_total - $discount;
+
         $tr .= "<tr>
                  <td rowspan='$zi'>$bill->idbills ".($bill->last_updated_by>0 && $bill->last_updated_by != $bill->user_id ? "<b style='color:red;font-size:16px'>*</b>" : "" )."</td>
                   <td  rowspan='$zi'>$bill->customer </td>
                   <td  rowspan='$zi'>$bill->username</td>
                   <td  rowspan='$zi'>$bill->waiter_name</td>
-              
+
                   <td class='no-cell' colspan='4'></td>
-                  <td  rowspan='$zi'>$bill->bill_total</td>
+                  <td  rowspan='$zi'>".($discount > 0 ? "<span class='lnt'>{$bill->bill_total} </span>". ($bill->bill_total - $discount) : $bill->bill_total )."</td>
                   <td  rowspan='$zi'>$bill->status_name</td>
                   <td  class='amt-col' rowspan='$zi'>$bill->cash </td>
                   <td class='amt-col' rowspan='$zi'>$bill->card</td>
                   <td class='amt-col' rowspan='$zi'>$bill->check_amount</td>
-                  <td rowspan='$zi'>".\App\FX::Time($bill->date)."</td> 
+                  <td rowspan='$zi'>".\App\FX::Time($bill->date)."</td>
                   <td rowspan='$zi'>
                      <button class='cancel-pay-btn' data-ignore='".(($bill->status==\ORG\Bill::OFFTARIFF) ? "1" : "0")."' data-id='$bill->idbills'><i class='fa fa-".(($bill->status==\ORG\Bill::SUSPENDED) ? 'question' : 'check')."-circle'></i></button>
                   <button onclick='printBill($bill->idbills);' style='background:none;border:none;width:100%;text-align:center'><i class='fa fa-print'></i></button>
@@ -99,9 +103,9 @@
 
             $sub_rows= "";
 
-    
+
 }
-?>
+    ?>
 <thead>
     <tr>
         <th>Order</th> 
