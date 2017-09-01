@@ -625,7 +625,15 @@
             
             enableUpdateMode = typeof enableUpdateMode === 'undefined' ? false : true;
             //check if product exists and add quantity only
-          
+            if ($("[data-prodid=" + product.id + "]").length > 0) {
+                var row = $("tr[data-prodid=" + product.id + "]");
+
+                qtybox = $(row).find(".qty_box");
+                oldValue = parseFloat($(qtybox).val());
+                var _newQty = parseFloat(product.qty);
+                $(qtybox).val(oldValue + _newQty).change();
+                return 0;
+            }
 
             var objID = billItems.length;
 
