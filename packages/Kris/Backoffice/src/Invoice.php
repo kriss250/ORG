@@ -33,7 +33,7 @@ class Invoice extends Model
     public static function LastInvoiceID()
     {
         $invoice = self::where(\DB::raw("year(invoices.created_at)"),"=",date("Y"))->orderBy("created_at","desc")->first();
-        $id = explode("/", $invoice->code);
+        $id = $invoice == null ? 0 : explode("/", $invoice->code);
         return $invoice == null || !isset($id[0]) ||  !is_numeric($id[0]) ? 0 : $invoice->code;
     }
 
