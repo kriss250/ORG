@@ -94,7 +94,7 @@
                   <td  rowspan='$zi'>$bill->username</td>
                   <td  rowspan='$zi'>$bill->waiter_name</td>
                   <td class='no-cell' colspan='4'></td>
-                  <td  rowspan='$zi'>".($discount > 0 ? "<span class='lnt'>{$billGT}</span> ". ($billGT - $discount) : $billGT )."</td>
+                  <td  rowspan='$zi'>".($discount > 0 ? "<span class='lnt'>{$billGT}</span> ". ($billGT) : $billGT )."</td>
                   <td  class='amt-col' rowspan='$zi'>".number_format($_cash_percent*$billGT)."</td>
                   <td class='amt-col' rowspan='$zi'>".number_format($_card_percent*$billGT)."</td>
                   <td class='amt-col' rowspan='$zi'>".number_format($_check_percent*$billGT)."</td>
