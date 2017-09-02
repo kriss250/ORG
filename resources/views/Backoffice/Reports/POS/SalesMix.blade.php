@@ -81,7 +81,7 @@
         $discount = 0;
         $discount = $bill->is_fixed_discount ? $bill->discount : ($bill->discount/100)*$billGT;
 
-        $btotal =  $bill->bill_total - $discount;
+        $btotal =  $billGT - $discount;
 
         $_cash_percent = $btotal ==0 ? 0 : (($bill->cash * 100) / $btotal)/100;
         $_card_percent = $btotal ==0 ? 0 : (($bill->card * 100) / $btotal)/100;
