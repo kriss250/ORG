@@ -195,7 +195,7 @@
         <tr>
             <td>{{ $_credit->idbills }}</td>
             <td>{{ $_credit->customer }}</td>
-            <td>{{ number_format($subtotal) }}</td>
+            <td>{{ number_format($sub_total) }}</td>
             <td>{{ number_format($_credit->paid)}}</td>
         </tr>
 
