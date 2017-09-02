@@ -68,7 +68,7 @@ class POSReport extends Model
             array_push($date, $cashier);
         }
 
-        $sql = "select idbills,customer,room,sum(qty*unit_price) as bill_total,(amount_paid-change_returned) as paid from bills
+        $sql = "select idbills,customer,room,sum(qty*unit_price) as bill_total,(amount_paid-change_returned) as paid,is_fixed_discount,discount from bills
                 join bill_items on bill_items.bill_id=idbills
                 join products on products.id = bill_items.product_id
                 join categories on categories.id=products.category_id
@@ -120,7 +120,7 @@ class POSReport extends Model
 
     public static function Credits(Array $date,$cashier=0)
     {
-    	$bills = \DB::select("SELECT idbills,customer,bill_total,amount_paid,username,bills.date FROM bills
+    	$bills = \DB::select("SELECT idbills,customer,bill_total,amount_paid,username,bills.date,discount,is_fixed_discount FROM bills
             join users on users.id =bills.user_id
             where status=".\ORG\Bill::CREDIT." and deleted=0 and (date(bills.date) between ? and ?)",$date);
 
