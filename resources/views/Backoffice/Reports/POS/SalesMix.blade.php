@@ -191,14 +191,15 @@
         </thead>
 
         @foreach($credits  as $_credit)
+        <?php $subtotal = $_credit->is_fixed_discount ? $_credit->bill_total-$_credit->discount : $_credit->bill_total-(($_credit->discount/100)*$_credit->bill_total); ?>
         <tr>
             <td>{{ $_credit->idbills }}</td>
             <td>{{ $_credit->customer }}</td>
-            <td>{{ $_credit->is_fixed_discount ? number_format($_credit->bill_total-$_credit->discount) : number_format($_credit->bill_total-(($_credit->discount/100)*$_credit->bill_total)) }}</td>
+            <td>{{ number_format($subtotal) }}</td>
             <td>{{ number_format($_credit->paid)}}</td>
         </tr>
 
-        <?php $total_credit += $_credit->bill_total; $total_paid +=  $_credit->paid; ?>
+        <?php $total_credit +=  $sub_total; ?>
 
         @endforeach
         <tr>
