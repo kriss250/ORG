@@ -79,7 +79,7 @@
         }
        
         $discount = 0;
-        $discount = $bill->is_fixed_discount ? $bill->discount : ($bill->discount/100)*$bill->bill_total;
+        $discount = $bill->is_fixed_discount ? $bill->discount : ($bill->discount/100)*$billGT;
 
         $btotal =  $bill->bill_total - $discount;
 
