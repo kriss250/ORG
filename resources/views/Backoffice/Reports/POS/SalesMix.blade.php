@@ -86,7 +86,7 @@
         $_cash_percent = $btotal ==0 ? 0 : (($bill->cash * 100) / $btotal)/100;
         $_card_percent = $btotal ==0 ? 0 : (($bill->card * 100) / $btotal)/100;
         $_check_percent = $btotal ==0 ? 0 : (($bill->check_amount * 100) / $btotal)/100;
-        $billGT -= $discount; 
+        $billGT = $btotal; 
         if($zi>1){
             $tr .= "<tr".($bill->status == \ORG\Bill::SUSPENDED ? " class='text-danger' ":"").">
                  <td rowspan='$zi'>$bill->idbills ".($bill->status == \ORG\Bill::SUSPENDED ? " <i class='fa fa-question-circle'></i>":"")." ".($bill->last_updated_by>0 && $bill->last_updated_by != $bill->user_id ? "<b style='color:red;font-size:16px'>*</b>" : "" )."</td>
