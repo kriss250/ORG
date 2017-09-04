@@ -114,7 +114,7 @@
 
             <fieldset>
                 <label>Company</label>
-                <input class="suggest-input" data-table="orgdb2.companies" data-field="name" type="text" autocomplete="off" name="company" placeholder="Company / Organisation" />
+                <input data-display-field="name" data-value-field="idcompanies" data-value-holder="#company_id" class="suggest-input" data-table="orgdb2.companies" data-field="name" type="text" autocomplete="off" name="company" placeholder="Company / Organisation" />
             </fieldset>
 
             <fieldset>
