@@ -18,7 +18,7 @@ class SuggestionsController extends Controller
     public function index()
     {
         $data = \Request::all();
-
+        if($data["field"]=="undefined" || $data["value_field"] == "undefined") return null;
         $data = \DB::select("select distinct {$data["field"]} as name,{$data["value_field"]} as value from {$data["table"]} where  {$data["field"]} like ? order by {$data["field"]} desc limit {$data["limit"]}",
             [$data["query"]."%" ]
             );
