@@ -474,7 +474,8 @@ class BillsController extends Controller
             if(isset($_GET['bill_id'])){
                 $sql = "SELECT unit_price as price,qty,product_name as name,products.id,(unit_price*qty) as total FROM bill_items join products on products.id = product_id where bill_id=?";
                 $items = DB::select($sql,[$_GET['bill_id']]);
-                $bill  = DB::select("select bill_total,tax_total,customer,waiter_name,waiter_id,bills.date,shared,discount,is_fixed_discount from bills join waiters on waiters.idwaiter = waiter_id where deleted=0 and idbills=? and (user_id=? or shared=1 or user_id=0)",[$_GET['bill_id'],Auth::user()->id])[0];
+                $bill  = DB::select("select bill_total,tax_total,customer,waiter_name,waiter_id,bills.date,shared,discount,is_fixed_discount from bills join waiters on waiters.idwaiter = waiter_id where deleted=0 and idbills=? and (user_id=? or shared=1 or user_id=0)",[$_GET['bill_id'],Auth::user()->id]);
+                $bill = isset($bill[0]) ? $bill[0] : [];
                 return json_encode([$items,$bill]);
             }
 
